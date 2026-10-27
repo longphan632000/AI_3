@@ -1,0 +1,49 @@
+{
+  "engine": "mysql",
+  "target": "disposable qa_repair database; application DB untouched",
+  "checks": [
+    {
+      "name": "Fresh install and repeated migrations",
+      "passed": true
+    },
+    {
+      "name": "MySQL regression suite",
+      "passed": true,
+      "tests": 145,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "name": "Task search/page",
+      "task_count": 10000,
+      "seconds": 0.0823,
+      "passed": true
+    },
+    {
+      "name": "Dashboard metrics",
+      "task_count": 10000,
+      "seconds": 0.1049,
+      "passed": true
+    },
+    {
+      "name": "Member workload",
+      "task_count": 10000,
+      "seconds": 0.1971,
+      "passed": true
+    },
+    {
+      "name": "Backup and restore all fixture tables",
+      "passed": true,
+      "tables": 16,
+      "all_rows_checksum_match": true,
+      "performance_tasks": 10000,
+      "done": 2500
+    },
+    {
+      "name": "Upgrade legacy schema preserves rows/backfills Done",
+      "passed": true,
+      "backfilled": 2500
+    }
+  ],
+  "success": true
+}

@@ -1,0 +1,246 @@
+/* ==========================================================================
+   AI ASSISTANT STUDIO STYLING (FR-12, FR-13, FR-14, FR-15, UC010)
+   ========================================================================== */
+
+.ai-studio-container {
+    display: grid;
+    grid-template-columns: 380px 1fr;
+    gap: 24px;
+    align-items: flex-start;
+}
+
+@media (max-width: 1024px) {
+    .ai-studio-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* AI Mode Selection Tabs */
+.ai-mode-tabs {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 24px;
+}
+
+.ai-tab-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-align: left;
+    transition: var(--transition-fast);
+}
+
+.ai-tab-btn:hover {
+    color: #fff;
+    border-color: rgba(139, 92, 246, 0.4);
+    background: rgba(139, 92, 246, 0.08);
+}
+
+.ai-tab-btn.active {
+    color: #fff;
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(0, 242, 254, 0.1));
+    border-color: var(--neon-purple);
+    box-shadow: 0 4px 15px rgba(139, 92, 246, 0.25);
+}
+
+.ai-tab-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* File Dropzone for Meeting Minutes (FR-13) */
+.file-dropzone {
+    border: 2px dashed rgba(0, 242, 254, 0.35);
+    background: rgba(0, 242, 254, 0.03);
+    border-radius: var(--radius-md);
+    padding: 18px 14px;
+    text-align: center;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.file-dropzone:hover,
+.file-dropzone.dragover {
+    border-color: var(--neon-cyan);
+    background: rgba(0, 242, 254, 0.09);
+    box-shadow: 0 0 15px rgba(0, 242, 254, 0.2);
+}
+
+.ai-tab-btn.active .ai-tab-icon {
+    background: linear-gradient(135deg, var(--neon-purple), var(--neon-cyan));
+    color: #fff;
+}
+
+/* Grounding Rules Info Badge */
+.grounding-alert {
+    background: rgba(0, 242, 254, 0.06);
+    border: 1px solid rgba(0, 242, 254, 0.25);
+    border-radius: var(--radius-md);
+    padding: 14px;
+    margin-bottom: 20px;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
+.grounding-alert strong {
+    color: var(--neon-cyan);
+}
+
+/* AI Output Terminal */
+.ai-output-panel {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+    min-height: 520px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.ai-output-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border-subtle);
+    margin-bottom: 20px;
+}
+
+.ai-status-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.pulse-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--neon-cyan);
+    box-shadow: 0 0 10px var(--neon-cyan);
+    animation: pulse-ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+@keyframes pulse-ping {
+
+    75%,
+    100% {
+        transform: scale(2);
+        opacity: 0;
+    }
+}
+
+.ai-content-body {
+    flex: 1;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: #e2e8f0;
+}
+
+.ai-content-body h1,
+.ai-content-body h2,
+.ai-content-body h3,
+.ai-content-body h4 {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    color: #ffffff;
+}
+
+.ai-content-body ul,
+.ai-content-body ol {
+    margin-left: 20px;
+    margin-bottom: 14px;
+}
+
+.ai-content-body li {
+    margin-bottom: 6px;
+}
+
+.ai-source-box {
+    margin-top: 24px;
+    padding: 16px;
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+}
+
+.ai-source-title {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.ai-source-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.source-chip {
+    padding: 3px 8px;
+    border-radius: 4px;
+    background: rgba(0, 242, 254, 0.12);
+    border: 1px solid rgba(0, 242, 254, 0.3);
+    color: var(--neon-cyan);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+}
+
+.ai-actions-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 24px;
+    padding-top: 18px;
+    border-top: 1px solid var(--border-subtle);
+}
+
+/* Loading State Animation */
+.ai-loading-state {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 350px;
+    gap: 16px;
+}
+
+.ai-loading-state.active {
+    display: flex;
+}
+
+.ai-spinner {
+    width: 48px;
+    height: 48px;
+    border: 3px solid rgba(139, 92, 246, 0.2);
+    border-top-color: var(--neon-cyan);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}

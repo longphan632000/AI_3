@@ -1,0 +1,487 @@
+{% extends "base.html" %}
+
+{% block title %}Bảng Điều Khiển Quản Trị Viên | AI Project Management System{% endblock %}
+
+{% block content %}
+<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
+    <div>
+        <h2 class="text-gradient-purple">Bảng Điều Khiển Quản Trị Viên (FR-02)</h2>
+        <p style="color:var(--text-secondary); font-size:0.88rem;">
+            Quản trị tài khoản, duyệt đăng ký, phân quyền dự án và theo dõi nhật ký kiểm toán
+        </p>
+        <p id="admin-db-status" style="color:var(--text-muted); font-size:0.8rem; margin-top:6px;">Đang kiểm tra
+            MySQL...</p>
+        <div style="display:flex; align-items:center; gap:8px; margin-top:6px; flex-wrap:wrap;">
+            <p id="admin-ai-status" style="color:var(--text-muted); font-size:0.8rem;">Đang kiểm tra cấu hình Gemini...
+            </p>
+            <button type="button" class="btn btn-secondary" style="font-size:0.72rem; padding:3px 8px;"
+                onclick="loadAdminAiStatus(true)">Kiểm tra API</button>
+        </div>
+    </div>
+
+    <button class="btn btn-primary" onclick="openModal('modal-create-user')">
+        <span>+ Tạo Tài Khoản Mới</span>
+    </button>
+</div>
+
+<div class="glass-panel" style="margin-bottom:28px;">
+    <h3 style="font-size:1.1rem; margin-bottom:12px;">Tài khoản đăng ký chờ duyệt: <span id="pending-count">0</span>
+    </h3>
+    <div id="pending-requests-list" style="display:grid; gap:10px;"></div>
+</div>
+
+<!-- Users Table -->
+<div class="glass-panel" style="margin-bottom:28px;">
+    <h3 style="font-size:1.1rem; margin-bottom:16px;">👥 Danh Sách Tài Khoản Hệ Thống</h3>
+    <div style="display:flex; gap:10px; margin-bottom:14px; flex-wrap:wrap;">
+        <input id="admin-user-search" class="form-input" style="max-width:320px;"
+            placeholder="Tìm tên, tài khoản hoặc email" oninput="renderUsersList()">
+        <select id="admin-user-status-filter" class="form-select" style="max-width:180px;" onchange="renderUsersList()">
+            <option value="">Tất cả trạng thái</option>
+            <option value="pending">Chờ duyệt</option>
+            <option value="active">Hoạt động</option>
+            <option value="locked">Đã khóa</option>
+            <option value="rejected">Đã từ chối</option>
+        </select>
+    </div>
+    <div style="overflow-x:auto;">
+        <table style="width:100%; border-collapse:collapse; font-size:0.88rem;">
+            <thead>
+                <tr
+                    style="border-bottom:1px solid var(--border-subtle); color:var(--text-muted); text-align:left; font-size:0.75rem; text-transform:uppercase;">
+                    <th style="padding:12px;">ID</th>
+                    <th style="padding:12px;">Họ tên</th>
+                    <th style="padding:12px;">Tên đăng nhập / Email</th>
+                    <th style="padding:12px;">Vai trò hệ thống</th>
+                    <th style="padding:12px;">Trạng thái</th>
+                    <th style="padding:12px; text-align:right;">Hành động</th>
+                </tr>
+            </thead>
+            <tbody id="users-table-body">
+                <tr>
+                    <td colspan="6" style="padding:20px; text-align:center; color:var(--text-muted);">Đang tải danh sách
+                        tài khoản...</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="glass-panel" style="margin-bottom:28px;">
+    <h3 style="font-size:1.1rem; margin-bottom:12px;">Quản lý Trưởng nhóm của dự án</h3>
+    <form onsubmit="submitAssignLeader(event)" style="display:flex; gap:12px; align-items:end; flex-wrap:wrap;">
+        <div class="form-group" style="min-width:220px; flex:1;">
+            <label class="form-label">Dự án</label>
+            <select id="assign-leader-project" class="form-select" onchange="loadProjectLeaders()" required></select>
+        </div>
+        <div class="form-group" style="min-width:220px; flex:1;">
+            <label class="form-label">Trưởng nhóm đã duyệt</label>
+            <select id="assign-leader-user" class="form-select" required></select>
+        </div>
+        <button type="submit" class="btn btn-primary">Gán vào dự án</button>
+    </form>
+    <div id="current-project-leaders" style="margin-top:14px;"></div>
+</div>
+
+<!-- Audit Logs Table (FR-02, NFR-09) -->
+<div class="glass-panel">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+        <h3 style="font-size:1.1rem;">📜 Nhật Ký Hoạt Động Hệ Thống (Audit Logs)</h3>
+        <button class="btn btn-secondary" style="font-size:0.75rem; padding:4px 10px;" onclick="loadAuditLogs()">Làm
+            mới</button>
+    </div>
+    <div style="overflow-x:auto; max-height:360px;">
+        <table style="width:100%; border-collapse:collapse; font-size:0.82rem;">
+            <thead>
+                <tr
+                    style="border-bottom:1px solid var(--border-subtle); color:var(--text-muted); text-align:left; font-size:0.72rem; text-transform:uppercase;">
+                    <th style="padding:10px;">Thời gian</th>
+                    <th style="padding:10px;">Người thực hiện</th>
+                    <th style="padding:10px;">Hành động</th>
+                    <th style="padding:10px;">Đối tượng</th>
+                    <th style="padding:10px;">Chi tiết</th>
+                </tr>
+            </thead>
+            <tbody id="audit-table-body">
+                <tr>
+                    <td colspan="5" style="padding:20px; text-align:center; color:var(--text-muted);">Đang tải nhật
+                        ký...</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Modal Tạo Tài Khoản -->
+<div id="modal-create-user" class="modal-overlay">
+    <div class="modal-box">
+        <div class="modal-header">
+            <h3 class="modal-title">Tạo Tài Khoản Người Dùng Mới</h3>
+            <button class="btn-icon" onclick="closeModal('modal-create-user')">✕</button>
+        </div>
+        <form onsubmit="submitCreateUser(event)">
+            <div class="form-group">
+                <label class="form-label">Họ và tên *</label>
+                <input type="text" id="new-user-fullname" class="form-input" required placeholder="Nguyễn Văn A">
+            </div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+                <div class="form-group">
+                    <label class="form-label">Tên đăng nhập *</label>
+                    <input type="text" id="new-user-username" class="form-input" required placeholder="nguyenvana">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Email *</label>
+                    <input type="email" id="new-user-email" class="form-input" required placeholder="a@company.local">
+                </div>
+            </div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+                <div class="form-group">
+                    <label class="form-label">Mật khẩu *</label>
+                    <input type="password" id="new-user-password" class="form-input" required placeholder="••••••••">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Vai trò</label>
+                    <select id="new-user-role" class="form-select">
+                        <option value="member">Thành viên (Member)</option>
+                        <option value="leader">Trưởng nhóm (Leader)</option>
+                        <option value="admin">Quản trị viên (Admin)</option>
+                    </select>
+                </div>
+            </div>
+            <div style="display:flex; justify-content:flex-end; gap:12px; margin-top:20px;">
+                <button type="button" class="btn btn-secondary" onclick="closeModal('modal-create-user')">Hủy</button>
+                <button type="submit" class="btn btn-primary">Tạo Tài Khoản</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="modal-edit-user" class="modal-overlay"><div class="modal-box">
+  <div class="modal-header"><h3>Chỉnh sửa tài khoản</h3><button class="btn-icon" onclick="closeModal('modal-edit-user')">✕</button></div>
+  <form onsubmit="saveUserEdit(event)"><input id="edit-user-id" type="hidden">
+    <label for="edit-user-name">Họ tên</label><input id="edit-user-name" class="form-input" required maxlength="100">
+    <label for="edit-user-email">Email</label><input id="edit-user-email" class="form-input" type="email" required maxlength="100">
+    <label for="edit-user-password">Mật khẩu mới (để trống để giữ nguyên)</label><input id="edit-user-password" class="form-input" type="password" minlength="6" autocomplete="new-password">
+    <button class="btn btn-primary" type="submit">Lưu thay đổi</button>
+  </form>
+</div></div>
+
+<script>
+    let adminUsers = [];
+    document.addEventListener('DOMContentLoaded', () => {
+        loadAdminDatabaseStatus();
+        loadAdminAiStatus();
+        loadUsersList();
+        loadAuditLogs();
+        loadProjectAssignmentOptions();
+    });
+
+    async function loadAdminDatabaseStatus() {
+        const label = document.getElementById('admin-db-status');
+        try {
+            const response = await fetch('/api/system/db-status');
+            const data = await response.json();
+            label.textContent = data.status === 'connected'
+                ? `MySQL đang kết nối: ${data.database}` : 'MySQL không khả dụng. Các thay đổi chưa thể lưu.';
+            label.style.color = data.status === 'connected' ? 'var(--neon-emerald)' : 'var(--neon-rose)';
+        } catch (error) {
+            label.textContent = 'Không kiểm tra được kết nối MySQL.';
+            label.style.color = 'var(--neon-rose)';
+        }
+    }
+
+    async function loadAdminAiStatus(probe = false) {
+        const label = document.getElementById('admin-ai-status');
+        label.textContent = probe ? 'Đang kiểm tra kết nối Gemini...' : 'Đang kiểm tra cấu hình Gemini...';
+        try {
+            const response = await fetch(`/api/admin/ai-status${probe ? '?probe=1' : ''}`);
+            const data = await response.json();
+            if (!data.success) throw new Error(data.error || 'Không đọc được cấu hình AI.');
+            if (!data.configured) {
+                label.textContent = 'Chưa nạp khóa Gemini hợp lệ.';
+                label.style.color = 'var(--neon-rose)';
+            } else if (probe) {
+                label.textContent = data.api_reachable
+                    ? `Gemini kết nối được: tác vụ chung (${data.model}), biên bản (${data.meeting_model}). Đã kiểm tra thông tin model; chưa kiểm tra tạo nội dung hoặc quota.`
+                    : `Gemini${data.error_code ? ' ['+data.error_code+']' : ''}: ${data.message || 'Không kết nối được.'}`;
+                label.style.color = data.api_reachable ? 'var(--neon-emerald)' : 'var(--neon-rose)';
+            } else {
+                label.textContent = `Đã nạp khóa Gemini: tác vụ chung (${data.model}), biên bản (${data.meeting_model}); chưa kiểm tra API.`;
+                label.style.color = 'var(--neon-amber)';
+            }
+        } catch (error) {
+            label.textContent = error.message || 'Không kiểm tra được trạng thái Gemini.';
+            label.style.color = 'var(--neon-rose)';
+        }
+    }
+
+    async function loadProjectAssignmentOptions() {
+        try {
+            const [projectsResponse, usersResponse] = await Promise.all([
+                fetch('/api/projects'), fetch('/api/admin/users')
+            ]);
+            const projects = await projectsResponse.json();
+            const users = await usersResponse.json();
+            if (!projects.success || !users.success) throw new Error('Không tải được dữ liệu quản trị');
+            const projectSelect = document.getElementById('assign-leader-project');
+            const userSelect = document.getElementById('assign-leader-user');
+            const previousProject = projectSelect.value;
+            projectSelect.innerHTML = '';
+            userSelect.innerHTML = '';
+            (projects.projects || []).forEach(project => projectSelect.add(new Option(project.name, project.id)));
+            (users.users || []).filter(user => user.role === 'leader' && user.status === 'active')
+                .forEach(user => userSelect.add(new Option(`${user.full_name} (${user.username})`, user.id)));
+            if (previousProject && [...projectSelect.options].some(option => option.value === previousProject)) {
+                projectSelect.value = previousProject;
+            }
+            await loadProjectLeaders();
+        } catch (error) {
+            showToast('Không tải được danh sách dự án hoặc Trưởng nhóm.', 'error');
+        }
+    }
+
+    async function submitAssignLeader(event) {
+        event.preventDefault();
+        const projectId = document.getElementById('assign-leader-project').value;
+        const userId = document.getElementById('assign-leader-user').value;
+        if (!projectId || !userId) return;
+        try {
+            const response = await fetch(`/api/admin/projects/${projectId}/leaders`, {
+                method: 'POST', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ user_id: Number(userId) })
+            });
+            const data = await response.json();
+            showToast(data.message || data.error || 'Không thể gán Trưởng nhóm.', data.success ? 'success' : 'error');
+            if (data.success) await loadProjectLeaders();
+        } catch (error) {
+            showToast('Lỗi kết nối khi gán Trưởng nhóm.', 'error');
+        }
+    }
+
+    async function loadProjectLeaders() {
+        const projectId = document.getElementById('assign-leader-project').value;
+        const container = document.getElementById('current-project-leaders');
+        if (!projectId) {
+            container.textContent = 'Chưa có dự án để quản lý.';
+            return;
+        }
+        try {
+            const response = await fetch(`/api/admin/projects/${projectId}/leaders`);
+            const data = await response.json();
+            if (!data.success) throw new Error('Không tải được Trưởng nhóm');
+            container.innerHTML = data.leaders.length ? data.leaders.map(leader => `
+                <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; padding:8px 0; border-top:1px solid var(--border-subtle);">
+                    <span>${escapeHtml(leader.full_name)} (${escapeHtml(leader.username)})</span>
+                    <button class="btn btn-secondary" ${data.leaders.length < 2 ? 'disabled' : ''}
+                        onclick="demoteProjectLeader(${Number(leader.user_id)})">Chuyển thành member</button>
+                </div>
+            `).join('') : 'Dự án chưa có Trưởng nhóm đang hoạt động.';
+        } catch (error) {
+            container.textContent = 'Không tải được danh sách Trưởng nhóm.';
+        }
+    }
+
+    async function demoteProjectLeader(userId) {
+        const projectId = document.getElementById('assign-leader-project').value;
+        if (!window.confirm('Chuyển Trưởng nhóm này thành member của dự án?')) return;
+        try {
+            const response = await fetch(`/api/admin/projects/${projectId}/leaders/${userId}`, { method: 'DELETE' });
+            const data = await response.json();
+            showToast(data.message || data.error || 'Không thể đổi vai trò dự án.', data.success ? 'success' : 'error');
+            if (data.success) await loadProjectLeaders();
+        } catch (error) {
+            showToast('Lỗi kết nối khi đổi vai trò dự án.', 'error');
+        }
+    }
+
+    async function loadUsersList() {
+        const tbody = document.getElementById('users-table-body');
+        try {
+            const res = await fetch('/api/admin/users');
+            const data = await res.json();
+            if (!data.success) throw new Error('Không tải được tài khoản');
+            adminUsers = data.users;
+            renderUsersList();
+            renderPendingRequests();
+        } catch (e) {
+            tbody.innerHTML = '<tr><td colspan="6" style="padding:20px; text-align:center; color:var(--neon-rose);">Lỗi tải tài khoản từ MySQL.</td></tr>';
+            document.getElementById('pending-requests-list').textContent = 'Không tải được yêu cầu chờ duyệt.';
+        }
+    }
+
+    function renderUsersList() {
+        const tbody = document.getElementById('users-table-body');
+        const statusLabels = { active: 'Hoạt động', pending: 'Chờ duyệt', rejected: 'Đã từ chối', locked: 'Đã khóa' };
+        const keyword = document.getElementById('admin-user-search').value.trim().toLowerCase();
+        const status = document.getElementById('admin-user-status-filter').value;
+        const users = adminUsers.filter(user =>
+            (!status || user.status === status) &&
+            (!keyword || [user.full_name, user.username, user.email].some(value => value.toLowerCase().includes(keyword)))
+        );
+        tbody.innerHTML = users.length ? users.map(u => `
+                    <tr style="border-bottom:1px solid rgba(255,255,255,0.04);">
+                        <td style="padding:12px; color:var(--text-muted);">#${u.id}</td>
+                        <td style="padding:12px; font-weight:600; color:#fff;">${escapeHtml(u.full_name)}</td>
+                        <td style="padding:12px; color:var(--text-secondary);">${escapeHtml(u.username)} <span style="color:var(--text-muted); font-size:0.75rem;">(${escapeHtml(u.email)})</span></td>
+                        <td style="padding:12px;">
+                            <select class="form-select" style="padding:4px 8px; font-size:0.78rem; width:130px;" onchange="changeUserRole(${u.id}, this.value)" ${u.status === 'pending' || u.status === 'rejected' ? 'disabled' : ''}>
+                                <option value="admin" ${u.role === 'admin' ? 'selected' : ''}>Quản trị viên</option>
+                                <option value="leader" ${u.role === 'leader' ? 'selected' : ''}>Trưởng nhóm</option>
+                                <option value="member" ${u.role === 'member' ? 'selected' : ''}>Thành viên</option>
+                            </select>
+                        </td>
+                        <td style="padding:12px;">
+                            <span class="badge" style="background:${u.status === 'active' ? 'rgba(16,185,129,0.2)' : 'rgba(244,63,94,0.2)'}; color:${u.status === 'active' ? 'var(--neon-emerald)' : 'var(--neon-rose)'};">
+                                ${statusLabels[u.status] || escapeHtml(u.status)}
+                            </span>
+                        </td>
+                        <td style="padding:12px; text-align:right;">
+                            <button class="btn btn-secondary" onclick="openUserEditor(${u.id})">Sửa thông tin</button>
+                            ${u.status === 'pending' ? `
+                                <button class="btn btn-primary" onclick="reviewLeaderRequest(${u.id}, 'approve')">Duyệt</button>
+                                <button class="btn btn-secondary" onclick="reviewLeaderRequest(${u.id}, 'reject')">Từ chối</button>
+                            ` : u.status === 'rejected' ? `<button class="btn btn-secondary" onclick="reviewLeaderRequest(${u.id}, 'reopen')">Mở lại</button>` : `<button class="btn btn-secondary" style="font-size:0.75rem; padding:4px 10px;" onclick="toggleUserStatus(${u.id}, '${u.status}')">
+                                ${u.status === 'active' ? '🔒 Khóa' : '🔓 Mở khóa'}
+                            </button>`}
+                        </td>
+                    </tr>
+                `).join('') : '<tr><td colspan="6" style="padding:20px; text-align:center; color:var(--text-muted);">Không có tài khoản phù hợp.</td></tr>';
+    }
+
+    function renderPendingRequests() {
+        const pending = adminUsers.filter(user => user.status === 'pending');
+        document.getElementById('pending-count').textContent = pending.length;
+        const container = document.getElementById('pending-requests-list');
+        container.innerHTML = pending.length ? pending.map(user => `
+            <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; padding:10px; border:1px solid var(--border-subtle); border-radius:8px;">
+                <div><strong>${escapeHtml(user.full_name)}</strong><br><small>${escapeHtml(user.username)} · ${escapeHtml(user.email)} · ${user.role === 'leader' ? 'Trưởng nhóm' : 'Thành viên'}</small></div>
+                <div style="display:flex; gap:8px;">
+                    <button class="btn btn-primary" onclick="reviewLeaderRequest(${Number(user.id)}, 'approve')">Duyệt</button>
+                    <button class="btn btn-secondary" onclick="reviewLeaderRequest(${Number(user.id)}, 'reject')">Từ chối</button>
+                </div>
+            </div>
+        `).join('') : '<p style="color:var(--text-muted);">Không có yêu cầu nào đang chờ duyệt.</p>';
+    }
+
+    async function loadAuditLogs() {
+        const tbody = document.getElementById('audit-table-body');
+        try {
+            const res = await fetch('/api/admin/audit-logs');
+            const data = await res.json();
+            if (data.success) {
+                tbody.innerHTML = data.logs.map(l => `
+                    <tr style="border-bottom:1px solid rgba(255,255,255,0.03);">
+                        <td style="padding:10px; color:var(--text-muted);">${l.created_at}</td>
+                        <td style="padding:10px; font-weight:600; color:var(--neon-cyan);">${escapeHtml(l.full_name || 'Hệ thống')}</td>
+                        <td style="padding:10px; font-family:var(--font-mono); color:#fff;">${escapeHtml(l.action)}</td>
+                        <td style="padding:10px; color:var(--text-secondary);">${l.target_type} #${l.target_id || ''}</td>
+                        <td style="padding:10px; color:var(--text-muted); font-size:0.75rem;">${escapeHtml(l.details_json || '')}</td>
+                    </tr>
+                `).join('');
+            } else {
+                throw new Error('Không tải được nhật ký');
+            }
+        } catch (e) {
+            tbody.innerHTML = '<tr><td colspan="5" style="padding:20px; text-align:center; color:var(--neon-rose);">Lỗi tải audit logs.</td></tr>';
+        }
+    }
+
+    async function toggleUserStatus(userId, currentStatus) {
+        const newStatus = (currentStatus === 'active') ? 'locked' : 'active';
+        try {
+            const res = await fetch(`/api/admin/users/${userId}/status`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ status: newStatus })
+            });
+            const data = await res.json();
+            if (data.success) {
+                showToast(data.message, 'success');
+                await loadUsersList();
+                await loadAuditLogs();
+            } else {
+                showToast(data.error, 'error');
+            }
+        } catch (e) {
+            showToast('Lỗi cập nhật trạng thái.', 'error');
+        }
+    }
+
+    async function reviewLeaderRequest(userId, decision) {
+        try {
+            const res = await fetch(`/api/admin/users/${userId}/review`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ decision })
+            });
+            const data = await res.json();
+            showToast(data.message || data.error || 'Không thể xử lý yêu cầu.', data.success ? 'success' : 'error');
+            await loadUsersList();
+            await loadAuditLogs();
+            await loadProjectAssignmentOptions();
+        } catch (e) {
+            showToast('Lỗi xử lý yêu cầu Trưởng nhóm.', 'error');
+        }
+    }
+
+    async function changeUserRole(userId, newRole) {
+        try {
+            const res = await fetch(`/api/admin/users/${userId}/role`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ role: newRole })
+            });
+            const data = await res.json();
+            if (data.success) {
+                showToast(data.message, 'success');
+                await loadAuditLogs();
+            } else {
+                showToast(data.error, 'error');
+            }
+            await loadUsersList();
+            await loadProjectAssignmentOptions();
+        } catch (e) {
+            showToast('Lỗi cập nhật vai trò.', 'error');
+            await loadUsersList();
+        }
+    }
+
+    async function submitCreateUser(e) {
+        e.preventDefault();
+        const full_name = document.getElementById('new-user-fullname').value;
+        const username = document.getElementById('new-user-username').value;
+        const email = document.getElementById('new-user-email').value;
+        const password = document.getElementById('new-user-password').value;
+        const role = document.getElementById('new-user-role').value;
+
+        try {
+            const res = await fetch('/api/admin/users', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ full_name, username, email, password, role })
+            });
+            const data = await res.json();
+            if (data.success) {
+                showToast(data.message || 'Tạo tài khoản thành công!', 'success');
+                closeModal('modal-create-user');
+                e.target.reset();
+                await loadUsersList();
+                await loadAuditLogs();
+                await loadProjectAssignmentOptions();
+            } else {
+                showToast(data.error, 'error');
+            }
+        } catch (e) {
+            showToast('Lỗi kết nối máy chủ.', 'error');
+        }
+    }
+
+    function openUserEditor(id){
+        const u=adminUsers.find(u=>u.id===id);document.getElementById('edit-user-id').value=id;
+        document.getElementById('edit-user-name').value=u.full_name;document.getElementById('edit-user-email').value=u.email;document.getElementById('edit-user-password').value='';openModal('modal-edit-user');
+    }
+    async function saveUserEdit(event){
+        event.preventDefault();try{await apiRequest(`/api/admin/users/${document.getElementById('edit-user-id').value}`,jsonRequest('PUT',{full_name:document.getElementById('edit-user-name').value,email:document.getElementById('edit-user-email').value,password:document.getElementById('edit-user-password').value}));closeModal('modal-edit-user');await loadUsersList();showToast('Đã cập nhật tài khoản.','success');}catch(error){showToast(error.message,'error');}
+    }
+</script>
+{% endblock %}

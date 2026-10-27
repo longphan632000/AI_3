@@ -1,0 +1,259 @@
+{% extends "base.html" %}
+
+{% block title %}Trợ lý AI SDLC Studio | AI Project Management System{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/ai.css') }}">
+{% endblock %}
+
+{% block content %}
+<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
+    <div>
+        <h2 class="text-gradient-purple">Trợ lý AI Quản lý Dự án (AI-Augmented SDLC)</h2>
+        <p style="color:var(--text-secondary); font-size:0.88rem;">
+            Tích hợp Gemini qua quy trình 5 bước an toàn: Kiểm soát quyền ➔ Truy xuất có tham số ➔ Context sạch ➔
+            Response Validator ➔ Xác nhận của con người
+        </p>
+    </div>
+
+    <div style="display:flex; gap:10px; flex-wrap:wrap;">
+        <button class="btn btn-secondary" onclick="openOfficialMinutesModal()">
+            <span>📋 Biên Bản Họp Đã Xác Nhận (FR-13)</span>
+        </button>
+        {% if session.get('role') in ['admin', 'leader'] %}
+        <button class="btn btn-secondary" onclick="loadAIHistoryModal()">
+            <span>📜 Lịch sử AI (FR-15)</span>
+        </button>
+        {% endif %}
+    </div>
+</div>
+
+<div class="ai-studio-container">
+    <!-- Left Configuration Panel -->
+    <div class="glass-panel">
+        <h3 id="ai-target-title" style="font-size:1.1rem; margin-bottom:16px;">Tóm tắt Tiến độ Tuần (FR-12)</h3>
+
+        <!-- Mode Tabs -->
+        <div class="ai-mode-tabs">
+            <button class="ai-tab-btn active" data-mode="weekly_summary">
+                <div class="ai-tab-icon">📊</div>
+                <div>
+                    <div>Tóm tắt Tiến độ Tuần</div>
+                    <div style="font-size:0.72rem; color:var(--text-muted); font-weight:400;">Chỉ dành cho Trưởng nhóm
+                        (FR-12)</div>
+                </div>
+            </button>
+
+            <button class="ai-tab-btn" data-mode="meeting_minutes">
+                <div class="ai-tab-icon">📝</div>
+                <div>
+                    <div>Biên bản Họp Thông minh</div>
+                    <div style="font-size:0.72rem; color:var(--text-muted); font-weight:400;">Trưởng nhóm & Thành viên
+                        (FR-13)</div>
+                </div>
+            </button>
+
+            <button class="ai-tab-btn" data-mode="assignment_suggestion">
+                <div class="ai-tab-icon">💡</div>
+                <div>
+                    <div>Gợi ý Phân công Nhiệm vụ</div>
+                    <div style="font-size:0.72rem; color:var(--text-muted); font-weight:400;">Chỉ dành cho Trưởng nhóm
+                        (FR-14)</div>
+                </div>
+            </button>
+        </div>
+
+        <!-- Grounding Rules Notice -->
+        <div class="grounding-alert">
+            🛡️ <strong>Chính sách An toàn AI (BR-06 & BR-07):</strong>
+            AI chỉ tạo bản nháp/đề xuất dựa trên dữ liệu thật của dự án. AI không tự động cập nhật CSDL và không thay
+            thế quyết định của con người.
+        </div>
+
+        <!-- Mode Form 1: Weekly Summary -->
+        <div id="form-section-weekly">
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+                <div class="form-group">
+                    <label class="form-label">Từ ngày</label>
+                    <input type="date" id="ai-week-start" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Đến ngày</label>
+                    <input type="date" id="ai-week-end" class="form-input">
+                </div>
+            </div>
+        </div>
+
+        <!-- Mode Form 2: Meeting Minutes -->
+        <div id="form-section-minutes" style="display:none;">
+            <div class="form-group">
+                <label class="form-label" for="ai-note-select">Ghi chú họp đã lưu trong dự án</label>
+                <select id="ai-note-select" class="form-select"><option value="">Chọn ghi chú hoặc tải tệp/nhập nội dung bên dưới</option></select>
+            </div>
+            <!-- Upload File Biên bản cuộc họp (FR-13) -->
+            <div class="form-group">
+                <label class="form-label">Tải lên tệp biên bản / ghi chú họp (.docx, .pdf, .txt, .md)</label>
+                <div id="ai-file-dropzone" class="file-dropzone"
+                    onclick="document.getElementById('ai-minute-file-input').click()">
+                    <div style="font-size: 1.8rem; margin-bottom: 4px;">📂</div>
+                    <div style="font-size: 0.88rem; font-weight: 600; color: var(--text-primary);">
+                        Nhấn để chọn tệp hoặc kéo thả tệp vào đây
+                    </div>
+                    <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 2px;">
+                        Tự động trích xuất nội dung từ Word (.docx), PDF, Text (.txt)
+                    </div>
+                </div>
+                <input type="file" id="ai-minute-file-input" style="display:none;" accept=".docx,.pdf,.txt,.md"
+                    onchange="handleMeetingFileSelect(this)">
+
+                <div id="file-upload-status"
+                    style="display:none; margin-top: 8px; padding: 8px 12px; background: rgba(0, 242, 254, 0.08); border: 1px solid rgba(0, 242, 254, 0.25); border-radius: var(--radius-sm); font-size: 0.8rem; justify-content: space-between; align-items: center;">
+                    <div style="display:flex; align-items:center; gap: 8px;">
+                        <span>📄</span>
+                        <span id="uploaded-filename" style="font-weight:600; color:var(--neon-cyan);"></span>
+                        <span id="uploaded-wordcount" style="color:var(--text-muted);"></span>
+                    </div>
+                    <button type="button" class="btn-icon" style="font-size:0.75rem; padding:2px 6px;"
+                        onclick="clearUploadedFile()" title="Xóa tệp">✕</button>
+                </div>
+                <p id="file-extraction-warning" style="display:none; color:var(--neon-amber); margin-top:8px;"></p>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Nội dung ghi chú cuộc họp (Tự động điền sau khi tải tệp hoặc nhập tay)</label>
+                <textarea id="ai-raw-notes" class="form-textarea" rows="5"
+                    placeholder="Nội dung văn bản từ tệp sẽ xuất hiện tại đây sau khi bạn tải lên, hoặc bạn có thể gõ trực tiếp..."></textarea>
+            </div>
+        </div>
+
+        <!-- Mode Form 3: Assignment Suggestion -->
+        <div id="form-section-assignment" style="display:none;">
+            <div class="form-group">
+                <label class="form-label">Chọn nhiệm vụ cần gợi ý</label>
+                <select id="ai-task-select" class="form-select"></select>
+            </div>
+        </div>
+
+        <!-- Extra Note -->
+        <div class="form-group" style="margin-top:12px;">
+            <label class="form-label">Chỉ dẫn bổ sung (Tùy chọn)</label>
+            <input type="text" id="ai-user-prompt" class="form-input"
+                placeholder="Ví dụ: Nhấn mạnh các việc có rủi ro cao...">
+        </div>
+
+        <button id="btn-generate-ai" class="btn btn-ai" style="width:100%; margin-top:12px;">
+            <span>Tạo bản nháp bằng AI</span>
+        </button>
+    </div>
+
+    <!-- Right Output Terminal Panel -->
+    <div class="glass-panel hologram-box ai-output-panel">
+        <div class="ai-output-header">
+            <div class="ai-status-indicator">
+                <span class="pulse-dot"></span>
+                <span id="ai-status-text" style="color:var(--neon-cyan);">SẴN SÀNG</span>
+            </div>
+            <div style="font-size:0.75rem; color:var(--text-muted); font-family:var(--font-mono);">
+                Pipeline: RequestAnalyzer ➔ Retriever ➔ Validator
+            </div>
+        </div>
+
+        <!-- Spinner Loading Animation -->
+        <div id="ai-loading-state" class="ai-loading-state">
+            <div class="ai-spinner"></div>
+            <div style="color:var(--neon-cyan); font-weight:600; font-size:0.92rem;">
+                Đang truy xuất CSDL và xử lý qua Gemini...
+            </div>
+            <div style="font-size:0.78rem; color:var(--text-muted);">
+                Kiểm định ID tham chiếu và tuân thủ Grounding Rules
+            </div>
+        </div>
+
+        <!-- Content Area -->
+        <div id="ai-output-content" class="ai-content-body">
+            <div style="text-align:center; padding:70px 20px; color:var(--text-muted);">
+                <div style="font-size:3rem; margin-bottom:12px;">🤖</div>
+                <h4>Trợ lý AI đang chờ yêu cầu từ bạn</h4>
+                <p style="font-size:0.88rem; max-width:400px; margin:8px auto;">
+                    Chọn loại tác vụ bên trái và nhấn nút "Tạo bằng AI" để hệ thống truy xuất dữ liệu an toàn và tạo bản
+                    nháp.
+                </p>
+            </div>
+        </div>
+        <div id="ai-warnings" style="display:none; color:var(--neon-amber); padding:12px;"></div>
+
+        <!-- Source References Box -->
+        <div id="ai-source-box" class="ai-source-box" style="display:none;">
+            <div class="ai-source-title">🔗 Dữ liệu Nguồn Tham Chiếu Hợp Lệ (Đã kiểm chứng bởi Response Validator):
+            </div>
+            <div id="ai-source-chips" class="ai-source-chips"></div>
+        </div>
+
+        <!-- Action Bar: Confirm Draft (Leader Only UC010) -->
+        <div id="ai-actions-bar" class="ai-actions-bar" style="display:none;">
+            <span style="font-size:0.8rem; color:var(--text-muted);">
+                * Quyết định cuối cùng thuộc Trưởng nhóm.
+            </span>
+            <button id="btn-edit-draft" class="btn btn-secondary" onclick="openDraftEditor()" hidden>Chỉnh sửa bản nháp</button>
+            <button id="btn-confirm-draft" class="btn btn-success" style="display:none;">
+                <span>Xác nhận Bản chính thức (Leader)</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<button id="add-meeting-note-button" class="btn btn-secondary" onclick="openMeetingNoteForm()">Thêm ghi chú cuộc họp</button>
+<div id="modal-draft-editor" class="modal-overlay"><div class="modal-box" style="max-width:850px;">
+  <div class="modal-header"><h3>Đối chiếu và chỉnh sửa bản nháp</h3><button class="btn-icon" onclick="closeModal('modal-draft-editor')">✕</button></div>
+  <form onsubmit="saveDraftEdit(event)">
+    <label for="draft-edit-content">Nội dung</label><textarea id="draft-edit-content" class="form-textarea" rows="12" required></textarea>
+    <div id="draft-meeting-fields">
+      <label for="draft-edit-title">Tiêu đề</label><input id="draft-edit-title" class="form-input" maxlength="200">
+      <label for="draft-edit-decisions">Quyết định</label><textarea id="draft-edit-decisions" class="form-textarea" rows="4"></textarea>
+      <label for="draft-edit-actions">Việc cần làm, người phụ trách và hạn</label><textarea id="draft-edit-actions" class="form-textarea" rows="4"></textarea>
+      <div id="draft-review-fields"><label><input id="draft-edit-verified" type="checkbox"> Tôi đã đối chiếu và xử lý các cảnh báo với tài liệu nguồn</label><label for="draft-edit-review-note">Ghi chú đối chiếu</label><input id="draft-edit-review-note" class="form-input"></div>
+    </div>
+    <p id="draft-version-info"></p><button class="btn btn-primary" type="submit">Lưu bản nháp</button>
+  </form>
+</div></div>
+<div id="modal-meeting-note" class="modal-overlay"><div class="modal-box">
+  <div class="modal-header"><h3>Ghi chú cuộc họp</h3><button class="btn-icon" onclick="closeModal('modal-meeting-note')">✕</button></div>
+  <form onsubmit="saveMeetingNote(event)">
+    <label for="meeting-note-title">Tiêu đề</label><input id="meeting-note-title" class="form-input" required maxlength="200">
+    <label for="meeting-note-date">Ngày giờ họp</label><input id="meeting-note-date" type="datetime-local" class="form-input" required>
+    <label for="meeting-note-attendees">Người tham dự</label><input id="meeting-note-attendees" class="form-input">
+    <label for="meeting-note-content">Nội dung nguồn</label><textarea id="meeting-note-content" class="form-textarea" rows="8" required></textarea>
+    <button class="btn btn-primary" type="submit">Lưu ghi chú</button>
+  </form>
+</div></div>
+<!-- Modal Xem Lịch Sử AI (FR-15 / UC012) -->
+<div id="modal-ai-history" class="modal-overlay">
+    <div class="modal-box" style="max-width:700px;">
+        <div class="modal-header">
+            <h3 class="modal-title">Lịch Sử Sử Dụng AI (FR-15 / UC012)</h3>
+            <button class="btn-icon" onclick="closeModal('modal-ai-history')">✕</button>
+        </div>
+        <div id="ai-history-list" style="max-height:400px; overflow-y:auto;">
+            <p style="color:var(--text-muted);">Đang tải lịch sử AI...</p>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Danh Sách Biên Bản Họp Đã Xác Nhận (FR-13 / UC010) -->
+<div id="modal-official-minutes" class="modal-overlay">
+    <div class="modal-box" style="max-width:760px;">
+        <div class="modal-header">
+            <h3 class="modal-title">Danh Sách Biên Bản Cuộc Họp Chính Thức (FR-13)</h3>
+            <button class="btn-icon" onclick="closeModal('modal-official-minutes')">✕</button>
+        </div>
+        <div id="official-minutes-list"
+            style="max-height:480px; overflow-y:auto; display:flex; flex-direction:column; gap:14px;">
+            <p style="color:var(--text-muted); text-align:center; padding:20px;">Đang tải danh sách biên bản họp...</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/ai.js') }}"></script>
+{% endblock %}

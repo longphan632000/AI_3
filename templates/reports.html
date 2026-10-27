@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block title %}Báo cáo & Tải Công Việc | AI Project Management System{% endblock %}
+
+{% block content %}
+<div style="margin-bottom: 24px;">
+    <h2 class="text-gradient-cyan">Báo cáo Phân Bổ Tải & Tiến Độ Dự Án</h2>
+    <p style="color:var(--text-secondary); font-size:0.88rem;">
+        Thống kê khối lượng công việc thành viên (BR-05), cảnh báo quá tải và kiểm soát rủi ro dự án (FR-11)
+    </p>
+</div>
+
+<!-- Workload Statistics Table (FR-11, BR-05) -->
+<div class="glass-panel" style="margin-bottom:28px;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+        <h3 style="font-size:1.1rem;">👥 Phân Bổ Tải Công Việc Thành Viên (BR-05)</h3>
+        <span class="badge" style="background:rgba(56,189,248,0.15); color:var(--neon-cyan);">FR-11 WORKLOAD
+            COMPLIANCE</span>
+    </div>
+
+    <div style="overflow-x:auto;">
+        <table style="width:100%; border-collapse:collapse; font-size:0.88rem;">
+            <thead>
+                <tr
+                    style="border-bottom:1px solid var(--border-subtle); color:var(--text-muted); text-align:left; font-size:0.75rem; text-transform:uppercase;">
+                    <th style="padding:12px 14px;">Thành viên</th>
+                    <th style="padding:12px 14px;">Kỹ năng</th>
+                    <th style="padding:12px 14px;">Mức sẵn sàng</th>
+                    <th style="padding:12px 14px;">Định mức (Capacity)</th>
+                    <th style="padding:12px 14px;">Tải hiện tại (Workload)</th>
+                    <th style="padding:12px 14px;">Việc đang làm</th>
+                    <th style="padding:12px 14px;">Trạng thái Quá tải (BR-05)</th>
+                </tr>
+            </thead>
+            <tbody id="workload-table-body">
+                <tr>
+                    <td colspan="7" style="padding:20px; text-align:center; color:var(--text-muted);">Đang tính toán số
+                        liệu tải công việc...</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        await projectReady;
+        if (!currentProjectId) {
+            document.getElementById('workload-table-body').innerHTML = '<tr><td colspan="7">Bạn chưa tham gia dự án nào.</td></tr>';
+            return;
+        }
+        loadWorkloadReport();
+    });
+
+    async function loadWorkloadReport() {
+        const tbody = document.getElementById('workload-table-body');
+        try {
+            const res = await fetch(`/api/projects/${currentProjectId}/workload-stats`);
+            const data = await res.json();
+            if (data.success) {
+                if (data.workload.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="7" style="padding:20px; text-align:center; color:var(--text-muted);">Chưa có thành viên nào trong dự án.</td></tr>';
+                    return;
+                }
+
+                tbody.innerHTML = data.workload.map(m => {
+                    const overloadBadge = m.is_overloaded
+                        ? `<span class="badge badge-overdue">QUÁ TẢI (${m.current_workload_hours}h / ${m.effective_capacity_hours}h khả dụng / ${m.capacity_hours}h)</span>`
+                        : `<span class="badge" style="background:rgba(16,185,129,0.2); color:var(--neon-emerald);">BÌNH THƯỜNG</span>`;
+
+                    const missingWarn = m.missing_estimate_count > 0
+                        ? `<div style="font-size:0.72rem; color:var(--neon-amber); margin-top:4px;">⚠️ Có ${m.missing_estimate_count} việc chưa có ước lượng</div>`
+                        : '';
+
+                    return `
+                        <tr style="border-bottom:1px solid rgba(255,255,255,0.04);">
+                            <td style="padding:14px; font-weight:600; color:#fff;">
+                                ${escapeHtml(m.full_name)}
+                                <div style="font-size:0.75rem; color:var(--text-muted); font-weight:400;">${escapeHtml(m.email)} (${m.project_role})</div>
+                            </td>
+                            <td style="padding:14px; color:var(--text-secondary); max-width:200px;">${escapeHtml(m.skills || 'Chưa cập nhật')}</td>
+                            <td style="padding:14px; color:var(--text-secondary);">${escapeHtml(m.availability)}</td>
+                            <td style="padding:14px; font-weight:600; color:var(--neon-cyan);">${m.effective_capacity_hours}h khả dụng / ${m.capacity_hours}h</td>
+                            <td style="padding:14px; font-weight:700; color:${m.is_overloaded ? 'var(--neon-rose)' : '#fff'};">
+                                ${m.current_workload_hours}h
+                                ${missingWarn}
+                            </td>
+                            <td style="padding:14px;">${m.active_task_count} việc (${m.overdue_task_count} trễ)</td>
+                            <td style="padding:14px;">${overloadBadge}</td>
+                        </tr>
+                    `;
+                }).join('');
+            }
+        } catch (e) {
+            tbody.innerHTML = '<tr><td colspan="7" style="padding:20px; text-align:center; color:var(--neon-rose);">Lỗi tải bảng thống kê.</td></tr>';
+        }
+    }
+</script>
+{% endblock %}

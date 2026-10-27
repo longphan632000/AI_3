@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cổng Xác Thực | Hệ thống Quản lý Dự án Nhóm Tích hợp AI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        .login-page-wrapper {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            background: radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.12) 0%, rgba(7, 9, 14, 0.98) 80%);
+        }
+
+        .login-card {
+            width: 100%;
+            max-width: 460px;
+            background: rgba(17, 24, 39, 0.85);
+            backdrop-filter: blur(24px);
+            border: 1px solid var(--border-glow);
+            border-radius: var(--radius-xl);
+            padding: 36px 32px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), var(--shadow-glow-cyan);
+            position: relative;
+        }
+
+        .login-logo {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--neon-cyan), var(--neon-indigo));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 12px auto;
+            box-shadow: var(--shadow-glow-cyan);
+        }
+
+        .auth-nav-tabs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 4px;
+            border-radius: var(--radius-md);
+            margin-bottom: 24px;
+            border: 1px solid var(--border-subtle);
+        }
+
+        .auth-tab-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            text-align: center;
+        }
+
+        .auth-tab-btn.active {
+            background: var(--bg-surface);
+            color: var(--neon-cyan);
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .auth-tab-content {
+            display: none;
+        }
+
+        .auth-tab-content.active {
+            display: block;
+            animation: fadeIn 0.25s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(4px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-hint {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login-page-wrapper">
+        <div class="login-card">
+            <div class="login-logo">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#030712" stroke-width="2.5">
+                    <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                    <polyline points="2 17 12 22 22 17"></polyline>
+                    <polyline points="2 12 12 17 22 12"></polyline>
+                </svg>
+            </div>
+
+            <h2 style="text-align: center; margin-bottom: 4px; font-size: 1.35rem;">AI SDLC Portal</h2>
+            <p style="text-align: center; color: var(--text-secondary); font-size: 0.82rem; margin-bottom: 20px;">
+                Hệ thống Quản lý Dự án Nhóm Tích hợp AI • Đề tài 33
+            </p>
+
+            <!-- Navigation Tabs: Đăng Nhập vs Đăng Ký -->
+            <div class="auth-nav-tabs">
+                <button type="button" id="tab-btn-login" class="auth-tab-btn active" onclick="switchTab('login')">
+                    Đăng Nhập
+                </button>
+                <button type="button" id="tab-btn-register" class="auth-tab-btn" onclick="switchTab('register')">
+                    Đăng Ký Tài Khoản
+                </button>
+            </div>
+
+            <!-- Tab 1: Form Đăng Nhập -->
+            <div id="tab-content-login" class="auth-tab-content active">
+                <form id="form-login" onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <label class="form-label">Tài khoản / Email</label>
+                        <input type="text" id="login-username" class="form-input"
+                            placeholder="Nhập tên đăng nhập hoặc email..." required autofocus>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Mật khẩu</label>
+                        <input type="password" id="login-password" class="form-input" placeholder="••••••••" required>
+                    </div>
+
+                    <button type="submit" id="btn-submit-login" class="btn btn-primary"
+                        style="width: 100%; margin-top: 10px;">
+                        <span>Đăng nhập hệ thống</span>
+                    </button>
+                </form>
+            </div>
+
+            <!-- Tab 2: Form Đăng Ký Tài Khoản Mới -->
+            <div id="tab-content-register" class="auth-tab-content">
+                <form id="form-register" onsubmit="handleRegister(event)">
+                    <div class="form-group">
+                        <label class="form-label">Họ và tên *</label>
+                        <input type="text" id="reg-fullname" class="form-input" placeholder="Ví dụ: Nguyễn Văn A"
+                            required>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                        <div class="form-group">
+                            <label class="form-label">Tên đăng nhập *</label>
+                            <input type="text" id="reg-username" class="form-input" placeholder="user123" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Vai trò mong muốn</label>
+                            <select id="reg-role" class="form-select">
+                                <option value="member" selected>Thành viên (Member)</option>
+                                <option value="leader">Trưởng nhóm (Leader)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Địa chỉ Email *</label>
+                        <input type="email" id="reg-email" class="form-input" placeholder="user@gmail.com" required>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                        <div class="form-group">
+                            <label class="form-label">Mật khẩu *</label>
+                            <input type="password" id="reg-password" class="form-input" placeholder="Tối thiểu 6 ký tự"
+                                required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Xác nhận mật khẩu *</label>
+                            <input type="password" id="reg-confirm-password" class="form-input"
+                                placeholder="Nhập lại mật khẩu" required>
+                        </div>
+                    </div>
+
+                    <button type="submit" id="btn-submit-register" class="btn btn-primary"
+                        style="width: 100%; margin-top: 10px;">
+                        <span>Tạo tài khoản mới</span>
+                    </button>
+                    <p class="form-hint" style="text-align: center;">Vai trò Trưởng nhóm cần Quản trị viên duyệt trước
+                        khi đăng nhập.</p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script>
+        function switchTab(mode) {
+            const loginBtn = document.getElementById('tab-btn-login');
+            const regBtn = document.getElementById('tab-btn-register');
+            const loginContent = document.getElementById('tab-content-login');
+            const regContent = document.getElementById('tab-content-register');
+
+            if (mode === 'login') {
+                loginBtn.classList.add('active');
+                regBtn.classList.remove('active');
+                loginContent.classList.add('active');
+                regContent.classList.remove('active');
+            } else {
+                regBtn.classList.add('active');
+                loginBtn.classList.remove('active');
+                regContent.classList.add('active');
+                loginContent.classList.remove('active');
+            }
+        }
+
+        async function handleLogin(e) {
+            e.preventDefault();
+            const btn = document.getElementById('btn-submit-login');
+            btn.disabled = true;
+            btn.innerHTML = '<span>Đang xác thực...</span>';
+
+            const username_or_email = document.getElementById('login-username').value;
+            const password = document.getElementById('login-password').value;
+
+            try {
+                const res = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username_or_email, password })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    showToast('Đăng nhập thành công! Đang chuyển hướng...', 'success');
+                    setTimeout(() => {
+                        window.location.href = data.redirect_url;
+                    }, 500);
+                } else {
+                    showToast(data.error || 'Đăng nhập thất bại.', 'error');
+                    btn.disabled = false;
+                    btn.innerHTML = '<span>Đăng nhập hệ thống</span>';
+                }
+            } catch (err) {
+                showToast('Lỗi kết nối máy chủ backend.', 'error');
+                btn.disabled = false;
+                btn.innerHTML = '<span>Đăng nhập hệ thống</span>';
+            }
+        }
+
+        async function handleRegister(e) {
+            e.preventDefault();
+            const fullName = document.getElementById('reg-fullname').value.trim();
+            const username = document.getElementById('reg-username').value.trim();
+            const email = document.getElementById('reg-email').value.trim();
+            const role = document.getElementById('reg-role').value;
+            const password = document.getElementById('reg-password').value;
+            const confirmPass = document.getElementById('reg-confirm-password').value;
+            const btn = document.getElementById('btn-submit-register');
+
+            if (password !== confirmPass) {
+                showToast('Mật khẩu và xác nhận mật khẩu không trùng khớp.', 'error');
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerHTML = '<span>Đang lưu tài khoản...</span>';
+
+            try {
+                const res = await fetch('/api/auth/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        full_name: fullName,
+                        username: username,
+                        email: email,
+                        role: role,
+                        password: password
+                    })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    showToast(data.message, 'success');
+                    if (data.user.status === 'active') {
+                        document.getElementById('login-username').value = username;
+                        switchTab('login');
+                    }
+                    btn.disabled = false;
+                    btn.innerHTML = '<span>Tạo tài khoản mới</span>';
+                } else {
+                    showToast(data.error || 'Đăng ký không thành công.', 'error');
+                    btn.disabled = false;
+                    btn.innerHTML = '<span>Tạo tài khoản mới</span>';
+                }
+            } catch (err) {
+                showToast('Lỗi kết nối máy chủ.', 'error');
+                btn.disabled = false;
+                btn.innerHTML = '<span>Tạo tài khoản mới</span>';
+            }
+        }
+    </script>
+</body>
+
+</html>

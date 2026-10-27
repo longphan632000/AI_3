@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Hệ thống Quản lý Dự án Nhóm Tích hợp AI{% endblock %}</title>
+
+    <!-- CSS Core & 3D Tech Styles -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/modern_3d.css') }}">
+    {% block extra_css %}{% endblock %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
+</head>
+
+<body>
+    <!-- Hidden SVG Gradients for 3D Charts -->
+    <svg style="position: absolute; width: 0; height: 0;" aria-hidden="true">
+        <defs>
+            <linearGradient id="cyan-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#00f2fe" />
+                <stop offset="100%" stop-color="#4facfe" />
+            </linearGradient>
+            <linearGradient id="purple-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#8b5cf6" />
+                <stop offset="100%" stop-color="#ec4899" />
+            </linearGradient>
+        </defs>
+    </svg>
+
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside id="app-sidebar" class="app-sidebar" aria-label="Điều hướng chính">
+            <div class="sidebar-brand">
+                <div class="brand-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#030712" stroke-width="2.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                        <polyline points="2 17 12 22 22 17"></polyline>
+                        <polyline points="2 12 12 17 22 12"></polyline>
+                    </svg>
+                </div>
+                <div>
+                    <div class="brand-title">AI SDLC Pro</div>
+                    <div class="brand-subtitle">Nhóm 33 • Đề tài 33</div>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="{{ url_for('project_bp.dashboard_page') }}"
+                    class="nav-item {% if request.path == '/dashboard' %}active{% endif %}">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="14" width="7" height="7"></rect>
+                        <rect x="3" y="14" width="7" height="7"></rect>
+                    </svg>
+                    <span>Bảng điều khiển</span>
+                </a>
+
+                <a href="{{ url_for('task_bp.kanban_page') }}"
+                    class="nav-item {% if request.path == '/kanban' %}active{% endif %}">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="5" height="18" rx="1"></rect>
+                        <rect x="10" y="3" width="5" height="12" rx="1"></rect>
+                        <rect x="17" y="3" width="5" height="15" rx="1"></rect>
+                    </svg>
+                    <span>Bảng Kanban</span>
+                </a>
+
+                <a href="{{ url_for('sprint_bp.sprints_page') }}"
+                    class="nav-item {% if request.path == '/sprints' %}active{% endif %}">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                    <span>Quản lý Sprint</span>
+                </a>
+
+                <a href="{{ url_for('ai_bp.ai_assistant_page') }}"
+                    class="nav-item {% if request.path == '/ai-assistant' %}active{% endif %}"
+                    style="color:var(--text-highlight);">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 2a10 10 0 1 0 10 10H12V2z"></path>
+                        <path d="M12 12 2.1 12a10.1 10.1 0 0 0 1.9 4.2"></path>
+                    </svg>
+                    <span>Trợ lý AI (SDLC)</span>
+                </a>
+
+                <a href="{{ url_for('report_bp.reports_page') }}"
+                    class="nav-item {% if request.path == '/reports' %}active{% endif %}">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="20" x2="18" y2="10"></line>
+                        <line x1="12" y1="20" x2="12" y2="4"></line>
+                        <line x1="6" y1="20" x2="6" y2="14"></line>
+                    </svg>
+                    <span>Báo cáo & Tải việc</span>
+                </a>
+
+                <a href="{{ url_for('notification_bp.notifications_page') }}"
+                    class="nav-item {% if request.path == '/notifications' %}active{% endif %}">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                        <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                    </svg>
+                    <span>Thông báo</span>
+                    <span id="unread-noti-badge" class="badge-counter" style="display:none;">0</span>
+                </a>
+
+                {% if session.get('role') == 'admin' %}
+                <a href="{{ url_for('admin_bp.admin_page') }}"
+                    class="nav-item {% if request.path == '/admin' %}active{% endif %}"
+                    style="color:var(--neon-amber);">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="8.5" cy="7" r="4"></circle>
+                        <line x1="20" y1="8" x2="20" y2="14"></line>
+                        <line x1="23" y1="11" x2="17" y2="11"></line>
+                    </svg>
+                    <span>Quản trị viên</span>
+                </a>
+                {% endif %}
+            </nav>
+
+            <div style="padding-top:16px; border-top:1px solid var(--border-subtle);">
+                <a href="{{ url_for('auth_bp.logout') }}" class="nav-item" style="color:var(--neon-rose);">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                        <polyline points="16 17 21 12 16 7"></polyline>
+                        <line x1="21" y1="12" x2="9" y2="12"></line>
+                    </svg>
+                    <span>Đăng xuất</span>
+                </a>
+            </div>
+        </aside>
+
+        <button id="sidebar-backdrop" class="sidebar-backdrop" aria-label="Đóng điều hướng" onclick="closeMobileSidebar()"></button>
+        <!-- Main Workspace -->
+        <div class="app-main">
+            <!-- Header -->
+            <header class="app-header">
+                <div class="header-left">
+                    <button class="btn-icon mobile-toggle-btn" type="button" aria-label="Mở điều hướng" aria-controls="app-sidebar" aria-expanded="false" onclick="toggleMobileSidebar()">☰</button>
+                    <div class="project-select-container">
+                        <label>Dự án:</label>
+                        <select id="project-select-input" class="project-select">
+                            <option value="1">Đang tải dự án...</option>
+                        </select>
+                        {% if session.get('role') == 'leader' %}
+                        <button class="btn btn-primary" style="padding:6px 10px;"
+                            onclick="openCreateProjectModal()">+ Tạo dự án</button>
+                        <button id="add-project-member-button" class="btn btn-secondary"
+                            style="display:none; padding:6px 10px;" onclick="openAddProjectMemberModal()">+ Thêm thành
+                            viên</button>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="header-right">
+                    <a href="{{ url_for('notification_bp.notifications_page') }}" class="btn-icon"
+                        title="Thông báo hệ thống">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                        </svg>
+                    </a>
+
+                    <div class="user-profile-badge">
+                        <div class="user-avatar">
+                            {{ session.get('full_name', 'U')[0] | upper }}
+                        </div>
+                        <div class="user-info-text">
+                            <div id="header-user-name" class="user-name">{{ session.get('full_name', 'Người dùng') }}
+                            </div>
+                            <div id="header-user-role" class="user-role-tag">{{ session.get('role', 'member') }}</div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            {% if session.get('role') == 'leader' %}
+            <div style="display:flex;flex-wrap:wrap;gap:8px;padding:8px 24px;">
+                <button class="btn btn-secondary" data-project-manager hidden onclick="openEditProjectModal()">Sửa dự án</button>
+                <button class="btn btn-secondary" data-project-manager hidden onclick="deleteCurrentProject()">Lưu trữ dự án</button>
+                <button class="btn btn-secondary" onclick="openArchivedProjects()">Dự án đã lưu trữ</button>
+            </div>
+            {% endif %}
+            <!-- Page Content -->
+            <div id="sync-banner" class="sync-banner" role="status" hidden>
+                <span>Có dữ liệu mới từ máy chủ. Nội dung bạn đang nhập được giữ nguyên.</span>
+                <button class="btn btn-secondary" onclick="refreshSharedData(true)">Cập nhật dữ liệu</button>
+            </div>
+            <main class="app-content">
+                {% block content %}{% endblock %}
+            </main>
+        </div>
+    </div>
+
+    {% if session.get('role') == 'leader' %}
+    <div id="modal-create-project" class="modal-overlay">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3 class="modal-title">Tạo dự án mới</h3>
+                <button class="btn-icon" onclick="closeModal('modal-create-project')">✕</button>
+            </div>
+            <form onsubmit="submitCreateProject(event)">
+                <div class="form-group">
+                    <label class="form-label">Tên dự án *</label>
+                    <input id="new-project-name" class="form-input" required maxlength="150"
+                        placeholder="VD: Hệ thống Quản lý Dự án">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Mã dự án (Tùy chọn)</label>
+                    <input id="new-project-code" class="form-input" maxlength="20" placeholder="VD: QLNT, PRJ-01">
+                </div>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+                    <div class="form-group">
+                        <label class="form-label">Ngày bắt đầu</label>
+                        <input type="date" id="new-project-start-date" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Ngày kết thúc</label>
+                        <input type="date" id="new-project-end-date" class="form-input">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Mô tả dự án</label>
+                    <textarea id="new-project-description" class="form-textarea" rows="3"
+                        placeholder="Mục tiêu, phạm vi và mô tả ngắn gọn về dự án..."></textarea>
+                </div>
+                <fieldset class="form-group project-team-picker">
+                    <legend class="form-label">Nhân viên tham gia từ đầu</legend>
+                    <p class="form-help">Chọn tài khoản đã được Admin duyệt. Bạn là Trưởng nhóm; có thể bổ sung nhân viên và cập nhật năng lực sau khi tạo.</p>
+                    <input id="initial-members-search" class="form-input" type="search" placeholder="Tìm theo họ tên, tài khoản hoặc mã nhân viên" oninput="filterInitialMembers()" aria-label="Tìm nhân viên">
+                    <div id="initial-members-list" class="initial-members-list" aria-live="polite"></div>
+                    <p id="initial-members-count" class="form-help">Đã chọn 0 nhân viên</p>
+                </fieldset>
+                <div style="display:flex; justify-content:flex-end; gap:12px;">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('modal-create-project')">Hủy</button>
+                    <button type="submit" class="btn btn-primary">Tạo dự án</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="modal-edit-project" class="modal-overlay">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3 class="modal-title">Chỉnh sửa thông tin dự án</h3>
+                <button class="btn-icon" onclick="closeModal('modal-edit-project')">✕</button>
+            </div>
+            <form onsubmit="submitEditProject(event)">
+                <div class="form-group">
+                    <label class="form-label">Tên dự án *</label>
+                    <input id="edit-project-name" class="form-input" required maxlength="150">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Mã dự án</label>
+                    <input id="edit-project-code" class="form-input" maxlength="20" placeholder="VD: QLNT">
+                </div>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+                    <div class="form-group">
+                        <label class="form-label">Ngày bắt đầu</label>
+                        <input type="date" id="edit-project-start-date" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Ngày kết thúc</label>
+                        <input type="date" id="edit-project-end-date" class="form-input">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Trạng thái dự án</label>
+                    <select id="edit-project-status" class="form-select">
+                        <option value="active">Đang thực hiện (Active)</option>
+                        <option value="completed">Đã hoàn thành (Completed)</option>
+                        <option value="planning">Lập kế hoạch (Planning)</option>
+                        <option value="archived">Lưu trữ (Archived)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Mô tả dự án</label>
+                    <textarea id="edit-project-description" class="form-textarea" rows="3"></textarea>
+                </div>
+                <div style="display:flex; justify-content:flex-end; gap:12px;">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('modal-edit-project')">Hủy</button>
+                    <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="modal-add-project-member" class="modal-overlay">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3 class="modal-title">Thêm thành viên vào dự án</h3>
+                <button class="btn-icon" onclick="closeModal('modal-add-project-member')">✕</button>
+            </div>
+            <form onsubmit="submitAddProjectMember(event)">
+                <label for="new-member-role">Vai trò</label><select id="new-member-role" class="form-select"><option value="member">Thành viên</option><option value="viewer">Chỉ xem báo cáo</option></select>
+                <label for="new-member-skills">Kỹ năng</label><input id="new-member-skills" class="form-input">
+                <label for="new-member-availability">Mức sẵn sàng (%)</label><input id="new-member-availability" type="number" min="0" max="100" value="100" class="form-input" required>
+                <label for="new-member-capacity">Năng lực giờ mỗi sprint</label><input id="new-member-capacity" type="number" min="0" max="9999" step="0.5" value="40" class="form-input" required>
+                <div class="form-group">
+                    <label class="form-label">Tài khoản đang hoạt động</label>
+                    <select id="new-project-member-user" class="form-select" required></select>
+                </div>
+                <div style="display:flex; justify-content:flex-end; gap:12px;">
+                    <button type="button" class="btn btn-secondary"
+                        onclick="closeModal('modal-add-project-member')">Hủy</button>
+                    <button type="submit" class="btn btn-primary">Thêm thành viên</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if session.get('user_id') %}
+    <div id="modal-archived-projects" class="modal-overlay"><div class="modal-box">
+      <div class="modal-header"><h3>Dự án đã lưu trữ</h3><button class="btn-icon" onclick="closeModal('modal-archived-projects')">✕</button></div>
+      <div id="archived-project-list"></div>
+    </div></div>
+    {% endif %}
+    {% if session.get('role') == 'leader' %}
+    <div id="modal-member-capacity" class="modal-overlay"><div class="modal-box">
+      <div class="modal-header"><h3>Cập nhật năng lực thành viên</h3><button class="btn-icon" onclick="closeModal('modal-member-capacity')">✕</button></div>
+      <form onsubmit="saveMemberCapacity(event)"><input id="member-edit-id" type="hidden">
+        <label for="member-edit-skills">Kỹ năng</label><input id="member-edit-skills" class="form-input">
+        <label for="member-edit-availability">Mức sẵn sàng (%)</label><input id="member-edit-availability" class="form-input" type="number" min="0" max="100" required>
+        <label for="member-edit-capacity">Năng lực giờ mỗi sprint</label><input id="member-edit-capacity" class="form-input" type="number" min="0" max="9999" step="0.5" required>
+        <p>Giờ khả dụng = năng lực × mức sẵn sàng / 100.</p><button class="btn btn-primary" type="submit">Lưu thay đổi</button>
+      </form>
+    </div></div>
+    {% endif %}
+    <!-- Scripts -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/effects_3d.js') }}"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js').catch(err => {
+                    console.log('SW registration note:', err);
+                });
+            });
+        }
+    </script>
+    {% block extra_js %}{% endblock %}
+</body>
+
+</html>

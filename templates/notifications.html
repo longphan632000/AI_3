@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+
+{% block title %}Trung Tâm Thông Báo | AI Project Management System{% endblock %}
+
+{% block content %}
+<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
+    <div>
+        <h2 class="text-gradient-cyan">Trung Tâm Thông Báo (FR-16 / UC013)</h2>
+        <p style="color:var(--text-secondary); font-size:0.88rem;">
+            Theo dõi việc được giao, thay đổi người phụ trách, đổi hạn, đổi trạng thái và nhắc việc sắp tới hạn
+        </p>
+    </div>
+
+    <div style="display:flex; gap:12px;">
+        <button class="btn btn-secondary" onclick="markAllNotificationsRead()">
+            <span>✓ Đánh dấu tất cả đã đọc</span>
+        </button>
+        <button class="btn btn-primary" onclick="triggerOverdueScanDirect()">
+            <span>🔔 Quét Email Trễ hạn (FR-17)</span>
+        </button>
+    </div>
+</div>
+
+<div class="glass-panel" style="max-width:850px; margin:0 auto;">
+    <div id="notifications-list" style="display:flex; flex-direction:column; gap:12px;">
+        <p style="color:var(--text-muted); text-align:center; padding:30px;">Đang tải danh sách thông báo...</p>
+    </div>
+</div>
+
+<!-- Modal Trình Mô Phỏng Gửi Email Cảnh Báo Trễ Hạn (Demo Mail Dispatcher - BR-09 & FR-17) -->
+<div id="modal-email-dispatcher" class="modal-overlay">
+    <div class="modal-box" style="max-width: 780px;">
+        <div class="modal-header">
+            <h3 class="modal-title">📧 Trình Mô Phỏng Gửi Email Cảnh Báo Trễ Hạn (FR-17 / BR-09)</h3>
+            <button class="btn-icon" onclick="closeModal('modal-email-dispatcher')">✕</button>
+        </div>
+        <div style="margin-bottom: 16px; padding: 12px; background: rgba(0, 242, 254, 0.08); border-radius: var(--radius-sm); border: 1px solid rgba(0, 242, 254, 0.2); font-size: 0.85rem; color: var(--text-secondary);">
+            🛡️ <strong>Chế độ Trình diễn (Demo Mode):</strong> Hệ thống tự động quét toàn bộ nhiệm vụ vi phạm quy tắc BR-02 (trễ hạn, chưa Done, chưa lưu trữ), đóng gói nội dung thư cảnh báo và kích hoạt gửi thư cho người phụ trách.
+        </div>
+        <div id="email-dispatcher-content" style="max-height: 460px; overflow-y: auto; display: flex; flex-direction: column; gap: 14px;">
+        </div>
+        <div style="display:flex; justify-content: flex-end; margin-top: 20px;">
+            <button class="btn btn-primary" onclick="closeModal('modal-email-dispatcher')">Đóng</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        loadNotifications();
+    });
+
+    async function loadNotifications() {
+        const listEl = document.getElementById('notifications-list');
+        try {
+            const res = await fetch('/api/notifications');
+            const data = await res.json();
+            if (data.success) {
+                if (data.notifications.length === 0) {
+                    listEl.innerHTML = '<p style="color:var(--text-muted); text-align:center; padding:30px;">Bạn không có thông báo nào.</p>';
+                    return;
+                }
+
+                listEl.innerHTML = data.notifications.map(n => {
+                    const isRead = n.is_read;
+                    let icon = '🔔';
+                    if (n.event_type === 'task_assigned') icon = '📌';
+                    if (n.event_type === 'deadline_changed') icon = '⏰';
+                    if (n.event_type === 'status_changed') icon = '🔄';
+                    if (n.event_type === 'due_soon_reminder') icon = '⚠️';
+
+                    return `
+                        <div style="padding:16px; border-radius:var(--radius-md); background:${isRead ? 'rgba(255,255,255,0.02)' : 'rgba(0,242,254,0.06)'}; border:1px solid ${isRead ? 'var(--border-subtle)' : 'rgba(0,242,254,0.3)'}; display:flex; justify-content:space-between; align-items:flex-start; gap:16px;">
+                            <div style="display:flex; gap:14px; align-items:flex-start;">
+                                <div style="font-size:1.4rem;">${icon}</div>
+                                <div>
+                                    <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+                                        <strong style="color:${isRead ? '#e2e8f0' : '#fff'}; font-size:0.95rem;">${escapeHtml(n.title)}</strong>
+                                        ${!isRead ? '<span class="badge" style="background:var(--neon-cyan); color:#030712; font-size:0.65rem;">MỚI</span>' : ''}
+                                    </div>
+                                    <p style="color:var(--text-secondary); font-size:0.85rem; margin-bottom:6px; line-height:1.5;">${escapeHtml(n.message)}</p>
+                                    <div style="font-size:0.75rem; color:var(--text-muted);">
+                                        Dự án: <span style="color:var(--text-highlight);">${escapeHtml(n.project_name || 'Hệ thống')}</span> • ${n.created_at}
+                                    </div>
+                                </div>
+                            </div>
+
+                            ${!isRead ? `
+                                <button class="btn btn-secondary" style="font-size:0.75rem; padding:4px 8px;" onclick="markSingleRead(${n.id})">
+                                    Đã đọc
+                                </button>
+                            ` : ''}
+                        </div>
+                    `;
+                }).join('');
+            }
+        } catch (e) {
+            listEl.innerHTML = '<p style="color:var(--neon-rose); text-align:center;">Lỗi tải thông báo.</p>';
+        }
+    }
+
+    async function markSingleRead(id) {
+        try {
+            await fetch(`/api/notifications/${id}/read`, { method: 'POST' });
+            await loadNotifications();
+            updateUnreadNotificationsCount();
+        } catch (e) {}
+    }
+
+    async function markAllNotificationsRead() {
+        try {
+            await fetch('/api/notifications/read-all', { method: 'POST' });
+            showToast('Đã đánh dấu tất cả là đã đọc.', 'success');
+            await loadNotifications();
+            updateUnreadNotificationsCount();
+        } catch (e) {}
+    }
+
+    async function triggerOverdueScanDirect() {
+        showToast('Đang quét nhiệm vụ trễ hạn theo quy tắc BR-02 & BR-09...', 'info');
+        try {
+            const res = await fetch('/api/notifications/trigger-overdue-check', { method: 'POST' });
+            const data = await res.json();
+            if (data.success) {
+                showToast(data.message, 'success');
+                await loadNotifications();
+                updateUnreadNotificationsCount();
+
+                // Hiển thị Modal Email Dispatcher
+                const modalContent = document.getElementById('email-dispatcher-content');
+                if (data.alerts && data.alerts.length > 0) {
+                    modalContent.innerHTML = data.alerts.map(a => `
+                        <div class="glass-panel" style="padding:14px; border-left:3px solid var(--neon-rose); background:rgba(255,255,255,0.02);">
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                                <strong style="color:#fff; font-size:0.95rem;">${escapeHtml(a.subject)}</strong>
+                                <span class="badge" style="background:rgba(244,63,94,0.15); color:var(--neon-rose); font-size:0.72rem;">
+                                    ${a.sent_status === 'SENT' ? 'ĐÃ GỬI' : a.sent_status === 'SIMULATED' ? 'MÔ PHỎNG' : 'GỬI THẤT BẠI'}
+                                </span>
+                            </div>
+                            <div style="font-size:0.8rem; color:var(--text-muted); margin-bottom:10px; display:flex; gap:16px; flex-wrap:wrap;">
+                                <span>👤 Người nhận: <strong style="color:var(--neon-cyan);">${escapeHtml(a.assignee_name)}</strong> (&lt;${escapeHtml(a.assignee_email)}&gt;)</span>
+                                <span>📅 Hạn chót: <strong style="color:var(--neon-rose);">${a.due_date}</strong></span>
+                                <span>⏰ Thời gian: ${a.dispatched_at}</span>
+                            </div>
+                            <div style="background:rgba(0,0,0,0.3); border:1px solid var(--border-subtle); padding:10px; border-radius:6px; font-family:var(--font-mono); font-size:0.78rem; color:var(--text-secondary); white-space:pre-wrap; line-height:1.5;">
+${escapeHtml(a.body_preview)}
+                            </div>
+                        </div>
+                    `).join('');
+                } else {
+                    modalContent.innerHTML = `
+                        <div style="text-align:center; padding:30px; color:var(--text-muted);">
+                            <div style="font-size:2rem; margin-bottom:8px;">🎉</div>
+                            <p>Không có nhiệm vụ nào bị trễ hạn tại thời điểm hiện tại.</p>
+                            <p style="font-size:0.8rem; margin-top:4px;">Tất cả nhiệm vụ đều đang đúng tiến độ hoặc đã hoàn thành (Done).</p>
+                        </div>
+                    `;
+                }
+                openModal('modal-email-dispatcher');
+            }
+        } catch (e) {
+            showToast('Lỗi khi kích hoạt quét trễ hạn.', 'error');
+        }
+    }
+</script>
+{% endblock %}

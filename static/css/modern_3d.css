@@ -1,0 +1,210 @@
+/* ==========================================================================
+   MODERN 3D EFFECTS & CYBER TECH STYLES
+   Professional, sleek, high-tech without unnecessary bloat
+   ========================================================================== */
+
+/* 3D Perspective Wrapper */
+.perspective-container {
+    perspective: 1200px;
+    transform-style: preserve-3d;
+}
+
+/* 3D Interactive Tilt Card */
+.tilt-card {
+    transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.2s ease;
+    transform-style: preserve-3d;
+    position: relative;
+    overflow: hidden;
+}
+
+.tilt-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255, 255, 255, 0.08) 0%, transparent 60%);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 2;
+}
+
+.tilt-card:hover::before {
+    opacity: 1;
+}
+
+/* Isometric Stat Cards Grid */
+.isometric-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+    margin-bottom: 28px;
+}
+
+.kpi-card {
+    background: linear-gradient(145deg, rgba(19, 27, 46, 0.8), rgba(13, 18, 29, 0.9));
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    padding: 22px;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    transform: translateZ(10px);
+}
+
+.kpi-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--neon-cyan), transparent);
+    opacity: 0.6;
+}
+
+.kpi-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.kpi-label {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.kpi-icon-box {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.kpi-value {
+    font-size: 2.2rem;
+    font-weight: 800;
+    line-height: 1;
+    margin-bottom: 6px;
+    letter-spacing: -0.03em;
+}
+
+.kpi-subtext {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+/* 3D Circular Progress Ring */
+.progress-ring-container {
+    position: relative;
+    width: 130px;
+    height: 130px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.progress-ring-svg {
+    transform: rotate(-90deg);
+}
+
+.progress-ring-circle-bg {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.05);
+    stroke-width: 10;
+}
+
+.progress-ring-circle {
+    fill: none;
+    stroke: url(#cyan-gradient);
+    stroke-width: 10;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.progress-ring-text {
+    position: absolute;
+    text-align: center;
+}
+
+.progress-ring-percentage {
+    font-size: 1.6rem;
+    font-weight: 800;
+    line-height: 1;
+}
+
+.progress-ring-label {
+    font-size: 0.68rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+/* Hologram AI Console Box */
+.hologram-box {
+    background: radial-gradient(circle at 50% 0%, rgba(139, 92, 246, 0.15), rgba(7, 9, 14, 0.85) 70%);
+    border: 1px solid var(--border-glow-purple);
+    box-shadow: 0 0 35px rgba(139, 92, 246, 0.18), inset 0 0 20px rgba(0, 242, 254, 0.08);
+    position: relative;
+    overflow: hidden;
+}
+
+.hologram-box::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        60deg,
+        transparent 0%,
+        rgba(0, 242, 254, 0.04) 40%,
+        rgba(139, 92, 246, 0.06) 50%,
+        transparent 60%
+    );
+    animation: hologram-scan 8s linear infinite;
+    pointer-events: none;
+}
+
+@keyframes hologram-scan {
+    0% { transform: translateY(-30%); }
+    100% { transform: translateY(30%); }
+}
+
+/* 3D Chip / Tag Button */
+.chip-3d {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    transition: all 0.25s ease;
+    cursor: pointer;
+}
+
+.chip-3d:hover {
+    color: #fff;
+    background: rgba(0, 242, 254, 0.1);
+    border-color: var(--border-glow);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 242, 254, 0.2);
+}
+
+.chip-3d.active {
+    background: linear-gradient(135deg, rgba(0, 242, 254, 0.2), rgba(99, 102, 241, 0.2));
+    border-color: var(--neon-cyan);
+    color: #fff;
+}

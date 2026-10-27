@@ -1,0 +1,225 @@
+{
+  "browser": "Microsoft Edge headless",
+  "database": "disposable SQLite",
+  "AI": "Gemini adapter with mocked HTTP; no real key",
+  "records": [
+    {
+      "name": "Login: Admin, PM and member",
+      "passed": true,
+      "details": {
+        "all_pages": 200
+      }
+    },
+    {
+      "name": "Admin diagnostics distinguish network denied and metadata reachable",
+      "passed": true,
+      "details": {
+        "error_code": "AI_NETWORK_DENIED",
+        "recovery": true,
+        "quota_not_claimed": true
+      }
+    },
+    {
+      "name": "Create project with staff; independent member receives update",
+      "passed": true,
+      "details": {
+        "members": 2,
+        "project_id": 2,
+        "sync": "within 12s"
+      }
+    },
+    {
+      "name": "PM writes; member Dashboard and Admin read same task",
+      "passed": true,
+      "details": {
+        "before": "0",
+        "after": "1",
+        "admin_read": 200
+      }
+    },
+    {
+      "name": "Member registration, pending Admin list, approval and login",
+      "passed": true,
+      "details": {
+        "registration": 202,
+        "before": 401,
+        "after": 200
+      }
+    },
+    {
+      "name": "DOCX meeting minutes through Gemini adapter",
+      "passed": true,
+      "details": {
+        "draft": 200,
+        "model": "gemini-3.8-flash",
+        "calls": 3,
+        "member_cannot_confirm": true,
+        "AI_HTTP": "mock"
+      }
+    },
+    {
+      "name": "Save meeting note and select it as AI source",
+      "passed": true,
+      "details": {
+        "saved_and_selected": true
+      }
+    },
+    {
+      "name": "Cross-client update preserves unsaved notes",
+      "passed": true,
+      "details": {
+        "banner": true,
+        "notes_preserved": true
+      }
+    },
+    {
+      "name": "Responsive laptop: leader",
+      "passed": true,
+      "details": {
+        "width": 1366,
+        "pages": 6,
+        "body_overflow": false,
+        "navigation": true
+      }
+    },
+    {
+      "name": "Responsive laptop: member",
+      "passed": true,
+      "details": {
+        "width": 1366,
+        "pages": 6,
+        "body_overflow": false,
+        "navigation": true
+      }
+    },
+    {
+      "name": "Responsive laptop: admin",
+      "passed": true,
+      "details": {
+        "width": 1366,
+        "pages": 7,
+        "body_overflow": false,
+        "navigation": true
+      }
+    },
+    {
+      "name": "Responsive tablet: leader",
+      "passed": true,
+      "details": {
+        "width": 768,
+        "pages": 6,
+        "body_overflow": false,
+        "navigation": true
+      }
+    },
+    {
+      "name": "Responsive tablet: member",
+      "passed": true,
+      "details": {
+        "width": 768,
+        "pages": 6,
+        "body_overflow": false,
+        "navigation": true
+      }
+    },
+    {
+      "name": "Responsive tablet: admin",
+      "passed": true,
+      "details": {
+        "width": 768,
+        "pages": 7,
+        "body_overflow": false,
+        "navigation": true
+      }
+    },
+    {
+      "name": "Responsive phone: leader",
+      "passed": true,
+      "details": {
+        "width": 390,
+        "pages": 6,
+        "body_overflow": false,
+        "navigation": true
+      }
+    },
+    {
+      "name": "Responsive phone: member",
+      "passed": true,
+      "details": {
+        "width": 390,
+        "pages": 6,
+        "body_overflow": false,
+        "navigation": true
+      }
+    },
+    {
+      "name": "Responsive phone: admin",
+      "passed": true,
+      "details": {
+        "width": 390,
+        "pages": 7,
+        "body_overflow": false,
+        "navigation": true
+      }
+    },
+    {
+      "name": "Responsive small-phone: leader",
+      "passed": true,
+      "details": {
+        "width": 320,
+        "pages": 6,
+        "body_overflow": false,
+        "navigation": true
+      }
+    },
+    {
+      "name": "Responsive small-phone: member",
+      "passed": true,
+      "details": {
+        "width": 320,
+        "pages": 6,
+        "body_overflow": false,
+        "navigation": true
+      }
+    },
+    {
+      "name": "Responsive small-phone: admin",
+      "passed": true,
+      "details": {
+        "width": 320,
+        "pages": 7,
+        "body_overflow": false,
+        "navigation": true
+      }
+    },
+    {
+      "name": "Touch-friendly status change without drag and drop",
+      "passed": true,
+      "details": {
+        "viewports": 4,
+        "status": "review"
+      }
+    },
+    {
+      "name": "Emulated touch input on phone and tablet",
+      "passed": true,
+      "details": {
+        "widths": [
+          390,
+          768
+        ],
+        "has_touch": true,
+        "tap_status_saved": true
+      }
+    },
+    {
+      "name": "JavaScript runtime errors",
+      "passed": true,
+      "details": {
+        "errors": []
+      }
+    }
+  ],
+  "runtime_errors": [],
+  "success": true
+}

@@ -1,0 +1,177 @@
+{% extends "base.html" %}
+
+{% block title %}Quản lý Sprint | AI Project Management System{% endblock %}
+
+{% block content %}
+<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
+    <div>
+        <h2 class="text-gradient-cyan">Quản lý Sprint & Mốc Tiến độ</h2>
+        <p style="color:var(--text-secondary); font-size:0.88rem;">
+            Lập kế hoạch đợt làm việc theo BR-03 và theo dõi tỷ lệ hoàn thành tự động theo BR-04
+        </p>
+    </div>
+
+    <button id="create-sprint-button" class="btn btn-primary" style="display:none;"
+        onclick="openSprintForm()">
+        <span>+ Tạo Sprint Mới (FR-07)</span>
+    </button>
+</div>
+
+<!-- Sprints List Grid -->
+<label><input type="checkbox" id="sprints-archived" onchange="loadSprintsList()"> Xem sprint đã lưu trữ</label>
+<div id="sprints-grid" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(min(100%, 360px), 1fr)); gap:20px;">
+    <p style="color:var(--text-muted);">Đang tải danh sách Sprint...</p>
+</div>
+
+<!-- Modal Tạo Sprint Mới (BR-03) -->
+<div id="modal-create-sprint" class="modal-overlay">
+    <div class="modal-box">
+        <div class="modal-header">
+            <h3 class="modal-title">Tạo Sprint Mới (FR-07)</h3>
+            <button class="btn-icon" onclick="closeModal('modal-create-sprint')">✕</button>
+        </div>
+        <form id="form-create-sprint" onsubmit="submitCreateSprint(event)">
+            <div class="form-group">
+                <label class="form-label">Tên Sprint *</label>
+                <input type="text" id="new-sprint-name" class="form-input"
+                    placeholder="Ví dụ: Sprint 3: Kiểm thử & Triển khai..." required>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Mục tiêu Sprint (Goal)</label>
+                <textarea id="new-sprint-goal" class="form-textarea" rows="2"
+                    placeholder="Mục tiêu cụ thể cần đạt..."></textarea>
+            </div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+                <div class="form-group">
+                    <label class="form-label">Ngày bắt đầu *</label>
+                    <input type="date" id="new-sprint-start" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Ngày kết thúc * (BR-03: >= Bắt đầu)</label>
+                    <input type="date" id="new-sprint-end" class="form-input" required>
+                </div>
+            </div>
+            <label for="sprint-edit-status">Trạng thái</label><select id="sprint-edit-status" class="form-select"><option value="planning">Lập kế hoạch</option><option value="active">Đang thực hiện</option><option value="completed">Hoàn thành</option></select>
+            <p>Mốc tiến độ có thể dùng ngày bắt đầu và ngày kết thúc trùng nhau.</p>
+            <div class="form-group">
+                <label class="form-label">Tiêu chí Hoàn thành (Definition of Done)</label>
+                <input type="text" id="new-sprint-criteria" class="form-input"
+                    placeholder="Ví dụ: Pass 100% test case, được Leader review">
+            </div>
+            <div style="display:flex; justify-content:flex-end; gap:12px; margin-top:20px;">
+                <button type="button" class="btn btn-secondary" onclick="closeModal('modal-create-sprint')">Hủy</button>
+                <button type="submit" class="btn btn-primary">Tạo Sprint</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        await projectReady;
+        document.getElementById('create-sprint-button').style.display = canManageCurrentProject ? '' : 'none';
+        if (!currentProjectId) {
+            document.getElementById('sprints-grid').textContent = 'Bạn chưa tham gia dự án nào.';
+            return;
+        }
+        loadSprintsList();
+    });
+
+    let loadedSprints=[];
+    let editingSprintId=null;
+    async function loadSprintsList() {
+        const grid = document.getElementById('sprints-grid');
+        try {
+            const res = await fetch(`/api/projects/${currentProjectId}/sprints?archived=${document.getElementById('sprints-archived').checked}`);
+            const data = await res.json();
+            loadedSprints=data.sprints||[];
+            if (data.success) {
+                if (data.sprints.length === 0) {
+                    grid.innerHTML = '<p style="color:var(--text-muted); grid-column:1/-1;">Chưa có sprint nào trong dự án.</p>';
+                    return;
+                }
+
+                grid.innerHTML = data.sprints.map(s => `
+                    <div class="glass-panel tilt-card" style="display:flex; flex-direction:column; justify-content:space-between;">
+                        <div>
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                                <h3 style="font-size:1.05rem; color:#fff;">${escapeHtml(s.name)}</h3>
+                                <span class="badge" style="background:${s.status === 'completed' ? 'rgba(16,185,129,0.2)' : 'rgba(56,189,248,0.2)'}; color:${s.status === 'completed' ? 'var(--neon-emerald)' : 'var(--neon-cyan)'};">${s.status.toUpperCase()}</span>
+                            </div>
+                            <p style="color:var(--text-secondary); font-size:0.85rem; margin-bottom:12px; line-height:1.5;">${escapeHtml(s.goal || 'Không có mục tiêu chi tiết.')}</p>
+                            
+                            <div style="font-size:0.8rem; color:var(--text-muted); margin-bottom:14px;">
+                                📅 <strong>Thời gian:</strong> ${s.start_date} ➔ ${s.end_date}
+                            </div>
+
+                            <div style="padding:10px; background:rgba(255,255,255,0.03); border-radius:8px; margin-bottom:16px;">
+                                <div style="display:flex; justify-content:space-between; font-size:0.8rem; margin-bottom:6px;">
+                                    <span>Tỷ lệ hoàn thành (BR-04)</span>
+                                    <strong style="color:var(--neon-cyan);">${s.completion_rate}% (${s.done_tasks}/${s.total_tasks} việc)</strong>
+                                </div>
+                                <div style="width:100%; height:8px; background:rgba(255,255,255,0.08); border-radius:4px; overflow:hidden;">
+                                    <div style="width:${s.completion_rate}%; height:100%; background:linear-gradient(90deg, var(--neon-cyan), var(--neon-emerald));"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.78rem; color:var(--text-muted); border-top:1px solid var(--border-subtle); padding-top:10px;">
+                            ${canManageCurrentProject ? (s.is_archived ? `<button class="btn btn-secondary" onclick="manageSprint(${s.id},true)">Khôi phục</button>` : `<button class="btn btn-secondary" onclick="openSprintForm(${s.id})">Sửa</button><button class="btn btn-secondary" onclick="manageSprint(${s.id},false)">Lưu trữ</button>`) : ''}
+                            <span>Tiêu chí: ${escapeHtml(s.completion_criteria || 'Theo chuẩn SDLC')}</span>
+                            <a href="/kanban?sprint_id=${s.id}" class="btn btn-secondary" style="font-size:0.75rem; padding:4px 10px;">Xem việc trên Kanban</a>
+                        </div>
+                    </div>
+                `).join('');
+
+                if (typeof init3DTiltEffects === 'function') init3DTiltEffects();
+            }
+        } catch (e) {
+            grid.innerHTML = '<p style="color:var(--neon-rose);">Lỗi tải danh sách sprint.</p>';
+        }
+    }
+
+    async function submitCreateSprint(e) {
+        e.preventDefault();
+        const name = document.getElementById('new-sprint-name').value;
+        const goal = document.getElementById('new-sprint-goal').value;
+        const start_date = document.getElementById('new-sprint-start').value;
+        const end_date = document.getElementById('new-sprint-end').value;
+        const completion_criteria = document.getElementById('new-sprint-criteria').value;
+
+        if (start_date > end_date) {
+            showToast('Quy tắc BR-03: Ngày bắt đầu sprint không được sau ngày kết thúc!', 'error');
+            return;
+        }
+
+        try {
+            const res = await fetch(editingSprintId ? `/api/sprints/${editingSprintId}` : `/api/projects/${currentProjectId}/sprints`, {
+                method: editingSprintId ? 'PUT' : 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, goal, start_date, end_date, completion_criteria, status:document.getElementById('sprint-edit-status').value })
+            });
+            const data = await res.json();
+            if (data.success) {
+                showToast('Tạo sprint thành công!', 'success');
+                closeModal('modal-create-sprint');
+                document.getElementById('form-create-sprint').reset();
+                editingSprintId=null;
+                await loadSprintsList();
+            } else {
+                showToast(data.error || 'Lỗi tạo sprint.', 'error');
+            }
+        } catch (e) {
+            showToast('Lỗi kết nối máy chủ.', 'error');
+        }
+    }
+
+    function openSprintForm(id=null){
+        editingSprintId=id;document.getElementById('form-create-sprint').reset();
+        if(id){const s=loadedSprints.find(s=>s.id===id);for(const [field,value] of Object.entries({name:s.name,goal:s.goal,start:dateInput(s.start_date),end:dateInput(s.end_date),criteria:s.completion_criteria}))document.getElementById(`new-sprint-${field}`).value=value||'';document.getElementById('sprint-edit-status').value=s.status;}
+        openModal('modal-create-sprint');
+    }
+    async function manageSprint(id,restore){
+        if(!restore&&!confirm('Lưu trữ sprint và giữ nguyên lịch sử nhiệm vụ?'))return;
+        try{await apiRequest(`/api/sprints/${id}${restore?'/restore':''}`,{method:restore?'POST':'DELETE'});await loadSprintsList();}catch(error){showToast(error.message,'error');}
+    }
+</script>
+{% endblock %}

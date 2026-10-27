@@ -1,0 +1,56 @@
+/* Shared controls for desktop, tablet and touch devices. */
+button, input, select, textarea, option { font-family: var(--font-main); }
+.app-main, .app-content, .header-left, .glass-panel, .form-group, .ai-studio-container > * { min-width: 0; }
+.project-select { max-width: min(35vw, 430px); text-overflow: ellipsis; }
+.project-team-picker { border: 0; min-width: 0; }
+.form-help { color: var(--text-secondary); font-size: .82rem; margin: 8px 0; line-height: 1.6; }
+.initial-members-list { max-height: 230px; overflow-y: auto; margin-top: 10px; border: 1px solid var(--border-subtle); border-radius: 8px; }
+.initial-member-option { display: flex; align-items: center; gap: 12px; min-height: 44px; padding: 10px; cursor: pointer; }
+.initial-member-option input { flex: 0 0 auto; width: 20px; height: 20px; }
+.initial-member-option span { overflow-wrap: anywhere; }
+.sync-banner { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 24px; background: #22344c; }
+#task-detail-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.ai-studio-container { grid-template-columns: minmax(280px, 380px) minmax(0, 1fr); }
+.ai-content-body, .ai-output-panel, .ai-source-box { overflow-wrap: anywhere; }
+.ai-content-body pre { white-space: pre-wrap; }
+.ai-file-info, .ai-output-header, .ai-actions-bar { flex-wrap: wrap; gap: 12px; }
+.modal-box { max-height: 90dvh; overscroll-behavior: contain; }
+.btn { white-space: normal; }
+.sidebar-backdrop { border: 0; }
+.toast-container { max-width: calc(100vw - 24px); right: 12px; pointer-events: none; }
+.toast { min-width: 0; max-width: 100%; overflow-wrap: anywhere; }
+.toast > span { min-width: 0; }
+@media(max-width: 1100px) {
+    .ai-studio-container { grid-template-columns: minmax(0, 1fr); }
+    .app-content > div[style*="display:flex"], .app-content > div[style*="display: flex"] { flex-wrap: wrap; gap: 16px; }
+}
+@media(max-width: 992px) {
+    .app-header { position: relative; padding: 12px; }
+    .header-left { display: flex; align-items: center; }
+    .project-select-container { min-width: 0; }
+    .project-select { max-width: 100%; min-width: 0; flex-basis: 100%; width: 100%; }
+    .app-content > div[style*="grid-template-columns: 1fr 1fr"] { grid-template-columns: minmax(0,1fr) !important; }
+    .ai-output-header { align-items: flex-start; }
+    .ai-output-header > * { min-width: 0; overflow-wrap: anywhere; }
+}
+@media(max-width: 600px) {
+    .app-header { align-items: flex-start; }
+    .header-left { flex-basis: 100%; }
+    .header-right { margin-left: auto; }
+    .btn, .btn-icon { min-height: 44px; }
+    .btn-icon { min-width: 44px; }
+    .app-content h2 { font-size: 1.35rem; overflow-wrap: anywhere; }
+    .modal-box [style*="grid-template-columns:1fr 1fr"],
+    .modal-box [style*="grid-template-columns: 1fr 1fr"],
+    .ai-studio-container [style*="grid-template-columns:1fr 1fr"],
+    .app-content > div[style*="grid-template-columns:1fr 1fr"] { grid-template-columns: minmax(0,1fr) !important; }
+    .form-input, .form-select, .form-textarea { min-width: 0; max-width: 100%; font-size: 16px; }
+    .ai-output-panel { padding: 16px; min-height: 300px; }
+    .ai-tab-btn { text-align: left; }
+    .sync-banner { padding: 10px 14px; flex-wrap: wrap; }
+    .kanban-filters { width: 100%; }
+    .kanban-filters > input, .kanban-filters > select { width: 100% !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}

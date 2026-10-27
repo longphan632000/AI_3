@@ -1,0 +1,316 @@
+{% extends "base.html" %}
+
+{% block title %}Bảng điều khiển | AI Project Management System{% endblock %}
+
+{% block content %}
+<div style="margin-bottom: 24px;">
+    <h2 class="text-gradient-cyan">Bảng điều khiển Dự án</h2>
+    <p style="color: var(--text-secondary); font-size: 0.9rem;">
+        Theo dõi tổng thể tiến độ Sprint, tỷ lệ hoàn thành (BR-04) và cảnh báo trễ hạn (BR-02)
+    </p>
+</div>
+
+<!-- 3D KPI Metrics Cards -->
+<div class="isometric-grid">
+    <!-- Card 1: Tổng nhiệm vụ -->
+    <div class="kpi-card tilt-card">
+        <div class="kpi-header">
+            <span class="kpi-label">Tổng Nhiệm vụ</span>
+            <div class="kpi-icon-box" style="background: rgba(56, 189, 248, 0.15); color: var(--neon-cyan);">
+                📋
+            </div>
+        </div>
+        <div id="metric-total-tasks" class="kpi-value text-gradient-cyan">--</div>
+        <div class="kpi-subtext">Trong dự án hiện tại</div>
+    </div>
+
+    <!-- Card 2: Hoàn thành & Progress Ring -->
+    <div class="kpi-card tilt-card" style="display: flex; align-items: center; justify-content: space-between;">
+        <div>
+            <div class="kpi-header">
+                <span class="kpi-label">Tỷ lệ Hoàn thành (BR-04)</span>
+            </div>
+            <div id="metric-done-tasks" class="kpi-value" style="color: var(--neon-emerald);">--</div>
+            <div class="kpi-subtext">Nhiệm vụ đã hoàn tất</div>
+        </div>
+        <!-- 3D Progress Ring -->
+        <div class="progress-ring-container">
+            <svg class="progress-ring-svg" width="100" height="100">
+                <circle class="progress-ring-circle-bg" cx="50" cy="50" r="40"></circle>
+                <circle class="progress-ring-circle" cx="50" cy="50" r="40"></circle>
+            </svg>
+            <div class="progress-ring-text">
+                <div class="progress-ring-percentage" style="font-size:1.2rem;">0%</div>
+                <div class="progress-ring-label">Tiến độ</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Card 3: Nhiệm vụ Trễ hạn (BR-02) -->
+    <div class="kpi-card tilt-card">
+        <div class="kpi-header">
+            <span class="kpi-label">Nhiệm vụ Trễ hạn (BR-02)</span>
+            <div class="kpi-icon-box" style="background: rgba(244, 63, 94, 0.15); color: var(--neon-rose);">
+                ⚠️
+            </div>
+        </div>
+        <div id="metric-overdue-tasks" class="kpi-value" style="color: var(--neon-rose);">--</div>
+        <div class="kpi-subtext">Cần cập nhật hoặc đôn đốc gấp</div>
+    </div>
+
+    <!-- Card 4: Thành viên Dự án -->
+    <div class="kpi-card tilt-card" onclick="openProjectTeamModal()" style="cursor: pointer;" title="Nhấn để xem thông tin đội ngũ dự án">
+        <div class="kpi-header">
+            <span class="kpi-label">Đội ngũ Dự án</span>
+            <div class="kpi-icon-box" style="background: rgba(139, 92, 246, 0.15); color: var(--neon-purple);">
+                👥
+            </div>
+        </div>
+        <div id="metric-members-count" class="kpi-value text-gradient-purple">--</div>
+        <div class="kpi-subtext" style="color: var(--neon-cyan); font-weight: 500;">Xem chi tiết thành viên ➔</div>
+    </div>
+</div>
+
+<!-- Two-Column Section: Sprint Overview & Overdue Action Log -->
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 10px;">
+    <!-- Active Sprint Card -->
+    <div class="glass-panel tilt-card">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+            <h3 style="font-size: 1.1rem;">🏃 Sprint Đang Thực Hiện</h3>
+            <a href="{{ url_for('sprint_bp.sprints_page') }}" class="btn btn-secondary"
+                style="font-size:0.75rem; padding:6px 12px;">Xem Sprint</a>
+        </div>
+        <div id="active-sprint-details">
+            <p style="color: var(--text-muted);">Đang tải thông tin Sprint...</p>
+        </div>
+    </div>
+
+    <!-- AI Quick Assistant & Actions -->
+    <div class="glass-panel hologram-box tilt-card">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+            <h3 style="font-size: 1.1rem; color: #fff;">🤖 Trợ lý AI Khả dụng</h3>
+            <span class="badge" style="background:rgba(0,242,254,0.2); color:var(--neon-cyan);">SDLC AI AGENT</span>
+        </div>
+        <p style="color: var(--text-secondary); font-size: 0.88rem; margin-bottom: 20px;">
+            Sử dụng Trợ lý AI 5 bước an toàn để tạo bản nháp tiến độ tuần, sinh biên bản họp hoặc gợi ý phân công công
+            việc thông minh.
+        </p>
+        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+            <a href="{{ url_for('ai_bp.ai_assistant_page') }}" class="btn btn-ai">
+                <span>Vào Trợ lý AI Studio</span>
+            </a>
+            <button class="btn btn-secondary" onclick="triggerOverdueScan()">
+                <span>🔔 Quét Email Trễ hạn (FR-17)</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Đội ngũ dự án -->
+<div id="modal-project-team" class="modal-overlay">
+    <div class="modal-box" style="max-width: 650px;">
+        <div class="modal-header">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <h3 class="modal-title">👥 Đội ngũ Dự án</h3>
+                <span id="team-modal-count-badge" class="badge" style="background: rgba(0, 242, 254, 0.15); color: var(--neon-cyan);">-- thành viên</span>
+            </div>
+            <button class="btn-icon" onclick="closeModal('modal-project-team')">✕</button>
+        </div>
+        <div style="padding: 16px 20px 0;">
+            <input type="text" id="team-member-search" class="form-input" placeholder="🔍 Tìm theo tên, username, mã hoặc kỹ năng..." oninput="filterTeamMembers()">
+        </div>
+        <div id="team-members-list-container" style="max-height: 400px; overflow-y: auto; padding: 16px 20px; display: flex; flex-direction: column; gap: 12px;">
+            <div style="text-align: center; color: var(--text-muted); padding: 30px;">Đang tải danh sách thành viên...</div>
+        </div>
+        <div style="padding: 14px 20px; border-top: 1px solid var(--border-subtle); display: flex; justify-content: flex-end;">
+            <button type="button" class="btn btn-secondary" onclick="closeModal('modal-project-team')">Đóng</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        await projectReady;
+        if (!currentProjectId) {
+            document.getElementById('active-sprint-details').textContent = 'Bạn chưa tham gia dự án nào.';
+            return;
+        }
+        loadDashboardData();
+    });
+
+    async function loadDashboardData() {
+        try {
+            // Metrics
+            const res = await fetch(`/api/projects/${currentProjectId}/dashboard-metrics`);
+            const data = await res.json();
+            if (data.success) {
+                const m = data.metrics;
+                document.getElementById('metric-total-tasks').textContent = m.total_tasks;
+                document.getElementById('metric-done-tasks').textContent = `${m.count_done} / ${m.total_tasks}`;
+                document.getElementById('metric-overdue-tasks').textContent = m.overdue_count;
+
+                // Update 3D Progress ring
+                updateProgressRing(m.completion_rate);
+            }
+
+            // Members count
+            const memRes = await fetch(`/api/projects/${currentProjectId}/members`);
+            const memData = await memRes.json();
+            if (memData.success) {
+                document.getElementById('metric-members-count').textContent = memData.members.length;
+            }
+
+            // Sprints info
+            const spRes = await fetch(`/api/projects/${currentProjectId}/sprints`);
+            const spData = await spRes.json();
+            const spEl = document.getElementById('active-sprint-details');
+            if (spData.success && spData.sprints.length > 0) {
+                const active = spData.sprints.find(s => s.status === 'active') || spData.sprints[0];
+                spEl.innerHTML = `
+                    <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+                        <strong style="color:var(--neon-cyan);">${escapeHtml(active.name)}</strong>
+                        <span class="badge" style="background:rgba(16, 185, 129, 0.2); color:var(--neon-emerald);">${active.status.toUpperCase()}</span>
+                    </div>
+                    <p style="color:var(--text-secondary); font-size:0.85rem; margin-bottom:12px;">${escapeHtml(active.goal)}</p>
+                    <div style="font-size:0.8rem; color:var(--text-muted); margin-bottom:8px;">
+                        Thời gian: ${active.start_date} ➔ ${active.end_date}
+                    </div>
+                    <div style="display:flex; justify-content:space-between; font-size:0.8rem; margin-bottom:4px;">
+                        <span>Tiến độ Sprint</span>
+                        <strong>${active.completion_rate}% (${active.done_tasks}/${active.total_tasks} hoàn thành)</strong>
+                    </div>
+                    <div style="width:100%; height:8px; background:rgba(255,255,255,0.08); border-radius:4px; overflow:hidden;">
+                        <div style="width:${active.completion_rate}%; height:100%; background:linear-gradient(90deg, var(--neon-cyan), var(--neon-emerald));"></div>
+                    </div>
+                `;
+            } else {
+                spEl.innerHTML = '<p style="color:var(--text-muted);">Chưa có sprint nào trong dự án.</p>';
+            }
+        } catch (e) {
+            console.error('Lỗi tải dữ liệu dashboard:', e);
+        }
+    }
+
+    async function triggerOverdueScan() {
+        try {
+            const res = await fetch('/api/notifications/trigger-overdue-check', { method: 'POST' });
+            const data = await res.json();
+            if (data.success) {
+                showToast(data.message, 'success');
+            }
+        } catch (e) {
+            showToast('Lỗi khi kích hoạt quét trễ hạn.', 'error');
+        }
+    }
+
+    let currentProjectMembersCache = [];
+
+async function openProjectTeamModal() {
+if (!currentProjectId) {
+showToast('Vui lòng chọn một dự án trước.', 'info');
+return;
+}
+openModal('modal-project-team');
+const container = document.getElementById('team-members-list-container');
+container.innerHTML = '<div style="text-align: center; color: var(--text-muted); padding: 30px;">Đang tải danh sách thành viên...</div>';
+
+try {
+const res = await fetch(`/api/projects/${currentProjectId}/members`);
+const data = await res.json();
+if (data.success) {
+currentProjectMembersCache = data.members || [];
+document.getElementById('team-modal-count-badge').textContent = `${currentProjectMembersCache.length} thành viên`;
+renderTeamMembers(currentProjectMembersCache);
+} else {
+container.innerHTML = `<div style="text-align: center; color: var(--neon-rose); padding: 30px;">${escapeHtml(data.error
+    || 'Không tải được danh sách thành viên.')}</div>`;
+}
+} catch (e) {
+container.innerHTML = '<div style="text-align: center; color: var(--neon-rose); padding: 30px;">Lỗi kết nối khi tải danh sách thành viên.</div>';
+}
+}
+
+function renderTeamMembers(members) {
+const container = document.getElementById('team-members-list-container');
+if (!members || members.length === 0) {
+container.innerHTML = '<div style="text-align: center; color: var(--text-muted); padding: 30px;">Chưa có thành viên nào tham gia dự án.</div>';
+return;
+}
+
+container.innerHTML = members.map(m => {
+const isLeader = m.project_role === 'leader';
+const roleBadgeClass = isLeader ? 'background: rgba(139, 92, 246, 0.25); color: #c084fc; border: 1px solid rgba(139, 92, 246, 0.4);'
+: 'background: rgba(0, 242, 254, 0.15); color: var(--neon-cyan); border: 1px solid rgba(0, 242, 254, 0.3);';
+const roleLabel = isLeader ? '👑 Trưởng nhóm (Leader)' : (m.project_role === 'viewer' ? '👁️ Người xem' : '👤 Thành viên');
+const initial = (m.full_name || m.username || 'U').charAt(0).toUpperCase();
+const skills = m.skills ? m.skills.split(',').map(s => s.trim()).filter(Boolean) : [];
+const capacity = m.capacity_hours ? `${m.capacity_hours}h/tuần` : 'Đang cập nhật';
+const availability = m.availability || 'Full-time';
+const userCodeTag = m.user_code ? `<span
+    style="font-size:0.75rem; background:rgba(255,255,255,0.08); padding:2px 6px; border-radius:4px; color:var(--text-secondary); font-family:monospace;">${escapeHtml(m.user_code)}</span>`
+: '';
+
+return `
+<div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; transition: transform 0.2s, border-color 0.2s;"
+    onmouseenter="this.style.borderColor='rgba(0, 242, 254, 0.3)'"
+    onmouseleave="this.style.borderColor='var(--border-subtle)'">
+    <div style="display: flex; align-items: center; gap: 12px; min-width: 220px;">
+        <div
+            style="width: 42px; height: 42px; border-radius: 50%; background: ${isLeader ? 'linear-gradient(135deg, #8b5cf6, #ec4899)' : 'linear-gradient(135deg, #00f2fe, #4facfe)'}; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.1rem; color: #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.3); flex-shrink: 0;">
+            ${escapeHtml(initial)}
+        </div>
+        <div>
+            <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                <strong style="color: var(--text-primary); font-size: 0.95rem;">${escapeHtml(m.full_name ||
+                    m.username)}</strong>
+                ${userCodeTag}
+            </div>
+            <div style="color: var(--text-muted); font-size: 0.78rem; margin-top: 2px;">
+                @${escapeHtml(m.username)} • ${escapeHtml(m.email)}
+            </div>
+        </div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 6px; align-items: flex-end; min-width: 180px;">
+        <div style="display: flex; align-items: center; gap: 6px;">
+            <span class="badge" style="${roleBadgeClass} font-size: 0.75rem; padding: 3px 8px;">${roleLabel}</span>
+            <span class="badge"
+                style="background: rgba(16, 185, 129, 0.15); color: var(--neon-emerald); font-size: 0.72rem; padding: 3px 6px;">${m.account_status === 'active' ? '● Hoạt động' : escapeHtml(m.account_status)}</span>
+        </div>
+        <div style="font-size: 0.78rem; color: var(--text-secondary); display: flex; align-items: center; gap: 8px;">
+            <span>⏱️ ${escapeHtml(capacity)}</span>
+            <span>•</span>
+            <span>💼 ${escapeHtml(availability)}</span>
+        </div>
+        ${canManageCurrentProject ? `<div><button class="btn btn-secondary" onclick="editMemberCapacity(${m.user_id})">Sửa năng lực</button><button class="btn btn-secondary" onclick="removeProjectMember(${m.user_id})">Xóa khỏi dự án</button></div>`:''}
+        ${skills.length > 0 ? `
+        <div style="display: flex; gap: 4px; flex-wrap: wrap; justify-content: flex-end; margin-top: 2px;">
+            ${skills.slice(0, 3).map(s => `<span
+                style="font-size: 0.7rem; background: rgba(0, 242, 254, 0.08); color: var(--neon-cyan); border-radius: 4px; padding: 1px 6px;">${escapeHtml(s)}</span>`).join('')}
+            ${skills.length > 3 ? `<span style="font-size: 0.7rem; color: var(--text-muted);">+${skills.length -
+                3}</span>` : ''}
+        </div>
+        ` : ''}
+    </div>
+</div>
+`;
+}).join('');
+}
+
+function filterTeamMembers() {
+const query = (document.getElementById('team-member-search')?.value || '').toLowerCase().trim();
+if (!query) {
+renderTeamMembers(currentProjectMembersCache);
+return;
+}
+const filtered = currentProjectMembersCache.filter(m => {
+const name = (m.full_name || '').toLowerCase();
+const username = (m.username || '').toLowerCase();
+const code = (m.user_code || '').toLowerCase();
+const skills = (m.skills || '').toLowerCase();
+return name.includes(query) || username.includes(query) || code.includes(query) || skills.includes(query);
+});
+renderTeamMembers(filtered);
+}
+</script>
+{% endblock %}

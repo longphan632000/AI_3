@@ -1,0 +1,2072 @@
+{
+  "engine": "sqlite",
+  "timestamp": "2026-10-27T20:34:30.603746+07:00",
+  "tests_run": 145,
+  "successful": true,
+  "passed": 145,
+  "failed": 0,
+  "records": [
+    {
+      "test": "test_ai_config.TestAiConfig.test_admin_diagnostics_require_admin_and_never_return_key",
+      "method": "test_admin_diagnostics_require_admin_and_never_return_key",
+      "description": "test_admin_diagnostics_require_admin_and_never_return_key",
+      "result": "Thành công",
+      "seconds": 0.8554,
+      "evidence": {},
+      "error": null
+    },
+    {
+      "test": "test_ai_config.TestAiConfig.test_blank_process_key_uses_project_env_file",
+      "method": "test_blank_process_key_uses_project_env_file",
+      "description": "test_blank_process_key_uses_project_env_file",
+      "result": "Thành công",
+      "seconds": 0.0051,
+      "evidence": {},
+      "error": null
+    },
+    {
+      "test": "test_ai_config.TestAiConfig.test_nonblank_process_key_wins_and_missing_key_is_rejected",
+      "method": "test_nonblank_process_key_wins_and_missing_key_is_rejected",
+      "description": "test_nonblank_process_key_wins_and_missing_key_is_rejected",
+      "result": "Thành công",
+      "seconds": 0.0072,
+      "evidence": {},
+      "error": null
+    },
+    {
+      "test": "test_ai_pipeline.TestAIPipeline.test_confirmation_service_leader_only_uc010",
+      "method": "test_confirmation_service_leader_only_uc010",
+      "description": "Kiểm thử chỉ Trưởng nhóm mới có quyền xác nhận bản nháp chính thức (UC010, D05).",
+      "result": "Thành công",
+      "seconds": 0.0202,
+      "evidence": {},
+      "error": null
+    },
+    {
+      "test": "test_ai_pipeline.TestAIPipeline.test_request_analyzer_rbac_d06",
+      "method": "test_request_analyzer_rbac_d06",
+      "description": "Kiểm thử phân quyền riêng từng chức năng AI theo D06.",
+      "result": "Thành công",
+      "seconds": 0.0024,
+      "evidence": {},
+      "error": null
+    },
+    {
+      "test": "test_ai_pipeline.TestAIPipeline.test_response_validator_hallucination_detection",
+      "method": "test_response_validator_hallucination_detection",
+      "description": "Kiểm thử Response Validator phát hiện ID ảo giác ngoài CSDL.",
+      "result": "Thành công",
+      "seconds": 0.0005,
+      "evidence": {},
+      "error": null
+    },
+    {
+      "test": "test_auth.TestAuth.test_admin_redirect_to_admin_page",
+      "method": "test_admin_redirect_to_admin_page",
+      "description": "Kiểm thử Admin đăng nhập thì chuyển hướng vào /admin chứ không vào dashboard dự án.",
+      "result": "Thành công",
+      "seconds": 0.2267,
+      "evidence": {},
+      "error": null
+    },
+    {
+      "test": "test_auth.TestAuth.test_login_locked_account",
+      "method": "test_login_locked_account",
+      "description": "Kiểm thử từ chối tài khoản bị khóa theo FR-01.",
+      "result": "Thành công",
+      "seconds": 0.1715,
+      "evidence": {},
+      "error": null
+    },
+    {
+      "test": "test_auth.TestAuth.test_login_success",
+      "method": "test_login_success",
+      "description": "Kiểm thử đăng nhập thành công với tài khoản active (FR-01).",
+      "result": "Thành công",
+      "seconds": 0.1687,
+      "evidence": {},
+      "error": null
+    },
+    {
+      "test": "test_auth.TestAuth.test_login_wrong_password",
+      "method": "test_login_wrong_password",
+      "description": "Kiểm thử từ chối mật khẩu sai.",
+      "result": "Thành công",
+      "seconds": 0.1418,
+      "evidence": {},
+      "error": null
+    },
+    {
+      "test": "test_auth.TestAuth.test_register_duplicate_username",
+      "method": "test_register_duplicate_username",
+      "description": "Kiểm thử đăng ký trùng tên đăng nhập bị từ chối.",
+      "result": "Thành công",
+      "seconds": 0.0031,
+      "evidence": {},
+      "error": null
+    },
+    {
+      "test": "test_auth.TestAuth.test_register_new_user_success",
+      "method": "test_register_new_user_success",
+      "description": "Kiểm thử đăng ký tài khoản mới thành công.",
+      "result": "Thành công",
+      "seconds": 0.1628,
+      "evidence": {},
+      "error": null
+    },
+    {
+      "test": "test_business_rules.TestBusinessRules.test_br_01_kanban_status_validation",
+      "method": "test_br_01_kanban_status_validation",
+      "description": "BR-01: Trạng thái Kanban phải thuộc 5 trạng thái hợp lệ.",
+      "result": "Thành công",
+      "seconds": 0.0019,
+      "evidence": {},
+      "error": null
+    },
+    {
+      "test": "test_business_rules.TestBusinessRules.test_br_02_overdue_task_detection",
+      "method": "test_br_02_overdue_task_detection",
+      "description": "BR-02: Nhiệm vụ trễ khi quá hạn, chưa Done và chưa lưu trữ.",
+      "result": "Thành công",
+      "seconds": 0.0001,
+      "evidence": {},
+      "error": null
+    },
+    {
+      "test": "test_business_rules.TestBusinessRules.test_br_03_sprint_dates",
+      "method": "test_br_03_sprint_dates",
+      "description": "BR-03: Ngày bắt đầu sprint không được sau ngày kết thúc.",
+      "result": "Thành công",
+      "seconds": 0.0012,
+      "evidence": {},
+      "error": null
+    },
+    {
+      "test": "test_business_rules.TestBusinessRules.test_br_04_completion_rate",
+      "method": "test_br_04_completion_rate",
+      "description": "BR-04: Tỷ lệ hoàn thành = Done / Total * 100%. Nếu total = 0 thì trả về 0.0%.",
+      "result": "Thành công",
+      "seconds": 0.0011,
+      "evidence": {},
+      "error": null
+    },
+    {
+      "test": "test_business_rules.TestBusinessRules.test_br_05_workload_and_overload",
+      "method": "test_br_05_workload_and_overload",
+      "description": "BR-05: Tải = tổng estimated_hours việc chưa Done; Quá tải khi Tải > Capacity.",
+      "result": "Thành công",
+      "seconds": 0.0029,
+      "evidence": {},
+      "error": null
+    },
+    {
+      "test": "test_five_improvements.TestFiveImprovements.test_01_supporter_workload_and_overdue_included",
+      "method": "test_01_supporter_workload_and_overdue_included",
+      "description": "Lỗi 1: Kiểm tra thành viên hỗ trợ (My - user 3) được tính đúng số việc và việc trễ hạn.",
+      "result": "Thành công",
+      "seconds": 0.0359,
+      "evidence": {},
+      "error": null
+    },
+    {
+      "test": "test_five_improvements.TestFiveImprovements.test_02_delete_task_api_and_rbac",
+      "method": "test_02_delete_task_api_and_rbac",
+      "description": "Lỗi 2: Kiểm tra chức năng xóa nhiệm vụ và bảo vệ quyền Leader.",
+      "result": "Thành công",
+      "seconds": 0.3979,
+      "evidence": {},
+      "error": null
+    },
+    {
+      "test": "test_five_improvements.TestFiveImprovements.test_03_automated_overdue_and_due_soon_notifications",
+      "method": "test_03_automated_overdue_and_due_soon_notifications",
+      "description": "Lỗi 4: Kiểm tra tự động phát thông báo nhiệm vụ trễ hạn & sắp trễ hạn cho cả chính và hỗ trợ.",
+      "result": "Thành công",
+      "seconds": 0.0784,
+      "evidence": {},
+      "error": null
+    },
+    {
+      "test": "test_gemini_failures.TestGeminiFailures.test_connection_failure_and_invalid_json_are_distinct",
+      "method": "test_connection_failure_and_invalid_json_are_distinct",
+      "description": "test_connection_failure_and_invalid_json_are_distinct",
+      "result": "Thành công",
+      "seconds": 0.0154,
+      "evidence": {},
+      "error": null
+    },
+    {
+      "test": "test_gemini_failures.TestGeminiFailures.test_http_errors_are_distinct_and_never_echo_provider_body",
+      "method": "test_http_errors_are_distinct_and_never_echo_provider_body",
+      "description": "test_http_errors_are_distinct_and_never_echo_provider_body",
+      "result": "Thành công",
+      "seconds": 0.0169,
+      "evidence": {},
+      "error": null
+    },
+    {
+      "test": "test_gemini_failures.TestGeminiFailures.test_network_denied_is_not_retried_and_secrets_are_not_logged",
+      "method": "test_network_denied_is_not_retried_and_secrets_are_not_logged",
+      "description": "test_network_denied_is_not_retried_and_secrets_are_not_logged",
+      "result": "Thành công",
+      "seconds": 0.0151,
+      "evidence": {},
+      "error": null
+    },
+    {
+      "test": "test_gemini_failures.TestGeminiFailures.test_other_ai_modes_keep_the_general_model",
+      "method": "test_other_ai_modes_keep_the_general_model",
+      "description": "test_other_ai_modes_keep_the_general_model",
+      "result": "Thành công",
+      "seconds": 0.0129,
+      "evidence": {},
+      "error": null
+    },
+    {
+      "test": "test_gemini_failures.TestGeminiFailures.test_permanent_dns_failure_is_separate_from_connection",
+      "method": "test_permanent_dns_failure_is_separate_from_connection",
+      "description": "test_permanent_dns_failure_is_separate_from_connection",
+      "result": "Thành công",
+      "seconds": 0.0123,
+      "evidence": {},
+      "error": null
+    },
+    {
+      "test": "test_gemini_failures.TestGeminiFailures.test_persistent_timeout_returns_specific_safe_error",
+      "method": "test_persistent_timeout_returns_specific_safe_error",
+      "description": "test_persistent_timeout_returns_specific_safe_error",
+      "result": "Thành công",
+      "seconds": 0.0143,
+      "evidence": {},
+      "error": null
+    },
+    {
+      "test": "test_gemini_failures.TestGeminiFailures.test_probe_uses_same_transport_classifier_and_clears_old_error",
+      "method": "test_probe_uses_same_transport_classifier_and_clears_old_error",
+      "description": "test_probe_uses_same_transport_classifier_and_clears_old_error",
+      "result": "Thành công",
+      "seconds": 0.0138,
+      "evidence": {},
+      "error": null
+    },
+    {
+      "test": "test_gemini_failures.TestGeminiFailures.test_service_unavailable_retries_and_rate_limit_is_separate",
+      "method": "test_service_unavailable_retries_and_rate_limit_is_separate",
+      "description": "test_service_unavailable_retries_and_rate_limit_is_separate",
+      "result": "Thành công",
+      "seconds": 0.0178,
+      "evidence": {},
+      "error": null
+    },
+    {
+      "test": "test_gemini_failures.TestGeminiFailures.test_temporary_dns_failure_can_recover",
+      "method": "test_temporary_dns_failure_can_recover",
+      "description": "test_temporary_dns_failure_can_recover",
+      "result": "Thành công",
+      "seconds": 0.0166,
+      "evidence": {},
+      "error": null
+    },
+    {
+      "test": "test_gemini_failures.TestGeminiFailures.test_timeout_retries_then_succeeds_with_meeting_timeout",
+      "method": "test_timeout_retries_then_succeeds_with_meeting_timeout",
+      "description": "test_timeout_retries_then_succeeds_with_meeting_timeout",
+      "result": "Thành công",
+      "seconds": 0.0146,
+      "evidence": {},
+      "error": null
+    },
+    {
+      "test": "test_gemini_failures.TestGeminiFailures.test_tls_failures_keep_verification_and_do_not_retry",
+      "method": "test_tls_failures_keep_verification_and_do_not_retry",
+      "description": "test_tls_failures_keep_verification_and_do_not_retry",
+      "result": "Thành công",
+      "seconds": 0.0165,
+      "evidence": {},
+      "error": null
+    },
+    {
+      "test": "test_integration.TestIntegrationE2E.test_admin_blocked_from_creating_task_and_sprint",
+      "method": "test_admin_blocked_from_creating_task_and_sprint",
+      "description": "Kiểm thử logic chuẩn theo tài liệu: Quản trị viên KHÔNG được tạo nhiệm vụ hay sprint (chỉ quản lý user/audit).",
+      "result": "Thành công",
+      "seconds": 0.1759,
+      "evidence": {},
+      "error": null
+    },
+    {
+      "test": "test_integration.TestIntegrationE2E.test_e2e_full_flow",
+      "method": "test_e2e_full_flow",
+      "description": "Kiểm thử tích hợp luồng hoàn chỉnh E2E:",
+      "result": "Thành công",
+      "seconds": 0.3187,
+      "evidence": {},
+      "error": null
+    },
+    {
+      "test": "test_integration.TestIntegrationE2E.test_upload_meeting_file_and_extract_text",
+      "method": "test_upload_meeting_file_and_extract_text",
+      "description": "Kiểm thử tính năng tải lên tệp biên bản cuộc họp (.txt / .docx) trích xuất nội dung (FR-13).",
+      "result": "Thành công",
+      "seconds": 0.2357,
+      "evidence": {},
+      "error": null
+    },
+    {
+      "test": "test_kira_service.TestKiraService.test_ai_provider_service_routing",
+      "method": "test_ai_provider_service_routing",
+      "description": "test_ai_provider_service_routing",
+      "result": "Thành công",
+      "seconds": 0.0328,
+      "evidence": {},
+      "error": null
+    },
+    {
+      "test": "test_kira_service.TestKiraService.test_generate_content_json_output",
+      "method": "test_generate_content_json_output",
+      "description": "test_generate_content_json_output",
+      "result": "Thành công",
+      "seconds": 0.0157,
+      "evidence": {},
+      "error": null
+    },
+    {
+      "test": "test_kira_service.TestKiraService.test_generate_content_success",
+      "method": "test_generate_content_success",
+      "description": "test_generate_content_success",
+      "result": "Thành công",
+      "seconds": 0.0174,
+      "evidence": {},
+      "error": null
+    },
+    {
+      "test": "test_kira_service.TestKiraService.test_kira_service_init_and_configured",
+      "method": "test_kira_service_init_and_configured",
+      "description": "test_kira_service_init_and_configured",
+      "result": "Thành công",
+      "seconds": 0.0132,
+      "evidence": {},
+      "error": null
+    },
+    {
+      "test": "test_kira_service.TestKiraService.test_kira_service_unconfigured_raises_on_generate",
+      "method": "test_kira_service_unconfigured_raises_on_generate",
+      "description": "test_kira_service_unconfigured_raises_on_generate",
+      "result": "Thành công",
+      "seconds": 0.0036,
+      "evidence": {},
+      "error": null
+    },
+    {
+      "test": "test_kira_service.TestKiraService.test_probe_model_success",
+      "method": "test_probe_model_success",
+      "description": "test_probe_model_success",
+      "result": "Thành công",
+      "seconds": 0.0245,
+      "evidence": {},
+      "error": null
+    },
+    {
+      "test": "test_meeting_minutes_quality.TestMeetingMinutesQuality.test_action_owner_and_deadline_must_appear_in_source_quote",
+      "method": "test_action_owner_and_deadline_must_appear_in_source_quote",
+      "description": "test_action_owner_and_deadline_must_appear_in_source_quote",
+      "result": "Thành công",
+      "seconds": 0.16,
+      "evidence": {},
+      "error": null
+    },
+    {
+      "test": "test_meeting_minutes_quality.TestMeetingMinutesQuality.test_complete_minutes_confirm_exact_decisions_and_actions",
+      "method": "test_complete_minutes_confirm_exact_decisions_and_actions",
+      "description": "test_complete_minutes_confirm_exact_decisions_and_actions",
+      "result": "Thành công",
+      "seconds": 0.2065,
+      "evidence": {},
+      "error": null
+    },
+    {
+      "test": "test_meeting_minutes_quality.TestMeetingMinutesQuality.test_docx_preserves_paragraph_table_order",
+      "method": "test_docx_preserves_paragraph_table_order",
+      "description": "test_docx_preserves_paragraph_table_order",
+      "result": "Thành công",
+      "seconds": 0.397,
+      "evidence": {},
+      "error": null
+    },
+    {
+      "test": "test_meeting_minutes_quality.TestMeetingMinutesQuality.test_existing_note_and_uploaded_text_are_both_processed",
+      "method": "test_existing_note_and_uploaded_text_are_both_processed",
+      "description": "test_existing_note_and_uploaded_text_are_both_processed",
+      "result": "Thành công",
+      "seconds": 0.1476,
+      "evidence": {},
+      "error": null
+    },
+    {
+      "test": "test_meeting_minutes_quality.TestMeetingMinutesQuality.test_explicit_decisions_and_assignment_table_keep_source_fields",
+      "method": "test_explicit_decisions_and_assignment_table_keep_source_fields",
+      "description": "test_explicit_decisions_and_assignment_table_keep_source_fields",
+      "result": "Thành công",
+      "seconds": 0.1425,
+      "evidence": {},
+      "error": null
+    },
+    {
+      "test": "test_meeting_minutes_quality.TestMeetingMinutesQuality.test_failed_word_chunk_reports_position_and_saves_no_partial_draft",
+      "method": "test_failed_word_chunk_reports_position_and_saves_no_partial_draft",
+      "description": "test_failed_word_chunk_reports_position_and_saves_no_partial_draft",
+      "result": "Thành công",
+      "seconds": 0.1951,
+      "evidence": {},
+      "error": null
+    },
+    {
+      "test": "test_meeting_minutes_quality.TestMeetingMinutesQuality.test_long_minutes_cover_all_passages_and_store_actual_fields",
+      "method": "test_long_minutes_cover_all_passages_and_store_actual_fields",
+      "description": "test_long_minutes_cover_all_passages_and_store_actual_fields",
+      "result": "Thành công",
+      "seconds": 0.1465,
+      "evidence": {},
+      "error": null
+    },
+    {
+      "test": "test_meeting_minutes_quality.TestMeetingMinutesQuality.test_missing_classification_is_retried_only_for_missing_passage",
+      "method": "test_missing_classification_is_retried_only_for_missing_passage",
+      "description": "test_missing_classification_is_retried_only_for_missing_passage",
+      "result": "Thành công",
+      "seconds": 0.1451,
+      "evidence": {},
+      "error": null
+    },
+    {
+      "test": "test_meeting_minutes_quality.TestMeetingMinutesQuality.test_missing_passage_is_visible_and_cannot_be_confirmed",
+      "method": "test_missing_passage_is_visible_and_cannot_be_confirmed",
+      "description": "test_missing_passage_is_visible_and_cannot_be_confirmed",
+      "result": "Thành công",
+      "seconds": 0.1792,
+      "evidence": {},
+      "error": null
+    },
+    {
+      "test": "test_meeting_minutes_quality.TestMeetingMinutesQuality.test_missing_provider_key_creates_no_draft",
+      "method": "test_missing_provider_key_creates_no_draft",
+      "description": "test_missing_provider_key_creates_no_draft",
+      "result": "Thành công",
+      "seconds": 0.1676,
+      "evidence": {},
+      "error": null
+    },
+    {
+      "test": "test_meeting_minutes_quality.TestMeetingMinutesQuality.test_unreadable_pdf_returns_clear_error",
+      "method": "test_unreadable_pdf_returns_clear_error",
+      "description": "test_unreadable_pdf_returns_clear_error",
+      "result": "Thành công",
+      "seconds": 0.3673,
+      "evidence": {},
+      "error": null
+    },
+    {
+      "test": "test_meeting_minutes_quality.TestMeetingMinutesQuality.test_unsupported_summary_number_is_discarded_in_favor_of_source",
+      "method": "test_unsupported_summary_number_is_discarded_in_favor_of_source",
+      "description": "test_unsupported_summary_number_is_discarded_in_favor_of_source",
+      "result": "Thành công",
+      "seconds": 0.1478,
+      "evidence": {},
+      "error": null
+    },
+    {
+      "test": "test_meeting_minutes_quality.TestMeetingMinutesQuality.test_weekly_retrieval_uses_requested_dates",
+      "method": "test_weekly_retrieval_uses_requested_dates",
+      "description": "test_weekly_retrieval_uses_requested_dates",
+      "result": "Thành công",
+      "seconds": 0.1903,
+      "evidence": {},
+      "error": null
+    },
+    {
+      "test": "test_multi_assignee_and_batch_members.TestMultiAssigneeAndBatchMembers.test_01_create_project_with_initial_members",
+      "method": "test_01_create_project_with_initial_members",
+      "description": "Kiểm tra tạo dự án mới kèm danh sách nhiều thành viên ban đầu.",
+      "result": "Thành công",
+      "seconds": 0.0104,
+      "evidence": {},
+      "error": null
+    },
+    {
+      "test": "test_multi_assignee_and_batch_members.TestMultiAssigneeAndBatchMembers.test_02_batch_add_project_members",
+      "method": "test_02_batch_add_project_members",
+      "description": "Kiểm tra thêm hàng loạt thành viên vào dự án hiện có.",
+      "result": "Thành công",
+      "seconds": 0.0214,
+      "evidence": {},
+      "error": null
+    },
+    {
+      "test": "test_multi_assignee_and_batch_members.TestMultiAssigneeAndBatchMembers.test_03_create_task_with_multi_assignees",
+      "method": "test_03_create_task_with_multi_assignees",
+      "description": "Kiểm tra tạo nhiệm vụ với 1 người phụ trách chính + nhiều người hỗ trợ.",
+      "result": "Thành công",
+      "seconds": 0.0163,
+      "evidence": {},
+      "error": null
+    },
+    {
+      "test": "test_multi_assignee_and_batch_members.TestMultiAssigneeAndBatchMembers.test_04_leader_rescue_overdue_task",
+      "method": "test_04_leader_rescue_overdue_task",
+      "description": "Kiểm tra Leader điều phối, bổ sung hỗ trợ cứu viện task trễ hạn (BR-02).",
+      "result": "Thành công",
+      "seconds": 0.0417,
+      "evidence": {},
+      "error": null
+    },
+    {
+      "test": "test_multi_assignee_and_batch_members.TestMultiAssigneeAndBatchMembers.test_05_api_rbac_member_cannot_reassign_or_rescue",
+      "method": "test_05_api_rbac_member_cannot_reassign_or_rescue",
+      "description": "Kiểm tra quyền hạn (RBAC) qua API: Member không được quyền điều phối/cứu viện task.",
+      "result": "Thành công",
+      "seconds": 0.3131,
+      "evidence": {},
+      "error": null
+    },
+    {
+      "test": "test_mysql_connection_policy.TestMySQLConnectionPolicy.test_mysql_failure_never_opens_sqlite",
+      "method": "test_mysql_failure_never_opens_sqlite",
+      "description": "test_mysql_failure_never_opens_sqlite",
+      "result": "Thành công",
+      "seconds": 0.0043,
+      "evidence": {},
+      "error": null
+    },
+    {
+      "test": "test_project_lifecycle.TestProjectLifecycle.test_admin_create_user_with_user_code",
+      "method": "test_admin_create_user_with_user_code",
+      "description": "Kiểm tra Admin tạo tài khoản với mã thành viên tùy chọn và kiểm tra trùng lặp.",
+      "result": "Thành công",
+      "seconds": 0.1598,
+      "evidence": {},
+      "error": null
+    },
+    {
+      "test": "test_project_lifecycle.TestProjectLifecycle.test_admin_delete_wrong_project_cascade",
+      "method": "test_admin_delete_wrong_project_cascade",
+      "description": "BR-08: Leader bị chặn xóa vĩnh viễn; Admin được xóa và dọn dữ liệu phụ thuộc.",
+      "result": "Thành công",
+      "seconds": 0.3278,
+      "evidence": {},
+      "error": null
+    },
+    {
+      "test": "test_project_lifecycle.TestProjectLifecycle.test_custom_project_code_and_duplicate_check",
+      "method": "test_custom_project_code_and_duplicate_check",
+      "description": "Kiểm tra tạo dự án với mã định danh tùy chọn và ngăn chặn mã trùng lặp.",
+      "result": "Thành công",
+      "seconds": 0.1841,
+      "evidence": {},
+      "error": null
+    },
+    {
+      "test": "test_project_lifecycle.TestProjectLifecycle.test_empty_project_name_rejected",
+      "method": "test_empty_project_name_rejected",
+      "description": "Kiểm tra hệ thống chặn lỗi nếu Leader để trống tên dự án (HTTP 400).",
+      "result": "Thành công",
+      "seconds": 0.1459,
+      "evidence": {},
+      "error": null
+    },
+    {
+      "test": "test_project_lifecycle.TestProjectLifecycle.test_invalid_date_range_rejected",
+      "method": "test_invalid_date_range_rejected",
+      "description": "Kiểm tra hệ thống chặn lỗi nếu ngày bắt đầu sau ngày kết thúc (HTTP 400).",
+      "result": "Thành công",
+      "seconds": 0.1465,
+      "evidence": {},
+      "error": null
+    },
+    {
+      "test": "test_project_lifecycle.TestProjectLifecycle.test_leader_can_edit_project",
+      "method": "test_leader_can_edit_project",
+      "description": "Kiểm tra Leader có thể cập nhật tên, mô tả, mốc thời gian dự án thành công.",
+      "result": "Thành công",
+      "seconds": 0.1855,
+      "evidence": {},
+      "error": null
+    },
+    {
+      "test": "test_project_lifecycle.TestProjectLifecycle.test_member_cannot_edit_or_delete_project",
+      "method": "test_member_cannot_edit_or_delete_project",
+      "description": "Kiểm tra quyền RBAC: Thành viên thường (Member) bị cấm sửa hoặc xóa dự án (HTTP 403).",
+      "result": "Thành công",
+      "seconds": 0.1636,
+      "evidence": {},
+      "error": null
+    },
+    {
+      "test": "test_project_lifecycle.TestProjectLifecycle.test_sprint_and_task_codes",
+      "method": "test_sprint_and_task_codes",
+      "description": "Kiểm tra mã sprint tùy chọn và mã task Jira-style tự động gắn tiền tố mã dự án.",
+      "result": "Thành công",
+      "seconds": 0.0225,
+      "evidence": {},
+      "error": null
+    },
+    {
+      "test": "test_requirement_repairs.TestRequirementRepairs.test_01_leader_delete_preserves_history_by_default",
+      "method": "test_01_leader_delete_preserves_history_by_default",
+      "description": "test_01_leader_delete_preserves_history_by_default",
+      "result": "Thành công",
+      "seconds": 0.0539,
+      "evidence": {
+        "requirements": [
+          "FR-03",
+          "BR-08",
+          "integrity rule 10"
+        ],
+        "expected": "project archived; task history preserved",
+        "actual": {
+          "http": 200,
+          "project": {
+            "is_archived": 1
+          },
+          "task": {
+            "id": 8
+          }
+        }
+      },
+      "error": null
+    },
+    {
+      "test": "test_requirement_repairs.TestRequirementRepairs.test_02_leader_cannot_permanently_delete",
+      "method": "test_02_leader_cannot_permanently_delete",
+      "description": "test_02_leader_cannot_permanently_delete",
+      "result": "Thành công",
+      "seconds": 0.062,
+      "evidence": {
+        "requirements": [
+          "BR-08",
+          "integrity rule 10"
+        ],
+        "expected": "403 for leader permanent delete",
+        "actual": 403
+      },
+      "error": null
+    },
+    {
+      "test": "test_requirement_repairs.TestRequirementRepairs.test_03_leader_can_remove_project_member",
+      "method": "test_03_leader_can_remove_project_member",
+      "description": "test_03_leader_can_remove_project_member",
+      "result": "Thành công",
+      "seconds": 0.0533,
+      "evidence": {
+        "requirements": [
+          "FR-04",
+          "UC004"
+        ],
+        "expected": "remove member, preserve work history",
+        "actual": {
+          "http": 200,
+          "member_delete_routes": [
+            "/api/projects/<int:project_id>/members/<int:user_id>"
+          ]
+        }
+      },
+      "error": null
+    },
+    {
+      "test": "test_requirement_repairs.TestRequirementRepairs.test_04_sprint_archive_applies_to_listing",
+      "method": "test_04_sprint_archive_applies_to_listing",
+      "description": "test_04_sprint_archive_applies_to_listing",
+      "result": "Thành công",
+      "seconds": 0.0589,
+      "evidence": {
+        "requirements": [
+          "FR-07",
+          "UC006"
+        ],
+        "expected": "archived sprint absent from active listing",
+        "actual": {
+          "update_http": 200,
+          "still_listed": false,
+          "delete_http": 409
+        }
+      },
+      "error": null
+    },
+    {
+      "test": "test_requirement_repairs.TestRequirementRepairs.test_05_ai_draft_can_be_read_and_edited",
+      "method": "test_05_ai_draft_can_be_read_and_edited",
+      "description": "test_05_ai_draft_can_be_read_and_edited",
+      "result": "Thành công",
+      "seconds": 0.0371,
+      "evidence": {
+        "requirements": [
+          "FR-12",
+          "FR-13",
+          "BR-06",
+          "UC009",
+          "UC010"
+        ],
+        "expected": "read/edit authorized draft before confirmation",
+        "actual": {
+          "get_http": 200,
+          "put_http": 200,
+          "routes": [
+            {
+              "path": "/api/ai/drafts/<int:draft_id>/confirm",
+              "methods": [
+                "OPTIONS",
+                "POST"
+              ]
+            },
+            {
+              "path": "/api/ai/drafts/<int:draft_id>",
+              "methods": [
+                "GET",
+                "HEAD",
+                "OPTIONS",
+                "PUT"
+              ]
+            }
+          ]
+        }
+      },
+      "error": null
+    },
+    {
+      "test": "test_requirement_repairs.TestRequirementRepairs.test_06_priority_filter_is_applied",
+      "method": "test_06_priority_filter_is_applied",
+      "description": "test_06_priority_filter_is_applied",
+      "result": "Thành công",
+      "seconds": 0.0308,
+      "evidence": {
+        "requirements": [
+          "FR-09"
+        ],
+        "expected": "only high priority",
+        "actual": [
+          "high"
+        ]
+      },
+      "error": null
+    },
+    {
+      "test": "test_requirement_repairs.TestRequirementRepairs.test_07_deadline_filter_is_applied",
+      "method": "test_07_deadline_filter_is_applied",
+      "description": "test_07_deadline_filter_is_applied",
+      "result": "Thành công",
+      "seconds": 0.0316,
+      "evidence": {
+        "requirements": [
+          "FR-09"
+        ],
+        "expected": "only January deadlines",
+        "actual": [
+          "2026-01-01 12:00:00"
+        ]
+      },
+      "error": null
+    },
+    {
+      "test": "test_requirement_repairs.TestRequirementRepairs.test_08_task_sort_is_applied",
+      "method": "test_08_task_sort_is_applied",
+      "description": "test_08_task_sort_is_applied",
+      "result": "Thành công",
+      "seconds": 0.0292,
+      "evidence": {
+        "requirements": [
+          "FR-09"
+        ],
+        "expected": "ascending title order; API/UI needs explicit sort contract",
+        "actual": [
+          "Alpha",
+          "Zulu"
+        ]
+      },
+      "error": null
+    },
+    {
+      "test": "test_requirement_repairs.TestRequirementRepairs.test_09_false_ai_statistics_cannot_be_confirmed",
+      "method": "test_09_false_ai_statistics_cannot_be_confirmed",
+      "description": "test_09_false_ai_statistics_cannot_be_confirmed",
+      "result": "Thành công",
+      "seconds": 0.0542,
+      "evidence": {
+        "requirements": [
+          "FR-12",
+          "BR-07",
+          "NFR-06"
+        ],
+        "expected": "unsupported statistics rejected or needs verification",
+        "actual": {
+          "source": "one backlog task; zero done",
+          "http": 200,
+          "status": "needs_verification",
+          "warnings": [
+            "Số liệu AI không khớp dữ liệu nguồn; cần sửa trước khi xác nhận."
+          ],
+          "confirm_http": 403
+        }
+      },
+      "error": null
+    },
+    {
+      "test": "test_requirement_repairs.TestRequirementRepairs.test_10_assignment_limits_recommendations_to_three",
+      "method": "test_10_assignment_limits_recommendations_to_three",
+      "description": "test_10_assignment_limits_recommendations_to_three",
+      "result": "Thành công",
+      "seconds": 0.0568,
+      "evidence": {
+        "requirements": [
+          "FR-14",
+          "UC011"
+        ],
+        "expected": "at most 3 recommendations; otherwise reject or flag",
+        "actual": {
+          "http": 200,
+          "status": "needs_verification",
+          "warnings": [
+            "Đề xuất phải có từ 1 đến 3 ứng viên, không trùng nhau."
+          ],
+          "mock_recommendations": 4
+        }
+      },
+      "error": null
+    },
+    {
+      "test": "test_requirement_repairs.TestRequirementRepairs.test_11_overdue_email_has_automatic_trigger",
+      "method": "test_11_overdue_email_has_automatic_trigger",
+      "description": "test_11_overdue_email_has_automatic_trigger",
+      "result": "Thành công",
+      "seconds": 0.0564,
+      "evidence": {
+        "requirements": [
+          "FR-17",
+          "BR-09",
+          "UC005",
+          "UC013"
+        ],
+        "expected": "automatic overdue processing or queued job",
+        "actual": {
+          "smtp_calls_on_create_and_status_update": 1,
+          "code_inspection": "email checker referenced only by manual trigger route; no scheduler/outbox"
+        }
+      },
+      "error": null
+    },
+    {
+      "test": "test_requirement_repairs.TestRequirementRepairs.test_12_admin_can_update_basic_account_information",
+      "method": "test_12_admin_can_update_basic_account_information",
+      "description": "test_12_admin_can_update_basic_account_information",
+      "result": "Thành công",
+      "seconds": 0.0226,
+      "evidence": {
+        "requirements": [
+          "FR-02",
+          "UC002"
+        ],
+        "expected": "admin can update account information",
+        "actual": {
+          "http": 200,
+          "existing_update_options": "status and role only"
+        }
+      },
+      "error": null
+    },
+    {
+      "test": "test_requirement_repairs.TestRequirementRepairs.test_13_viewer_cannot_change_progress_or_comment",
+      "method": "test_13_viewer_cannot_change_progress_or_comment",
+      "description": "test_13_viewer_cannot_change_progress_or_comment",
+      "result": "Thành công",
+      "seconds": 0.0415,
+      "evidence": {
+        "requirements": [
+          "FR-02",
+          "NFR-03"
+        ],
+        "expected": "report viewer has no write permission",
+        "actual": {
+          "progress_http": 403,
+          "comment_http": 403
+        }
+      },
+      "error": null
+    },
+    {
+      "test": "test_requirement_repairs.TestRequirementRepairs.test_14_member_cannot_create_sprint",
+      "method": "test_14_member_cannot_create_sprint",
+      "description": "test_14_member_cannot_create_sprint",
+      "result": "Thành công",
+      "seconds": 0.0147,
+      "evidence": {
+        "requirements": [
+          "FR-02",
+          "FR-07"
+        ],
+        "expected": "member only views sprints; cannot create",
+        "actual": {
+          "sprint_http": 403
+        }
+      },
+      "error": null
+    },
+    {
+      "test": "test_requirement_repairs.TestRequirementRepairs.test_15_outsider_cannot_read_tasks",
+      "method": "test_15_outsider_cannot_read_tasks",
+      "description": "test_15_outsider_cannot_read_tasks",
+      "result": "Thành công",
+      "seconds": 0.0149,
+      "evidence": {
+        "requirements": [
+          "FR-02",
+          "NFR-03"
+        ],
+        "expected": "403 outside project",
+        "actual": 403
+      },
+      "error": null
+    },
+    {
+      "test": "test_requirement_repairs.TestRequirementRepairs.test_16_locked_account_cannot_login",
+      "method": "test_16_locked_account_cannot_login",
+      "description": "test_16_locked_account_cannot_login",
+      "result": "Thành công",
+      "seconds": 0.1648,
+      "evidence": {
+        "requirements": [
+          "FR-01"
+        ],
+        "expected": "401 for locked account",
+        "actual": 401
+      },
+      "error": null
+    },
+    {
+      "test": "test_requirement_repairs.TestRequirementRepairs.test_17_reversed_sprint_dates_rejected",
+      "method": "test_17_reversed_sprint_dates_rejected",
+      "description": "test_17_reversed_sprint_dates_rejected",
+      "result": "Thành công",
+      "seconds": 0.0149,
+      "evidence": {
+        "requirements": [
+          "FR-07",
+          "BR-03"
+        ],
+        "expected": "400 for reversed sprint dates",
+        "actual": 400
+      },
+      "error": null
+    },
+    {
+      "test": "test_requirement_repairs.TestRequirementRepairs.test_18_empty_sprint_completion_is_zero",
+      "method": "test_18_empty_sprint_completion_is_zero",
+      "description": "test_18_empty_sprint_completion_is_zero",
+      "result": "Thành công",
+      "seconds": 0.0181,
+      "evidence": {
+        "requirements": [
+          "FR-07",
+          "BR-04"
+        ],
+        "expected": "empty sprint 0%",
+        "actual": {
+          "total_tasks": 0,
+          "done_tasks": 0,
+          "completion_rate": 0.0
+        }
+      },
+      "error": null
+    },
+    {
+      "test": "test_requirement_repairs.TestRequirementRepairs.test_19_ai_suggestion_does_not_assign_task",
+      "method": "test_19_ai_suggestion_does_not_assign_task",
+      "description": "test_19_ai_suggestion_does_not_assign_task",
+      "result": "Thành công",
+      "seconds": 0.039,
+      "evidence": {
+        "requirements": [
+          "FR-14",
+          "BR-06"
+        ],
+        "expected": "draft only; no automatic assignment",
+        "actual": {
+          "http": 200,
+          "assignee_id": null
+        }
+      },
+      "error": null
+    },
+    {
+      "test": "test_requirement_repairs.TestRequirementRepairs.test_20_logout_invalidates_session",
+      "method": "test_20_logout_invalidates_session",
+      "description": "test_20_logout_invalidates_session",
+      "result": "Thành công",
+      "seconds": 0.0114,
+      "evidence": {
+        "requirements": [
+          "FR-01"
+        ],
+        "expected": "401 after logout",
+        "actual": 401
+      },
+      "error": null
+    },
+    {
+      "test": "test_requirement_repairs.TestRequirementRepairs.test_21_attachment_upload_download_and_scope",
+      "method": "test_21_attachment_upload_download_and_scope",
+      "description": "test_21_attachment_upload_download_and_scope",
+      "result": "Thành công",
+      "seconds": 0.0996,
+      "evidence": {
+        "requirements": [
+          "FR-08",
+          "NFR-03"
+        ],
+        "expected": "upload/download only within project",
+        "actual": {
+          "upload": 201,
+          "download": 200,
+          "outside": 403,
+          "bytes_match": true
+        }
+      },
+      "error": null
+    },
+    {
+      "test": "test_requirement_repairs.TestRequirementRepairs.test_22_attachment_rejects_bad_type_size_and_fake_pdf",
+      "method": "test_22_attachment_rejects_bad_type_size_and_fake_pdf",
+      "description": "test_22_attachment_rejects_bad_type_size_and_fake_pdf",
+      "result": "Thành công",
+      "seconds": 0.0992,
+      "evidence": {
+        "requirements": [
+          "FR-08"
+        ],
+        "expected": "reject invalid files without leftovers",
+        "actual": [
+          400,
+          400,
+          400
+        ]
+      },
+      "error": null
+    },
+    {
+      "test": "test_requirement_repairs.TestRequirementRepairs.test_23_failure_rolls_back_task_assignments_and_audit",
+      "method": "test_23_failure_rolls_back_task_assignments_and_audit",
+      "description": "test_23_failure_rolls_back_task_assignments_and_audit",
+      "result": "Thành công",
+      "seconds": 0.0338,
+      "evidence": {
+        "requirements": [
+          "FR-05",
+          "NFR-05"
+        ],
+        "expected": "all changes rolled back on injected failure",
+        "actual": {
+          "http": 500,
+          "task_unchanged": true,
+          "audit_unchanged": true
+        }
+      },
+      "error": null
+    },
+    {
+      "test": "test_requirement_repairs.TestRequirementRepairs.test_24_progress_consistent_across_endpoints",
+      "method": "test_24_progress_consistent_across_endpoints",
+      "description": "test_24_progress_consistent_across_endpoints",
+      "result": "Thành công",
+      "seconds": 0.0879,
+      "evidence": {
+        "requirements": [
+          "FR-05",
+          "FR-06",
+          "FR-10"
+        ],
+        "expected": "100% means Done; reopened task below 100%; integer input",
+        "actual": {
+          "done": {
+            "status": "done",
+            "progress_percent": 100
+          },
+          "reopened": {
+            "status": "review",
+            "progress_percent": 80
+          },
+          "fraction_rejected": true
+        }
+      },
+      "error": null
+    },
+    {
+      "test": "test_requirement_repairs.TestRequirementRepairs.test_25_zero_capacity_and_ai_workload_agree",
+      "method": "test_25_zero_capacity_and_ai_workload_agree",
+      "description": "test_25_zero_capacity_and_ai_workload_agree",
+      "result": "Thành công",
+      "seconds": 0.0408,
+      "evidence": {
+        "requirements": [
+          "FR-11",
+          "FR-14",
+          "BR-05"
+        ],
+        "expected": "capacity zero preserved; supporter workload consistent",
+        "actual": {
+          "capacity": 0,
+          "report_hours": 10.0,
+          "ai_hours": 10.0,
+          "overloaded": true
+        }
+      },
+      "error": null
+    },
+    {
+      "test": "test_requirement_repairs.TestRequirementRepairs.test_26_overdue_filter_precedes_pagination",
+      "method": "test_26_overdue_filter_precedes_pagination",
+      "description": "test_26_overdue_filter_precedes_pagination",
+      "result": "Thành công",
+      "seconds": 0.0287,
+      "evidence": {
+        "requirements": [
+          "FR-09",
+          "BR-02"
+        ],
+        "expected": "page returns overdue task despite earlier non-overdue priority",
+        "actual": {
+          "returned": [
+            26
+          ]
+        }
+      },
+      "error": null
+    },
+    {
+      "test": "test_requirement_repairs.TestRequirementRepairs.test_27_archived_project_and_task_are_readonly_then_restore",
+      "method": "test_27_archived_project_and_task_are_readonly_then_restore",
+      "description": "test_27_archived_project_and_task_are_readonly_then_restore",
+      "result": "Thành công",
+      "seconds": 0.1107,
+      "evidence": {
+        "requirements": [
+          "FR-03",
+          "FR-05",
+          "BR-08"
+        ],
+        "expected": "archived data read-only; explicit restore",
+        "actual": {
+          "writes_blocked": 409,
+          "restore": 200
+        }
+      },
+      "error": null
+    },
+    {
+      "test": "test_requirement_repairs.TestRequirementRepairs.test_28_custom_and_generated_account_codes_do_not_collide",
+      "method": "test_28_custom_and_generated_account_codes_do_not_collide",
+      "description": "test_28_custom_and_generated_account_codes_do_not_collide",
+      "result": "Thành công",
+      "seconds": 0.4152,
+      "evidence": {
+        "requirements": [
+          "FR-02"
+        ],
+        "expected": "custom code preserved; automatic code unique",
+        "actual": [
+          "NV-BEE501FC3EEF",
+          "NV-005"
+        ]
+      },
+      "error": null
+    },
+    {
+      "test": "test_requirement_repairs.TestRequirementRepairs.test_29_edit_draft_versions_reject_stale_writes",
+      "method": "test_29_edit_draft_versions_reject_stale_writes",
+      "description": "test_29_edit_draft_versions_reject_stale_writes",
+      "result": "Thành công",
+      "seconds": 0.0614,
+      "evidence": {
+        "requirements": [
+          "FR-13",
+          "FR-15",
+          "NFR-09"
+        ],
+        "expected": "edit version increments; stale writes rejected; prior version retained",
+        "actual": {
+          "version": 2,
+          "draft_content": "Reviewed"
+        }
+      },
+      "error": null
+    },
+    {
+      "test": "test_requirement_repairs.TestRequirementRepairs.test_30_confirm_uses_edited_meeting_fields",
+      "method": "test_30_confirm_uses_edited_meeting_fields",
+      "description": "test_30_confirm_uses_edited_meeting_fields",
+      "result": "Thành công",
+      "seconds": 0.0582,
+      "evidence": {
+        "requirements": [
+          "FR-13",
+          "BR-06"
+        ],
+        "expected": "confirmed minutes store reviewed fields",
+        "actual": {
+          "summary": "Reviewed body",
+          "decisions": "Reviewed decision",
+          "action_items": "Reviewed action"
+        }
+      },
+      "error": null
+    },
+    {
+      "test": "test_requirement_repairs.TestRequirementRepairs.test_31_admin_cannot_confirm_project_draft",
+      "method": "test_31_admin_cannot_confirm_project_draft",
+      "description": "test_31_admin_cannot_confirm_project_draft",
+      "result": "Thành công",
+      "seconds": 0.0181,
+      "evidence": {
+        "requirements": [
+          "FR-12",
+          "FR-13",
+          "UC010"
+        ],
+        "expected": "only project leader confirms",
+        "actual": 403
+      },
+      "error": null
+    },
+    {
+      "test": "test_requirement_repairs.TestRequirementRepairs.test_32_history_filter_keeps_selected_project",
+      "method": "test_32_history_filter_keeps_selected_project",
+      "description": "test_32_history_filter_keeps_selected_project",
+      "result": "Thành công",
+      "seconds": 0.0335,
+      "evidence": {
+        "requirements": [
+          "FR-15"
+        ],
+        "expected": "only selected project history",
+        "actual": {
+          "projects": [
+            33
+          ]
+        }
+      },
+      "error": null
+    },
+    {
+      "test": "test_requirement_repairs.TestRequirementRepairs.test_33_javascript_files_and_rendered_scripts_parse",
+      "method": "test_33_javascript_files_and_rendered_scripts_parse",
+      "description": "test_33_javascript_files_and_rendered_scripts_parse",
+      "result": "Thành công",
+      "seconds": 0.1854,
+      "evidence": {
+        "requirements": [
+          "FR-06",
+          "FR-10",
+          "NFR-02"
+        ],
+        "expected": "all rendered classic scripts parse",
+        "actual": {
+          "scripts": 17,
+          "errors": []
+        }
+      },
+      "error": null
+    },
+    {
+      "test": "test_requirement_repairs.TestRequirementRepairs.test_34_admin_edit_form_is_in_body_not_title",
+      "method": "test_34_admin_edit_form_is_in_body_not_title",
+      "description": "test_34_admin_edit_form_is_in_body_not_title",
+      "result": "Thành công",
+      "seconds": 0.0153,
+      "evidence": {
+        "requirements": [
+          "FR-02",
+          "NFR-02"
+        ],
+        "expected": "account editor rendered in page body",
+        "actual": true
+      },
+      "error": null
+    },
+    {
+      "test": "test_requirement_repairs.TestRequirementRepairs.test_35_overdue_delivery_deduplicates_and_retries_failed",
+      "method": "test_35_overdue_delivery_deduplicates_and_retries_failed",
+      "description": "test_35_overdue_delivery_deduplicates_and_retries_failed",
+      "result": "Thành công",
+      "seconds": 0.0635,
+      "evidence": {
+        "requirements": [
+          "FR-16",
+          "FR-17",
+          "BR-09"
+        ],
+        "expected": "failed mail retry bounded; successful mail not duplicated",
+        "actual": {
+          "status": "SENT",
+          "attempts": 2
+        }
+      },
+      "error": null
+    },
+    {
+      "test": "test_requirement_repairs.TestRequirementRepairs.test_36_email_scan_does_not_leak_other_project",
+      "method": "test_36_email_scan_does_not_leak_other_project",
+      "description": "test_36_email_scan_does_not_leak_other_project",
+      "result": "Thành công",
+      "seconds": 0.0934,
+      "evidence": {
+        "requirements": [
+          "FR-02",
+          "FR-17",
+          "NFR-03"
+        ],
+        "expected": "outside project blocked; no private alert payload",
+        "actual": {
+          "specific_project": 403,
+          "private_task_leaked": false
+        }
+      },
+      "error": null
+    },
+    {
+      "test": "test_requirement_repairs.TestRequirementRepairs.test_37_invalid_supporter_rejected_without_partial_task",
+      "method": "test_37_invalid_supporter_rejected_without_partial_task",
+      "description": "test_37_invalid_supporter_rejected_without_partial_task",
+      "result": "Thành công",
+      "seconds": 0.0177,
+      "evidence": {
+        "requirements": [
+          "FR-02",
+          "FR-05"
+        ],
+        "expected": "outside/locked supporters rejected before insert",
+        "actual": {
+          "http": 400,
+          "task_count_unchanged": true
+        }
+      },
+      "error": null
+    },
+    {
+      "test": "test_requirement_repairs.TestRequirementRepairs.test_38_invalid_inputs_return_4xx",
+      "method": "test_38_invalid_inputs_return_4xx",
+      "description": "test_38_invalid_inputs_return_4xx",
+      "result": "Thành công",
+      "seconds": 0.0402,
+      "evidence": {
+        "requirements": [
+          "FR-03",
+          "FR-05",
+          "FR-07"
+        ],
+        "expected": "wrong types, negative/nonfinite numbers and invalid dates rejected",
+        "actual": [
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400
+        ]
+      },
+      "error": null
+    },
+    {
+      "test": "test_requirement_repairs.TestRequirementRepairs.test_39_link_attachment_rejects_script_scheme",
+      "method": "test_39_link_attachment_rejects_script_scheme",
+      "description": "test_39_link_attachment_rejects_script_scheme",
+      "result": "Thành công",
+      "seconds": 0.0495,
+      "evidence": {
+        "requirements": [
+          "FR-08",
+          "NFR-03"
+        ],
+        "expected": "HTTP link accepted; executable scheme rejected",
+        "actual": {
+          "https": 201,
+          "javascript": 400
+        }
+      },
+      "error": null
+    },
+    {
+      "test": "test_requirement_repairs.TestRequirementRepairs.test_40_remove_member_preserves_history_and_clears_active_assignment",
+      "method": "test_40_remove_member_preserves_history_and_clears_active_assignment",
+      "description": "test_40_remove_member_preserves_history_and_clears_active_assignment",
+      "result": "Thành công",
+      "seconds": 0.0654,
+      "evidence": {
+        "requirements": [
+          "FR-04",
+          "UC004",
+          "NFR-09"
+        ],
+        "expected": "remove membership, clear active assignment, keep comment history",
+        "actual": {
+          "http": 200,
+          "history_preserved": true,
+          "departed_access": 403
+        }
+      },
+      "error": null
+    },
+    {
+      "test": "test_requirement_repairs.TestRequirementRepairs.test_41_last_leader_cannot_be_removed",
+      "method": "test_41_last_leader_cannot_be_removed",
+      "description": "test_41_last_leader_cannot_be_removed",
+      "result": "Thành công",
+      "seconds": 0.0202,
+      "evidence": {
+        "requirements": [
+          "FR-04",
+          "integrity rule 2"
+        ],
+        "expected": "project keeps an active leader",
+        "actual": 400
+      },
+      "error": null
+    },
+    {
+      "test": "test_requirement_repairs.TestRequirementRepairs.test_42_ai_deadline_shared_across_retries",
+      "method": "test_42_ai_deadline_shared_across_retries",
+      "description": "test_42_ai_deadline_shared_across_retries",
+      "result": "Thành công",
+      "seconds": 0.0086,
+      "evidence": {
+        "requirements": [
+          "NFR-01"
+        ],
+        "expected": "expired total AI budget returns controlled timeout",
+        "actual": {
+          "http": 503,
+          "error": "AI_TIMEOUT"
+        }
+      },
+      "error": null
+    },
+    {
+      "test": "test_requirement_repairs.TestRequirementRepairs.test_43_kira_client_initializes_with_installed_sdk",
+      "method": "test_43_kira_client_initializes_with_installed_sdk",
+      "description": "test_43_kira_client_initializes_with_installed_sdk",
+      "result": "Thành công",
+      "seconds": 1.4682,
+      "evidence": {
+        "requirements": [
+          "NFR-07",
+          "NFR-11"
+        ],
+        "expected": "declared SDK initializes client without network",
+        "actual": true
+      },
+      "error": null
+    },
+    {
+      "test": "test_requirement_repairs.TestRequirementRepairs.test_44_dashboard_metrics_use_numeric_counts_and_rate",
+      "method": "test_44_dashboard_metrics_use_numeric_counts_and_rate",
+      "description": "test_44_dashboard_metrics_use_numeric_counts_and_rate",
+      "result": "Thành công",
+      "seconds": 0.0628,
+      "evidence": {
+        "requirements": [
+          "FR-10",
+          "BR-04"
+        ],
+        "expected": "MySQL/SQLite counts numeric, completion 1/4 = 25%",
+        "actual": {
+          "completion_rate": 25.0,
+          "count_backlog": 3,
+          "count_done": 1,
+          "count_in_progress": 0,
+          "count_review": 0,
+          "count_todo": 0,
+          "overdue_count": 0,
+          "total_tasks": 4
+        }
+      },
+      "error": null
+    },
+    {
+      "test": "test_requirement_repairs.TestRequirementRepairs.test_45_long_vietnamese_meeting_note_round_trips",
+      "method": "test_45_long_vietnamese_meeting_note_round_trips",
+      "description": "test_45_long_vietnamese_meeting_note_round_trips",
+      "result": "Thành công",
+      "seconds": 0.056,
+      "evidence": {
+        "requirements": [
+          "FR-08",
+          "FR-13"
+        ],
+        "expected": "long UTF-8 note persists without MySQL TEXT truncation",
+        "actual": {
+          "http": 201,
+          "characters": 60000,
+          "round_trip": true
+        }
+      },
+      "error": null
+    },
+    {
+      "test": "test_requirement_repairs.TestRequirementRepairs.test_46_disabled_smtp_is_labelled_simulation",
+      "method": "test_46_disabled_smtp_is_labelled_simulation",
+      "description": "test_46_disabled_smtp_is_labelled_simulation",
+      "result": "Thành công",
+      "seconds": 0.0137,
+      "evidence": {
+        "requirements": [
+          "FR-17"
+        ],
+        "expected": "disabled SMTP never sends; explicit simulation status",
+        "actual": "SIMULATED_DEMO_SUCCESS"
+      },
+      "error": null
+    },
+    {
+      "test": "test_requirement_repairs.TestRequirementRepairs.test_47_archived_sprint_tasks_require_restore",
+      "method": "test_47_archived_sprint_tasks_require_restore",
+      "description": "test_47_archived_sprint_tasks_require_restore",
+      "result": "Thành công",
+      "seconds": 0.0982,
+      "evidence": {
+        "requirements": [
+          "FR-07",
+          "BR-08"
+        ],
+        "expected": "archived sprint read-only until restore",
+        "actual": {
+          "blocked": 409,
+          "restored": 200,
+          "update_after_restore": 200
+        }
+      },
+      "error": null
+    },
+    {
+      "test": "test_requirement_repairs.TestRequirementRepairs.test_48_pwa_assets_are_served",
+      "method": "test_48_pwa_assets_are_served",
+      "description": "test_48_pwa_assets_are_served",
+      "result": "Thành công",
+      "seconds": 0.0171,
+      "evidence": {
+        "requirements": [
+          "NFR-02"
+        ],
+        "expected": "manifest assets and service worker available",
+        "actual": {
+          "icons": [
+            200
+          ],
+          "worker": 200
+        }
+      },
+      "error": null
+    },
+    {
+      "test": "test_requirement_repairs.TestRequirementRepairs.test_49_utc_deadline_normalized_to_project_timezone",
+      "method": "test_49_utc_deadline_normalized_to_project_timezone",
+      "description": "test_49_utc_deadline_normalized_to_project_timezone",
+      "result": "Thành công",
+      "seconds": 0.0228,
+      "evidence": {
+        "requirements": [
+          "BR-02",
+          "NFR-02"
+        ],
+        "expected": "UTC timestamp normalized to UTC+7",
+        "actual": "2030-01-01 07:00:00"
+      },
+      "error": null
+    },
+    {
+      "test": "test_requirement_repairs.TestRequirementRepairs.test_50_kira_sdk_transport_contract",
+      "method": "test_50_kira_sdk_transport_contract",
+      "description": "test_50_kira_sdk_transport_contract",
+      "result": "Thành công",
+      "seconds": 0.1377,
+      "evidence": {
+        "requirements": [
+          "NFR-07",
+          "NFR-11"
+        ],
+        "expected": "real SDK serializes Kira request with mocked HTTP transport",
+        "actual": {
+          "json_response": true,
+          "response_format": "json_object",
+          "network": false
+        }
+      },
+      "error": null
+    },
+    {
+      "test": "test_requirement_repairs.TestRequirementRepairs.test_51_create_project_with_initial_staff",
+      "method": "test_51_create_project_with_initial_staff",
+      "description": "test_51_create_project_with_initial_staff",
+      "result": "Thành công",
+      "seconds": 0.0338,
+      "evidence": {
+        "requirements": [
+          "FR-03",
+          "FR-04"
+        ],
+        "expected": "create project and selected active staff atomically",
+        "actual": {
+          "http": 201,
+          "members": [
+            2,
+            3,
+            4
+          ],
+          "member_read": 200,
+          "admin_read": 200
+        }
+      },
+      "error": null
+    },
+    {
+      "test": "test_requirement_repairs.TestRequirementRepairs.test_52_invalid_initial_staff_rolls_back_project",
+      "method": "test_52_invalid_initial_staff_rolls_back_project",
+      "description": "test_52_invalid_initial_staff_rolls_back_project",
+      "result": "Thành công",
+      "seconds": 0.0135,
+      "evidence": {
+        "requirements": [
+          "FR-03",
+          "FR-04",
+          "NFR-05"
+        ],
+        "expected": "reject whole project when staff is locked",
+        "actual": {
+          "http": 400,
+          "project_created": false
+        }
+      },
+      "error": null
+    },
+    {
+      "test": "test_requirement_repairs.TestRequirementRepairs.test_53_mixed_batch_does_not_partially_add_staff",
+      "method": "test_53_mixed_batch_does_not_partially_add_staff",
+      "description": "test_53_mixed_batch_does_not_partially_add_staff",
+      "result": "Thành công",
+      "seconds": 0.0163,
+      "evidence": {
+        "requirements": [
+          "FR-04",
+          "NFR-05"
+        ],
+        "expected": "no partial batch when one account is locked",
+        "actual": {
+          "http": 400,
+          "partial_membership": false
+        }
+      },
+      "error": null
+    },
+    {
+      "test": "test_requirement_repairs.TestRequirementRepairs.test_54_member_requires_admin_approval",
+      "method": "test_54_member_requires_admin_approval",
+      "description": "test_54_member_requires_admin_approval",
+      "result": "Thành công",
+      "seconds": 0.4726,
+      "evidence": {
+        "requirements": [
+          "FR-01",
+          "FR-02",
+          "User requirement: all registrations approved"
+        ],
+        "expected": "member pending until Admin approval",
+        "actual": {
+          "role": "member",
+          "register_http": 202,
+          "before_approval": 401,
+          "member_approve": 403,
+          "admin_approve": 200,
+          "after_approval": 200
+        }
+      },
+      "error": null
+    },
+    {
+      "test": "test_requirement_repairs.TestRequirementRepairs.test_55_leader_requires_admin_approval",
+      "method": "test_55_leader_requires_admin_approval",
+      "description": "test_55_leader_requires_admin_approval",
+      "result": "Thành công",
+      "seconds": 0.5173,
+      "evidence": {
+        "requirements": [
+          "FR-01",
+          "FR-02",
+          "User requirement: all registrations approved"
+        ],
+        "expected": "leader pending until Admin approval",
+        "actual": {
+          "role": "leader",
+          "register_http": 202,
+          "before_approval": 401,
+          "member_approve": 403,
+          "admin_approve": 200,
+          "after_approval": 200
+        }
+      },
+      "error": null
+    },
+    {
+      "test": "test_requirement_repairs.TestRequirementRepairs.test_56_sync_across_independent_clients",
+      "method": "test_56_sync_across_independent_clients",
+      "description": "test_56_sync_across_independent_clients",
+      "result": "Thành công",
+      "seconds": 0.0282,
+      "evidence": {
+        "requirements": [
+          "FR-10",
+          "FR-11",
+          "NFR-05"
+        ],
+        "expected": "separate sessions receive opaque invalidation token; no cached API",
+        "actual": {
+          "changed": true,
+          "poll_seconds": 5,
+          "anonymous": 401,
+          "no_store": true
+        }
+      },
+      "error": null
+    },
+    {
+      "test": "test_requirement_repairs.TestRequirementRepairs.test_57_lock_invalidates_other_client_session",
+      "method": "test_57_lock_invalidates_other_client_session",
+      "description": "test_57_lock_invalidates_other_client_session",
+      "result": "Thành công",
+      "seconds": 0.1779,
+      "evidence": {
+        "requirements": [
+          "FR-01",
+          "FR-02"
+        ],
+        "expected": "existing browser session rejected after Admin lock",
+        "actual": {
+          "before": 200,
+          "after": 401
+        }
+      },
+      "error": null
+    },
+    {
+      "test": "test_requirement_repairs.TestRequirementRepairs.test_58_unicode_staff_name_roundtrip",
+      "method": "test_58_unicode_staff_name_roundtrip",
+      "description": "test_58_unicode_staff_name_roundtrip",
+      "result": "Thành công",
+      "seconds": 0.1728,
+      "evidence": {
+        "requirements": [
+          "FR-02",
+          "FR-04",
+          "NFR-02"
+        ],
+        "expected": "Unicode preserved through account creation, database and staff API",
+        "actual": {
+          "name": "Lưu Trà My — Nguyễn Đặng Ánh, tiếng Việt",
+          "matches": true
+        }
+      },
+      "error": null
+    },
+    {
+      "test": "test_requirement_repairs.TestRequirementRepairs.test_59_live_file_config_overrides_stale_kira_environment",
+      "method": "test_59_live_file_config_overrides_stale_kira_environment",
+      "description": "test_59_live_file_config_overrides_stale_kira_environment",
+      "result": "Thành công",
+      "seconds": 0.0217,
+      "evidence": {
+        "requirements": [
+          "FR-12",
+          "FR-13",
+          "FR-14",
+          "NFR-11"
+        ],
+        "expected": "all AI actions use live Gemini config despite stale Kira process settings",
+        "actual": {
+          "provider": "gemini",
+          "models": "gemini-3.8-flash",
+          "blank_key_rejected": true,
+          "reload_key": true
+        }
+      },
+      "error": null
+    },
+    {
+      "test": "test_requirement_repairs.TestRequirementRepairs.test_60_gemini_wire_contract_and_thought_filter",
+      "method": "test_60_gemini_wire_contract_and_thought_filter",
+      "description": "test_60_gemini_wire_contract_and_thought_filter",
+      "result": "Thành công",
+      "seconds": 0.022,
+      "evidence": {
+        "requirements": [
+          "FR-13",
+          "NFR-06",
+          "NFR-11"
+        ],
+        "expected": "Gemini JSON contract excludes thought text and deprecated sampling field",
+        "actual": {
+          "model": "gemini-3.8-flash",
+          "json_output": true,
+          "thought_excluded": true
+        }
+      },
+      "error": null
+    },
+    {
+      "test": "test_requirement_repairs.TestRequirementRepairs.test_61_meeting_pipeline_uses_gemini_and_saves_draft",
+      "method": "test_61_meeting_pipeline_uses_gemini_and_saves_draft",
+      "description": "test_61_meeting_pipeline_uses_gemini_and_saves_draft",
+      "result": "Thành công",
+      "seconds": 0.0521,
+      "evidence": {
+        "requirements": [
+          "FR-13",
+          "BR-06",
+          "BR-07"
+        ],
+        "expected": "meeting API routes to Gemini, processes grounded source and persists readable draft",
+        "actual": {
+          "http": 200,
+          "draft_read": 200,
+          "provider": "gemini",
+          "network": "mock HTTP transport"
+        }
+      },
+      "error": null
+    },
+    {
+      "test": "test_requirement_repairs.TestRequirementRepairs.test_62_repair_only_damaged_known_sample_names",
+      "method": "test_62_repair_only_damaged_known_sample_names",
+      "description": "test_62_repair_only_damaged_known_sample_names",
+      "result": "Thành công",
+      "seconds": 0.0343,
+      "evidence": {
+        "requirements": [
+          "FR-02",
+          "NFR-02"
+        ],
+        "expected": "repair known corrupted names without resetting accounts or passwords",
+        "actual": {
+          "restored": "Lưu Trà My (Thành viên 33)",
+          "repeat_no_changes": true
+        }
+      },
+      "error": null
+    },
+    {
+      "test": "test_requirement_repairs.TestRequirementRepairs.test_63_initial_staff_validation_types",
+      "method": "test_63_initial_staff_validation_types",
+      "description": "test_63_initial_staff_validation_types",
+      "result": "Thành công",
+      "seconds": 0.0234,
+      "evidence": {
+        "requirements": [
+          "FR-03",
+          "FR-04",
+          "NFR-05"
+        ],
+        "expected": "invalid staff list types and Admin staff assignment rejected",
+        "actual": {
+          "http": [
+            400,
+            400,
+            400,
+            400,
+            400,
+            400
+          ]
+        }
+      },
+      "error": null
+    },
+    {
+      "test": "test_requirement_repairs.TestRequirementRepairs.test_64_public_development_secret_cannot_forge_admin_session",
+      "method": "test_64_public_development_secret_cannot_forge_admin_session",
+      "description": "test_64_public_development_secret_cannot_forge_admin_session",
+      "result": "Thành công",
+      "seconds": 0.0095,
+      "evidence": {
+        "requirements": [
+          "FR-01",
+          "FR-02",
+          "NFR-03"
+        ],
+        "expected": "cookie forged with published sample secret does not grant Admin",
+        "actual": {
+          "forged_cookie_http": 401
+        }
+      },
+      "error": null
+    },
+    {
+      "test": "test_requirement_repairs.TestRequirementRepairs.test_65_network_denied_returns_specific_error_without_draft",
+      "method": "test_65_network_denied_returns_specific_error_without_draft",
+      "description": "test_65_network_denied_returns_specific_error_without_draft",
+      "result": "Thành công",
+      "seconds": 0.0327,
+      "evidence": {
+        "requirements": [
+          "FR-12",
+          "NFR-01",
+          "NFR-03",
+          "NFR-06"
+        ],
+        "expected": "network access denial is explicit; no retry or partial draft",
+        "actual": {
+          "http": 503,
+          "code": "AI_NETWORK_DENIED",
+          "calls": 1,
+          "draft_created": false
+        }
+      },
+      "error": null
+    },
+    {
+      "test": "test_requirement_repairs.TestRequirementRepairs.test_66_admin_probe_exposes_safe_network_diagnostics",
+      "method": "test_66_admin_probe_exposes_safe_network_diagnostics",
+      "description": "test_66_admin_probe_exposes_safe_network_diagnostics",
+      "result": "Thành công",
+      "seconds": 0.025,
+      "evidence": {
+        "requirements": [
+          "FR-02",
+          "NFR-03",
+          "NFR-09"
+        ],
+        "expected": "Admin gets safe error category and OS code; one probe for shared model",
+        "actual": {
+          "http": 200,
+          "reachable": false,
+          "code": "AI_NETWORK_DENIED",
+          "winerror": 10013,
+          "probe_calls": 1
+        }
+      },
+      "error": null
+    },
+    {
+      "test": "test_requirement_repairs.TestRequirementRepairs.test_67_meeting_tls_error_preserves_no_partial_result",
+      "method": "test_67_meeting_tls_error_preserves_no_partial_result",
+      "description": "test_67_meeting_tls_error_preserves_no_partial_result",
+      "result": "Thành công",
+      "seconds": 0.0339,
+      "evidence": {
+        "requirements": [
+          "FR-13",
+          "NFR-03",
+          "NFR-06"
+        ],
+        "expected": "TLS failure remains verified/explicit and never saves partial meeting",
+        "actual": {
+          "http": 503,
+          "code": "AI_TLS_CERTIFICATE",
+          "draft_created": false,
+          "calls": 1
+        }
+      },
+      "error": null
+    },
+    {
+      "test": "test_role_workflows.TestRoleWorkflows.test_admin_can_assign_approved_leader_to_existing_project",
+      "method": "test_admin_can_assign_approved_leader_to_existing_project",
+      "description": "test_admin_can_assign_approved_leader_to_existing_project",
+      "result": "Thành công",
+      "seconds": 0.7368,
+      "evidence": {},
+      "error": null
+    },
+    {
+      "test": "test_role_workflows.TestRoleWorkflows.test_admin_can_reopen_rejected_request",
+      "method": "test_admin_can_reopen_rejected_request",
+      "description": "test_admin_can_reopen_rejected_request",
+      "result": "Thành công",
+      "seconds": 0.4978,
+      "evidence": {},
+      "error": null
+    },
+    {
+      "test": "test_role_workflows.TestRoleWorkflows.test_admin_delete_user_workflow",
+      "method": "test_admin_delete_user_workflow",
+      "description": "test_admin_delete_user_workflow",
+      "result": "Thành công",
+      "seconds": 0.4481,
+      "evidence": {},
+      "error": null
+    },
+    {
+      "test": "test_role_workflows.TestRoleWorkflows.test_admin_page_and_account_validation",
+      "method": "test_admin_page_and_account_validation",
+      "description": "test_admin_page_and_account_validation",
+      "result": "Thành công",
+      "seconds": 0.1472,
+      "evidence": {},
+      "error": null
+    },
+    {
+      "test": "test_role_workflows.TestRoleWorkflows.test_leader_requires_admin_approval_and_project_assignment",
+      "method": "test_leader_requires_admin_approval_and_project_assignment",
+      "description": "test_leader_requires_admin_approval_and_project_assignment",
+      "result": "Thành công",
+      "seconds": 0.7286,
+      "evidence": {},
+      "error": null
+    },
+    {
+      "test": "test_role_workflows.TestRoleWorkflows.test_locked_user_session_is_revoked",
+      "method": "test_locked_user_session_is_revoked",
+      "description": "test_locked_user_session_is_revoked",
+      "result": "Thành công",
+      "seconds": 0.3081,
+      "evidence": {},
+      "error": null
+    },
+    {
+      "test": "test_role_workflows.TestRoleWorkflows.test_member_cannot_manage_tasks_or_sprints",
+      "method": "test_member_cannot_manage_tasks_or_sprints",
+      "description": "test_member_cannot_manage_tasks_or_sprints",
+      "result": "Thành công",
+      "seconds": 0.2085,
+      "evidence": {},
+      "error": null
+    },
+    {
+      "test": "test_role_workflows.TestRoleWorkflows.test_rejected_leader_cannot_log_in",
+      "method": "test_rejected_leader_cannot_log_in",
+      "description": "test_rejected_leader_cannot_log_in",
+      "result": "Thành công",
+      "seconds": 0.5442,
+      "evidence": {},
+      "error": null
+    },
+    {
+      "test": "test_role_workflows.TestRoleWorkflows.test_role_demotion_takes_effect_in_existing_session",
+      "method": "test_role_demotion_takes_effect_in_existing_session",
+      "description": "test_role_demotion_takes_effect_in_existing_session",
+      "result": "Thành công",
+      "seconds": 0.5103,
+      "evidence": {},
+      "error": null
+    },
+    {
+      "test": "test_role_workflows.TestRoleWorkflows.test_sqlite_initialization_preserves_existing_accounts",
+      "method": "test_sqlite_initialization_preserves_existing_accounts",
+      "description": "test_sqlite_initialization_preserves_existing_accounts",
+      "result": "Thành công",
+      "seconds": 0.1418,
+      "evidence": {},
+      "error": null
+    },
+    {
+      "test": "test_role_workflows.TestRoleWorkflows.test_task_references_must_belong_to_project",
+      "method": "test_task_references_must_belong_to_project",
+      "description": "test_task_references_must_belong_to_project",
+      "result": "Thành công",
+      "seconds": 0.2665,
+      "evidence": {},
+      "error": null
+    }
+  ]
+}
