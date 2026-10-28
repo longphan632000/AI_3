@@ -10,6 +10,16 @@
       "details": {}
     },
     {
+      "name": "My work shortcut shows both assigned and supported tasks with clear progress controls",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "Member gets an explanation for an empty personal filter and can return to all project tasks",
+      "passed": true,
+      "details": {}
+    },
+    {
       "name": "Member moves assigned task with native drag and drop",
       "passed": true,
       "details": {

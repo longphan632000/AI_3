@@ -1,0 +1,241 @@
+{% extends "base.html" %}
+
+{% block title %}Bảng Kanban 5 Trạng Thái | AI Project Management System{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/kanban.css') }}">
+{% endblock %}
+
+{% block content %}
+<!-- Kanban Toolbar -->
+<div class="kanban-toolbar">
+    <div>
+        <h2 class="text-gradient-cyan">Bảng Kanban Tiến độ</h2>
+        <p style="color: var(--text-secondary); font-size: 0.88rem;">
+            Quy trình chuẩn 5 trạng thái (BR-01): Tồn đọng ➔ Cần làm ➔ Đang làm ➔ Kiểm tra ➔ Hoàn thành
+        </p>
+    </div>
+
+    <div style="display: flex; gap: 12px; align-items: center;">
+        <button id="create-task-button" class="btn btn-primary" style="display:none;"
+            onclick="openTaskForm()">
+            <span>+ Tạo Nhiệm Vụ Mới</span>
+        </button>
+    </div>
+</div>
+
+<!-- Filters Toolbar -->
+<div class="kanban-toolbar"
+    style="background: rgba(19, 27, 46, 0.4); padding: 12px 18px; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
+    <div class="kanban-filters">
+        <input type="text" id="filter-keyword" class="form-input" placeholder="🔍 Tìm kiếm nhiệm vụ..."
+            style="width: 220px; padding: 6px 12px; font-size: 0.85rem;">
+
+        <select id="filter-sprint" class="form-select" style="width: 180px; padding: 6px 12px; font-size: 0.85rem;">
+            <option value="">Tất cả Sprint</option>
+        </select>
+
+        <select id="filter-assignee" class="form-select" style="width: 180px; padding: 6px 12px; font-size: 0.85rem;">
+            <option value="">Tất cả người phụ trách</option>
+        </select>
+
+        <label
+            style="display: flex; align-items: center; gap: 6px; font-size: 0.85rem; color: var(--neon-rose); cursor: pointer;">
+            <input type="checkbox" id="filter-overdue"> Chỉ xem việc trễ hạn (BR-02)
+        </label>
+    </div>
+</div>
+
+<!-- Kanban 5 Columns Board -->
+<div class="kanban-board">
+    <!-- Cột 1: Tồn đọng (Backlog) -->
+    <div class="kanban-column" data-status="backlog">
+        <div class="column-header">
+            <div class="column-title-box">
+                <span class="column-dot dot-backlog"></span>
+                <span class="column-title">Tồn đọng</span>
+            </div>
+            <span id="col-count-backlog" class="column-count">0</span>
+        </div>
+        <div id="col-body-backlog" class="column-body"></div>
+    </div>
+
+    <!-- Cột 2: Cần làm (To do) -->
+    <div class="kanban-column" data-status="todo">
+        <div class="column-header">
+            <div class="column-title-box">
+                <span class="column-dot dot-todo"></span>
+                <span class="column-title">Cần làm</span>
+            </div>
+            <span id="col-count-todo" class="column-count">0</span>
+        </div>
+        <div id="col-body-todo" class="column-body"></div>
+    </div>
+
+    <!-- Cột 3: Đang làm (In progress) -->
+    <div class="kanban-column" data-status="in_progress">
+        <div class="column-header">
+            <div class="column-title-box">
+                <span class="column-dot dot-in_progress"></span>
+                <span class="column-title">Đang làm</span>
+            </div>
+            <span id="col-count-in_progress" class="column-count">0</span>
+        </div>
+        <div id="col-body-in_progress" class="column-body"></div>
+    </div>
+
+    <!-- Cột 4: Kiểm tra (Review) -->
+    <div class="kanban-column" data-status="review">
+        <div class="column-header">
+            <div class="column-title-box">
+                <span class="column-dot dot-review"></span>
+                <span class="column-title">Kiểm tra</span>
+            </div>
+            <span id="col-count-review" class="column-count">0</span>
+        </div>
+        <div id="col-body-review" class="column-body"></div>
+    </div>
+
+    <!-- Cột 5: Hoàn thành (Done) -->
+    <div class="kanban-column" data-status="done">
+        <div class="column-header">
+            <div class="column-title-box">
+                <span class="column-dot dot-done"></span>
+                <span class="column-title">Hoàn thành</span>
+            </div>
+            <span id="col-count-done" class="column-count">0</span>
+        </div>
+        <div id="col-body-done" class="column-body"></div>
+    </div>
+</div>
+
+<div style="display:flex;flex-wrap:wrap;gap:12px;align-items:end;margin:12px 0;">
+  <label>Ưu tiên<select id="filter-priority" class="form-select"><option value="">Tất cả</option><option value="low">Thấp</option><option value="medium">Trung bình</option><option value="high">Cao</option><option value="urgent">Khẩn cấp</option></select></label>
+  <label>Trạng thái<select id="filter-status" class="form-select"><option value="">Tất cả</option><option value="backlog">Tồn đọng</option><option value="todo">Cần làm</option><option value="in_progress">Đang làm</option><option value="review">Kiểm tra</option><option value="done">Hoàn thành</option></select></label>
+  <label>Hạn từ<input type="date" id="filter-due-from" class="form-input"></label>
+  <label>Hạn đến<input type="date" id="filter-due-to" class="form-input"></label>
+  <label>Sắp xếp<select id="filter-sort" class="form-select"><option value="priority">Ưu tiên</option><option value="title">Tiêu đề</option><option value="due_date">Hạn hoàn thành</option><option value="status">Trạng thái</option><option value="created_at">Ngày tạo</option></select></label>
+  <label>Thứ tự<select id="filter-order" class="form-select"><option value="desc">Giảm dần</option><option value="asc">Tăng dần</option></select></label>
+  <button id="tasks-prev" class="btn btn-secondary" onclick="changeTaskPage(-1)">Trang trước</button><span id="tasks-page"></span><button id="tasks-next" class="btn btn-secondary" onclick="changeTaskPage(1)">Trang sau</button>
+  <button data-project-manager hidden class="btn btn-secondary" onclick="showArchivedTasks()">Nhiệm vụ đã lưu trữ</button>
+</div>
+<!-- Modal Tạo Nhiệm Vụ Mới -->
+<div id="modal-create-task" class="modal-overlay">
+    <div class="modal-box">
+        <div class="modal-header">
+            <h3 class="modal-title">Tạo Nhiệm Vụ Mới</h3>
+            <button class="btn-icon" onclick="closeModal('modal-create-task')">✕</button>
+        </div>
+        <form id="form-create-task" onsubmit="submitCreateTask(event)">
+            <div class="form-group">
+                <label class="form-label">Tiêu đề nhiệm vụ *</label>
+                <input type="text" id="new-task-title" class="form-input" placeholder="Ví dụ: Thiết kế API xác thực..."
+                    required>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Mô tả công việc</label>
+                <textarea id="new-task-desc" class="form-textarea" rows="3"
+                    placeholder="Mô tả cụ thể yêu cầu kỹ thuật..."></textarea>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+                <div class="form-group">
+                    <label class="form-label">Gán vào Sprint (Tối đa 1)</label>
+                    <select id="new-task-sprint" class="form-select"></select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Người phụ trách</label>
+                    <select id="new-task-assignee" class="form-select"></select>
+                </div>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px;">
+                <div class="form-group">
+                    <label class="form-label">Độ ưu tiên</label>
+                    <select id="new-task-priority" class="form-select">
+                        <option value="low">Thấp (Low)</option>
+                        <option value="medium" selected>Trung bình (Medium)</option>
+                        <option value="high">Cao (High)</option>
+                        <option value="urgent">Khẩn cấp (Urgent)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Thời hạn (Due Date)</label>
+                    <input type="datetime-local" id="new-task-due" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Ước lượng (Giờ)</label>
+                    <input type="number" id="new-task-hours" class="form-input" min="0" step="0.5" value="8">
+                </div>
+            </div>
+            <div class="form-group"><label class="form-label" for="new-task-code">Mã nhiệm vụ (tùy chọn)</label><input id="new-task-code" class="form-input" maxlength="50"></div>
+            <div class="form-group"><label class="form-label" for="new-task-supporters">Người hỗ trợ (giữ Ctrl để chọn nhiều)</label><select id="new-task-supporters" multiple class="form-select"></select></div>
+            <div class="form-group"><label class="form-label" for="new-task-blockers">Vướng mắc</label><textarea id="new-task-blockers" class="form-textarea"></textarea></div>
+            <div id="task-edit-progress" class="form-group" hidden><label class="form-label" for="new-task-progress">Tiến độ (%)</label><input type="number" min="0" max="100" step="1" id="new-task-progress" class="form-input"></div>
+            <div class="form-group">
+                <label class="form-label">Nhãn / Kỹ năng cần cho nhiệm vụ (phân cách bởi dấu phẩy)</label>
+                <input type="text" id="new-task-labels" class="form-input" placeholder="Backend, Python, AI, URD...">
+            </div>
+            <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 20px;">
+                <button type="button" class="btn btn-secondary" onclick="closeModal('modal-create-task')">Hủy</button>
+                <button id="task-submit-button" type="submit" class="btn btn-primary">Tạo nhiệm vụ</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal Chi Tiết Nhiệm Vụ & Bình Luận (UC007) -->
+<div id="modal-task-detail" class="modal-overlay">
+    <div class="modal-box" style="max-width: 650px;">
+        <div class="modal-header">
+            <div>
+                <span id="detail-task-id" class="task-id-badge" style="font-size:0.85rem;"></span>
+                <h3 id="detail-task-title" class="modal-title" style="margin-top:4px;"></h3>
+            </div>
+            <button class="btn-icon" onclick="closeModal('modal-task-detail')">✕</button>
+        </div>
+
+        <div id="detail-task-overdue-alert"
+            style="display:none; padding:10px 14px; background:rgba(244,63,94,0.15); border:1px solid rgba(244,63,94,0.4); border-radius:8px; margin-bottom:16px; color:#ff4d6d; font-size:0.85rem;">
+            ⚠️ <strong>Cảnh báo trễ hạn (BR-02):</strong> Nhiệm vụ này đã quá hạn hoàn thành!
+        </div>
+
+        <div
+            style="display:grid; grid-template-columns:repeat(4, 1fr); gap:12px; padding:12px; background:rgba(255,255,255,0.02); border-radius:8px; margin-bottom:16px; font-size:0.82rem;">
+            <div><span style="color:var(--text-muted);">Trạng thái:</span> <strong id="detail-task-status"
+                    style="color:var(--neon-cyan);"></strong></div>
+            <div><span style="color:var(--text-muted);">Người phụ trách:</span> <strong
+                    id="detail-task-assignee"></strong></div>
+            <div><span style="color:var(--text-muted);">Hạn chót:</span> <strong id="detail-task-due"></strong></div>
+            <div><span style="color:var(--text-muted);">Ước lượng:</span> <strong id="detail-task-hours"></strong></div>
+        </div>
+
+        <div style="margin-bottom:20px;">
+            <div
+                style="font-size:0.8rem; color:var(--text-muted); text-transform:uppercase; font-weight:700; margin-bottom:6px;">
+                Mô tả nhiệm vụ</div>
+            <p id="detail-task-desc" style="font-size:0.9rem; color:var(--text-secondary); line-height:1.6;"></p>
+        </div>
+
+        <div id="task-detail-actions" style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;"></div>
+        <div style="margin:16px 0;"><h4>Tài liệu và liên kết</h4><div id="task-attachments"></div>
+          <form id="attachment-upload-form" onsubmit="submitAttachment(event)"><label for="task-attachment-file">Tệp tối đa 5 MB: PDF, DOCX, TXT, MD, PNG, JPG</label><input id="task-attachment-file" type="file" accept=".pdf,.docx,.txt,.md,.png,.jpg,.jpeg" required><button class="btn btn-secondary" type="submit">Tải lên</button></form>
+          <form id="attachment-link-form" onsubmit="submitTaskLink(event)" style="margin-top:10px;"><input id="task-link-name" class="form-input" placeholder="Tên liên kết" aria-label="Tên liên kết" required><input id="task-link-url" class="form-input" type="url" placeholder="https://..." aria-label="Địa chỉ liên kết" required><button class="btn btn-secondary" type="submit">Thêm liên kết</button></form>
+        </div>
+        <!-- Trao đổi / Bình luận (UC007) -->
+        <div style="border-top:1px solid var(--border-subtle); padding-top:16px;">
+            <h4 style="font-size:0.95rem; margin-bottom:12px;">💬 Trao đổi & Thảo luận (UC007)</h4>
+            <div id="comments-list" style="max-height:180px; overflow-y:auto; margin-bottom:12px;"></div>
+
+            <form id="form-add-comment" onsubmit="submitComment(event)" style="display:flex; gap:8px;">
+                <input type="hidden" id="comment-task-id">
+                <input type="text" id="new-comment-content" class="form-input"
+                    placeholder="Viết trao đổi hoặc đính kèm ý kiến..." required style="flex:1;">
+                <button type="submit" class="btn btn-secondary">Gửi</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/kanban.js') }}"></script>
+{% endblock %}

@@ -42,6 +42,7 @@ app.config['MAX_CONTENT_LENGTH'] = 6 * 1024 * 1024
 app.config['SESSION_COOKIE_HTTPONLY'] = True
 app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
 app.config['SESSION_COOKIE_SECURE'] = os.getenv('SESSION_COOKIE_SECURE', 'false').lower() == 'true'
+app.config['TEMPLATES_AUTO_RELOAD'] = True
 
 
 @app.context_processor

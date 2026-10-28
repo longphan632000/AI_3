@@ -1,9 +1,9 @@
 {
   "engine": "sqlite",
-  "timestamp": "2026-10-28T22:40:35.249381+07:00",
-  "tests_run": 253,
+  "timestamp": "2026-10-28T23:53:18.990751+07:00",
+  "tests_run": 254,
   "successful": true,
-  "passed": 253,
+  "passed": 254,
   "failed": 0,
   "records": [
     {
@@ -11,7 +11,7 @@
       "method": "test_admin_diagnostics_require_admin_and_never_return_key",
       "description": "test_admin_diagnostics_require_admin_and_never_return_key",
       "result": "Thành công",
-      "seconds": 1.5993,
+      "seconds": 1.7371,
       "evidence": {},
       "error": null
     },
@@ -20,7 +20,7 @@
       "method": "test_admin_openai_diagnostics_report_generation_probe_without_key",
       "description": "test_admin_openai_diagnostics_report_generation_probe_without_key",
       "result": "Thành công",
-      "seconds": 0.1856,
+      "seconds": 0.1008,
       "evidence": {},
       "error": null
     },
@@ -29,7 +29,7 @@
       "method": "test_blank_process_key_uses_project_env_file",
       "description": "test_blank_process_key_uses_project_env_file",
       "result": "Thành công",
-      "seconds": 0.0371,
+      "seconds": 0.0058,
       "evidence": {},
       "error": null
     },
@@ -38,7 +38,7 @@
       "method": "test_live_file_budget_overrides_stale_process_timeout",
       "description": "test_live_file_budget_overrides_stale_process_timeout",
       "result": "Thành công",
-      "seconds": 0.0205,
+      "seconds": 0.0114,
       "evidence": {},
       "error": null
     },
@@ -47,7 +47,7 @@
       "method": "test_nonblank_process_key_wins_and_missing_key_is_rejected",
       "description": "test_nonblank_process_key_wins_and_missing_key_is_rejected",
       "result": "Thành công",
-      "seconds": 0.0063,
+      "seconds": 0.0083,
       "evidence": {},
       "error": null
     },
@@ -56,7 +56,7 @@
       "method": "test_confirmation_service_leader_only_uc010",
       "description": "Kiểm thử chỉ Trưởng nhóm mới có quyền xác nhận bản nháp chính thức (UC010, D05).",
       "result": "Thành công",
-      "seconds": 0.066,
+      "seconds": 0.0357,
       "evidence": {},
       "error": null
     },
@@ -65,7 +65,7 @@
       "method": "test_request_analyzer_rbac_d06",
       "description": "Kiểm thử phân quyền riêng từng chức năng AI theo D06.",
       "result": "Thành công",
-      "seconds": 0.0123,
+      "seconds": 0.01,
       "evidence": {},
       "error": null
     },
@@ -74,7 +74,7 @@
       "method": "test_response_validator_hallucination_detection",
       "description": "Kiểm thử Response Validator phát hiện ID ảo giác ngoài CSDL.",
       "result": "Thành công",
-      "seconds": 0.0013,
+      "seconds": 0.001,
       "evidence": {},
       "error": null
     },
@@ -83,7 +83,7 @@
       "method": "test_admin_redirect_to_admin_page",
       "description": "Kiểm thử Admin đăng nhập thì chuyển hướng vào /admin chứ không vào dashboard dự án.",
       "result": "Thành công",
-      "seconds": 0.6264,
+      "seconds": 0.662,
       "evidence": {},
       "error": null
     },
@@ -92,7 +92,7 @@
       "method": "test_login_locked_account",
       "description": "Kiểm thử từ chối tài khoản bị khóa theo FR-01.",
       "result": "Thành công",
-      "seconds": 0.6321,
+      "seconds": 0.3697,
       "evidence": {},
       "error": null
     },
@@ -101,7 +101,7 @@
       "method": "test_login_success",
       "description": "Kiểm thử đăng nhập thành công với tài khoản active (FR-01).",
       "result": "Thành công",
-      "seconds": 0.6867,
+      "seconds": 0.3331,
       "evidence": {},
       "error": null
     },
@@ -110,7 +110,7 @@
       "method": "test_login_wrong_password",
       "description": "Kiểm thử từ chối mật khẩu sai.",
       "result": "Thành công",
-      "seconds": 0.6729,
+      "seconds": 0.6378,
       "evidence": {},
       "error": null
     },
@@ -119,7 +119,7 @@
       "method": "test_register_duplicate_username",
       "description": "Kiểm thử đăng ký trùng tên đăng nhập bị từ chối.",
       "result": "Thành công",
-      "seconds": 0.0364,
+      "seconds": 0.032,
       "evidence": {},
       "error": null
     },
@@ -128,7 +128,7 @@
       "method": "test_register_new_user_success",
       "description": "Kiểm thử đăng ký tài khoản mới thành công.",
       "result": "Thành công",
-      "seconds": 0.6734,
+      "seconds": 0.5296,
       "evidence": {},
       "error": null
     },
@@ -137,7 +137,7 @@
       "method": "test_br_01_kanban_status_validation",
       "description": "BR-01: Trạng thái Kanban phải thuộc 5 trạng thái hợp lệ.",
       "result": "Thành công",
-      "seconds": 0.0054,
+      "seconds": 0.0041,
       "evidence": {},
       "error": null
     },
@@ -146,7 +146,7 @@
       "method": "test_br_02_overdue_task_detection",
       "description": "BR-02: Nhiệm vụ trễ khi quá hạn, chưa Done và chưa lưu trữ.",
       "result": "Thành công",
-      "seconds": 0.0005,
+      "seconds": 0.0002,
       "evidence": {},
       "error": null
     },
@@ -155,7 +155,7 @@
       "method": "test_br_03_sprint_dates",
       "description": "BR-03: Ngày bắt đầu sprint không được sau ngày kết thúc.",
       "result": "Thành công",
-      "seconds": 0.0021,
+      "seconds": 0.0023,
       "evidence": {},
       "error": null
     },
@@ -164,7 +164,7 @@
       "method": "test_br_04_completion_rate",
       "description": "BR-04: Tỷ lệ hoàn thành = Done / Total * 100%. Nếu total = 0 thì trả về 0.0%.",
       "result": "Thành công",
-      "seconds": 0.0041,
+      "seconds": 0.0023,
       "evidence": {},
       "error": null
     },
@@ -173,7 +173,7 @@
       "method": "test_br_05_workload_and_overload",
       "description": "BR-05: Tải = tổng estimated_hours việc chưa Done; Quá tải khi Tải > Capacity.",
       "result": "Thành công",
-      "seconds": 0.0106,
+      "seconds": 0.0059,
       "evidence": {},
       "error": null
     },
@@ -182,7 +182,7 @@
       "method": "test_01_supporter_workload_and_overdue_included",
       "description": "Lỗi 1: Kiểm tra thành viên hỗ trợ (My - user 3) được tính đúng số việc và việc trễ hạn.",
       "result": "Thành công",
-      "seconds": 0.093,
+      "seconds": 0.0916,
       "evidence": {},
       "error": null
     },
@@ -191,7 +191,7 @@
       "method": "test_02_delete_task_api_and_rbac",
       "description": "Lỗi 2: Kiểm tra chức năng xóa nhiệm vụ và bảo vệ quyền Leader.",
       "result": "Thành công",
-      "seconds": 1.6647,
+      "seconds": 1.0721,
       "evidence": {},
       "error": null
     },
@@ -200,7 +200,7 @@
       "method": "test_03_automated_overdue_and_due_soon_notifications",
       "description": "Lỗi 4: Kiểm tra tự động phát thông báo nhiệm vụ trễ hạn & sắp trễ hạn cho cả chính và hỗ trợ.",
       "result": "Thành công",
-      "seconds": 0.2344,
+      "seconds": 0.1088,
       "evidence": {},
       "error": null
     },
@@ -209,7 +209,7 @@
       "method": "test_connection_failure_and_invalid_json_are_distinct",
       "description": "test_connection_failure_and_invalid_json_are_distinct",
       "result": "Thành công",
-      "seconds": 0.113,
+      "seconds": 0.0399,
       "evidence": {},
       "error": null
     },
@@ -218,7 +218,7 @@
       "method": "test_http_errors_are_distinct_and_never_echo_provider_body",
       "description": "test_http_errors_are_distinct_and_never_echo_provider_body",
       "result": "Thành công",
-      "seconds": 0.1084,
+      "seconds": 0.0261,
       "evidence": {},
       "error": null
     },
@@ -227,7 +227,7 @@
       "method": "test_network_denied_is_not_retried_and_secrets_are_not_logged",
       "description": "test_network_denied_is_not_retried_and_secrets_are_not_logged",
       "result": "Thành công",
-      "seconds": 0.0897,
+      "seconds": 0.0197,
       "evidence": {},
       "error": null
     },
@@ -236,7 +236,7 @@
       "method": "test_other_ai_modes_keep_the_general_model",
       "description": "test_other_ai_modes_keep_the_general_model",
       "result": "Thành công",
-      "seconds": 0.0756,
+      "seconds": 0.0156,
       "evidence": {},
       "error": null
     },
@@ -245,7 +245,7 @@
       "method": "test_permanent_dns_failure_is_separate_from_connection",
       "description": "test_permanent_dns_failure_is_separate_from_connection",
       "result": "Thành công",
-      "seconds": 0.0801,
+      "seconds": 0.0166,
       "evidence": {},
       "error": null
     },
@@ -254,7 +254,7 @@
       "method": "test_persistent_timeout_returns_specific_safe_error",
       "description": "test_persistent_timeout_returns_specific_safe_error",
       "result": "Thành công",
-      "seconds": 0.0788,
+      "seconds": 0.0195,
       "evidence": {},
       "error": null
     },
@@ -263,7 +263,7 @@
       "method": "test_probe_uses_same_transport_classifier_and_clears_old_error",
       "description": "test_probe_uses_same_transport_classifier_and_clears_old_error",
       "result": "Thành công",
-      "seconds": 0.0629,
+      "seconds": 0.017,
       "evidence": {},
       "error": null
     },
@@ -272,7 +272,7 @@
       "method": "test_service_unavailable_retries_and_rate_limit_is_separate",
       "description": "test_service_unavailable_retries_and_rate_limit_is_separate",
       "result": "Thành công",
-      "seconds": 0.0902,
+      "seconds": 0.0172,
       "evidence": {},
       "error": null
     },
@@ -281,7 +281,7 @@
       "method": "test_temporary_dns_failure_can_recover",
       "description": "test_temporary_dns_failure_can_recover",
       "result": "Thành công",
-      "seconds": 0.0987,
+      "seconds": 0.0188,
       "evidence": {},
       "error": null
     },
@@ -290,7 +290,7 @@
       "method": "test_timeout_retries_then_succeeds_with_meeting_timeout",
       "description": "test_timeout_retries_then_succeeds_with_meeting_timeout",
       "result": "Thành công",
-      "seconds": 0.09,
+      "seconds": 0.0178,
       "evidence": {},
       "error": null
     },
@@ -299,7 +299,7 @@
       "method": "test_tls_failures_keep_verification_and_do_not_retry",
       "description": "test_tls_failures_keep_verification_and_do_not_retry",
       "result": "Thành công",
-      "seconds": 0.0821,
+      "seconds": 0.0167,
       "evidence": {},
       "error": null
     },
@@ -308,7 +308,7 @@
       "method": "test_default_model_uses_verified_gemini_flash",
       "description": "test_default_model_uses_verified_gemini_flash",
       "result": "Thành công",
-      "seconds": 0.0225,
+      "seconds": 0.0066,
       "evidence": {},
       "error": null
     },
@@ -317,7 +317,7 @@
       "method": "test_default_provider_is_gemini",
       "description": "test_default_provider_is_gemini",
       "result": "Thành công",
-      "seconds": 0.0263,
+      "seconds": 0.0053,
       "evidence": {},
       "error": null
     },
@@ -326,7 +326,7 @@
       "method": "test_live_file_overrides_stale_provider_and_key",
       "description": "test_live_file_overrides_stale_provider_and_key",
       "result": "Thành công",
-      "seconds": 0.1818,
+      "seconds": 0.0464,
       "evidence": {},
       "error": null
     },
@@ -335,7 +335,7 @@
       "method": "test_meeting_json_schema_limits_items_to_source_ids",
       "description": "test_meeting_json_schema_limits_items_to_source_ids",
       "result": "Thành công",
-      "seconds": 0.0177,
+      "seconds": 0.0041,
       "evidence": {},
       "error": null
     },
@@ -344,7 +344,7 @@
       "method": "test_missing_gemini_key_never_reuses_deepseek_key",
       "description": "test_missing_gemini_key_never_reuses_deepseek_key",
       "result": "Thành công",
-      "seconds": 0.0304,
+      "seconds": 0.0069,
       "evidence": {},
       "error": null
     },
@@ -353,7 +353,7 @@
       "method": "test_model_name_cannot_inject_a_url_or_query",
       "description": "test_model_name_cannot_inject_a_url_or_query",
       "result": "Thành công",
-      "seconds": 0.0451,
+      "seconds": 0.0155,
       "evidence": {},
       "error": null
     },
@@ -362,7 +362,7 @@
       "method": "test_model_prefix_is_normalized",
       "description": "test_model_prefix_is_normalized",
       "result": "Thành công",
-      "seconds": 0.0229,
+      "seconds": 0.0083,
       "evidence": {},
       "error": null
     },
@@ -371,7 +371,7 @@
       "method": "test_primary_provider_is_gemini_and_does_not_create_deepseek_client",
       "description": "test_primary_provider_is_gemini_and_does_not_create_deepseek_client",
       "result": "Thành công",
-      "seconds": 0.0231,
+      "seconds": 0.0073,
       "evidence": {},
       "error": null
     },
@@ -380,7 +380,7 @@
       "method": "test_probe_of_different_meeting_model_uses_that_model",
       "description": "test_probe_of_different_meeting_model_uses_that_model",
       "result": "Thành công",
-      "seconds": 0.025,
+      "seconds": 0.0099,
       "evidence": {},
       "error": null
     },
@@ -389,7 +389,7 @@
       "method": "test_probe_requires_successful_content_generation",
       "description": "test_probe_requires_successful_content_generation",
       "result": "Thành công",
-      "seconds": 0.0199,
+      "seconds": 0.009,
       "evidence": {},
       "error": null
     },
@@ -398,7 +398,7 @@
       "method": "test_real_wrong_statistics_still_fail_even_inside_numbered_sections",
       "description": "test_real_wrong_statistics_still_fail_even_inside_numbered_sections",
       "result": "Thành công",
-      "seconds": 0.0127,
+      "seconds": 0.0081,
       "evidence": {},
       "error": null
     },
@@ -407,7 +407,7 @@
       "method": "test_thought_parts_are_not_returned_to_user",
       "description": "test_thought_parts_are_not_returned_to_user",
       "result": "Thành công",
-      "seconds": 0.0181,
+      "seconds": 0.0042,
       "evidence": {},
       "error": null
     },
@@ -416,7 +416,7 @@
       "method": "test_truncation_and_safety_blocks_are_controlled_errors",
       "description": "test_truncation_and_safety_blocks_are_controlled_errors",
       "result": "Thành công",
-      "seconds": 0.0193,
+      "seconds": 0.007,
       "evidence": {},
       "error": null
     },
@@ -425,7 +425,7 @@
       "method": "test_weekly_outline_numbers_are_not_treated_as_statistics",
       "description": "test_weekly_outline_numbers_are_not_treated_as_statistics",
       "result": "Thành công",
-      "seconds": 0.0108,
+      "seconds": 0.0054,
       "evidence": {},
       "error": null
     },
@@ -434,7 +434,7 @@
       "method": "test_wire_request_uses_google_endpoint_and_key_header",
       "description": "test_wire_request_uses_google_endpoint_and_key_header",
       "result": "Thành công",
-      "seconds": 0.0148,
+      "seconds": 0.006,
       "evidence": {},
       "error": null
     },
@@ -443,7 +443,7 @@
       "method": "test_admin_page_reports_gemini_and_generation_probe_without_exposing_keys",
       "description": "test_admin_page_reports_gemini_and_generation_probe_without_exposing_keys",
       "result": "Thành công",
-      "seconds": 0.3403,
+      "seconds": 0.1176,
       "evidence": {},
       "error": null
     },
@@ -452,7 +452,7 @@
       "method": "test_invalid_gemini_configuration_keeps_provider_name_in_diagnostics",
       "description": "test_invalid_gemini_configuration_keeps_provider_name_in_diagnostics",
       "result": "Thành công",
-      "seconds": 0.197,
+      "seconds": 0.069,
       "evidence": {},
       "error": null
     },
@@ -461,7 +461,7 @@
       "method": "test_three_features_keep_working_when_gemini_key_is_missing",
       "description": "test_three_features_keep_working_when_gemini_key_is_missing",
       "result": "Thành công",
-      "seconds": 0.4591,
+      "seconds": 0.2261,
       "evidence": {},
       "error": null
     },
@@ -470,7 +470,7 @@
       "method": "test_three_features_use_gemini_and_save_correct_history",
       "description": "test_three_features_use_gemini_and_save_correct_history",
       "result": "Thành công",
-      "seconds": 0.4623,
+      "seconds": 0.3257,
       "evidence": {},
       "error": null
     },
@@ -479,7 +479,7 @@
       "method": "test_admin_blocked_from_creating_task_and_sprint",
       "description": "Kiểm thử logic chuẩn theo tài liệu: Quản trị viên KHÔNG được tạo nhiệm vụ hay sprint (chỉ quản lý user/audit).",
       "result": "Thành công",
-      "seconds": 0.7019,
+      "seconds": 0.4008,
       "evidence": {},
       "error": null
     },
@@ -488,7 +488,7 @@
       "method": "test_e2e_full_flow",
       "description": "Kiểm thử tích hợp luồng hoàn chỉnh E2E:",
       "result": "Thành công",
-      "seconds": 1.211,
+      "seconds": 0.6747,
       "evidence": {},
       "error": null
     },
@@ -497,7 +497,7 @@
       "method": "test_upload_meeting_file_and_extract_text",
       "description": "Kiểm thử tính năng tải lên tệp biên bản cuộc họp (.txt / .docx) trích xuất nội dung (FR-13).",
       "result": "Thành công",
-      "seconds": 0.9532,
+      "seconds": 0.5922,
       "evidence": {},
       "error": null
     },
@@ -506,7 +506,7 @@
       "method": "test_ai_provider_service_routing",
       "description": "test_ai_provider_service_routing",
       "result": "Thành công",
-      "seconds": 0.0197,
+      "seconds": 0.0147,
       "evidence": {},
       "error": null
     },
@@ -515,7 +515,7 @@
       "method": "test_generate_content_json_output",
       "description": "test_generate_content_json_output",
       "result": "Thành công",
-      "seconds": 0.0188,
+      "seconds": 0.0166,
       "evidence": {},
       "error": null
     },
@@ -524,7 +524,7 @@
       "method": "test_generate_content_success",
       "description": "test_generate_content_success",
       "result": "Thành công",
-      "seconds": 0.0228,
+      "seconds": 0.0118,
       "evidence": {},
       "error": null
     },
@@ -533,7 +533,7 @@
       "method": "test_kira_service_init_and_configured",
       "description": "test_kira_service_init_and_configured",
       "result": "Thành công",
-      "seconds": 0.015,
+      "seconds": 0.0134,
       "evidence": {},
       "error": null
     },
@@ -542,7 +542,7 @@
       "method": "test_kira_service_unconfigured_raises_on_generate",
       "description": "test_kira_service_unconfigured_raises_on_generate",
       "result": "Thành công",
-      "seconds": 0.0179,
+      "seconds": 0.0138,
       "evidence": {},
       "error": null
     },
@@ -551,7 +551,7 @@
       "method": "test_probe_model_success",
       "description": "test_probe_model_success",
       "result": "Thành công",
-      "seconds": 0.0207,
+      "seconds": 0.0177,
       "evidence": {},
       "error": null
     },
@@ -560,7 +560,7 @@
       "method": "test_all_operational_api_failures_use_local_brain",
       "description": "test_all_operational_api_failures_use_local_brain",
       "result": "Thành công",
-      "seconds": 0.1539,
+      "seconds": 0.1327,
       "evidence": {},
       "error": null
     },
@@ -569,7 +569,7 @@
       "method": "test_api_budget_leaves_time_for_fallback",
       "description": "test_api_budget_leaves_time_for_fallback",
       "result": "Thành công",
-      "seconds": 0.0201,
+      "seconds": 0.0176,
       "evidence": {},
       "error": null
     },
@@ -578,7 +578,7 @@
       "method": "test_api_success_is_always_preferred",
       "description": "test_api_success_is_always_preferred",
       "result": "Thành công",
-      "seconds": 0.0153,
+      "seconds": 0.0129,
       "evidence": {},
       "error": null
     },
@@ -587,7 +587,7 @@
       "method": "test_disabled_fallback_retains_explicit_api_error",
       "description": "test_disabled_fallback_retains_explicit_api_error",
       "result": "Thành công",
-      "seconds": 0.0183,
+      "seconds": 0.0152,
       "evidence": {},
       "error": null
     },
@@ -605,7 +605,7 @@
       "method": "test_invalid_primary_model_configuration_can_still_use_local_brain",
       "description": "test_invalid_primary_model_configuration_can_still_use_local_brain",
       "result": "Thành công",
-      "seconds": 0.0199,
+      "seconds": 0.016,
       "evidence": {},
       "error": null
     },
@@ -614,7 +614,7 @@
       "method": "test_invalid_primary_statistics_switch_to_grounded_local_result",
       "description": "test_invalid_primary_statistics_switch_to_grounded_local_result",
       "result": "Thành công",
-      "seconds": 0.0153,
+      "seconds": 0.0119,
       "evidence": {},
       "error": null
     },
@@ -623,7 +623,7 @@
       "method": "test_local_model_is_used_when_api_fails",
       "description": "test_local_model_is_used_when_api_fails",
       "result": "Thành công",
-      "seconds": 0.0278,
+      "seconds": 0.0175,
       "evidence": {},
       "error": null
     },
@@ -632,7 +632,7 @@
       "method": "test_local_model_timeout_and_ungrounded_response_use_domain_brain",
       "description": "test_local_model_timeout_and_ungrounded_response_use_domain_brain",
       "result": "Thành công",
-      "seconds": 0.037,
+      "seconds": 0.0382,
       "evidence": {},
       "error": null
     },
@@ -641,7 +641,7 @@
       "method": "test_missing_key_does_not_attempt_network",
       "description": "test_missing_key_does_not_attempt_network",
       "result": "Thành công",
-      "seconds": 0.0209,
+      "seconds": 0.0172,
       "evidence": {},
       "error": null
     },
@@ -650,7 +650,7 @@
       "method": "test_one_failed_request_does_not_disable_api_for_next_request",
       "description": "test_one_failed_request_does_not_disable_api_for_next_request",
       "result": "Thành công",
-      "seconds": 0.0268,
+      "seconds": 0.018,
       "evidence": {},
       "error": null
     },
@@ -659,7 +659,7 @@
       "method": "test_real_sdk_http_errors_retry_then_fall_back_without_leaking_credentials",
       "description": "test_real_sdk_http_errors_retry_then_fall_back_without_leaking_credentials",
       "result": "Thành công",
-      "seconds": 0.4527,
+      "seconds": 0.5977,
       "evidence": {},
       "error": null
     },
@@ -668,7 +668,7 @@
       "method": "test_admin_diagnostics_reports_local_fallback_without_exposing_key",
       "description": "test_admin_diagnostics_reports_local_fallback_without_exposing_key",
       "result": "Thành công",
-      "seconds": 0.1751,
+      "seconds": 0.12,
       "evidence": {},
       "error": null
     },
@@ -677,7 +677,7 @@
       "method": "test_all_three_features_work_without_key_and_save_engine_history",
       "description": "test_all_three_features_work_without_key_and_save_engine_history",
       "result": "Thành công",
-      "seconds": 0.4681,
+      "seconds": 0.2423,
       "evidence": {},
       "error": null
     },
@@ -686,7 +686,7 @@
       "method": "test_local_suggestion_never_changes_task_assignments",
       "description": "test_local_suggestion_never_changes_task_assignments",
       "result": "Thành công",
-      "seconds": 0.243,
+      "seconds": 0.1111,
       "evidence": {},
       "error": null
     },
@@ -695,7 +695,7 @@
       "method": "test_long_meeting_has_every_source_even_across_concurrent_chunks",
       "description": "test_long_meeting_has_every_source_even_across_concurrent_chunks",
       "result": "Thành công",
-      "seconds": 0.2439,
+      "seconds": 0.1284,
       "evidence": {},
       "error": null
     },
@@ -704,7 +704,7 @@
       "method": "test_member_and_other_projects_cannot_bypass_permissions_using_fallback",
       "description": "test_member_and_other_projects_cannot_bypass_permissions_using_fallback",
       "result": "Thành công",
-      "seconds": 0.2355,
+      "seconds": 0.2532,
       "evidence": {},
       "error": null
     },
@@ -713,7 +713,7 @@
       "method": "test_model_generated_meeting_saves_complete_sources_and_can_be_confirmed",
       "description": "test_model_generated_meeting_saves_complete_sources_and_can_be_confirmed",
       "result": "Thành công",
-      "seconds": 0.2948,
+      "seconds": 0.3889,
       "evidence": {},
       "error": null
     },
@@ -722,7 +722,7 @@
       "method": "test_assignment_does_not_count_existing_assignment_twice",
       "description": "test_assignment_does_not_count_existing_assignment_twice",
       "result": "Thành công",
-      "seconds": 0.0112,
+      "seconds": 0.0107,
       "evidence": {},
       "error": null
     },
@@ -731,7 +731,7 @@
       "method": "test_assignment_handles_missing_estimate_and_candidates",
       "description": "test_assignment_handles_missing_estimate_and_candidates",
       "result": "Thành công",
-      "seconds": 0.0093,
+      "seconds": 0.0076,
       "evidence": {},
       "error": null
     },
@@ -740,7 +740,7 @@
       "method": "test_assignment_ranking_accounts_for_projected_overload",
       "description": "test_assignment_ranking_accounts_for_projected_overload",
       "result": "Thành công",
-      "seconds": 0.0105,
+      "seconds": 0.0085,
       "evidence": {},
       "error": null
     },
@@ -749,7 +749,7 @@
       "method": "test_concurrent_sources_do_not_leak_between_requests",
       "description": "test_concurrent_sources_do_not_leak_between_requests",
       "result": "Thành công",
-      "seconds": 0.0152,
+      "seconds": 0.0157,
       "evidence": {},
       "error": null
     },
@@ -758,7 +758,7 @@
       "method": "test_decoder_schema_requires_every_source_id",
       "description": "test_decoder_schema_requires_every_source_id",
       "result": "Thành công",
-      "seconds": 0.0122,
+      "seconds": 0.0175,
       "evidence": {},
       "error": null
     },
@@ -767,7 +767,7 @@
       "method": "test_empty_week_is_explicit",
       "description": "test_empty_week_is_explicit",
       "result": "Thành công",
-      "seconds": 0.0121,
+      "seconds": 0.0073,
       "evidence": {},
       "error": null
     },
@@ -776,7 +776,7 @@
       "method": "test_explicit_action_preserves_owner_deadline_and_verbatim_source",
       "description": "test_explicit_action_preserves_owner_deadline_and_verbatim_source",
       "result": "Thành công",
-      "seconds": 0.0091,
+      "seconds": 0.0076,
       "evidence": {},
       "error": null
     },
@@ -785,7 +785,7 @@
       "method": "test_explicit_decision_heading_does_not_promote_tentative_source",
       "description": "test_explicit_decision_heading_does_not_promote_tentative_source",
       "result": "Thành công",
-      "seconds": 0.0275,
+      "seconds": 0.0197,
       "evidence": {},
       "error": null
     },
@@ -794,7 +794,7 @@
       "method": "test_local_model_cannot_turn_proposal_into_decision",
       "description": "test_local_model_cannot_turn_proposal_into_decision",
       "result": "Thành công",
-      "seconds": 0.0117,
+      "seconds": 0.0088,
       "evidence": {},
       "error": null
     },
@@ -803,7 +803,7 @@
       "method": "test_missing_or_extra_model_ids_are_rejected",
       "description": "test_missing_or_extra_model_ids_are_rejected",
       "result": "Thành công",
-      "seconds": 0.0105,
+      "seconds": 0.0064,
       "evidence": {},
       "error": null
     },
@@ -812,7 +812,7 @@
       "method": "test_skill_matching_uses_word_boundaries_and_vietnamese",
       "description": "test_skill_matching_uses_word_boundaries_and_vietnamese",
       "result": "Thành công",
-      "seconds": 0.0118,
+      "seconds": 0.0041,
       "evidence": {},
       "error": null
     },
@@ -821,7 +821,7 @@
       "method": "test_source_ids_come_from_structured_passages_not_prompt_text",
       "description": "test_source_ids_come_from_structured_passages_not_prompt_text",
       "result": "Thành công",
-      "seconds": 0.0128,
+      "seconds": 0.0047,
       "evidence": {},
       "error": null
     },
@@ -830,7 +830,7 @@
       "method": "test_summary_is_grounded_and_passes_existing_validator",
       "description": "test_summary_is_grounded_and_passes_existing_validator",
       "result": "Thành công",
-      "seconds": 0.0101,
+      "seconds": 0.0054,
       "evidence": {},
       "error": null
     },
@@ -839,7 +839,7 @@
       "method": "test_tentative_and_negated_statements_never_become_commitments",
       "description": "test_tentative_and_negated_statements_never_become_commitments",
       "result": "Thành công",
-      "seconds": 0.0128,
+      "seconds": 0.0057,
       "evidence": {},
       "error": null
     },
@@ -848,7 +848,7 @@
       "method": "test_truncated_model_output_is_rejected",
       "description": "test_truncated_model_output_is_rejected",
       "result": "Thành công",
-      "seconds": 0.0191,
+      "seconds": 0.0082,
       "evidence": {},
       "error": null
     },
@@ -857,7 +857,7 @@
       "method": "test_wire_contract_uses_loopback_without_api_key",
       "description": "test_wire_contract_uses_loopback_without_api_key",
       "result": "Thành công",
-      "seconds": 0.021,
+      "seconds": 0.0125,
       "evidence": {},
       "error": null
     },
@@ -866,7 +866,7 @@
       "method": "test_action_owner_and_deadline_must_appear_in_source_quote",
       "description": "test_action_owner_and_deadline_must_appear_in_source_quote",
       "result": "Thành công",
-      "seconds": 0.6059,
+      "seconds": 0.295,
       "evidence": {},
       "error": null
     },
@@ -875,7 +875,7 @@
       "method": "test_compact_json_preserves_exact_action_evidence",
       "description": "test_compact_json_preserves_exact_action_evidence",
       "result": "Thành công",
-      "seconds": 0.5974,
+      "seconds": 0.2776,
       "evidence": {},
       "error": null
     },
@@ -884,7 +884,7 @@
       "method": "test_complete_minutes_confirm_exact_decisions_and_actions",
       "description": "test_complete_minutes_confirm_exact_decisions_and_actions",
       "result": "Thành công",
-      "seconds": 0.9144,
+      "seconds": 0.4071,
       "evidence": {},
       "error": null
     },
@@ -893,7 +893,7 @@
       "method": "test_docx_preserves_paragraph_table_order",
       "description": "test_docx_preserves_paragraph_table_order",
       "result": "Thành công",
-      "seconds": 1.3813,
+      "seconds": 0.6596,
       "evidence": {},
       "error": null
     },
@@ -902,7 +902,7 @@
       "method": "test_existing_note_and_uploaded_text_are_both_processed",
       "description": "test_existing_note_and_uploaded_text_are_both_processed",
       "result": "Thành công",
-      "seconds": 0.4812,
+      "seconds": 0.2128,
       "evidence": {},
       "error": null
     },
@@ -911,7 +911,7 @@
       "method": "test_explicit_decisions_and_assignment_table_keep_source_fields",
       "description": "test_explicit_decisions_and_assignment_table_keep_source_fields",
       "result": "Thành công",
-      "seconds": 0.5676,
+      "seconds": 0.2205,
       "evidence": {},
       "error": null
     },
@@ -920,7 +920,7 @@
       "method": "test_failed_word_chunk_reports_position_and_saves_no_partial_draft",
       "description": "test_failed_word_chunk_reports_position_and_saves_no_partial_draft",
       "result": "Thành công",
-      "seconds": 0.7854,
+      "seconds": 0.309,
       "evidence": {},
       "error": null
     },
@@ -929,7 +929,7 @@
       "method": "test_long_minutes_cover_all_passages_and_store_actual_fields",
       "description": "test_long_minutes_cover_all_passages_and_store_actual_fields",
       "result": "Thành công",
-      "seconds": 0.6516,
+      "seconds": 0.1432,
       "evidence": {},
       "error": null
     },
@@ -938,7 +938,7 @@
       "method": "test_missing_classification_is_retried_only_for_missing_passage",
       "description": "test_missing_classification_is_retried_only_for_missing_passage",
       "result": "Thành công",
-      "seconds": 0.6343,
+      "seconds": 0.1415,
       "evidence": {},
       "error": null
     },
@@ -947,7 +947,7 @@
       "method": "test_missing_passage_is_visible_and_cannot_be_confirmed",
       "description": "test_missing_passage_is_visible_and_cannot_be_confirmed",
       "result": "Thành công",
-      "seconds": 0.9719,
+      "seconds": 0.2004,
       "evidence": {},
       "error": null
     },
@@ -956,7 +956,7 @@
       "method": "test_missing_provider_key_creates_no_draft",
       "description": "test_missing_provider_key_creates_no_draft",
       "result": "Thành công",
-      "seconds": 0.7502,
+      "seconds": 0.1685,
       "evidence": {},
       "error": null
     },
@@ -965,7 +965,7 @@
       "method": "test_parallel_chunks_share_deadline_and_keep_source_order",
       "description": "test_parallel_chunks_share_deadline_and_keep_source_order",
       "result": "Thành công",
-      "seconds": 0.643,
+      "seconds": 0.2282,
       "evidence": {},
       "error": null
     },
@@ -974,7 +974,7 @@
       "method": "test_unreadable_pdf_returns_clear_error",
       "description": "test_unreadable_pdf_returns_clear_error",
       "result": "Thành công",
-      "seconds": 2.4373,
+      "seconds": 0.8634,
       "evidence": {},
       "error": null
     },
@@ -983,7 +983,7 @@
       "method": "test_unsupported_summary_number_is_discarded_in_favor_of_source",
       "description": "test_unsupported_summary_number_is_discarded_in_favor_of_source",
       "result": "Thành công",
-      "seconds": 0.573,
+      "seconds": 0.452,
       "evidence": {},
       "error": null
     },
@@ -992,7 +992,7 @@
       "method": "test_weekly_retrieval_uses_requested_dates",
       "description": "test_weekly_retrieval_uses_requested_dates",
       "result": "Thành công",
-      "seconds": 0.6399,
+      "seconds": 0.2362,
       "evidence": {},
       "error": null
     },
@@ -1001,7 +1001,7 @@
       "method": "test_01_create_project_with_initial_members",
       "description": "Kiểm tra tạo dự án mới kèm danh sách nhiều thành viên ban đầu.",
       "result": "Thành công",
-      "seconds": 0.0212,
+      "seconds": 0.0107,
       "evidence": {},
       "error": null
     },
@@ -1010,7 +1010,7 @@
       "method": "test_02_batch_add_project_members",
       "description": "Kiểm tra thêm hàng loạt thành viên vào dự án hiện có.",
       "result": "Thành công",
-      "seconds": 0.032,
+      "seconds": 0.0155,
       "evidence": {},
       "error": null
     },
@@ -1019,7 +1019,7 @@
       "method": "test_03_create_task_with_multi_assignees",
       "description": "Kiểm tra tạo nhiệm vụ với 1 người phụ trách chính + nhiều người hỗ trợ.",
       "result": "Thành công",
-      "seconds": 0.0535,
+      "seconds": 0.0231,
       "evidence": {},
       "error": null
     },
@@ -1028,7 +1028,7 @@
       "method": "test_04_leader_rescue_overdue_task",
       "description": "Kiểm tra Leader điều phối, bổ sung hỗ trợ cứu viện task trễ hạn (BR-02).",
       "result": "Thành công",
-      "seconds": 0.1161,
+      "seconds": 0.0568,
       "evidence": {},
       "error": null
     },
@@ -1037,7 +1037,7 @@
       "method": "test_05_api_rbac_member_cannot_reassign_or_rescue",
       "description": "Kiểm tra quyền hạn (RBAC) qua API: Member không được quyền điều phối/cứu viện task.",
       "result": "Thành công",
-      "seconds": 1.3345,
+      "seconds": 0.4348,
       "evidence": {},
       "error": null
     },
@@ -1046,7 +1046,7 @@
       "method": "test_mysql_failure_never_opens_sqlite",
       "description": "test_mysql_failure_never_opens_sqlite",
       "result": "Thành công",
-      "seconds": 0.0208,
+      "seconds": 0.006,
       "evidence": {},
       "error": null
     },
@@ -1055,7 +1055,7 @@
       "method": "test_authentication_errors_do_not_expose_upstream_secrets",
       "description": "test_authentication_errors_do_not_expose_upstream_secrets",
       "result": "Thành công",
-      "seconds": 0.0361,
+      "seconds": 0.0082,
       "evidence": {},
       "error": null
     },
@@ -1064,7 +1064,7 @@
       "method": "test_default_provider_uses_deepseek_and_openai_settings",
       "description": "test_default_provider_uses_deepseek_and_openai_settings",
       "result": "Thành công",
-      "seconds": 0.0178,
+      "seconds": 0.0044,
       "evidence": {},
       "error": null
     },
@@ -1073,7 +1073,7 @@
       "method": "test_interrupted_tls_connection_retries_without_ignoring_certificates",
       "description": "test_interrupted_tls_connection_retries_without_ignoring_certificates",
       "result": "Thành công",
-      "seconds": 0.0614,
+      "seconds": 0.014,
       "evidence": {},
       "error": null
     },
@@ -1082,7 +1082,7 @@
       "method": "test_json_uses_meeting_model_and_excludes_reasoning",
       "description": "test_json_uses_meeting_model_and_excludes_reasoning",
       "result": "Thành công",
-      "seconds": 0.0213,
+      "seconds": 0.0062,
       "evidence": {},
       "error": null
     },
@@ -1091,7 +1091,7 @@
       "method": "test_legacy_key_cannot_configure_openai_provider",
       "description": "test_legacy_key_cannot_configure_openai_provider",
       "result": "Thành công",
-      "seconds": 0.0102,
+      "seconds": 0.0073,
       "evidence": {},
       "error": null
     },
@@ -1100,7 +1100,7 @@
       "method": "test_live_file_switch_overrides_stale_provider_and_cleared_key",
       "description": "test_live_file_switch_overrides_stale_provider_and_cleared_key",
       "result": "Thành công",
-      "seconds": 0.1099,
+      "seconds": 0.0215,
       "evidence": {},
       "error": null
     },
@@ -1109,7 +1109,7 @@
       "method": "test_other_models_are_rejected_for_general_and_meeting_tasks",
       "description": "test_other_models_are_rejected_for_general_and_meeting_tasks",
       "result": "Thành công",
-      "seconds": 0.0128,
+      "seconds": 0.0052,
       "evidence": {},
       "error": null
     },
@@ -1118,7 +1118,7 @@
       "method": "test_probe_requires_nonempty_text",
       "description": "test_probe_requires_nonempty_text",
       "result": "Thành công",
-      "seconds": 0.0177,
+      "seconds": 0.0089,
       "evidence": {},
       "error": null
     },
@@ -1127,7 +1127,7 @@
       "method": "test_real_sdk_posts_to_configured_endpoint_with_bearer_auth",
       "description": "test_real_sdk_posts_to_configured_endpoint_with_bearer_auth",
       "result": "Thành công",
-      "seconds": 0.0206,
+      "seconds": 0.0076,
       "evidence": {},
       "error": null
     },
@@ -1136,7 +1136,7 @@
       "method": "test_removed_providers_are_rejected_before_calling_sdk",
       "description": "test_removed_providers_are_rejected_before_calling_sdk",
       "result": "Thành công",
-      "seconds": 0.0173,
+      "seconds": 0.0056,
       "evidence": {},
       "error": null
     },
@@ -1145,7 +1145,7 @@
       "method": "test_admin_create_user_with_user_code",
       "description": "Kiểm tra Admin tạo tài khoản với mã thành viên tùy chọn và kiểm tra trùng lặp.",
       "result": "Thành công",
-      "seconds": 0.5721,
+      "seconds": 0.2399,
       "evidence": {},
       "error": null
     },
@@ -1154,7 +1154,7 @@
       "method": "test_admin_delete_wrong_project_cascade",
       "description": "BR-08: Leader bị chặn xóa vĩnh viễn; Admin được xóa và dọn dữ liệu phụ thuộc.",
       "result": "Thành công",
-      "seconds": 1.7603,
+      "seconds": 0.5392,
       "evidence": {},
       "error": null
     },
@@ -1163,7 +1163,7 @@
       "method": "test_custom_project_code_and_duplicate_check",
       "description": "Kiểm tra tạo dự án với mã định danh tùy chọn và ngăn chặn mã trùng lặp.",
       "result": "Thành công",
-      "seconds": 0.7692,
+      "seconds": 0.2821,
       "evidence": {},
       "error": null
     },
@@ -1172,7 +1172,7 @@
       "method": "test_empty_project_name_rejected",
       "description": "Kiểm tra hệ thống chặn lỗi nếu Leader để trống tên dự án (HTTP 400).",
       "result": "Thành công",
-      "seconds": 0.7223,
+      "seconds": 0.2434,
       "evidence": {},
       "error": null
     },
@@ -1181,7 +1181,7 @@
       "method": "test_invalid_date_range_rejected",
       "description": "Kiểm tra hệ thống chặn lỗi nếu ngày bắt đầu sau ngày kết thúc (HTTP 400).",
       "result": "Thành công",
-      "seconds": 0.8533,
+      "seconds": 0.2189,
       "evidence": {},
       "error": null
     },
@@ -1190,7 +1190,7 @@
       "method": "test_leader_can_edit_project",
       "description": "Kiểm tra Leader có thể cập nhật tên, mô tả, mốc thời gian dự án thành công.",
       "result": "Thành công",
-      "seconds": 0.9555,
+      "seconds": 0.2785,
       "evidence": {},
       "error": null
     },
@@ -1199,7 +1199,7 @@
       "method": "test_member_cannot_edit_or_delete_project",
       "description": "Kiểm tra quyền RBAC: Thành viên thường (Member) bị cấm sửa hoặc xóa dự án (HTTP 403).",
       "result": "Thành công",
-      "seconds": 0.8328,
+      "seconds": 0.2912,
       "evidence": {},
       "error": null
     },
@@ -1208,7 +1208,7 @@
       "method": "test_sprint_and_task_codes",
       "description": "Kiểm tra mã sprint tùy chọn và mã task Jira-style tự động gắn tiền tố mã dự án.",
       "result": "Thành công",
-      "seconds": 0.0943,
+      "seconds": 0.0275,
       "evidence": {},
       "error": null
     },
@@ -1217,7 +1217,7 @@
       "method": "test_01_leader_delete_preserves_history_by_default",
       "description": "test_01_leader_delete_preserves_history_by_default",
       "result": "Thành công",
-      "seconds": 0.1389,
+      "seconds": 0.0766,
       "evidence": {
         "requirements": [
           "FR-03",
@@ -1242,7 +1242,7 @@
       "method": "test_02_leader_cannot_permanently_delete",
       "description": "test_02_leader_cannot_permanently_delete",
       "result": "Thành công",
-      "seconds": 0.0731,
+      "seconds": 0.0368,
       "evidence": {
         "requirements": [
           "BR-08",
@@ -1258,7 +1258,7 @@
       "method": "test_03_leader_can_remove_project_member",
       "description": "test_03_leader_can_remove_project_member",
       "result": "Thành công",
-      "seconds": 0.1357,
+      "seconds": 0.0748,
       "evidence": {
         "requirements": [
           "FR-04",
@@ -1279,7 +1279,7 @@
       "method": "test_04_sprint_archive_applies_to_listing",
       "description": "test_04_sprint_archive_applies_to_listing",
       "result": "Thành công",
-      "seconds": 0.3024,
+      "seconds": 0.1489,
       "evidence": {
         "requirements": [
           "FR-07",
@@ -1299,7 +1299,7 @@
       "method": "test_05_ai_draft_can_be_read_and_edited",
       "description": "test_05_ai_draft_can_be_read_and_edited",
       "result": "Thành công",
-      "seconds": 0.2461,
+      "seconds": 0.1071,
       "evidence": {
         "requirements": [
           "FR-12",
@@ -1339,7 +1339,7 @@
       "method": "test_06_priority_filter_is_applied",
       "description": "test_06_priority_filter_is_applied",
       "result": "Thành công",
-      "seconds": 0.159,
+      "seconds": 0.0719,
       "evidence": {
         "requirements": [
           "FR-09"
@@ -1356,7 +1356,7 @@
       "method": "test_07_deadline_filter_is_applied",
       "description": "test_07_deadline_filter_is_applied",
       "result": "Thành công",
-      "seconds": 0.1415,
+      "seconds": 0.0648,
       "evidence": {
         "requirements": [
           "FR-09"
@@ -1373,7 +1373,7 @@
       "method": "test_08_task_sort_is_applied",
       "description": "test_08_task_sort_is_applied",
       "result": "Thành công",
-      "seconds": 0.127,
+      "seconds": 0.0855,
       "evidence": {
         "requirements": [
           "FR-09"
@@ -1391,7 +1391,7 @@
       "method": "test_09_false_ai_statistics_cannot_be_confirmed",
       "description": "test_09_false_ai_statistics_cannot_be_confirmed",
       "result": "Thành công",
-      "seconds": 0.2254,
+      "seconds": 0.2196,
       "evidence": {
         "requirements": [
           "FR-12",
@@ -1416,7 +1416,7 @@
       "method": "test_10_assignment_limits_recommendations_to_three",
       "description": "test_10_assignment_limits_recommendations_to_three",
       "result": "Thành công",
-      "seconds": 0.2491,
+      "seconds": 0.1651,
       "evidence": {
         "requirements": [
           "FR-14",
@@ -1439,7 +1439,7 @@
       "method": "test_11_overdue_email_has_automatic_trigger",
       "description": "test_11_overdue_email_has_automatic_trigger",
       "result": "Thành công",
-      "seconds": 0.3018,
+      "seconds": 0.1472,
       "evidence": {
         "requirements": [
           "FR-17",
@@ -1460,7 +1460,7 @@
       "method": "test_12_admin_can_update_basic_account_information",
       "description": "test_12_admin_can_update_basic_account_information",
       "result": "Thành công",
-      "seconds": 0.1117,
+      "seconds": 0.0815,
       "evidence": {
         "requirements": [
           "FR-02",
@@ -1479,7 +1479,7 @@
       "method": "test_13_viewer_cannot_change_progress_or_comment",
       "description": "test_13_viewer_cannot_change_progress_or_comment",
       "result": "Thành công",
-      "seconds": 0.2524,
+      "seconds": 0.1743,
       "evidence": {
         "requirements": [
           "FR-02",
@@ -1498,7 +1498,7 @@
       "method": "test_14_member_cannot_create_sprint",
       "description": "test_14_member_cannot_create_sprint",
       "result": "Thành công",
-      "seconds": 0.0874,
+      "seconds": 0.0524,
       "evidence": {
         "requirements": [
           "FR-02",
@@ -1516,7 +1516,7 @@
       "method": "test_15_outsider_cannot_read_tasks",
       "description": "test_15_outsider_cannot_read_tasks",
       "result": "Thành công",
-      "seconds": 0.0522,
+      "seconds": 0.0493,
       "evidence": {
         "requirements": [
           "FR-02",
@@ -1532,7 +1532,7 @@
       "method": "test_16_locked_account_cannot_login",
       "description": "test_16_locked_account_cannot_login",
       "result": "Thành công",
-      "seconds": 0.676,
+      "seconds": 0.5428,
       "evidence": {
         "requirements": [
           "FR-01"
@@ -1547,7 +1547,7 @@
       "method": "test_17_reversed_sprint_dates_rejected",
       "description": "test_17_reversed_sprint_dates_rejected",
       "result": "Thành công",
-      "seconds": 0.1224,
+      "seconds": 0.0852,
       "evidence": {
         "requirements": [
           "FR-07",
@@ -1563,7 +1563,7 @@
       "method": "test_18_empty_sprint_completion_is_zero",
       "description": "test_18_empty_sprint_completion_is_zero",
       "result": "Thành công",
-      "seconds": 0.0681,
+      "seconds": 0.0406,
       "evidence": {
         "requirements": [
           "FR-07",
@@ -1583,7 +1583,7 @@
       "method": "test_19_ai_suggestion_does_not_assign_task",
       "description": "test_19_ai_suggestion_does_not_assign_task",
       "result": "Thành công",
-      "seconds": 0.1582,
+      "seconds": 0.2186,
       "evidence": {
         "requirements": [
           "FR-14",
@@ -1602,7 +1602,7 @@
       "method": "test_20_logout_invalidates_session",
       "description": "test_20_logout_invalidates_session",
       "result": "Thành công",
-      "seconds": 0.0845,
+      "seconds": 0.106,
       "evidence": {
         "requirements": [
           "FR-01"
@@ -1617,7 +1617,7 @@
       "method": "test_21_attachment_upload_download_and_scope",
       "description": "test_21_attachment_upload_download_and_scope",
       "result": "Thành công",
-      "seconds": 0.295,
+      "seconds": 0.3151,
       "evidence": {
         "requirements": [
           "FR-08",
@@ -1638,7 +1638,7 @@
       "method": "test_22_attachment_rejects_bad_type_size_and_fake_pdf",
       "description": "test_22_attachment_rejects_bad_type_size_and_fake_pdf",
       "result": "Thành công",
-      "seconds": 0.3317,
+      "seconds": 0.4443,
       "evidence": {
         "requirements": [
           "FR-08"
@@ -1657,7 +1657,7 @@
       "method": "test_23_failure_rolls_back_task_assignments_and_audit",
       "description": "test_23_failure_rolls_back_task_assignments_and_audit",
       "result": "Thành công",
-      "seconds": 0.466,
+      "seconds": 0.1367,
       "evidence": {
         "requirements": [
           "FR-05",
@@ -1677,7 +1677,7 @@
       "method": "test_24_progress_consistent_across_endpoints",
       "description": "test_24_progress_consistent_across_endpoints",
       "result": "Thành công",
-      "seconds": 0.3557,
+      "seconds": 0.3165,
       "evidence": {
         "requirements": [
           "FR-05",
@@ -1704,7 +1704,7 @@
       "method": "test_25_zero_capacity_and_ai_workload_agree",
       "description": "test_25_zero_capacity_and_ai_workload_agree",
       "result": "Thành công",
-      "seconds": 0.1613,
+      "seconds": 0.1578,
       "evidence": {
         "requirements": [
           "FR-11",
@@ -1726,7 +1726,7 @@
       "method": "test_26_overdue_filter_precedes_pagination",
       "description": "test_26_overdue_filter_precedes_pagination",
       "result": "Thành công",
-      "seconds": 0.1461,
+      "seconds": 0.1364,
       "evidence": {
         "requirements": [
           "FR-09",
@@ -1746,7 +1746,7 @@
       "method": "test_27_archived_project_and_task_are_readonly_then_restore",
       "description": "test_27_archived_project_and_task_are_readonly_then_restore",
       "result": "Thành công",
-      "seconds": 0.4707,
+      "seconds": 0.561,
       "evidence": {
         "requirements": [
           "FR-03",
@@ -1766,14 +1766,14 @@
       "method": "test_28_custom_and_generated_account_codes_do_not_collide",
       "description": "test_28_custom_and_generated_account_codes_do_not_collide",
       "result": "Thành công",
-      "seconds": 1.2799,
+      "seconds": 0.9445,
       "evidence": {
         "requirements": [
           "FR-02"
         ],
         "expected": "custom code preserved; automatic code unique",
         "actual": [
-          "NV-59D7ADF396AE",
+          "NV-0F1659BE5EA2",
           "NV-005"
         ]
       },
@@ -1784,7 +1784,7 @@
       "method": "test_29_edit_draft_versions_reject_stale_writes",
       "description": "test_29_edit_draft_versions_reject_stale_writes",
       "result": "Thành công",
-      "seconds": 0.3223,
+      "seconds": 0.1694,
       "evidence": {
         "requirements": [
           "FR-13",
@@ -1804,7 +1804,7 @@
       "method": "test_30_confirm_uses_edited_meeting_fields",
       "description": "test_30_confirm_uses_edited_meeting_fields",
       "result": "Thành công",
-      "seconds": 0.2356,
+      "seconds": 0.2488,
       "evidence": {
         "requirements": [
           "FR-13",
@@ -1824,7 +1824,7 @@
       "method": "test_31_admin_cannot_confirm_project_draft",
       "description": "test_31_admin_cannot_confirm_project_draft",
       "result": "Thành công",
-      "seconds": 0.0894,
+      "seconds": 0.0973,
       "evidence": {
         "requirements": [
           "FR-12",
@@ -1841,7 +1841,7 @@
       "method": "test_32_history_filter_keeps_selected_project",
       "description": "test_32_history_filter_keeps_selected_project",
       "result": "Thành công",
-      "seconds": 0.1183,
+      "seconds": 0.0943,
       "evidence": {
         "requirements": [
           "FR-15"
@@ -1860,7 +1860,7 @@
       "method": "test_33_javascript_files_and_rendered_scripts_parse",
       "description": "test_33_javascript_files_and_rendered_scripts_parse",
       "result": "Thành công",
-      "seconds": 0.7932,
+      "seconds": 0.8085,
       "evidence": {
         "requirements": [
           "FR-06",
@@ -1880,7 +1880,7 @@
       "method": "test_34_admin_edit_form_is_in_body_not_title",
       "description": "test_34_admin_edit_form_is_in_body_not_title",
       "result": "Thành công",
-      "seconds": 0.1235,
+      "seconds": 0.0582,
       "evidence": {
         "requirements": [
           "FR-02",
@@ -1896,7 +1896,7 @@
       "method": "test_35_overdue_delivery_deduplicates_and_retries_failed",
       "description": "test_35_overdue_delivery_deduplicates_and_retries_failed",
       "result": "Thành công",
-      "seconds": 0.1387,
+      "seconds": 0.1187,
       "evidence": {
         "requirements": [
           "FR-16",
@@ -1916,7 +1916,7 @@
       "method": "test_36_email_scan_does_not_leak_other_project",
       "description": "test_36_email_scan_does_not_leak_other_project",
       "result": "Thành công",
-      "seconds": 0.334,
+      "seconds": 0.2211,
       "evidence": {
         "requirements": [
           "FR-02",
@@ -1936,7 +1936,7 @@
       "method": "test_37_invalid_supporter_rejected_without_partial_task",
       "description": "test_37_invalid_supporter_rejected_without_partial_task",
       "result": "Thành công",
-      "seconds": 0.1392,
+      "seconds": 0.0677,
       "evidence": {
         "requirements": [
           "FR-02",
@@ -1955,7 +1955,7 @@
       "method": "test_38_invalid_inputs_return_4xx",
       "description": "test_38_invalid_inputs_return_4xx",
       "result": "Thành công",
-      "seconds": 0.3814,
+      "seconds": 0.3147,
       "evidence": {
         "requirements": [
           "FR-03",
@@ -1980,7 +1980,7 @@
       "method": "test_39_link_attachment_rejects_script_scheme",
       "description": "test_39_link_attachment_rejects_script_scheme",
       "result": "Thành công",
-      "seconds": 0.2188,
+      "seconds": 0.1773,
       "evidence": {
         "requirements": [
           "FR-08",
@@ -1999,7 +1999,7 @@
       "method": "test_40_remove_member_preserves_history_and_clears_active_assignment",
       "description": "test_40_remove_member_preserves_history_and_clears_active_assignment",
       "result": "Thành công",
-      "seconds": 0.2552,
+      "seconds": 0.2089,
       "evidence": {
         "requirements": [
           "FR-04",
@@ -2020,7 +2020,7 @@
       "method": "test_41_last_leader_cannot_be_removed",
       "description": "test_41_last_leader_cannot_be_removed",
       "result": "Thành công",
-      "seconds": 0.0845,
+      "seconds": 0.0512,
       "evidence": {
         "requirements": [
           "FR-04",
@@ -2036,7 +2036,7 @@
       "method": "test_42_ai_deadline_shared_across_retries",
       "description": "test_42_ai_deadline_shared_across_retries",
       "result": "Thành công",
-      "seconds": 0.0454,
+      "seconds": 0.0305,
       "evidence": {
         "requirements": [
           "NFR-01"
@@ -2054,7 +2054,7 @@
       "method": "test_43_kira_client_initializes_with_installed_sdk",
       "description": "test_43_kira_client_initializes_with_installed_sdk",
       "result": "Thành công",
-      "seconds": 0.6698,
+      "seconds": 0.5652,
       "evidence": {
         "requirements": [
           "NFR-07",
@@ -2070,7 +2070,7 @@
       "method": "test_44_dashboard_metrics_use_numeric_counts_and_rate",
       "description": "test_44_dashboard_metrics_use_numeric_counts_and_rate",
       "result": "Thành công",
-      "seconds": 0.2881,
+      "seconds": 0.1437,
       "evidence": {
         "requirements": [
           "FR-10",
@@ -2096,7 +2096,7 @@
       "method": "test_45_long_vietnamese_meeting_note_round_trips",
       "description": "test_45_long_vietnamese_meeting_note_round_trips",
       "result": "Thành công",
-      "seconds": 0.1441,
+      "seconds": 0.12,
       "evidence": {
         "requirements": [
           "FR-08",
@@ -2116,7 +2116,7 @@
       "method": "test_46_disabled_smtp_is_labelled_simulation",
       "description": "test_46_disabled_smtp_is_labelled_simulation",
       "result": "Thành công",
-      "seconds": 0.032,
+      "seconds": 0.0213,
       "evidence": {
         "requirements": [
           "FR-17"
@@ -2131,7 +2131,7 @@
       "method": "test_47_archived_sprint_tasks_require_restore",
       "description": "test_47_archived_sprint_tasks_require_restore",
       "result": "Thành công",
-      "seconds": 0.4407,
+      "seconds": 0.5988,
       "evidence": {
         "requirements": [
           "FR-07",
@@ -2151,7 +2151,7 @@
       "method": "test_48_pwa_assets_are_served",
       "description": "test_48_pwa_assets_are_served",
       "result": "Thành công",
-      "seconds": 0.0648,
+      "seconds": 0.0416,
       "evidence": {
         "requirements": [
           "NFR-02"
@@ -2171,7 +2171,7 @@
       "method": "test_49_utc_deadline_normalized_to_project_timezone",
       "description": "test_49_utc_deadline_normalized_to_project_timezone",
       "result": "Thành công",
-      "seconds": 0.1752,
+      "seconds": 0.0699,
       "evidence": {
         "requirements": [
           "BR-02",
@@ -2187,7 +2187,7 @@
       "method": "test_50_kira_sdk_transport_contract",
       "description": "test_50_kira_sdk_transport_contract",
       "result": "Thành công",
-      "seconds": 0.1177,
+      "seconds": 0.0794,
       "evidence": {
         "requirements": [
           "NFR-07",
@@ -2207,7 +2207,7 @@
       "method": "test_51_create_project_with_initial_staff",
       "description": "test_51_create_project_with_initial_staff",
       "result": "Thành công",
-      "seconds": 0.2004,
+      "seconds": 0.1881,
       "evidence": {
         "requirements": [
           "FR-03",
@@ -2232,7 +2232,7 @@
       "method": "test_52_invalid_initial_staff_rolls_back_project",
       "description": "test_52_invalid_initial_staff_rolls_back_project",
       "result": "Thành công",
-      "seconds": 0.085,
+      "seconds": 0.0635,
       "evidence": {
         "requirements": [
           "FR-03",
@@ -2252,7 +2252,7 @@
       "method": "test_53_mixed_batch_does_not_partially_add_staff",
       "description": "test_53_mixed_batch_does_not_partially_add_staff",
       "result": "Thành công",
-      "seconds": 0.0945,
+      "seconds": 0.0904,
       "evidence": {
         "requirements": [
           "FR-04",
@@ -2271,7 +2271,7 @@
       "method": "test_54_member_requires_admin_approval",
       "description": "test_54_member_requires_admin_approval",
       "result": "Thành công",
-      "seconds": 1.8335,
+      "seconds": 1.1957,
       "evidence": {
         "requirements": [
           "FR-01",
@@ -2295,7 +2295,7 @@
       "method": "test_55_leader_requires_admin_approval",
       "description": "test_55_leader_requires_admin_approval",
       "result": "Thành công",
-      "seconds": 2.1453,
+      "seconds": 1.0077,
       "evidence": {
         "requirements": [
           "FR-01",
@@ -2319,7 +2319,7 @@
       "method": "test_56_sync_across_independent_clients",
       "description": "test_56_sync_across_independent_clients",
       "result": "Thành công",
-      "seconds": 0.3144,
+      "seconds": 0.1121,
       "evidence": {
         "requirements": [
           "FR-10",
@@ -2341,7 +2341,7 @@
       "method": "test_57_lock_invalidates_other_client_session",
       "description": "test_57_lock_invalidates_other_client_session",
       "result": "Thành công",
-      "seconds": 1.0164,
+      "seconds": 0.3405,
       "evidence": {
         "requirements": [
           "FR-01",
@@ -2360,7 +2360,7 @@
       "method": "test_58_unicode_staff_name_roundtrip",
       "description": "test_58_unicode_staff_name_roundtrip",
       "result": "Thành công",
-      "seconds": 1.1551,
+      "seconds": 0.3371,
       "evidence": {
         "requirements": [
           "FR-02",
@@ -2380,7 +2380,7 @@
       "method": "test_59_live_file_config_overrides_stale_kira_environment",
       "description": "test_59_live_file_config_overrides_stale_kira_environment",
       "result": "Thành công",
-      "seconds": 0.1299,
+      "seconds": 0.0442,
       "evidence": {
         "requirements": [
           "FR-12",
@@ -2402,7 +2402,7 @@
       "method": "test_60_deepseek_wire_contract_and_thought_filter",
       "description": "test_60_deepseek_wire_contract_and_thought_filter",
       "result": "Thành công",
-      "seconds": 0.1314,
+      "seconds": 0.0481,
       "evidence": {
         "requirements": [
           "FR-13",
@@ -2423,7 +2423,7 @@
       "method": "test_61_meeting_pipeline_uses_deepseek_and_saves_draft",
       "description": "test_61_meeting_pipeline_uses_deepseek_and_saves_draft",
       "result": "Thành công",
-      "seconds": 0.4965,
+      "seconds": 0.1187,
       "evidence": {
         "requirements": [
           "FR-13",
@@ -2445,7 +2445,7 @@
       "method": "test_62_repair_only_damaged_known_sample_names",
       "description": "test_62_repair_only_damaged_known_sample_names",
       "result": "Thành công",
-      "seconds": 0.1043,
+      "seconds": 0.0432,
       "evidence": {
         "requirements": [
           "FR-02",
@@ -2464,7 +2464,7 @@
       "method": "test_63_initial_staff_validation_types",
       "description": "test_63_initial_staff_validation_types",
       "result": "Thành công",
-      "seconds": 0.2886,
+      "seconds": 0.0859,
       "evidence": {
         "requirements": [
           "FR-03",
@@ -2490,7 +2490,7 @@
       "method": "test_64_public_development_secret_cannot_forge_admin_session",
       "description": "test_64_public_development_secret_cannot_forge_admin_session",
       "result": "Thành công",
-      "seconds": 0.0664,
+      "seconds": 0.0256,
       "evidence": {
         "requirements": [
           "FR-01",
@@ -2509,7 +2509,7 @@
       "method": "test_65_network_denied_returns_specific_error_without_draft",
       "description": "test_65_network_denied_returns_specific_error_without_draft",
       "result": "Thành công",
-      "seconds": 0.5314,
+      "seconds": 0.0961,
       "evidence": {
         "requirements": [
           "FR-12",
@@ -2532,7 +2532,7 @@
       "method": "test_66_admin_probe_exposes_safe_network_diagnostics",
       "description": "test_66_admin_probe_exposes_safe_network_diagnostics",
       "result": "Thành công",
-      "seconds": 0.3836,
+      "seconds": 0.0786,
       "evidence": {
         "requirements": [
           "FR-02",
@@ -2555,7 +2555,7 @@
       "method": "test_67_meeting_tls_error_preserves_no_partial_result",
       "description": "test_67_meeting_tls_error_preserves_no_partial_result",
       "result": "Thành công",
-      "seconds": 0.4213,
+      "seconds": 0.0954,
       "evidence": {
         "requirements": [
           "FR-13",
@@ -2577,7 +2577,7 @@
       "method": "test_admin_can_assign_approved_leader_to_existing_project",
       "description": "test_admin_can_assign_approved_leader_to_existing_project",
       "result": "Thành công",
-      "seconds": 4.0258,
+      "seconds": 1.3496,
       "evidence": {},
       "error": null
     },
@@ -2586,7 +2586,7 @@
       "method": "test_admin_can_reopen_rejected_request",
       "description": "test_admin_can_reopen_rejected_request",
       "result": "Thành công",
-      "seconds": 2.3307,
+      "seconds": 0.8853,
       "evidence": {},
       "error": null
     },
@@ -2595,7 +2595,7 @@
       "method": "test_admin_delete_user_workflow",
       "description": "test_admin_delete_user_workflow",
       "result": "Thành công",
-      "seconds": 2.2164,
+      "seconds": 0.7852,
       "evidence": {},
       "error": null
     },
@@ -2604,7 +2604,7 @@
       "method": "test_admin_page_and_account_validation",
       "description": "test_admin_page_and_account_validation",
       "result": "Thành công",
-      "seconds": 0.7693,
+      "seconds": 0.3141,
       "evidence": {},
       "error": null
     },
@@ -2613,7 +2613,7 @@
       "method": "test_leader_requires_admin_approval_and_project_assignment",
       "description": "test_leader_requires_admin_approval_and_project_assignment",
       "result": "Thành công",
-      "seconds": 2.7429,
+      "seconds": 1.1377,
       "evidence": {},
       "error": null
     },
@@ -2622,7 +2622,7 @@
       "method": "test_locked_user_session_is_revoked",
       "description": "test_locked_user_session_is_revoked",
       "result": "Thành công",
-      "seconds": 1.521,
+      "seconds": 0.4704,
       "evidence": {},
       "error": null
     },
@@ -2631,7 +2631,7 @@
       "method": "test_member_cannot_manage_tasks_or_sprints",
       "description": "test_member_cannot_manage_tasks_or_sprints",
       "result": "Thành công",
-      "seconds": 1.1579,
+      "seconds": 0.347,
       "evidence": {},
       "error": null
     },
@@ -2640,7 +2640,7 @@
       "method": "test_rejected_leader_cannot_log_in",
       "description": "test_rejected_leader_cannot_log_in",
       "result": "Thành công",
-      "seconds": 2.0383,
+      "seconds": 0.7929,
       "evidence": {},
       "error": null
     },
@@ -2649,7 +2649,7 @@
       "method": "test_role_demotion_takes_effect_in_existing_session",
       "description": "test_role_demotion_takes_effect_in_existing_session",
       "result": "Thành công",
-      "seconds": 2.2993,
+      "seconds": 0.8204,
       "evidence": {},
       "error": null
     },
@@ -2658,7 +2658,7 @@
       "method": "test_sqlite_initialization_preserves_existing_accounts",
       "description": "test_sqlite_initialization_preserves_existing_accounts",
       "result": "Thành công",
-      "seconds": 0.6807,
+      "seconds": 0.2301,
       "evidence": {},
       "error": null
     },
@@ -2667,7 +2667,7 @@
       "method": "test_task_references_must_belong_to_project",
       "description": "test_task_references_must_belong_to_project",
       "result": "Thành công",
-      "seconds": 1.3142,
+      "seconds": 0.6157,
       "evidence": {},
       "error": null
     },
@@ -2676,7 +2676,7 @@
       "method": "test_actor_backfill_is_evidenced_idempotent_and_never_creator_guess",
       "description": "test_actor_backfill_is_evidenced_idempotent_and_never_creator_guess",
       "result": "Thành công",
-      "seconds": 0.0043,
+      "seconds": 0.0013,
       "evidence": {},
       "error": null
     },
@@ -2685,7 +2685,7 @@
       "method": "test_01_count_five_and_all_candidates_before_member_selection",
       "description": "test_01_count_five_and_all_candidates_before_member_selection",
       "result": "Thành công",
-      "seconds": 0.4712,
+      "seconds": 0.2615,
       "evidence": {},
       "error": null
     },
@@ -2694,7 +2694,7 @@
       "method": "test_02_recruitment_without_task_filters_skills_not_people",
       "description": "test_02_recruitment_without_task_filters_skills_not_people",
       "result": "Thành công",
-      "seconds": 0.59,
+      "seconds": 0.2447,
       "evidence": {},
       "error": null
     },
@@ -2703,7 +2703,7 @@
       "method": "test_03_count_validation_and_vietnamese_words",
       "description": "test_03_count_validation_and_vietnamese_words",
       "result": "Thành công",
-      "seconds": 0.6641,
+      "seconds": 0.3576,
       "evidence": {},
       "error": null
     },
@@ -2712,7 +2712,7 @@
       "method": "test_04_pages_cover_entire_pool_and_search_does_not_limit_ranking",
       "description": "test_04_pages_cover_entire_pool_and_search_does_not_limit_ranking",
       "result": "Thành công",
-      "seconds": 1.9363,
+      "seconds": 0.8746,
       "evidence": {},
       "error": null
     },
@@ -2721,7 +2721,7 @@
       "method": "test_05_global_load_deduplicates_and_never_leaks_private_task_text",
       "description": "test_05_global_load_deduplicates_and_never_leaks_private_task_text",
       "result": "Thành công",
-      "seconds": 0.5283,
+      "seconds": 0.3775,
       "evidence": {},
       "error": null
     },
@@ -2730,7 +2730,7 @@
       "method": "test_06_profile_ownership_validation_and_sync_revision",
       "description": "test_06_profile_ownership_validation_and_sync_revision",
       "result": "Thành công",
-      "seconds": 0.5995,
+      "seconds": 0.3909,
       "evidence": {},
       "error": null
     },
@@ -2739,7 +2739,7 @@
       "method": "test_07_add_selected_uses_fresh_profile_and_does_not_assign",
       "description": "test_07_add_selected_uses_fresh_profile_and_does_not_assign",
       "result": "Thành công",
-      "seconds": 0.622,
+      "seconds": 0.3413,
       "evidence": {},
       "error": null
     },
@@ -2748,7 +2748,7 @@
       "method": "test_08_locked_viewer_and_admin_are_not_candidates",
       "description": "test_08_locked_viewer_and_admin_are_not_candidates",
       "result": "Thành công",
-      "seconds": 0.6492,
+      "seconds": 0.3166,
       "evidence": {},
       "error": null
     },
@@ -2757,7 +2757,7 @@
       "method": "test_09_insufficient_skills_and_zero_capacity_explained",
       "description": "test_09_insufficient_skills_and_zero_capacity_explained",
       "result": "Thành công",
-      "seconds": 0.5358,
+      "seconds": 0.2552,
       "evidence": {},
       "error": null
     },
@@ -2766,7 +2766,7 @@
       "method": "test_10_api_first_incorrect_three_normalized_to_five_and_saved",
       "description": "test_10_api_first_incorrect_three_normalized_to_five_and_saved",
       "result": "Thành công",
-      "seconds": 0.8556,
+      "seconds": 0.3519,
       "evidence": {},
       "error": null
     },
@@ -2775,7 +2775,7 @@
       "method": "test_11_zero_eligible_saves_honest_draft_without_provider_call",
       "description": "test_11_zero_eligible_saves_honest_draft_without_provider_call",
       "result": "Thành công",
-      "seconds": 0.6827,
+      "seconds": 0.268,
       "evidence": {},
       "error": null
     },
@@ -2784,7 +2784,7 @@
       "method": "test_12_archive_rights_follow_actual_archiver_even_when_creator_differs",
       "description": "test_12_archive_rights_follow_actual_archiver_even_when_creator_differs",
       "result": "Thành công",
-      "seconds": 0.7748,
+      "seconds": 0.3503,
       "evidence": {},
       "error": null
     },
@@ -2793,7 +2793,7 @@
       "method": "test_13_archived_detail_is_readonly_and_admin_restores_prior_status",
       "description": "test_13_archived_detail_is_readonly_and_admin_restores_prior_status",
       "result": "Thành công",
-      "seconds": 0.7287,
+      "seconds": 0.3342,
       "evidence": {},
       "error": null
     },
@@ -2802,7 +2802,7 @@
       "method": "test_14_unknown_legacy_archiver_only_admin_and_service_enforces",
       "description": "test_14_unknown_legacy_archiver_only_admin_and_service_enforces",
       "result": "Thành công",
-      "seconds": 0.6975,
+      "seconds": 0.2391,
       "evidence": {},
       "error": null
     },
@@ -2811,7 +2811,7 @@
       "method": "test_15_member_moves_all_columns_and_sets_actual_percentage",
       "description": "test_15_member_moves_all_columns_and_sets_actual_percentage",
       "result": "Thành công",
-      "seconds": 1.6743,
+      "seconds": 0.5901,
       "evidence": {},
       "error": null
     },
@@ -2820,7 +2820,7 @@
       "method": "test_16_supporter_allowed_other_member_denied_and_progress_bounds",
       "description": "test_16_supporter_allowed_other_member_denied_and_progress_bounds",
       "result": "Thành công",
-      "seconds": 0.9383,
+      "seconds": 0.4051,
       "evidence": {},
       "error": null
     },
@@ -2829,7 +2829,16 @@
       "method": "test_17_history_and_notifications_cannot_bypass_archive_actor_permission",
       "description": "test_17_history_and_notifications_cannot_bypass_archive_actor_permission",
       "result": "Thành công",
-      "seconds": 0.8226,
+      "seconds": 0.382,
+      "evidence": {},
+      "error": null
+    },
+    {
+      "test": "test_template_reload.TestTemplateReload.test_cached_template_is_refreshed_when_its_source_changes",
+      "method": "test_cached_template_is_refreshed_when_its_source_changes",
+      "description": "test_cached_template_is_refreshed_when_its_source_changes",
+      "result": "Thành công",
+      "seconds": 0.002,
       "evidence": {},
       "error": null
     },
@@ -2838,7 +2847,7 @@
       "method": "test_confirmed_draft_cannot_be_edited",
       "description": "test_confirmed_draft_cannot_be_edited",
       "result": "Thành công",
-      "seconds": 0.2036,
+      "seconds": 0.097,
       "evidence": {},
       "error": null
     },
@@ -2847,7 +2856,7 @@
       "method": "test_delete_button_is_rendered_but_self_deletion_remains_blocked",
       "description": "test_delete_button_is_rendered_but_self_deletion_remains_blocked",
       "result": "Thành công",
-      "seconds": 0.1809,
+      "seconds": 0.0681,
       "evidence": {},
       "error": null
     },
@@ -2856,7 +2865,7 @@
       "method": "test_delete_with_replacement_keeps_business_records_and_revisions",
       "description": "test_delete_with_replacement_keeps_business_records_and_revisions",
       "result": "Thành công",
-      "seconds": 0.8686,
+      "seconds": 0.3935,
       "evidence": {},
       "error": null
     },
@@ -2865,7 +2874,7 @@
       "method": "test_invalid_confirmation_version_is_rejected_without_writes",
       "description": "test_invalid_confirmation_version_is_rejected_without_writes",
       "result": "Thành công",
-      "seconds": 0.2627,
+      "seconds": 0.1838,
       "evidence": {},
       "error": null
     },
@@ -2874,7 +2883,7 @@
       "method": "test_last_project_leader_cannot_be_deleted",
       "description": "test_last_project_leader_cannot_be_deleted",
       "result": "Thành công",
-      "seconds": 0.0866,
+      "seconds": 0.0472,
       "evidence": {},
       "error": null
     },
@@ -2883,7 +2892,7 @@
       "method": "test_member_cannot_clear_warnings_or_confirm_own_draft",
       "description": "test_member_cannot_clear_warnings_or_confirm_own_draft",
       "result": "Thành công",
-      "seconds": 0.2272,
+      "seconds": 0.1073,
       "evidence": {},
       "error": null
     },
@@ -2892,7 +2901,7 @@
       "method": "test_review_requires_leader_and_explicit_note_before_confirmation",
       "description": "test_review_requires_leader_and_explicit_note_before_confirmation",
       "result": "Thành công",
-      "seconds": 0.5412,
+      "seconds": 0.2192,
       "evidence": {},
       "error": null
     },
@@ -2901,7 +2910,7 @@
       "method": "test_save_alone_keeps_draft_and_returns_version_for_later_confirmation",
       "description": "test_save_alone_keeps_draft_and_returns_version_for_later_confirmation",
       "result": "Thành công",
-      "seconds": 0.2304,
+      "seconds": 0.1054,
       "evidence": {},
       "error": null
     },
@@ -2910,7 +2919,7 @@
       "method": "test_stale_confirmation_does_not_confirm_a_newer_unreviewed_version",
       "description": "test_stale_confirmation_does_not_confirm_a_newer_unreviewed_version",
       "result": "Thành công",
-      "seconds": 0.3155,
+      "seconds": 0.131,
       "evidence": {},
       "error": null
     },
@@ -2919,7 +2928,7 @@
       "method": "test_archived_task_is_readonly_in_returned_capabilities",
       "description": "test_archived_task_is_readonly_in_returned_capabilities",
       "result": "Thành công",
-      "seconds": 0.2378,
+      "seconds": 0.1111,
       "evidence": {},
       "error": null
     },
@@ -2928,7 +2937,7 @@
       "method": "test_assignee_and_supporter_receive_server_permissions_and_can_update",
       "description": "test_assignee_and_supporter_receive_server_permissions_and_can_update",
       "result": "Thành công",
-      "seconds": 0.5771,
+      "seconds": 0.3232,
       "evidence": {},
       "error": null
     },
@@ -2937,7 +2946,7 @@
       "method": "test_capacity_is_project_specific_and_viewer_cannot_edit",
       "description": "test_capacity_is_project_specific_and_viewer_cannot_edit",
       "result": "Thành công",
-      "seconds": 0.2317,
+      "seconds": 0.101,
       "evidence": {},
       "error": null
     },
@@ -2946,7 +2955,7 @@
       "method": "test_empty_report_has_zero_values_and_no_nonfinite_numbers",
       "description": "test_empty_report_has_zero_values_and_no_nonfinite_numbers",
       "result": "Thành công",
-      "seconds": 0.0588,
+      "seconds": 0.0308,
       "evidence": {},
       "error": null
     },
@@ -2955,7 +2964,7 @@
       "method": "test_invalid_capacity_does_not_change_saved_data",
       "description": "test_invalid_capacity_does_not_change_saved_data",
       "result": "Thành công",
-      "seconds": 0.1506,
+      "seconds": 0.0641,
       "evidence": {},
       "error": null
     },
@@ -2964,7 +2973,7 @@
       "method": "test_leader_edits_member_and_ai_retrieval_uses_current_saved_data",
       "description": "test_leader_edits_member_and_ai_retrieval_uses_current_saved_data",
       "result": "Thành công",
-      "seconds": 0.1581,
+      "seconds": 0.0816,
       "evidence": {},
       "error": null
     },
@@ -2973,7 +2982,7 @@
       "method": "test_member_can_edit_only_own_capacity",
       "description": "test_member_can_edit_only_own_capacity",
       "result": "Thành công",
-      "seconds": 0.1702,
+      "seconds": 0.089,
       "evidence": {},
       "error": null
     },
@@ -2982,7 +2991,7 @@
       "method": "test_profile_is_current_session_account_without_secrets",
       "description": "test_profile_is_current_session_account_without_secrets",
       "result": "Thành công",
-      "seconds": 0.2361,
+      "seconds": 0.1049,
       "evidence": {},
       "error": null
     },
@@ -2991,7 +3000,7 @@
       "method": "test_progress_validation_and_hundred_percent_completion",
       "description": "test_progress_validation_and_hundred_percent_completion",
       "result": "Thành công",
-      "seconds": 0.4639,
+      "seconds": 0.2215,
       "evidence": {},
       "error": null
     },
@@ -3000,7 +3009,7 @@
       "method": "test_report_distinguishes_actual_progress_from_done_ratio",
       "description": "test_report_distinguishes_actual_progress_from_done_ratio",
       "result": "Thành công",
-      "seconds": 0.303,
+      "seconds": 0.1618,
       "evidence": {},
       "error": null
     },
@@ -3009,7 +3018,7 @@
       "method": "test_report_filter_checks_sprint_scope_and_outsider_permissions",
       "description": "test_report_filter_checks_sprint_scope_and_outsider_permissions",
       "result": "Thành công",
-      "seconds": 0.2735,
+      "seconds": 0.1812,
       "evidence": {},
       "error": null
     },
@@ -3018,7 +3027,7 @@
       "method": "test_shared_pages_have_version_and_no_store_cache_policy",
       "description": "test_shared_pages_have_version_and_no_store_cache_policy",
       "result": "Thành công",
-      "seconds": 0.4087,
+      "seconds": 0.2064,
       "evidence": {},
       "error": null
     },
@@ -3027,7 +3036,7 @@
       "method": "test_sync_changes_on_capacity_and_notification_read_but_not_app_version",
       "description": "test_sync_changes_on_capacity_and_notification_read_but_not_app_version",
       "result": "Thành công",
-      "seconds": 0.429,
+      "seconds": 0.2,
       "evidence": {},
       "error": null
     },
@@ -3036,7 +3045,7 @@
       "method": "test_unassigned_member_cannot_update_another_members_task",
       "description": "test_unassigned_member_cannot_update_another_members_task",
       "result": "Thành công",
-      "seconds": 0.3047,
+      "seconds": 0.0776,
       "evidence": {},
       "error": null
     }

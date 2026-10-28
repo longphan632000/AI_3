@@ -1,0 +1,83 @@
+127.0.0.1 - - [28/Oct/2026 23:19:37] "GET /login HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2026 23:19:38] "GET /static/css/style.css?v=1793096236941937700 HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2026 23:19:38] "GET /static/js/main.js?v=1793188851449672500 HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2026 23:19:38] "GET /api/auth/me HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2026 23:19:38] "GET /api/sync HTTP/1.1" 401 -
+127.0.0.1 - - [28/Oct/2026 23:19:38] "POST /api/auth/login HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2026 23:19:39] "GET /dashboard HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2026 23:19:39] "GET /static/css/style.css?v=1793096236941937700 HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2026 23:19:39] "GET /static/css/modern_3d.css?v=1790219557726406400 HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2026 23:19:39] "GET /static/css/workspace.css?v=1793189046791391200 HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2026 23:19:39] "GET /static/css/responsive.css?v=1793097305881943600 HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2026 23:19:39] "GET /static/js/main.js?v=1793188851449672500 HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2026 23:19:39] "GET /static/js/effects_3d.js?v=1793182644297747400 HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2026 23:19:39] "GET /api/auth/me HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2026 23:19:39] "GET /sw.js HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2026 23:19:39] "GET /sw.js HTTP/1.1" 304 -
+127.0.0.1 - - [28/Oct/2026 23:19:39] "GET /api/projects HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2026 23:19:39] "GET /kanban HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2026 23:19:39] "GET /api/notifications/unread-count HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2026 23:19:39] "GET /api/projects/2/dashboard-metrics HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2026 23:19:39] "GET /api/sync HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2026 23:19:39] "GET /static/css/style.css?v=1793096236941937700 HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2026 23:19:39] "GET /static/css/modern_3d.css?v=1790219557726406400 HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2026 23:19:39] "GET /static/css/workspace.css?v=1793189046791391200 HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2026 23:19:39] "GET /static/css/kanban.css?v=1793204116702988700 HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2026 23:19:39] "GET /static/css/responsive.css?v=1793097305881943600 HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2026 23:19:39] "GET /static/js/main.js?v=1793188851449672500 HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2026 23:19:39] "GET /static/js/effects_3d.js?v=1793182644297747400 HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2026 23:19:39] "GET /static/js/kanban.js?v=1793204116701732300 HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2026 23:19:39] "GET /sw.js HTTP/1.1" 304 -
+127.0.0.1 - - [28/Oct/2026 23:19:39] "GET /api/auth/me HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2026 23:19:40] "GET /api/projects HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2026 23:19:40] "GET /api/projects/2/members HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2026 23:19:40] "GET /api/notifications/unread-count HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2026 23:19:40] "GET /api/sync HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2026 23:19:40] "GET /api/projects/2/sprints HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2026 23:19:40] "GET /api/projects/2/tasks?sprint_id=&assignee_id=&overdue_only=false&keyword=&priority=&status=&due_from=&due_to=&sort_by=priority&sort_order=desc&offset=0&limit=51 HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2026 23:19:40] "GET /login HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2026 23:19:40] "GET /static/css/style.css?v=1793096236941937700 HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2026 23:19:40] "GET /static/js/main.js?v=1793188851449672500 HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2026 23:19:40] "GET /api/auth/me HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2026 23:19:40] "GET /api/sync HTTP/1.1" 401 -
+127.0.0.1 - - [28/Oct/2026 23:19:41] "POST /api/auth/login HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2026 23:19:41] "GET /dashboard HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2026 23:19:41] "GET /static/css/style.css?v=1793096236941937700 HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2026 23:19:41] "GET /static/css/workspace.css?v=1793189046791391200 HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2026 23:19:41] "GET /static/css/modern_3d.css?v=1790219557726406400 HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2026 23:19:41] "GET /static/css/responsive.css?v=1793097305881943600 HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2026 23:19:41] "GET /static/js/main.js?v=1793188851449672500 HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2026 23:19:41] "GET /static/js/effects_3d.js?v=1793182644297747400 HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2026 23:19:42] "GET /api/auth/me HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2026 23:19:42] "GET /sw.js HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2026 23:19:42] "GET /api/projects HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2026 23:19:42] "GET /sw.js HTTP/1.1" 304 -
+127.0.0.1 - - [28/Oct/2026 23:19:42] "GET /kanban HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2026 23:19:42] "GET /api/notifications/unread-count HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2026 23:19:42] "GET /api/projects/2/dashboard-metrics HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2026 23:19:42] "GET /static/css/style.css?v=1793096236941937700 HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2026 23:19:42] "GET /static/css/modern_3d.css?v=1790219557726406400 HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2026 23:19:42] "GET /static/css/workspace.css?v=1793189046791391200 HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2026 23:19:42] "GET /static/css/kanban.css?v=1793204116702988700 HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2026 23:19:42] "GET /static/css/responsive.css?v=1793097305881943600 HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2026 23:19:42] "GET /static/js/main.js?v=1793188851449672500 HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2026 23:19:42] "GET /static/js/effects_3d.js?v=1793182644297747400 HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2026 23:19:42] "GET /static/js/kanban.js?v=1793204116701732300 HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2026 23:19:42] "GET /api/sync HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2026 23:19:42] "GET /api/auth/me HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2026 23:19:42] "GET /sw.js HTTP/1.1" 304 -
+127.0.0.1 - - [28/Oct/2026 23:19:42] "GET /api/projects HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2026 23:19:42] "GET /api/notifications/unread-count HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2026 23:19:42] "GET /api/projects/2/members HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2026 23:19:42] "GET /api/sync HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2026 23:19:42] "GET /api/projects/2/sprints HTTP/1.1" 200 -
+127.0.0.1 - - [28/Oct/2026 23:19:42] "GET /api/projects/2/tasks?sprint_id=&assignee_id=&overdue_only=false&keyword=&priority=&status=&due_from=&due_to=&sort_by=priority&sort_order=desc&offset=0&limit=51 HTTP/1.1" 200 -
+[*] Đang khởi tạo Fallback Database (SQLite) để đảm bảo hệ thống luôn chạy được ngay...
+[+] Fallback Database SQLite khởi tạo thành công!
+Traceback (most recent call last):
+  File "D:\UNG DUNG AL_NAM3\Code Chuan\tests\browser_kanban_compact.py", line 233, in <module>
+    main()
+  File "D:\UNG DUNG AL_NAM3\Code Chuan\tests\browser_kanban_compact.py", line 85, in main
+    assert sizes['pageHeight']<=height+4,sizes
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'width': 768, 'scrollWidth': 768, 'pageHeight': 1072, 'height': 1024, 'columnHeights': [690.265625, 690.265625, 690.265625, 690.265625, 690.265625], 'cardHeight': 256.296875}

@@ -25,7 +25,7 @@
       "details": {}
     },
     {
-      "name": "Inline percent save/cancel; pending edit protected; Done 100 and reopened Todo 0",
+      "name": "Compact card editor saves/cancels percent; pending edit protected; Done 100 and reopened Todo 0",
       "passed": true,
       "details": {}
     },

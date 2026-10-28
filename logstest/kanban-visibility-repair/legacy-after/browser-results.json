@@ -1,0 +1,199 @@
+{
+  "started_at": "2026-10-28T16:52:24.895756+00:00",
+  "finished_at": "2026-10-28T16:52:57.354131+00:00",
+  "legacy_template": true,
+  "database": "disposable SQLite",
+  "fixture_task_count": 56,
+  "browser": "Microsoft Edge headless",
+  "real_api_calls": false,
+  "real_emails": false,
+  "records": [
+    {
+      "name": "Crowded board stays inside viewport with compact cards and equal columns",
+      "passed": true,
+      "details": {
+        "viewport": [
+          1920,
+          1080
+        ],
+        "width": 1920,
+        "scrollWidth": 1920,
+        "pageHeight": 1080,
+        "height": 1080,
+        "columnHeights": [
+          775.734375,
+          775.734375,
+          775.734375,
+          775.734375,
+          775.734375
+        ],
+        "bodyHeights": [
+          716,
+          716,
+          716,
+          716,
+          716
+        ],
+        "cardHeight": 256.296875
+      }
+    },
+    {
+      "name": "Crowded board stays inside viewport with compact cards and equal columns",
+      "passed": true,
+      "details": {
+        "viewport": [
+          1366,
+          900
+        ],
+        "width": 1366,
+        "scrollWidth": 1366,
+        "pageHeight": 900,
+        "height": 900,
+        "columnHeights": [
+          595.734375,
+          595.734375,
+          595.734375,
+          595.734375,
+          595.734375
+        ],
+        "bodyHeights": [
+          536,
+          536,
+          536,
+          536,
+          536
+        ],
+        "cardHeight": 256.296875
+      }
+    },
+    {
+      "name": "Crowded board stays inside viewport with compact cards and equal columns",
+      "passed": true,
+      "details": {
+        "viewport": [
+          768,
+          1024
+        ],
+        "width": 768,
+        "scrollWidth": 768,
+        "pageHeight": 1024,
+        "height": 1024,
+        "columnHeights": [
+          706.265625,
+          706.265625,
+          706.265625,
+          706.265625,
+          706.265625
+        ],
+        "bodyHeights": [
+          646,
+          646,
+          646,
+          646,
+          646
+        ],
+        "cardHeight": 256.296875
+      }
+    },
+    {
+      "name": "Crowded board stays inside viewport with compact cards and equal columns",
+      "passed": true,
+      "details": {
+        "viewport": [
+          390,
+          844
+        ],
+        "width": 390,
+        "scrollWidth": 390,
+        "pageHeight": 844,
+        "height": 844,
+        "columnHeights": [
+          488.21875,
+          488.21875,
+          488.21875,
+          488.21875,
+          488.21875
+        ],
+        "bodyHeights": [
+          428,
+          428,
+          428,
+          428,
+          428
+        ],
+        "cardHeight": 270.6875
+      }
+    },
+    {
+      "name": "Crowded board stays inside viewport with compact cards and equal columns",
+      "passed": true,
+      "details": {
+        "viewport": [
+          320,
+          740
+        ],
+        "width": 320,
+        "scrollWidth": 320,
+        "pageHeight": 740,
+        "height": 740,
+        "columnHeights": [
+          382.28125,
+          382.28125,
+          382.28125,
+          382.28125,
+          382.28125
+        ],
+        "bodyHeights": [
+          322,
+          322,
+          322,
+          322,
+          322
+        ],
+        "cardHeight": 282.296875
+      }
+    },
+    {
+      "name": "PM create control and archive access also fit a small phone without clipping the first card",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "Compact controls respect member ownership and PM permissions; server rejects unauthorized writes",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "Collapsed filters, active filter count, search, sorting and pagination remain usable with 56 tasks",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "Columns scroll independently; headers and scroll position survive automatic updates",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "Popup keeps unsaved percentage during concurrent changes; Escape cancels without writing",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "Real mouse drag auto-scrolls vertically and horizontally; dropping saves Done and cleans drag state",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "Real touch drag auto-scrolls across columns and down a long column before saving the selected status",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "Touch popup saves actual progress; 100 percent still marks the task Done",
+      "passed": true,
+      "details": {}
+    }
+  ],
+  "runtime_errors": [],
+  "success": true
+}

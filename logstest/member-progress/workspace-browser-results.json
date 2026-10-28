@@ -1,0 +1,162 @@
+{
+  "database": "disposable SQLite",
+  "browser": "Microsoft Edge headless",
+  "real_api_calls": false,
+  "real_emails": false,
+  "records": [
+    {
+      "name": "Server permissions shown consistently for assignee, supporter and read-only tasks",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "My work shortcut shows both assigned and supported tasks with clear progress controls",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "Member gets an explanation for an empty personal filter and can return to all project tasks",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "Member moves assigned task with native drag and drop",
+      "passed": true,
+      "details": {
+        "http": 200,
+        "status": "todo"
+      }
+    },
+    {
+      "name": "Member saves actual progress; PM report updates automatically",
+      "passed": true,
+      "details": {
+        "progress": 45,
+        "average": 29.0
+      }
+    },
+    {
+      "name": "Supporter changes status and actual progress through visible controls",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "Concurrent update keeps unsaved progress; closing applies pending revision without another server change",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "Unedited task detail refreshes automatically from another client",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "Avatar opens the current session account; Escape closes safely",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "Member edits own capacity; PM edits team capacity; both clients receive the changes",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "Charts and sprint filters match backend totals, workload and overload",
+      "passed": true,
+      "details": {
+        "effective": 3,
+        "workload": 12
+      }
+    },
+    {
+      "name": "New sprint filter appears automatically on another device",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "AI adapter receives current skills/capacity/workload; proposal does not assign task",
+      "passed": true,
+      "details": {
+        "transport": "mock Gemini HTTP"
+      }
+    },
+    {
+      "name": "Lost connection is visible; reconnection refreshes shared data",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "Touch drag with browser events",
+      "passed": true,
+      "details": {
+        "width": 768
+      }
+    },
+    {
+      "name": "Touch drag with browser events",
+      "passed": true,
+      "details": {
+        "width": 390
+      }
+    },
+    {
+      "name": "Feature parity and layout: desktop",
+      "passed": true,
+      "details": {
+        "width": 1366,
+        "pages": 3,
+        "profile": true
+      }
+    },
+    {
+      "name": "Feature parity and layout: small-desktop",
+      "passed": true,
+      "details": {
+        "width": 1024,
+        "pages": 3,
+        "profile": true
+      }
+    },
+    {
+      "name": "Feature parity and layout: tablet",
+      "passed": true,
+      "details": {
+        "width": 768,
+        "pages": 3,
+        "profile": true
+      }
+    },
+    {
+      "name": "Feature parity and layout: phone",
+      "passed": true,
+      "details": {
+        "width": 390,
+        "pages": 3,
+        "profile": true
+      }
+    },
+    {
+      "name": "Feature parity and layout: small-phone",
+      "passed": true,
+      "details": {
+        "width": 320,
+        "pages": 3,
+        "profile": true
+      }
+    },
+    {
+      "name": "Build upgrade preserves unsaved form and loads new UI after cancel/finish",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "No JavaScript runtime errors",
+      "passed": true,
+      "details": {
+        "errors": []
+      }
+    }
+  ],
+  "runtime_errors": [],
+  "success": true
+}

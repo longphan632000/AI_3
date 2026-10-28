@@ -1,0 +1,81 @@
+{
+  "timestamp": "2026-10-28T23:40:48.650060+07:00",
+  "base_commit": "8ac8a770de24acd69d5c8ad13902de4dec43896e",
+  "changed_application_files": [
+    {
+      "path": "static/css/kanban.css",
+      "sha256": "e2b1ebafe6dd6a1a3c96bd5a786694a3c89c3778368904072041c0b48c197448"
+    },
+    {
+      "path": "static/js/kanban.js",
+      "sha256": "acdfbbf2fbd83d0649654e99f312f156a8792c0e298a8fc25495a1648469bea4"
+    },
+    {
+      "path": "templates/kanban.html",
+      "sha256": "7302886f5e614d96d31c7043ff29c42e6f2d86d8ff4b317b059caace0d9a6005"
+    }
+  ],
+  "other_application_config_skill_files_unchanged": 99,
+  "backend_routes_services_schema_and_env_unchanged": true,
+  "historical_skill_docs_unchanged": true,
+  "sqlite": {
+    "timestamp": "2026-10-28T23:16:40.147447+07:00",
+    "tests_run": 253,
+    "passed": 253,
+    "failed": 0,
+    "successful": true
+  },
+  "browser": [
+    {
+      "file": "logstest/qa-browser-results.json",
+      "passed": 26,
+      "total": 26,
+      "runtime_errors": [],
+      "modified_at": "2026-10-28T23:34:51.505251+07:00"
+    },
+    {
+      "file": "logstest/qa-workspace-results.json",
+      "passed": 21,
+      "total": 21,
+      "runtime_errors": [],
+      "modified_at": "2026-10-28T23:19:06.027201+07:00"
+    },
+    {
+      "file": "logstest/qa-staffing-results.json",
+      "passed": 14,
+      "total": 14,
+      "runtime_errors": [],
+      "modified_at": "2026-10-28T23:22:04.077440+07:00"
+    },
+    {
+      "file": "logstest/kanban-compact/browser-results.json",
+      "passed": 13,
+      "total": 13,
+      "runtime_errors": [],
+      "modified_at": "2026-10-28T23:32:32.581224+07:00"
+    }
+  ],
+  "browser_groups_passed": 74,
+  "new_crowded_board_fixture_tasks": 56,
+  "real_api_calls": false,
+  "real_emails": false,
+  "production_test_data_written": false,
+  "live_health": {
+    "http": 200,
+    "status": "HEALTHY",
+    "mysql_ready": true,
+    "app_version": "77d78f19e1b29cb7bf9a"
+  },
+  "server_restart": {
+    "executed": false,
+    "state": "blocked by automatic approval review",
+    "returned_reason": "blocked by policy",
+    "manual_restart_required_for_template_cache": true
+  },
+  "git_commit_or_push": false,
+  "checks": {
+    "javascript_syntax": "PASS: node --check static/js/kanban.js",
+    "changed_python_test_static_checks": "PASS: ruff F,E9",
+    "source_diff_whitespace": "PASS"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "recorded_at": "2026-10-28 23:31:30 UTC",
+  "checks": [
+    {
+      "name": "JavaScript syntax",
+      "command": "node --check static/js/kanban.js",
+      "chunk_id": "f77f43",
+      "wall_time_seconds": 2.9449578,
+      "exit_code": 0,
+      "original_token_count": 0,
+      "output": ""
+    },
+    {
+      "name": "Python static analysis",
+      "command": "python -m ruff check tests/browser_workspace.py --select F,E9",
+      "chunk_id": "df858a",
+      "wall_time_seconds": 3.8046562,
+      "exit_code": 0,
+      "original_token_count": 5,
+      "output": "All checks passed!\n"
+    },
+    {
+      "name": "Diff whitespace",
+      "command": "git diff --check",
+      "chunk_id": "bf67f2",
+      "wall_time_seconds": 3.6532777,
+      "exit_code": 0,
+      "original_token_count": 85,
+      "output": "warning: in the working copy of 'app.py', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of 'static/css/kanban.css', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of 'tests/browser_staffing_archive.py', LF will be replaced by CRLF the next time Git touches it\n"
+    }
+  ],
+  "success": true
+}

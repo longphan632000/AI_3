@@ -1,0 +1,158 @@
+{
+  "started_at": "2026-10-28T16:24:30.678850+00:00",
+  "finished_at": "2026-10-28T16:25:33.106523+00:00",
+  "database": "disposable SQLite",
+  "fixture_task_count": 56,
+  "browser": "Microsoft Edge headless",
+  "real_api_calls": false,
+  "real_emails": false,
+  "records": [
+    {
+      "name": "Crowded board stays inside viewport with compact cards and equal columns",
+      "passed": true,
+      "details": {
+        "viewport": [
+          1920,
+          1080
+        ],
+        "width": 1920,
+        "scrollWidth": 1920,
+        "pageHeight": 1080,
+        "height": 1080,
+        "columnHeights": [
+          763.734375,
+          763.734375,
+          763.734375,
+          763.734375,
+          763.734375
+        ],
+        "cardHeight": 256.296875
+      }
+    },
+    {
+      "name": "Crowded board stays inside viewport with compact cards and equal columns",
+      "passed": true,
+      "details": {
+        "viewport": [
+          1366,
+          900
+        ],
+        "width": 1366,
+        "scrollWidth": 1366,
+        "pageHeight": 900,
+        "height": 900,
+        "columnHeights": [
+          583.734375,
+          583.734375,
+          583.734375,
+          583.734375,
+          583.734375
+        ],
+        "cardHeight": 256.296875
+      }
+    },
+    {
+      "name": "Crowded board stays inside viewport with compact cards and equal columns",
+      "passed": true,
+      "details": {
+        "viewport": [
+          768,
+          1024
+        ],
+        "width": 768,
+        "scrollWidth": 768,
+        "pageHeight": 1024,
+        "height": 1024,
+        "columnHeights": [
+          642.265625,
+          642.265625,
+          642.265625,
+          642.265625,
+          642.265625
+        ],
+        "cardHeight": 256.296875
+      }
+    },
+    {
+      "name": "Crowded board stays inside viewport with compact cards and equal columns",
+      "passed": true,
+      "details": {
+        "viewport": [
+          390,
+          844
+        ],
+        "width": 390,
+        "scrollWidth": 390,
+        "pageHeight": 844,
+        "height": 844,
+        "columnHeights": [
+          399.40625,
+          399.40625,
+          399.40625,
+          399.40625,
+          399.40625
+        ],
+        "cardHeight": 275.765625
+      }
+    },
+    {
+      "name": "Crowded board stays inside viewport with compact cards and equal columns",
+      "passed": true,
+      "details": {
+        "viewport": [
+          320,
+          740
+        ],
+        "width": 320,
+        "scrollWidth": 320,
+        "pageHeight": 740,
+        "height": 740,
+        "columnHeights": [
+          266.34375,
+          266.34375,
+          266.34375,
+          266.34375,
+          266.34375
+        ],
+        "cardHeight": 282.296875
+      }
+    },
+    {
+      "name": "Compact controls respect member ownership and PM permissions; server rejects unauthorized writes",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "Collapsed filters, active filter count, search, sorting and pagination remain usable with 56 tasks",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "Columns scroll independently; headers and scroll position survive automatic updates",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "Popup keeps unsaved percentage during concurrent changes; Escape cancels without writing",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "Real mouse drag auto-scrolls vertically and horizontally; dropping saves Done and cleans drag state",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "Real touch drag auto-scrolls across columns and down a long column before saving the selected status",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "Failure",
+      "passed": false,
+      "error": "Locator expected to have Value '0'\nActual value: 55 \nCall log:\n  - Expect \"to_have_value\" locator(\"#detail-progress\") with timeout 15000ms\n  - waiting for locator(\"#detail-progress\")\n    32 × locator resolved to <input min=\"0\" step=\"1\" max=\"100\" value=\"55\" required=\"\" type=\"number\" class=\"form-input\" id=\"detail-progress\"/>\n       - unexpected value \"55\"\n\nAria snapshot:\n- spinbutton \"Tiến độ thực tế (%)\": \"55\""
+    }
+  ],
+  "runtime_errors": [],
+  "success": false
+}

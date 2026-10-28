@@ -14,3 +14,11 @@
 40 ảnh được tạo/cập nhật trong đợt Skill có bản chụp giữ riêng tại `docs/evidence/screenshots/`. Các ảnh ở đây là đầu ra của chương trình kiểm thử và có thể được cập nhật khi chạy lại. Bản log/JSON nguyên gốc của đợt Skill trong `docs/evidence/` được giữ nguyên.
 
 Các tệp MySQL/Gemini thật đã có là kết quả lịch sử; chúng không chứng minh đã chạy lại MySQL hoặc gọi API thật trong lượt sắp xếp này. Xem thời điểm và phạm vi trong báo cáo tương ứng.
+
+## Cập nhật giao diện Kanban
+
+[Báo cáo tối ưu bảng nhiều nhiệm vụ](KANBAN_COMPACT_REPORT.md) và thư mục `kanban-compact/` lưu kết quả kiểm thử, ảnh màn hình và hướng dẫn nạp giao diện mới của lượt chỉnh sửa sau đó.
+
+[Sửa task bị cắt và cập nhật %](KANBAN_VISIBILITY_REPAIR.md) ghi nhận lượt sửa tiếp theo: tương thích HTML cũ đang được máy chủ giữ, 254 ca SQLite và 26 nhóm trình duyệt; bản sửa này nhận được bằng Ctrl+F5.
+
+[Member cập nhật % tiến độ — 29/10/2026](MEMBER_PROGRESS_29_10_2026.md): thêm nút Việc của tôi, làm rõ nút cập nhật trên task được giao/hỗ trợ và đưa ô nhập % lên đầu cửa sổ; 14 ca SQLite và 36 nhóm giao diện đạt. Minh chứng của lượt này ở `member-progress/`.

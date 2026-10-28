@@ -1,0 +1,19 @@
+test_archived_task_is_readonly_in_returned_capabilities (tests.test_workspace_enhancements.TestWorkspaceEnhancements.test_archived_task_is_readonly_in_returned_capabilities) ... ok
+test_assignee_and_supporter_receive_server_permissions_and_can_update (tests.test_workspace_enhancements.TestWorkspaceEnhancements.test_assignee_and_supporter_receive_server_permissions_and_can_update) ... ok
+test_capacity_is_project_specific_and_viewer_cannot_edit (tests.test_workspace_enhancements.TestWorkspaceEnhancements.test_capacity_is_project_specific_and_viewer_cannot_edit) ... ok
+test_empty_report_has_zero_values_and_no_nonfinite_numbers (tests.test_workspace_enhancements.TestWorkspaceEnhancements.test_empty_report_has_zero_values_and_no_nonfinite_numbers) ... ok
+test_invalid_capacity_does_not_change_saved_data (tests.test_workspace_enhancements.TestWorkspaceEnhancements.test_invalid_capacity_does_not_change_saved_data) ... ok
+test_leader_edits_member_and_ai_retrieval_uses_current_saved_data (tests.test_workspace_enhancements.TestWorkspaceEnhancements.test_leader_edits_member_and_ai_retrieval_uses_current_saved_data) ... ok
+test_member_can_edit_only_own_capacity (tests.test_workspace_enhancements.TestWorkspaceEnhancements.test_member_can_edit_only_own_capacity) ... ok
+test_profile_is_current_session_account_without_secrets (tests.test_workspace_enhancements.TestWorkspaceEnhancements.test_profile_is_current_session_account_without_secrets) ... ok
+test_progress_validation_and_hundred_percent_completion (tests.test_workspace_enhancements.TestWorkspaceEnhancements.test_progress_validation_and_hundred_percent_completion) ... ok
+test_report_distinguishes_actual_progress_from_done_ratio (tests.test_workspace_enhancements.TestWorkspaceEnhancements.test_report_distinguishes_actual_progress_from_done_ratio) ... ok
+test_report_filter_checks_sprint_scope_and_outsider_permissions (tests.test_workspace_enhancements.TestWorkspaceEnhancements.test_report_filter_checks_sprint_scope_and_outsider_permissions) ... ok
+test_shared_pages_have_version_and_no_store_cache_policy (tests.test_workspace_enhancements.TestWorkspaceEnhancements.test_shared_pages_have_version_and_no_store_cache_policy) ... ok
+test_sync_changes_on_capacity_and_notification_read_but_not_app_version (tests.test_workspace_enhancements.TestWorkspaceEnhancements.test_sync_changes_on_capacity_and_notification_read_but_not_app_version) ... ok
+test_unassigned_member_cannot_update_another_members_task (tests.test_workspace_enhancements.TestWorkspaceEnhancements.test_unassigned_member_cannot_update_another_members_task) ... ok
+
+----------------------------------------------------------------------
+Ran 14 tests in 3.591s
+
+OK

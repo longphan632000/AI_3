@@ -9,7 +9,6 @@ let projectSprints = [];
 let kanbanRequest = 0;
 let lastTaskDragEndedAt = 0;
 window.taskDragActive = false;
-window.kanbanProgressDrafts = new Map();
 const taskStatusLabels = {backlog:'Tồn đọng',todo:'Cần làm',in_progress:'Đang làm',review:'Kiểm tra',done:'Hoàn thành'};
 
 function canUpdateTask(task) {
@@ -24,6 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 async function initKanbanPage() {
+    setupKanbanLayout();
     await projectReady;
     const createButton = document.getElementById('create-task-button');
     if (createButton) createButton.style.display = canManageCurrentProject ? '' : 'none';
@@ -35,6 +35,7 @@ async function initKanbanPage() {
     await loadKanbanTasks();
     setupDragAndDrop();
     setupFilterEvents();
+    setupMemberProgressControls();
     const params=new URLSearchParams(location.search),suggestedTask=params.get('task_id'),suggestedUser=params.get('suggested_assignee_id');
     if(canManageCurrentProject&&suggestedTask&&suggestedUser){
         await editTask(Number(suggestedTask));
@@ -42,6 +43,146 @@ async function initKanbanPage() {
         if(Array.from(input.options).some(option=>option.value===suggestedUser))input.value=suggestedUser;
         else showToast('Ứng viên chưa thuộc dự án hoặc không còn đủ quyền; hãy cập nhật danh sách.','error');
     }
+}
+
+function setupMemberProgressControls() {
+    if(currentProjectRole!=='member')return;
+    const bar=document.querySelector('.kanban-filter-bar');
+    if(!bar||document.getElementById('kanban-my-tasks'))return;
+    const button=document.createElement('button');
+    button.id='kanban-my-tasks';button.type='button';button.className='btn btn-secondary kanban-my-tasks';
+    button.textContent='Việc của tôi';button.title='Nhiệm vụ tôi phụ trách hoặc hỗ trợ';
+    button.setAttribute('aria-label','Chỉ xem nhiệm vụ tôi phụ trách hoặc hỗ trợ');
+    button.onclick=()=>{
+        const select=document.getElementById('filter-assignee'),ownId=String(currentUser.id);
+        select.value=select.value===ownId?'':ownId;
+        select.dispatchEvent(new Event('change',{bubbles:true}));
+    };
+    bar.insertBefore(button,document.getElementById('kanban-filter-panel'));
+    const help=document.createElement('p');help.id='kanban-member-progress-help';help.className='form-help kanban-member-progress-help';help.hidden=true;
+    help.textContent='Chưa có nhiệm vụ bạn phụ trách hoặc hỗ trợ khớp bộ lọc. Hãy đổi bộ lọc hoặc nhờ PM phân công nhiệm vụ.';
+    document.querySelector('.kanban-board').before(help);
+    updateMemberProgressControls();
+}
+
+function updateMemberProgressControls() {
+    const button=document.getElementById('kanban-my-tasks');
+    if(!button)return;
+    const active=document.getElementById('filter-assignee').value===String(currentUser.id);
+    button.setAttribute('aria-pressed',String(active));
+    const help=document.getElementById('kanban-member-progress-help');
+    if(help)help.hidden=!active||currentTasks.length>0;
+}
+
+// A running server or an already-open tab may still carry the previous HTML.
+// Move its existing controls into the current layout without replacing task data.
+function ensureKanbanWorkspace() {
+    const existing=document.querySelector('.kanban-workspace');
+    if(existing)return existing;
+    const board=document.querySelector('.kanban-board');
+    const main=board?.parentElement;
+    const heading=main?.querySelector('.kanban-toolbar');
+    const filterBody=main?.querySelector('.kanban-filters');
+    const search=document.getElementById('filter-keyword');
+    const pagination=document.getElementById('tasks-prev')?.parentElement;
+    if(!board||!heading||!filterBody||!search||!pagination)return null;
+    const filterBar=filterBody.parentElement;
+    const workspace=document.createElement('section');
+    workspace.className='kanban-workspace';workspace.setAttribute('aria-label','Bảng nhiệm vụ');
+    main.insertBefore(workspace,heading);
+    heading.classList.add('kanban-heading');
+    const caption=heading.querySelector('p');
+    if(caption)caption.textContent='Kéo thẻ sang cột khác hoặc chọn Cập nhật để thay đổi tiến độ.';
+    const createButton=document.getElementById('create-task-button');
+    if(createButton){
+        createButton.setAttribute('aria-label','Tạo nhiệm vụ mới');createButton.title='Tạo nhiệm vụ mới';
+        createButton.innerHTML='<span aria-hidden="true">+</span><span class="create-task-label">Tạo nhiệm vụ mới</span>';
+    }
+    filterBar.className='kanban-filter-bar';filterBar.removeAttribute('style');
+    search.removeAttribute('style');search.type='search';search.setAttribute('aria-label','Tìm kiếm nhiệm vụ');
+    filterBar.prepend(search);
+    for(const [id,label] of [['filter-sprint','Sprint'],['filter-assignee','Người phụ trách']]){
+        const select=document.getElementById(id);
+        if(select&&!select.closest('label')){
+            const wrapper=document.createElement('label');wrapper.textContent=label;
+            select.before(wrapper);wrapper.append(select);
+        }
+    }
+    for(const label of Array.from(pagination.children).filter(el=>el.tagName==='LABEL'))filterBody.append(label);
+    const archivedButton=pagination.querySelector('[data-project-manager]');
+    if(archivedButton){archivedButton.classList.add('kanban-archived-tasks');filterBody.append(archivedButton);}
+    filterBody.querySelectorAll('input,select').forEach(el=>el.removeAttribute('style'));
+    const overdueLabel=document.getElementById('filter-overdue')?.closest('label');
+    if(overdueLabel){overdueLabel.removeAttribute('style');overdueLabel.classList.add('kanban-overdue-filter');}
+    const panel=document.createElement('details');panel.id='kanban-filter-panel';panel.className='kanban-filter-panel';
+    panel.innerHTML='<summary>Bộ lọc <span id="kanban-filter-count" class="column-count" hidden>0</span></summary>';
+    panel.append(filterBody);filterBar.append(panel);
+    if(document.getElementById('archived-projects-button')){
+        const projects=document.createElement('details');projects.id='kanban-project-panel';projects.className='kanban-filter-panel kanban-project-panel';
+        projects.innerHTML='<summary>Dự án</summary><div id="kanban-project-actions" class="kanban-filters kanban-project-actions"></div>';
+        filterBar.append(projects);
+    }
+    pagination.className='kanban-pagination';pagination.removeAttribute('style');
+    const hint=document.createElement('span');hint.className='kanban-drag-hint';hint.textContent='Kéo bằng tay nắm ⠿ để chuyển cột';pagination.prepend(hint);
+    workspace.append(heading,filterBar,board,pagination);
+    const modal=document.getElementById('modal-task-detail');
+    if(modal){
+        modal.setAttribute('role','dialog');modal.setAttribute('aria-modal','true');modal.setAttribute('aria-labelledby','detail-task-title');
+        const close=modal.querySelector('.modal-header .btn-icon');
+        if(close){close.setAttribute('aria-label','Đóng chi tiết nhiệm vụ');close.onclick=closeTaskDetail;}
+    }
+    return workspace;
+}
+
+function setupKanbanLayout() {
+    const workspace=ensureKanbanWorkspace();
+    if(!workspace)return;
+    workspace.parentElement.classList.add('kanban-content');
+    const projectActions=document.getElementById('kanban-project-actions');
+    if(projectActions){
+        const commands=document.querySelectorAll('.project-select-container > button,[onclick="openEditProjectModal()"],[onclick="deleteCurrentProject()"],#archived-projects-button');
+        for(const button of commands){
+            const parent=button.parentElement;
+            projectActions.append(button);
+            if(parent.parentElement?.classList.contains('app-main'))parent.hidden=true;
+        }
+        projectActions.addEventListener('click',event=>{
+            if(event.target.closest('button'))document.getElementById('kanban-project-panel').open=false;
+        });
+    }
+    let layoutFrame=0;
+    const fit=()=>{
+        cancelAnimationFrame(layoutFrame);
+        layoutFrame=requestAnimationFrame(()=>{
+            const top=workspace.getBoundingClientRect().top+window.scrollY;
+            const bottomPadding=parseFloat(getComputedStyle(workspace.parentElement).paddingBottom)||0;
+            workspace.style.height=`${Math.max(420,innerHeight-top-bottomPadding)}px`;
+        });
+    };
+    const observer=new ResizeObserver(fit);
+    for(const el of document.querySelectorAll('.app-header,.sync-banner,.kanban-heading,.kanban-pagination'))observer.observe(el);
+    window.addEventListener('resize',fit);
+    window.visualViewport?.addEventListener('resize',fit);
+    fit();
+    const panels=Array.from(document.querySelectorAll('.kanban-filter-panel'));
+    document.addEventListener('click',event=>{
+        panels.forEach(panel=>{if(!panel.contains(event.target))panel.open=false;});
+    });
+    document.addEventListener('keydown',event=>{
+        const panel=panels.find(item=>item.open);
+        if(event.key==='Escape'&&panel){
+            panel.open=false;panel.querySelector('summary').focus();return;
+        }
+        const modal=document.getElementById('modal-task-detail');
+        if(!modal.classList.contains('active'))return;
+        if(event.key==='Escape'){event.preventDefault();closeTaskDetail();}
+        if(event.key==='Tab'){
+            const controls=Array.from(modal.querySelectorAll('button,input,select,a[href],textarea')).filter(el=>!el.disabled&&el.getClientRects().length);
+            const first=controls[0],last=controls[controls.length-1];
+            if(event.shiftKey&&document.activeElement===first){event.preventDefault();last.focus();}
+            else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus();}
+        }
+    });
 }
 
 async function loadFilterOptions() {
@@ -124,6 +265,10 @@ async function loadKanbanTasks() {
         sort_by:document.getElementById('filter-sort').value,sort_order:document.getElementById('filter-order').value,
         offset:taskPageOffset,limit:taskPageSize+1});
     const url = `/api/projects/${currentProjectId}/tasks?${params}`;
+    const filterCount=['filter-sprint','filter-assignee','filter-priority','filter-status','filter-due-from','filter-due-to']
+        .filter(id=>document.getElementById(id).value).length+(overdueOnly==='true'?1:0)+(keyword.trim()?1:0);
+    const filterBadge=document.getElementById('kanban-filter-count');
+    if(filterBadge){filterBadge.textContent=filterCount;filterBadge.hidden=filterCount===0;}
 
     try {
         const res = await fetch(url);
@@ -135,6 +280,7 @@ async function loadKanbanTasks() {
             document.getElementById('tasks-page').textContent=`Trang ${1+taskPageOffset/taskPageSize}`;
             currentTasks = data.tasks.slice(0,taskPageSize);
             renderKanbanBoard(currentTasks);
+            updateMemberProgressControls();
         } else { showToast(data.error||'Không tải được nhiệm vụ.','error'); }
     } catch (e) {
         showToast('Lỗi tải danh sách nhiệm vụ.', 'error');
@@ -144,6 +290,7 @@ async function loadKanbanTasks() {
 function renderKanbanBoard(tasks) {
     const columns = ['backlog', 'todo', 'in_progress', 'review', 'done'];
     const colCounts = { backlog: 0, todo: 0, in_progress: 0, review: 0, done: 0 };
+    const scrollPositions=new Map(columns.map(col=>[col,document.getElementById(`col-body-${col}`).scrollTop]));
 
     columns.forEach(col => {
         const bodyEl = document.getElementById(`col-body-${col}`);
@@ -165,6 +312,7 @@ function renderKanbanBoard(tasks) {
     columns.forEach(col => {
         const countEl = document.getElementById(`col-count-${col}`);
         if (countEl) countEl.textContent = colCounts[col];
+        document.getElementById(`col-body-${col}`).scrollTop=scrollPositions.get(col);
     });
 
     // Khởi tạo lại hiệu ứng 3D tilt cho các card mới render
@@ -175,8 +323,8 @@ function renderKanbanBoard(tasks) {
 
 function createTaskCardElement(task) {
     const card = document.createElement('div');
-    card.className = `task-card tilt-card ${task.is_overdue ? 'is-overdue' : ''}`;
     const canUpdate=canUpdateTask(task);
+    card.className = `task-card ${canUpdate?'can-update-progress':''} ${task.is_overdue ? 'is-overdue' : ''}`;
     card.draggable = canUpdate;
     card.dataset.taskId = task.id;
 
@@ -187,7 +335,9 @@ function createTaskCardElement(task) {
     // Labels
     let labelsHtml = '';
     if (task.labels) {
-        labelsHtml = task.labels.split(',').map(l => `<span class="task-label-tag">${escapeHtml(l.trim())}</span>`).join('');
+        const labels=task.labels.split(',').map(label=>label.trim()).filter(Boolean);
+        labelsHtml=labels.slice(0,2).map(label=>`<span class="task-label-tag">${escapeHtml(label)}</span>`).join('');
+        if(labels.length>2)labelsHtml+=`<span class="task-label-tag">+${labels.length-2}</span>`;
     }
 
     // Assignee
@@ -198,27 +348,29 @@ function createTaskCardElement(task) {
         <div class="task-header">
             <span class="task-id-badge">${escapeHtml(task.task_code||'#TASK-'+task.id)}</span>
             ${canUpdate?`<button type="button" class="task-drag-handle" aria-label="Kéo di chuyển nhiệm vụ ${task.id}" title="Kéo để chuyển trạng thái">⠿</button>`:''}
-            <div style="display:flex; gap:4px; align-items:center;">
+            <div class="task-header-badges">
                 ${overdueBadge}
-                <span class="badge ${priorityClass}">${task.priority}</span>
+                <span class="badge ${priorityClass}">${escapeHtml(task.priority||'medium')}</span>
             </div>
         </div>
-        <div class="task-title">${escapeHtml(task.title)}</div>
-        ${labelsHtml ? `<div class="task-labels">${labelsHtml}</div>` : ''}
+        <button type="button" class="task-title" title="${escapeHtml(task.title)}">${escapeHtml(task.title)}</button>
+        ${labelsHtml ? `<div class="task-labels" title="${escapeHtml(task.labels)}">${labelsHtml}</div>` : ''}
         <div class="task-footer">
             <div class="task-meta-left">
                 <span title="Thời gian dự kiến">⏱️ ${task.estimated_hours}h</span>
             </div>
             <div class="task-assignee" title="Người phụ trách: ${escapeHtml(assigneeName)}">
                 <div class="task-avatar-mini">${escapeHtml(initial)}</div>
-                <span>${escapeHtml(assigneeName.split(' ').pop())}</span>
+                <span>${escapeHtml(assigneeName)}</span>
             </div>
         </div>
         <div class="task-progress-line"><span>Tiến độ thực tế</span><strong>${Number(task.progress_percent)||0}%</strong></div>
         <div class="task-progress-track" role="progressbar" aria-label="Tiến độ nhiệm vụ ${task.id}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${Number(task.progress_percent)||0}"><span style="width:${Math.max(0,Math.min(100,Number(task.progress_percent)||0))}%"></span></div>
-        ${canUpdate?`<form class="inline-task-progress" onsubmit="saveInlineTaskProgress(event,${task.id})"><label>% thực tế<input id="task-progress-${task.id}" class="form-input" aria-label="Tiến độ thực tế nhiệm vụ ${task.id}" type="number" min="0" max="100" step="1" required value="${escapeHtml(window.kanbanProgressDrafts.get(task.id)??task.progress_percent??0)}" oninput="window.kanbanProgressDrafts.set(${task.id},this.value)"></label><button class="btn btn-primary" type="submit">Lưu %</button><button class="btn btn-secondary" type="button" onclick="cancelInlineTaskProgress(${task.id})">Hủy</button></form>`:''}
-        ${canUpdate?`<div class="task-card-controls"><label>Chuyển trạng thái<select class="form-select task-status-select" aria-label="Trạng thái nhiệm vụ ${task.id}" onchange="updateTaskStatusApi(${task.id},this.value)">${Object.entries(taskStatusLabels).map(([value,label])=>`<option value="${value}" ${task.status===value?'selected':''}>${label}</option>`).join('')}</select></label><button type="button" class="btn btn-secondary task-progress-edit" onclick="openTaskProgressEditor(${task.id})">Cập nhật tiến độ</button></div>`:'<p class="form-help task-readonly-hint">Chỉ xem · bạn chưa được giao hoặc hỗ trợ nhiệm vụ này.</p>'}
+        ${canUpdate?`<div class="task-card-controls"><button type="button" class="btn btn-primary task-progress-edit" aria-label="Cập nhật tiến độ nhiệm vụ ${task.id}" onclick="openTaskProgressEditor(${task.id})">Cập nhật % tiến độ</button></div>`:'<p class="form-help task-readonly-hint">Chỉ xem · Chỉ người phụ trách hoặc hỗ trợ mới được cập nhật.</p>'}
     `;
+    card.querySelector('.task-title').addEventListener('click',()=>{
+        if(Date.now()-lastTaskDragEndedAt>=250)openTaskDetailDrawer(task.id);
+    });
     card.addEventListener('click',event=>{
         if(event.target.closest('button,input,select,a,form')||Date.now()-lastTaskDragEndedAt<250)return;
         openTaskDetailDrawer(task.id);
@@ -226,14 +378,45 @@ function createTaskCardElement(task) {
     return card;
 }
 
+// Both native mouse drag and touch drag scroll the board/column under the pointer.
+function scrollKanbanAtPointer(clientX,clientY) {
+    const board=document.querySelector('.kanban-board'),rect=board.getBoundingClientRect();
+    const left=Math.max(0,rect.left),right=Math.min(innerWidth,rect.right);
+    const edge=48,speed=18;
+    // A finger can reach the screen edge just outside the board's padding.
+    if(clientY<rect.top||clientY>rect.bottom||clientX<Math.max(0,left-edge)||clientX>Math.min(innerWidth,right+edge))return;
+    if(clientX>right-edge)board.scrollLeft+=speed*(1-(right-clientX)/edge);
+    else if(clientX<left+edge)board.scrollLeft-=speed*(1-(clientX-left)/edge);
+    const column=document.elementFromPoint(clientX,clientY)?.closest('.kanban-column');
+    if(!column)return;
+    const body=column.querySelector('.column-body'),bodyRect=body.getBoundingClientRect();
+    if(clientY<bodyRect.top||clientY>bodyRect.bottom)return;
+    if(clientY>bodyRect.bottom-edge)body.scrollTop+=speed*(1-(bodyRect.bottom-clientY)/edge);
+    else if(clientY<bodyRect.top+edge)body.scrollTop-=speed*(1-(clientY-bodyRect.top)/edge);
+}
+
 function setupDragAndDrop() {
     const columns = document.querySelectorAll('.kanban-column');
+    const board=document.querySelector('.kanban-board');
+    let pointer=null,scrollFrame=0;
+    const autoScroll=()=>{
+        if(!pointer||!window.taskDragActive)return;
+        scrollKanbanAtPointer(pointer.x,pointer.y);
+        scrollFrame=requestAnimationFrame(autoScroll);
+    };
+    const clearNativeDrag=()=>{
+        cancelAnimationFrame(scrollFrame);scrollFrame=0;pointer=null;
+        window.taskDragActive=false;lastTaskDragEndedAt=Date.now();
+        board.classList.remove('is-task-dragging');
+        columns.forEach(col=>col.classList.remove('drag-over'));
+    };
 
     document.addEventListener('dragstart', (e) => {
         const card = e.target.closest('.task-card');
         if (!card) return;
-        if(!card.draggable||e.target.closest('input,select')){e.preventDefault();return;}
+        if(!card.draggable||e.target.closest('input,select,.task-progress-edit')){e.preventDefault();return;}
         window.taskDragActive=true;
+        board.classList.add('is-task-dragging');
         card.classList.add('dragging');
         e.dataTransfer.effectAllowed='move';
         e.dataTransfer.setData('text/plain', card.dataset.taskId);
@@ -242,9 +425,12 @@ function setupDragAndDrop() {
     document.addEventListener('dragend', (e) => {
         const card = e.target.closest('.task-card');
         if (card) card.classList.remove('dragging');
-        window.taskDragActive=false;
-        lastTaskDragEndedAt=Date.now();
-        columns.forEach(c => c.classList.remove('drag-over'));
+        clearNativeDrag();
+    });
+    document.addEventListener('dragover',event=>{
+        if(!window.taskDragActive)return;
+        pointer={x:event.clientX,y:event.clientY};
+        if(!scrollFrame)scrollFrame=requestAnimationFrame(autoScroll);
     });
 
     columns.forEach(col => {
@@ -264,8 +450,7 @@ function setupDragAndDrop() {
             col.classList.remove('drag-over');
             const taskId = e.dataTransfer.getData('text/plain');
             const newStatus = col.dataset.status;
-            window.taskDragActive=false;
-            lastTaskDragEndedAt=Date.now();
+            clearNativeDrag();
             if (taskId && newStatus && currentTasks.some(t=>String(t.id)===taskId&&canUpdateTask(t))) {
                 await updateTaskStatusApi(taskId, newStatus);
             }
@@ -275,10 +460,10 @@ function setupDragAndDrop() {
 }
 
 async function updateTaskStatusApi(taskId, newStatus) {
-    if(window.kanbanProgressDrafts.has(Number(taskId))){
+    const editor=document.getElementById('modal-task-detail'),progress=document.getElementById('detail-progress');
+    if(editor.classList.contains('active')&&Number(detailTaskId)===Number(taskId)&&progress&&progress.value!==progress.defaultValue){
         showToast('Hãy lưu hoặc hủy phần trăm đang nhập trước khi chuyển cột.','info');
-        const task=currentTasks.find(t=>Number(t.id)===Number(taskId)),select=document.querySelector(`.task-card[data-task-id="${taskId}"] .task-status-select`);
-        if(task&&select)select.value=task.status;return false;
+        return false;
     }
     try {
         const res = await fetch(`/api/tasks/${taskId}/status`, {
@@ -303,17 +488,18 @@ async function updateTaskStatusApi(taskId, newStatus) {
 }
 
 function setupFilterEvents() {
+    const reload=()=>{taskPageOffset=0;resetKanbanColumnScroll();loadKanbanTasks();};
     for(const id of ['filter-priority','filter-status','filter-due-from','filter-due-to','filter-sort','filter-order']) {
-        document.getElementById(id).addEventListener('change',()=>{taskPageOffset=0;loadKanbanTasks();});
+        document.getElementById(id).addEventListener('change',reload);
     }
-    document.getElementById('filter-sprint')?.addEventListener('change', ()=>{taskPageOffset=0;loadKanbanTasks();});
-    document.getElementById('filter-assignee')?.addEventListener('change', ()=>{taskPageOffset=0;loadKanbanTasks();});
-    document.getElementById('filter-overdue')?.addEventListener('change', ()=>{taskPageOffset=0;loadKanbanTasks();});
+    document.getElementById('filter-sprint')?.addEventListener('change',reload);
+    document.getElementById('filter-assignee')?.addEventListener('change',reload);
+    document.getElementById('filter-overdue')?.addEventListener('change',reload);
 
     let debounceTimer;
     document.getElementById('filter-keyword')?.addEventListener('input', () => {
         clearTimeout(debounceTimer);
-        debounceTimer = setTimeout(()=>{taskPageOffset=0;loadKanbanTasks();}, 300);
+        debounceTimer = setTimeout(reload, 300);
     });
 }
 
@@ -391,7 +577,9 @@ async function openTaskDetailDrawer(taskId, {refresh=false}={}) {
             detailTaskId=task.id;
             const canUpdate=canUpdateTask(task);
             document.getElementById('modal-task-detail').dataset.dirty='false';
-            document.getElementById('task-detail-actions').innerHTML=(canManageCurrentProject?`<button class="btn btn-secondary" onclick="editTask(${task.id})">Sửa nhiệm vụ</button><button class="btn btn-secondary" onclick="archiveTask(${task.id})">Lưu trữ nhiệm vụ</button>`:'')+(canUpdate?`<label>Tiến độ thực tế (%) <input id="detail-progress" class="form-input" type="number" min="0" max="100" step="1" required value="${Number(task.progress_percent)||0}" style="width:100px"></label><button type="button" data-save-progress class="btn btn-primary" onclick="saveTaskProgress(${task.id})">Lưu tiến độ</button>`:`<p>Tiến độ thực tế: ${Number(task.progress_percent)||0}% · Bạn chỉ có quyền xem nhiệm vụ này.</p>`);
+            const actions=document.getElementById('task-detail-actions');
+            modal.querySelector('.modal-header').after(actions);
+            actions.innerHTML=(canUpdate?'<h4 class="task-progress-editor-heading">Cập nhật tiến độ thực tế</h4>':'')+(canManageCurrentProject?`<button class="btn btn-secondary" onclick="editTask(${task.id})">Sửa nhiệm vụ</button><button class="btn btn-secondary" onclick="archiveTask(${task.id})">Lưu trữ nhiệm vụ</button>`:'')+(canUpdate?`<label>Tiến độ thực tế (%) <input id="detail-progress" class="form-input" type="number" min="0" max="100" step="1" required value="${Number(task.progress_percent)||0}" style="width:100px"></label><button type="button" data-save-progress class="btn btn-primary" onclick="saveTaskProgress(${task.id})">Lưu tiến độ</button>`:`<p>Tiến độ thực tế: ${Number(task.progress_percent)||0}% · Bạn chỉ có quyền xem nhiệm vụ này.</p>`);
             if(canUpdate){
                 const label=document.createElement('label');label.textContent='Trạng thái ';
                 const select=document.createElement('select');select.id='detail-status';select.className='form-select';
@@ -410,6 +598,8 @@ async function openTaskDetailDrawer(taskId, {refresh=false}={}) {
                     }finally{button.disabled=false;}
                 };
                 label.append(select);document.getElementById('task-detail-actions').append(label,button);
+                const cancel=document.createElement('button');cancel.className='btn btn-secondary';cancel.type='button';cancel.textContent='Hủy';
+                cancel.onclick=closeTaskDetail;document.getElementById('task-detail-actions').append(cancel);
             }
             const canCollaborate=currentProjectRole==='leader'||currentProjectRole==='member';
             for(const id of ['form-add-comment','attachment-upload-form','attachment-link-form']) document.getElementById(id).hidden=!canCollaborate;
@@ -432,6 +622,7 @@ async function openTaskDetailDrawer(taskId, {refresh=false}={}) {
             await loadTaskComments(taskId);
             if(!stillCurrent())return;
             openModal('modal-task-detail');
+            if(!refresh)modal.querySelector('.modal-header .btn-icon').focus({preventScroll:true});
         }
     } catch (e) {
         showToast('Lỗi lấy chi tiết nhiệm vụ.', 'error');
@@ -491,7 +682,8 @@ async function submitComment(e) {
 
 
 
-function changeTaskPage(direction) { taskPageOffset=Math.max(0,taskPageOffset+direction*taskPageSize);loadKanbanTasks(); }
+function resetKanbanColumnScroll(){document.querySelectorAll('.column-body').forEach(body=>body.scrollTop=0);}
+function changeTaskPage(direction) { taskPageOffset=Math.max(0,taskPageOffset+direction*taskPageSize);resetKanbanColumnScroll();loadKanbanTasks(); }
 
 function openTaskForm() {
     editingTaskId=null;
@@ -530,6 +722,7 @@ async function saveTaskProgress(id) {
         const latest=await apiRequest(`/api/tasks/${id}`);
         if(modal.classList.contains('active')&&(modal.dataset.generation||'0')===generation&&detailTaskId===id){
             input.value=latest.task.progress_percent;
+            input.defaultValue=String(latest.task.progress_percent);
             document.getElementById('detail-task-status').textContent=latest.task.status.toUpperCase();
             if(document.getElementById('detail-status'))document.getElementById('detail-status').value=latest.task.status;
             modal.dataset.dirty='false';
@@ -541,18 +734,11 @@ async function saveTaskProgress(id) {
 }
 
 async function openTaskProgressEditor(id){await openTaskDetailDrawer(id);document.getElementById('detail-progress')?.focus();}
-async function saveInlineTaskProgress(event,id){
-    event.preventDefault();
-    const input=document.getElementById(`task-progress-${id}`),button=event.submitter;
-    if(!input.reportValidity()||button.disabled)return;
-    const controls=event.target.querySelectorAll('button,input');controls.forEach(el=>el.disabled=true);
-    try{
-        const data=await apiRequest(`/api/tasks/${id}/progress`,jsonRequest('PUT',{progress_percent:Number(input.value)}));
-        window.kanbanProgressDrafts.delete(id);await loadKanbanTasks();showToast(data.message,'success');
-    }catch(error){showToast(error.message,'error');}
-    finally{controls.forEach(el=>el.disabled=false);}
+function closeTaskDetail(){
+    closeModal('modal-task-detail');
+    const card=document.querySelector(`.task-card[data-task-id="${detailTaskId}"]`);
+    (card?.querySelector('.task-progress-edit')||card?.querySelector('.task-title'))?.focus({preventScroll:true});
 }
-async function cancelInlineTaskProgress(id){window.kanbanProgressDrafts.delete(id);await loadKanbanTasks();}
 
 
 function setupTouchTaskDrag(){
@@ -565,9 +751,7 @@ function setupTouchTaskDrag(){
     };
     const autoScroll=()=>{
         if(!drag?.moved)return;
-        const board=document.querySelector('.kanban-board'),rect=board.getBoundingClientRect();
-        if(drag.clientX>Math.min(innerWidth,rect.right)-40)board.scrollLeft+=12;
-        else if(drag.clientX>0&&drag.clientX<Math.max(0,rect.left)+40)board.scrollLeft-=12;
+        scrollKanbanAtPointer(drag.clientX,drag.clientY);
         updateTarget();dragFrame=requestAnimationFrame(autoScroll);
     };
     const clear=()=>{

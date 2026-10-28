@@ -1,0 +1,381 @@
+test_admin_diagnostics_require_admin_and_never_return_key (test_ai_config.TestAiConfig.test_admin_diagnostics_require_admin_and_never_return_key) ... ok
+test_admin_openai_diagnostics_report_generation_probe_without_key (test_ai_config.TestAiConfig.test_admin_openai_diagnostics_report_generation_probe_without_key) ... ok
+test_blank_process_key_uses_project_env_file (test_ai_config.TestAiConfig.test_blank_process_key_uses_project_env_file) ... ok
+test_live_file_budget_overrides_stale_process_timeout (test_ai_config.TestAiConfig.test_live_file_budget_overrides_stale_process_timeout) ... ok
+test_nonblank_process_key_wins_and_missing_key_is_rejected (test_ai_config.TestAiConfig.test_nonblank_process_key_wins_and_missing_key_is_rejected) ... ok
+test_confirmation_service_leader_only_uc010 (test_ai_pipeline.TestAIPipeline.test_confirmation_service_leader_only_uc010)
+Kiểm thử chỉ Trưởng nhóm mới có quyền xác nhận bản nháp chính thức (UC010, D05). ... ok
+test_request_analyzer_rbac_d06 (test_ai_pipeline.TestAIPipeline.test_request_analyzer_rbac_d06)
+Kiểm thử phân quyền riêng từng chức năng AI theo D06. ... ok
+test_response_validator_hallucination_detection (test_ai_pipeline.TestAIPipeline.test_response_validator_hallucination_detection)
+Kiểm thử Response Validator phát hiện ID ảo giác ngoài CSDL. ... ok
+test_admin_redirect_to_admin_page (test_auth.TestAuth.test_admin_redirect_to_admin_page)
+Kiểm thử Admin đăng nhập thì chuyển hướng vào /admin chứ không vào dashboard dự án. ... ok
+test_login_locked_account (test_auth.TestAuth.test_login_locked_account)
+Kiểm thử từ chối tài khoản bị khóa theo FR-01. ... ok
+test_login_success (test_auth.TestAuth.test_login_success)
+Kiểm thử đăng nhập thành công với tài khoản active (FR-01). ... ok
+test_login_wrong_password (test_auth.TestAuth.test_login_wrong_password)
+Kiểm thử từ chối mật khẩu sai. ... ok
+test_register_duplicate_username (test_auth.TestAuth.test_register_duplicate_username)
+Kiểm thử đăng ký trùng tên đăng nhập bị từ chối. ... ok
+test_register_new_user_success (test_auth.TestAuth.test_register_new_user_success)
+Kiểm thử đăng ký tài khoản mới thành công. ... ok
+test_br_01_kanban_status_validation (test_business_rules.TestBusinessRules.test_br_01_kanban_status_validation)
+BR-01: Trạng thái Kanban phải thuộc 5 trạng thái hợp lệ. ... ok
+test_br_02_overdue_task_detection (test_business_rules.TestBusinessRules.test_br_02_overdue_task_detection)
+BR-02: Nhiệm vụ trễ khi quá hạn, chưa Done và chưa lưu trữ. ... ok
+test_br_03_sprint_dates (test_business_rules.TestBusinessRules.test_br_03_sprint_dates)
+BR-03: Ngày bắt đầu sprint không được sau ngày kết thúc. ... ok
+test_br_04_completion_rate (test_business_rules.TestBusinessRules.test_br_04_completion_rate)
+BR-04: Tỷ lệ hoàn thành = Done / Total * 100%. Nếu total = 0 thì trả về 0.0%. ... ok
+test_br_05_workload_and_overload (test_business_rules.TestBusinessRules.test_br_05_workload_and_overload)
+BR-05: Tải = tổng estimated_hours việc chưa Done; Quá tải khi Tải > Capacity. ... ok
+test_01_supporter_workload_and_overdue_included (test_five_improvements.TestFiveImprovements.test_01_supporter_workload_and_overdue_included)
+Lỗi 1: Kiểm tra thành viên hỗ trợ (My - user 3) được tính đúng số việc và việc trễ hạn. ... ok
+test_02_delete_task_api_and_rbac (test_five_improvements.TestFiveImprovements.test_02_delete_task_api_and_rbac)
+Lỗi 2: Kiểm tra chức năng xóa nhiệm vụ và bảo vệ quyền Leader. ... ok
+test_03_automated_overdue_and_due_soon_notifications (test_five_improvements.TestFiveImprovements.test_03_automated_overdue_and_due_soon_notifications)
+Lỗi 4: Kiểm tra tự động phát thông báo nhiệm vụ trễ hạn & sắp trễ hạn cho cả chính và hỗ trợ. ... ok
+test_connection_failure_and_invalid_json_are_distinct (test_gemini_failures.TestGeminiFailures.test_connection_failure_and_invalid_json_are_distinct) ... Gemini failure code=AI_CONNECTION reason=str errno=None winerror=None http=None attempt=1/3
+Gemini failure code=AI_CONNECTION reason=str errno=None winerror=None http=None attempt=2/3
+Gemini failure code=AI_CONNECTION reason=str errno=None winerror=None http=None attempt=3/3
+Gemini returned invalid JSON
+Gemini failure code=AI_CONNECTION reason=IncompleteRead errno=None winerror=None http=None attempt=1/3
+Gemini failure code=AI_CONNECTION reason=IncompleteRead errno=None winerror=None http=None attempt=2/3
+Gemini failure code=AI_CONNECTION reason=IncompleteRead errno=None winerror=None http=None attempt=3/3
+ok
+test_http_errors_are_distinct_and_never_echo_provider_body (test_gemini_failures.TestGeminiFailures.test_http_errors_are_distinct_and_never_echo_provider_body) ... Gemini failure code=AI_HTTP_ERROR reason=None errno=None winerror=None http=400 attempt=1/3
+Gemini failure code=AI_KEY_REJECTED reason=None errno=None winerror=None http=401 attempt=1/3
+Gemini failure code=AI_KEY_REJECTED reason=None errno=None winerror=None http=403 attempt=1/3
+Gemini failure code=AI_MODEL_UNAVAILABLE reason=None errno=None winerror=None http=404 attempt=1/3
+Gemini failure code=AI_RATE_LIMIT reason=None errno=None winerror=None http=429 attempt=1/3
+Gemini failure code=AI_RATE_LIMIT reason=None errno=None winerror=None http=429 attempt=2/3
+Gemini failure code=AI_RATE_LIMIT reason=None errno=None winerror=None http=429 attempt=3/3
+Gemini failure code=AI_SERVICE_UNAVAILABLE reason=None errno=None winerror=None http=503 attempt=1/3
+Gemini failure code=AI_SERVICE_UNAVAILABLE reason=None errno=None winerror=None http=503 attempt=2/3
+Gemini failure code=AI_SERVICE_UNAVAILABLE reason=None errno=None winerror=None http=503 attempt=3/3
+Gemini failure code=AI_KEY_REJECTED reason=None errno=None winerror=None http=400 attempt=1/3
+ok
+test_network_denied_is_not_retried_and_secrets_are_not_logged (test_gemini_failures.TestGeminiFailures.test_network_denied_is_not_retried_and_secrets_are_not_logged) ... ok
+test_other_ai_modes_keep_the_general_model (test_gemini_failures.TestGeminiFailures.test_other_ai_modes_keep_the_general_model) ... ok
+test_permanent_dns_failure_is_separate_from_connection (test_gemini_failures.TestGeminiFailures.test_permanent_dns_failure_is_separate_from_connection) ... Gemini failure code=AI_DNS reason=gaierror errno=11001 winerror=None http=None attempt=1/3
+ok
+test_persistent_timeout_returns_specific_safe_error (test_gemini_failures.TestGeminiFailures.test_persistent_timeout_returns_specific_safe_error) ... Gemini failure code=AI_TIMEOUT reason=TimeoutError errno=None winerror=None http=None attempt=1/3
+Gemini failure code=AI_TIMEOUT reason=TimeoutError errno=None winerror=None http=None attempt=2/3
+Gemini failure code=AI_TIMEOUT reason=TimeoutError errno=None winerror=None http=None attempt=3/3
+ok
+test_probe_uses_same_transport_classifier_and_clears_old_error (test_gemini_failures.TestGeminiFailures.test_probe_uses_same_transport_classifier_and_clears_old_error) ... Gemini failure code=AI_NETWORK_DENIED reason=PermissionError errno=13 winerror=10013 http=None attempt=1/3
+Gemini failure code=AI_NETWORK_DENIED reason=PermissionError errno=13 winerror=10013 http=None attempt=1/3
+ok
+test_service_unavailable_retries_and_rate_limit_is_separate (test_gemini_failures.TestGeminiFailures.test_service_unavailable_retries_and_rate_limit_is_separate) ... Gemini failure code=AI_SERVICE_UNAVAILABLE reason=None errno=None winerror=None http=503 attempt=1/3
+Gemini failure code=AI_RATE_LIMIT reason=None errno=None winerror=None http=429 attempt=1/3
+Gemini failure code=AI_RATE_LIMIT reason=None errno=None winerror=None http=429 attempt=2/3
+Gemini failure code=AI_RATE_LIMIT reason=None errno=None winerror=None http=429 attempt=3/3
+ok
+test_temporary_dns_failure_can_recover (test_gemini_failures.TestGeminiFailures.test_temporary_dns_failure_can_recover) ... Gemini failure code=AI_DNS reason=gaierror errno=11002 winerror=None http=None attempt=1/3
+ok
+test_timeout_retries_then_succeeds_with_meeting_timeout (test_gemini_failures.TestGeminiFailures.test_timeout_retries_then_succeeds_with_meeting_timeout) ... Gemini failure code=AI_TIMEOUT reason=TimeoutError errno=None winerror=None http=None attempt=1/3
+ok
+test_tls_failures_keep_verification_and_do_not_retry (test_gemini_failures.TestGeminiFailures.test_tls_failures_keep_verification_and_do_not_retry) ... Gemini failure code=AI_TLS_CERTIFICATE reason=SSLCertVerificationError errno=1 winerror=None http=None attempt=1/3
+Gemini failure code=AI_TLS_ERROR reason=SSLError errno=1 winerror=None http=None attempt=1/3
+ok
+test_default_model_uses_verified_gemini_flash (test_gemini_migration.TestGeminiMigration.test_default_model_uses_verified_gemini_flash) ... ok
+test_default_provider_is_gemini (test_gemini_migration.TestGeminiMigration.test_default_provider_is_gemini) ... ok
+test_live_file_overrides_stale_provider_and_key (test_gemini_migration.TestGeminiMigration.test_live_file_overrides_stale_provider_and_key) ... ok
+test_meeting_json_schema_limits_items_to_source_ids (test_gemini_migration.TestGeminiMigration.test_meeting_json_schema_limits_items_to_source_ids) ... ok
+test_missing_gemini_key_never_reuses_deepseek_key (test_gemini_migration.TestGeminiMigration.test_missing_gemini_key_never_reuses_deepseek_key) ... AI fallback reason=AI_KEY_MISSING
+ok
+test_model_name_cannot_inject_a_url_or_query (test_gemini_migration.TestGeminiMigration.test_model_name_cannot_inject_a_url_or_query) ... ok
+test_model_prefix_is_normalized (test_gemini_migration.TestGeminiMigration.test_model_prefix_is_normalized) ... ok
+test_primary_provider_is_gemini_and_does_not_create_deepseek_client (test_gemini_migration.TestGeminiMigration.test_primary_provider_is_gemini_and_does_not_create_deepseek_client) ... ok
+test_probe_of_different_meeting_model_uses_that_model (test_gemini_migration.TestGeminiMigration.test_probe_of_different_meeting_model_uses_that_model) ... ok
+test_probe_requires_successful_content_generation (test_gemini_migration.TestGeminiMigration.test_probe_requires_successful_content_generation) ... Gemini failure code=AI_INVALID_RESPONSE reason=None errno=None winerror=None http=None attempt=1/3
+ok
+test_real_wrong_statistics_still_fail_even_inside_numbered_sections (test_gemini_migration.TestGeminiMigration.test_real_wrong_statistics_still_fail_even_inside_numbered_sections) ... ok
+test_thought_parts_are_not_returned_to_user (test_gemini_migration.TestGeminiMigration.test_thought_parts_are_not_returned_to_user) ... ok
+test_truncation_and_safety_blocks_are_controlled_errors (test_gemini_migration.TestGeminiMigration.test_truncation_and_safety_blocks_are_controlled_errors) ... ok
+test_weekly_outline_numbers_are_not_treated_as_statistics (test_gemini_migration.TestGeminiMigration.test_weekly_outline_numbers_are_not_treated_as_statistics) ... ok
+test_wire_request_uses_google_endpoint_and_key_header (test_gemini_migration.TestGeminiMigration.test_wire_request_uses_google_endpoint_and_key_header) ... ok
+test_admin_page_reports_gemini_and_generation_probe_without_exposing_keys (test_gemini_migration.TestGeminiSQLite.test_admin_page_reports_gemini_and_generation_probe_without_exposing_keys) ... ok
+test_invalid_gemini_configuration_keeps_provider_name_in_diagnostics (test_gemini_migration.TestGeminiSQLite.test_invalid_gemini_configuration_keeps_provider_name_in_diagnostics) ... ok
+test_three_features_keep_working_when_gemini_key_is_missing (test_gemini_migration.TestGeminiSQLite.test_three_features_keep_working_when_gemini_key_is_missing) ... AI fallback reason=AI_KEY_MISSING
+AI fallback reason=AI_KEY_MISSING
+AI fallback reason=AI_KEY_MISSING
+ok
+test_three_features_use_gemini_and_save_correct_history (test_gemini_migration.TestGeminiSQLite.test_three_features_use_gemini_and_save_correct_history) ... ok
+test_admin_blocked_from_creating_task_and_sprint (test_integration.TestIntegrationE2E.test_admin_blocked_from_creating_task_and_sprint)
+Kiểm thử logic chuẩn theo tài liệu: Quản trị viên KHÔNG được tạo nhiệm vụ hay sprint (chỉ quản lý user/audit). ... ok
+test_e2e_full_flow (test_integration.TestIntegrationE2E.test_e2e_full_flow)
+Kiểm thử tích hợp luồng hoàn chỉnh E2E: ... ok
+test_upload_meeting_file_and_extract_text (test_integration.TestIntegrationE2E.test_upload_meeting_file_and_extract_text)
+Kiểm thử tính năng tải lên tệp biên bản cuộc họp (.txt / .docx) trích xuất nội dung (FR-13). ... ok
+test_ai_provider_service_routing (test_kira_service.TestKiraService.test_ai_provider_service_routing) ... ok
+test_generate_content_json_output (test_kira_service.TestKiraService.test_generate_content_json_output) ... ok
+test_generate_content_success (test_kira_service.TestKiraService.test_generate_content_success) ... ok
+test_kira_service_init_and_configured (test_kira_service.TestKiraService.test_kira_service_init_and_configured) ... ok
+test_kira_service_unconfigured_raises_on_generate (test_kira_service.TestKiraService.test_kira_service_unconfigured_raises_on_generate) ... ok
+test_probe_model_success (test_kira_service.TestKiraService.test_probe_model_success) ... ok
+test_all_operational_api_failures_use_local_brain (test_local_brain.TestLocalBrainFailover.test_all_operational_api_failures_use_local_brain) ... AI fallback reason=AI_KEY_MISSING
+AI fallback reason=AI_KEY_REJECTED
+AI fallback reason=AI_RATE_LIMIT
+AI fallback reason=AI_TIMEOUT
+AI fallback reason=AI_CONNECTION
+AI fallback reason=AI_NETWORK_DENIED
+AI fallback reason=AI_DNS
+AI fallback reason=AI_SERVICE_UNAVAILABLE
+AI fallback reason=AI_TLS_CERTIFICATE
+AI fallback reason=AI_MODEL_UNAVAILABLE
+AI fallback reason=AI_INVALID_RESPONSE
+AI fallback reason=AI_CONFIG
+ok
+test_api_budget_leaves_time_for_fallback (test_local_brain.TestLocalBrainFailover.test_api_budget_leaves_time_for_fallback) ... AI fallback reason=AI_TIMEOUT
+ok
+test_api_success_is_always_preferred (test_local_brain.TestLocalBrainFailover.test_api_success_is_always_preferred) ... ok
+test_disabled_fallback_retains_explicit_api_error (test_local_brain.TestLocalBrainFailover.test_disabled_fallback_retains_explicit_api_error) ... ok
+test_invalid_primary_json_falls_back_for_every_source_id (test_local_brain.TestLocalBrainFailover.test_invalid_primary_json_falls_back_for_every_source_id) ... AI fallback reason=AI_INVALID_RESPONSE
+ok
+test_invalid_primary_model_configuration_can_still_use_local_brain (test_local_brain.TestLocalBrainFailover.test_invalid_primary_model_configuration_can_still_use_local_brain) ... AI fallback reason=AI_CONFIG
+ok
+test_invalid_primary_statistics_switch_to_grounded_local_result (test_local_brain.TestLocalBrainFailover.test_invalid_primary_statistics_switch_to_grounded_local_result) ... AI fallback reason=AI_INVALID_RESPONSE
+ok
+test_local_model_is_used_when_api_fails (test_local_brain.TestLocalBrainFailover.test_local_model_is_used_when_api_fails) ... AI fallback reason=AI_KEY_MISSING
+ok
+test_local_model_timeout_and_ungrounded_response_use_domain_brain (test_local_brain.TestLocalBrainFailover.test_local_model_timeout_and_ungrounded_response_use_domain_brain) ... AI fallback reason=AI_KEY_MISSING
+AI fallback reason=AI_LOCAL_UNAVAILABLE
+AI fallback reason=AI_KEY_MISSING
+AI fallback reason=AI_LOCAL_INVALID_RESPONSE
+ok
+test_missing_key_does_not_attempt_network (test_local_brain.TestLocalBrainFailover.test_missing_key_does_not_attempt_network) ... AI fallback reason=AI_KEY_MISSING
+ok
+test_one_failed_request_does_not_disable_api_for_next_request (test_local_brain.TestLocalBrainFailover.test_one_failed_request_does_not_disable_api_for_next_request) ... AI fallback reason=AI_CONNECTION
+ok
+test_real_sdk_http_errors_retry_then_fall_back_without_leaking_credentials (test_local_brain.TestLocalBrainFailover.test_real_sdk_http_errors_retry_then_fall_back_without_leaking_credentials) ... DeepSeek failure code=AI_KEY_REJECTED attempt=1/3
+AI fallback reason=AI_KEY_REJECTED
+DeepSeek failure code=AI_MODEL_UNAVAILABLE attempt=1/3
+AI fallback reason=AI_MODEL_UNAVAILABLE
+DeepSeek failure code=AI_RATE_LIMIT attempt=1/3
+DeepSeek failure code=AI_RATE_LIMIT attempt=2/3
+DeepSeek failure code=AI_RATE_LIMIT attempt=3/3
+AI fallback reason=AI_RATE_LIMIT
+DeepSeek failure code=AI_SERVICE_UNAVAILABLE attempt=1/3
+DeepSeek failure code=AI_SERVICE_UNAVAILABLE attempt=2/3
+DeepSeek failure code=AI_SERVICE_UNAVAILABLE attempt=3/3
+AI fallback reason=AI_SERVICE_UNAVAILABLE
+ok
+test_admin_diagnostics_reports_local_fallback_without_exposing_key (test_local_brain.TestLocalBrainSQLite.test_admin_diagnostics_reports_local_fallback_without_exposing_key) ... ok
+test_all_three_features_work_without_key_and_save_engine_history (test_local_brain.TestLocalBrainSQLite.test_all_three_features_work_without_key_and_save_engine_history) ... AI fallback reason=AI_KEY_MISSING
+AI fallback reason=AI_KEY_MISSING
+AI fallback reason=AI_KEY_MISSING
+ok
+test_local_suggestion_never_changes_task_assignments (test_local_brain.TestLocalBrainSQLite.test_local_suggestion_never_changes_task_assignments) ... AI fallback reason=AI_KEY_MISSING
+ok
+test_long_meeting_has_every_source_even_across_concurrent_chunks (test_local_brain.TestLocalBrainSQLite.test_long_meeting_has_every_source_even_across_concurrent_chunks) ... AI fallback reason=AI_KEY_MISSING
+ok
+test_member_and_other_projects_cannot_bypass_permissions_using_fallback (test_local_brain.TestLocalBrainSQLite.test_member_and_other_projects_cannot_bypass_permissions_using_fallback) ... ok
+test_model_generated_meeting_saves_complete_sources_and_can_be_confirmed (test_local_brain.TestLocalBrainSQLite.test_model_generated_meeting_saves_complete_sources_and_can_be_confirmed) ... AI fallback reason=AI_KEY_MISSING
+ok
+test_assignment_does_not_count_existing_assignment_twice (test_local_brain.TestLocalDomainBrain.test_assignment_does_not_count_existing_assignment_twice) ... ok
+test_assignment_handles_missing_estimate_and_candidates (test_local_brain.TestLocalDomainBrain.test_assignment_handles_missing_estimate_and_candidates) ... ok
+test_assignment_ranking_accounts_for_projected_overload (test_local_brain.TestLocalDomainBrain.test_assignment_ranking_accounts_for_projected_overload) ... ok
+test_concurrent_sources_do_not_leak_between_requests (test_local_brain.TestLocalDomainBrain.test_concurrent_sources_do_not_leak_between_requests) ... ok
+test_decoder_schema_requires_every_source_id (test_local_brain.TestLocalDomainBrain.test_decoder_schema_requires_every_source_id) ... ok
+test_empty_week_is_explicit (test_local_brain.TestLocalDomainBrain.test_empty_week_is_explicit) ... ok
+test_explicit_action_preserves_owner_deadline_and_verbatim_source (test_local_brain.TestLocalDomainBrain.test_explicit_action_preserves_owner_deadline_and_verbatim_source) ... ok
+test_explicit_decision_heading_does_not_promote_tentative_source (test_local_brain.TestLocalDomainBrain.test_explicit_decision_heading_does_not_promote_tentative_source) ... AI fallback reason=AI_KEY_MISSING
+ok
+test_local_model_cannot_turn_proposal_into_decision (test_local_brain.TestLocalDomainBrain.test_local_model_cannot_turn_proposal_into_decision) ... ok
+test_missing_or_extra_model_ids_are_rejected (test_local_brain.TestLocalDomainBrain.test_missing_or_extra_model_ids_are_rejected) ... ok
+test_skill_matching_uses_word_boundaries_and_vietnamese (test_local_brain.TestLocalDomainBrain.test_skill_matching_uses_word_boundaries_and_vietnamese) ... ok
+test_source_ids_come_from_structured_passages_not_prompt_text (test_local_brain.TestLocalDomainBrain.test_source_ids_come_from_structured_passages_not_prompt_text) ... ok
+test_summary_is_grounded_and_passes_existing_validator (test_local_brain.TestLocalDomainBrain.test_summary_is_grounded_and_passes_existing_validator) ... ok
+test_tentative_and_negated_statements_never_become_commitments (test_local_brain.TestLocalDomainBrain.test_tentative_and_negated_statements_never_become_commitments) ... ok
+test_truncated_model_output_is_rejected (test_local_brain.TestLocalRuntimeBoundaries.test_truncated_model_output_is_rejected) ... ok
+test_wire_contract_uses_loopback_without_api_key (test_local_brain.TestLocalRuntimeBoundaries.test_wire_contract_uses_loopback_without_api_key) ... ok
+test_action_owner_and_deadline_must_appear_in_source_quote (test_meeting_minutes_quality.TestMeetingMinutesQuality.test_action_owner_and_deadline_must_appear_in_source_quote) ... ok
+test_compact_json_preserves_exact_action_evidence (test_meeting_minutes_quality.TestMeetingMinutesQuality.test_compact_json_preserves_exact_action_evidence) ... ok
+test_complete_minutes_confirm_exact_decisions_and_actions (test_meeting_minutes_quality.TestMeetingMinutesQuality.test_complete_minutes_confirm_exact_decisions_and_actions) ... ok
+test_docx_preserves_paragraph_table_order (test_meeting_minutes_quality.TestMeetingMinutesQuality.test_docx_preserves_paragraph_table_order) ... ok
+test_existing_note_and_uploaded_text_are_both_processed (test_meeting_minutes_quality.TestMeetingMinutesQuality.test_existing_note_and_uploaded_text_are_both_processed) ... ok
+test_explicit_decisions_and_assignment_table_keep_source_fields (test_meeting_minutes_quality.TestMeetingMinutesQuality.test_explicit_decisions_and_assignment_table_keep_source_fields) ... ok
+test_failed_word_chunk_reports_position_and_saves_no_partial_draft (test_meeting_minutes_quality.TestMeetingMinutesQuality.test_failed_word_chunk_reports_position_and_saves_no_partial_draft) ... Meeting minutes chunk failed: chunk=1/3, passages=16, chars=406, code=AI_TIMEOUT
+ok
+test_long_minutes_cover_all_passages_and_store_actual_fields (test_meeting_minutes_quality.TestMeetingMinutesQuality.test_long_minutes_cover_all_passages_and_store_actual_fields) ... ok
+test_missing_classification_is_retried_only_for_missing_passage (test_meeting_minutes_quality.TestMeetingMinutesQuality.test_missing_classification_is_retried_only_for_missing_passage) ... ok
+test_missing_passage_is_visible_and_cannot_be_confirmed (test_meeting_minutes_quality.TestMeetingMinutesQuality.test_missing_passage_is_visible_and_cannot_be_confirmed) ... ok
+test_missing_provider_key_creates_no_draft (test_meeting_minutes_quality.TestMeetingMinutesQuality.test_missing_provider_key_creates_no_draft) ... Meeting minutes chunk failed: chunk=1/1, passages=1, chars=28, code=AI_KEY_MISSING
+ok
+test_parallel_chunks_share_deadline_and_keep_source_order (test_meeting_minutes_quality.TestMeetingMinutesQuality.test_parallel_chunks_share_deadline_and_keep_source_order) ... ok
+test_unreadable_pdf_returns_clear_error (test_meeting_minutes_quality.TestMeetingMinutesQuality.test_unreadable_pdf_returns_clear_error) ... ok
+test_unsupported_summary_number_is_discarded_in_favor_of_source (test_meeting_minutes_quality.TestMeetingMinutesQuality.test_unsupported_summary_number_is_discarded_in_favor_of_source) ... ok
+test_weekly_retrieval_uses_requested_dates (test_meeting_minutes_quality.TestMeetingMinutesQuality.test_weekly_retrieval_uses_requested_dates) ... ok
+test_01_create_project_with_initial_members (test_multi_assignee_and_batch_members.TestMultiAssigneeAndBatchMembers.test_01_create_project_with_initial_members)
+Kiểm tra tạo dự án mới kèm danh sách nhiều thành viên ban đầu. ... ok
+test_02_batch_add_project_members (test_multi_assignee_and_batch_members.TestMultiAssigneeAndBatchMembers.test_02_batch_add_project_members)
+Kiểm tra thêm hàng loạt thành viên vào dự án hiện có. ... ok
+test_03_create_task_with_multi_assignees (test_multi_assignee_and_batch_members.TestMultiAssigneeAndBatchMembers.test_03_create_task_with_multi_assignees)
+Kiểm tra tạo nhiệm vụ với 1 người phụ trách chính + nhiều người hỗ trợ. ... ok
+test_04_leader_rescue_overdue_task (test_multi_assignee_and_batch_members.TestMultiAssigneeAndBatchMembers.test_04_leader_rescue_overdue_task)
+Kiểm tra Leader điều phối, bổ sung hỗ trợ cứu viện task trễ hạn (BR-02). ... ok
+test_05_api_rbac_member_cannot_reassign_or_rescue (test_multi_assignee_and_batch_members.TestMultiAssigneeAndBatchMembers.test_05_api_rbac_member_cannot_reassign_or_rescue)
+Kiểm tra quyền hạn (RBAC) qua API: Member không được quyền điều phối/cứu viện task. ... ok
+test_mysql_failure_never_opens_sqlite (test_mysql_connection_policy.TestMySQLConnectionPolicy.test_mysql_failure_never_opens_sqlite) ... ok
+test_authentication_errors_do_not_expose_upstream_secrets (test_openai_service.TestOpenAIService.test_authentication_errors_do_not_expose_upstream_secrets) ... DeepSeek failure code=AI_KEY_REJECTED attempt=1/3
+ok
+test_default_provider_uses_deepseek_and_openai_settings (test_openai_service.TestOpenAIService.test_default_provider_uses_deepseek_and_openai_settings) ... ok
+test_interrupted_tls_connection_retries_without_ignoring_certificates (test_openai_service.TestOpenAIService.test_interrupted_tls_connection_retries_without_ignoring_certificates) ... DeepSeek failure code=AI_CONNECTION attempt=1/3
+ok
+test_json_uses_meeting_model_and_excludes_reasoning (test_openai_service.TestOpenAIService.test_json_uses_meeting_model_and_excludes_reasoning) ... ok
+test_legacy_key_cannot_configure_openai_provider (test_openai_service.TestOpenAIService.test_legacy_key_cannot_configure_openai_provider) ... ok
+test_live_file_switch_overrides_stale_provider_and_cleared_key (test_openai_service.TestOpenAIService.test_live_file_switch_overrides_stale_provider_and_cleared_key) ... ok
+test_other_models_are_rejected_for_general_and_meeting_tasks (test_openai_service.TestOpenAIService.test_other_models_are_rejected_for_general_and_meeting_tasks) ... ok
+test_probe_requires_nonempty_text (test_openai_service.TestOpenAIService.test_probe_requires_nonempty_text) ... ok
+test_real_sdk_posts_to_configured_endpoint_with_bearer_auth (test_openai_service.TestOpenAIService.test_real_sdk_posts_to_configured_endpoint_with_bearer_auth) ... ok
+test_removed_providers_are_rejected_before_calling_sdk (test_openai_service.TestOpenAIService.test_removed_providers_are_rejected_before_calling_sdk) ... ok
+test_admin_create_user_with_user_code (test_project_lifecycle.TestProjectLifecycle.test_admin_create_user_with_user_code)
+Kiểm tra Admin tạo tài khoản với mã thành viên tùy chọn và kiểm tra trùng lặp. ... ok
+test_admin_delete_wrong_project_cascade (test_project_lifecycle.TestProjectLifecycle.test_admin_delete_wrong_project_cascade)
+BR-08: Leader bị chặn xóa vĩnh viễn; Admin được xóa và dọn dữ liệu phụ thuộc. ... ok
+test_custom_project_code_and_duplicate_check (test_project_lifecycle.TestProjectLifecycle.test_custom_project_code_and_duplicate_check)
+Kiểm tra tạo dự án với mã định danh tùy chọn và ngăn chặn mã trùng lặp. ... ok
+test_empty_project_name_rejected (test_project_lifecycle.TestProjectLifecycle.test_empty_project_name_rejected)
+Kiểm tra hệ thống chặn lỗi nếu Leader để trống tên dự án (HTTP 400). ... ok
+test_invalid_date_range_rejected (test_project_lifecycle.TestProjectLifecycle.test_invalid_date_range_rejected)
+Kiểm tra hệ thống chặn lỗi nếu ngày bắt đầu sau ngày kết thúc (HTTP 400). ... ok
+test_leader_can_edit_project (test_project_lifecycle.TestProjectLifecycle.test_leader_can_edit_project)
+Kiểm tra Leader có thể cập nhật tên, mô tả, mốc thời gian dự án thành công. ... ok
+test_member_cannot_edit_or_delete_project (test_project_lifecycle.TestProjectLifecycle.test_member_cannot_edit_or_delete_project)
+Kiểm tra quyền RBAC: Thành viên thường (Member) bị cấm sửa hoặc xóa dự án (HTTP 403). ... ok
+test_sprint_and_task_codes (test_project_lifecycle.TestProjectLifecycle.test_sprint_and_task_codes)
+Kiểm tra mã sprint tùy chọn và mã task Jira-style tự động gắn tiền tố mã dự án. ... ok
+test_01_leader_delete_preserves_history_by_default (test_requirement_repairs.TestRequirementRepairs.test_01_leader_delete_preserves_history_by_default) ... ok
+test_02_leader_cannot_permanently_delete (test_requirement_repairs.TestRequirementRepairs.test_02_leader_cannot_permanently_delete) ... ok
+test_03_leader_can_remove_project_member (test_requirement_repairs.TestRequirementRepairs.test_03_leader_can_remove_project_member) ... ok
+test_04_sprint_archive_applies_to_listing (test_requirement_repairs.TestRequirementRepairs.test_04_sprint_archive_applies_to_listing) ... ok
+test_05_ai_draft_can_be_read_and_edited (test_requirement_repairs.TestRequirementRepairs.test_05_ai_draft_can_be_read_and_edited) ... ok
+test_06_priority_filter_is_applied (test_requirement_repairs.TestRequirementRepairs.test_06_priority_filter_is_applied) ... ok
+test_07_deadline_filter_is_applied (test_requirement_repairs.TestRequirementRepairs.test_07_deadline_filter_is_applied) ... ok
+test_08_task_sort_is_applied (test_requirement_repairs.TestRequirementRepairs.test_08_task_sort_is_applied) ... ok
+test_09_false_ai_statistics_cannot_be_confirmed (test_requirement_repairs.TestRequirementRepairs.test_09_false_ai_statistics_cannot_be_confirmed) ... ok
+test_10_assignment_limits_recommendations_to_three (test_requirement_repairs.TestRequirementRepairs.test_10_assignment_limits_recommendations_to_three) ... ok
+test_11_overdue_email_has_automatic_trigger (test_requirement_repairs.TestRequirementRepairs.test_11_overdue_email_has_automatic_trigger) ... ok
+test_12_admin_can_update_basic_account_information (test_requirement_repairs.TestRequirementRepairs.test_12_admin_can_update_basic_account_information) ... ok
+test_13_viewer_cannot_change_progress_or_comment (test_requirement_repairs.TestRequirementRepairs.test_13_viewer_cannot_change_progress_or_comment) ... ok
+test_14_member_cannot_create_sprint (test_requirement_repairs.TestRequirementRepairs.test_14_member_cannot_create_sprint) ... ok
+test_15_outsider_cannot_read_tasks (test_requirement_repairs.TestRequirementRepairs.test_15_outsider_cannot_read_tasks) ... ok
+test_16_locked_account_cannot_login (test_requirement_repairs.TestRequirementRepairs.test_16_locked_account_cannot_login) ... ok
+test_17_reversed_sprint_dates_rejected (test_requirement_repairs.TestRequirementRepairs.test_17_reversed_sprint_dates_rejected) ... ok
+test_18_empty_sprint_completion_is_zero (test_requirement_repairs.TestRequirementRepairs.test_18_empty_sprint_completion_is_zero) ... ok
+test_19_ai_suggestion_does_not_assign_task (test_requirement_repairs.TestRequirementRepairs.test_19_ai_suggestion_does_not_assign_task) ... ok
+test_20_logout_invalidates_session (test_requirement_repairs.TestRequirementRepairs.test_20_logout_invalidates_session) ... ok
+test_21_attachment_upload_download_and_scope (test_requirement_repairs.TestRequirementRepairs.test_21_attachment_upload_download_and_scope) ... ok
+test_22_attachment_rejects_bad_type_size_and_fake_pdf (test_requirement_repairs.TestRequirementRepairs.test_22_attachment_rejects_bad_type_size_and_fake_pdf) ... ok
+test_23_failure_rolls_back_task_assignments_and_audit (test_requirement_repairs.TestRequirementRepairs.test_23_failure_rolls_back_task_assignments_and_audit) ... ok
+test_24_progress_consistent_across_endpoints (test_requirement_repairs.TestRequirementRepairs.test_24_progress_consistent_across_endpoints) ... ok
+test_25_zero_capacity_and_ai_workload_agree (test_requirement_repairs.TestRequirementRepairs.test_25_zero_capacity_and_ai_workload_agree) ... ok
+test_26_overdue_filter_precedes_pagination (test_requirement_repairs.TestRequirementRepairs.test_26_overdue_filter_precedes_pagination) ... ok
+test_27_archived_project_and_task_are_readonly_then_restore (test_requirement_repairs.TestRequirementRepairs.test_27_archived_project_and_task_are_readonly_then_restore) ... ok
+test_28_custom_and_generated_account_codes_do_not_collide (test_requirement_repairs.TestRequirementRepairs.test_28_custom_and_generated_account_codes_do_not_collide) ... ok
+test_29_edit_draft_versions_reject_stale_writes (test_requirement_repairs.TestRequirementRepairs.test_29_edit_draft_versions_reject_stale_writes) ... ok
+test_30_confirm_uses_edited_meeting_fields (test_requirement_repairs.TestRequirementRepairs.test_30_confirm_uses_edited_meeting_fields) ... ok
+test_31_admin_cannot_confirm_project_draft (test_requirement_repairs.TestRequirementRepairs.test_31_admin_cannot_confirm_project_draft) ... ok
+test_32_history_filter_keeps_selected_project (test_requirement_repairs.TestRequirementRepairs.test_32_history_filter_keeps_selected_project) ... ok
+test_33_javascript_files_and_rendered_scripts_parse (test_requirement_repairs.TestRequirementRepairs.test_33_javascript_files_and_rendered_scripts_parse) ... ok
+test_34_admin_edit_form_is_in_body_not_title (test_requirement_repairs.TestRequirementRepairs.test_34_admin_edit_form_is_in_body_not_title) ... ok
+test_35_overdue_delivery_deduplicates_and_retries_failed (test_requirement_repairs.TestRequirementRepairs.test_35_overdue_delivery_deduplicates_and_retries_failed) ... ok
+test_36_email_scan_does_not_leak_other_project (test_requirement_repairs.TestRequirementRepairs.test_36_email_scan_does_not_leak_other_project) ... ok
+test_37_invalid_supporter_rejected_without_partial_task (test_requirement_repairs.TestRequirementRepairs.test_37_invalid_supporter_rejected_without_partial_task) ... ok
+test_38_invalid_inputs_return_4xx (test_requirement_repairs.TestRequirementRepairs.test_38_invalid_inputs_return_4xx) ... ok
+test_39_link_attachment_rejects_script_scheme (test_requirement_repairs.TestRequirementRepairs.test_39_link_attachment_rejects_script_scheme) ... ok
+test_40_remove_member_preserves_history_and_clears_active_assignment (test_requirement_repairs.TestRequirementRepairs.test_40_remove_member_preserves_history_and_clears_active_assignment) ... ok
+test_41_last_leader_cannot_be_removed (test_requirement_repairs.TestRequirementRepairs.test_41_last_leader_cannot_be_removed) ... ok
+test_42_ai_deadline_shared_across_retries (test_requirement_repairs.TestRequirementRepairs.test_42_ai_deadline_shared_across_retries) ... ok
+test_43_kira_client_initializes_with_installed_sdk (test_requirement_repairs.TestRequirementRepairs.test_43_kira_client_initializes_with_installed_sdk) ... ok
+test_44_dashboard_metrics_use_numeric_counts_and_rate (test_requirement_repairs.TestRequirementRepairs.test_44_dashboard_metrics_use_numeric_counts_and_rate) ... ok
+test_45_long_vietnamese_meeting_note_round_trips (test_requirement_repairs.TestRequirementRepairs.test_45_long_vietnamese_meeting_note_round_trips) ... ok
+test_46_disabled_smtp_is_labelled_simulation (test_requirement_repairs.TestRequirementRepairs.test_46_disabled_smtp_is_labelled_simulation) ... ok
+test_47_archived_sprint_tasks_require_restore (test_requirement_repairs.TestRequirementRepairs.test_47_archived_sprint_tasks_require_restore) ... ok
+test_48_pwa_assets_are_served (test_requirement_repairs.TestRequirementRepairs.test_48_pwa_assets_are_served) ... ok
+test_49_utc_deadline_normalized_to_project_timezone (test_requirement_repairs.TestRequirementRepairs.test_49_utc_deadline_normalized_to_project_timezone) ... ok
+test_50_kira_sdk_transport_contract (test_requirement_repairs.TestRequirementRepairs.test_50_kira_sdk_transport_contract) ... ok
+test_51_create_project_with_initial_staff (test_requirement_repairs.TestRequirementRepairs.test_51_create_project_with_initial_staff) ... ok
+test_52_invalid_initial_staff_rolls_back_project (test_requirement_repairs.TestRequirementRepairs.test_52_invalid_initial_staff_rolls_back_project) ... ok
+test_53_mixed_batch_does_not_partially_add_staff (test_requirement_repairs.TestRequirementRepairs.test_53_mixed_batch_does_not_partially_add_staff) ... ok
+test_54_member_requires_admin_approval (test_requirement_repairs.TestRequirementRepairs.test_54_member_requires_admin_approval) ... ok
+test_55_leader_requires_admin_approval (test_requirement_repairs.TestRequirementRepairs.test_55_leader_requires_admin_approval) ... ok
+test_56_sync_across_independent_clients (test_requirement_repairs.TestRequirementRepairs.test_56_sync_across_independent_clients) ... ok
+test_57_lock_invalidates_other_client_session (test_requirement_repairs.TestRequirementRepairs.test_57_lock_invalidates_other_client_session) ... ok
+test_58_unicode_staff_name_roundtrip (test_requirement_repairs.TestRequirementRepairs.test_58_unicode_staff_name_roundtrip) ... ok
+test_59_live_file_config_overrides_stale_kira_environment (test_requirement_repairs.TestRequirementRepairs.test_59_live_file_config_overrides_stale_kira_environment) ... ok
+test_60_deepseek_wire_contract_and_thought_filter (test_requirement_repairs.TestRequirementRepairs.test_60_deepseek_wire_contract_and_thought_filter) ... ok
+test_61_meeting_pipeline_uses_deepseek_and_saves_draft (test_requirement_repairs.TestRequirementRepairs.test_61_meeting_pipeline_uses_deepseek_and_saves_draft) ... ok
+test_62_repair_only_damaged_known_sample_names (test_requirement_repairs.TestRequirementRepairs.test_62_repair_only_damaged_known_sample_names) ... ok
+test_63_initial_staff_validation_types (test_requirement_repairs.TestRequirementRepairs.test_63_initial_staff_validation_types) ... ok
+test_64_public_development_secret_cannot_forge_admin_session (test_requirement_repairs.TestRequirementRepairs.test_64_public_development_secret_cannot_forge_admin_session) ... ok
+test_65_network_denied_returns_specific_error_without_draft (test_requirement_repairs.TestRequirementRepairs.test_65_network_denied_returns_specific_error_without_draft) ... DeepSeek failure code=AI_NETWORK_DENIED attempt=1/3
+ok
+test_66_admin_probe_exposes_safe_network_diagnostics (test_requirement_repairs.TestRequirementRepairs.test_66_admin_probe_exposes_safe_network_diagnostics) ... ok
+test_67_meeting_tls_error_preserves_no_partial_result (test_requirement_repairs.TestRequirementRepairs.test_67_meeting_tls_error_preserves_no_partial_result) ... DeepSeek failure code=AI_TLS_CERTIFICATE attempt=1/3
+Meeting minutes chunk failed: chunk=1/1, passages=1, chars=32, code=AI_TLS_CERTIFICATE
+ok
+test_admin_can_assign_approved_leader_to_existing_project (test_role_workflows.TestRoleWorkflows.test_admin_can_assign_approved_leader_to_existing_project) ... ok
+test_admin_can_reopen_rejected_request (test_role_workflows.TestRoleWorkflows.test_admin_can_reopen_rejected_request) ... ok
+test_admin_delete_user_workflow (test_role_workflows.TestRoleWorkflows.test_admin_delete_user_workflow) ... ok
+test_admin_page_and_account_validation (test_role_workflows.TestRoleWorkflows.test_admin_page_and_account_validation) ... ok
+test_leader_requires_admin_approval_and_project_assignment (test_role_workflows.TestRoleWorkflows.test_leader_requires_admin_approval_and_project_assignment) ... ok
+test_locked_user_session_is_revoked (test_role_workflows.TestRoleWorkflows.test_locked_user_session_is_revoked) ... ok
+test_member_cannot_manage_tasks_or_sprints (test_role_workflows.TestRoleWorkflows.test_member_cannot_manage_tasks_or_sprints) ... ok
+test_rejected_leader_cannot_log_in (test_role_workflows.TestRoleWorkflows.test_rejected_leader_cannot_log_in) ... ok
+test_role_demotion_takes_effect_in_existing_session (test_role_workflows.TestRoleWorkflows.test_role_demotion_takes_effect_in_existing_session) ... ok
+test_sqlite_initialization_preserves_existing_accounts (test_role_workflows.TestRoleWorkflows.test_sqlite_initialization_preserves_existing_accounts) ... ok
+test_task_references_must_belong_to_project (test_role_workflows.TestRoleWorkflows.test_task_references_must_belong_to_project) ... ok
+test_actor_backfill_is_evidenced_idempotent_and_never_creator_guess (test_staffing_archive.TestArchiveMigration.test_actor_backfill_is_evidenced_idempotent_and_never_creator_guess) ... ok
+test_01_count_five_and_all_candidates_before_member_selection (test_staffing_archive.TestStaffingArchive.test_01_count_five_and_all_candidates_before_member_selection) ... ok
+test_02_recruitment_without_task_filters_skills_not_people (test_staffing_archive.TestStaffingArchive.test_02_recruitment_without_task_filters_skills_not_people) ... ok
+test_03_count_validation_and_vietnamese_words (test_staffing_archive.TestStaffingArchive.test_03_count_validation_and_vietnamese_words) ... ok
+test_04_pages_cover_entire_pool_and_search_does_not_limit_ranking (test_staffing_archive.TestStaffingArchive.test_04_pages_cover_entire_pool_and_search_does_not_limit_ranking) ... ok
+test_05_global_load_deduplicates_and_never_leaks_private_task_text (test_staffing_archive.TestStaffingArchive.test_05_global_load_deduplicates_and_never_leaks_private_task_text) ... ok
+test_06_profile_ownership_validation_and_sync_revision (test_staffing_archive.TestStaffingArchive.test_06_profile_ownership_validation_and_sync_revision) ... ok
+test_07_add_selected_uses_fresh_profile_and_does_not_assign (test_staffing_archive.TestStaffingArchive.test_07_add_selected_uses_fresh_profile_and_does_not_assign) ... ok
+test_08_locked_viewer_and_admin_are_not_candidates (test_staffing_archive.TestStaffingArchive.test_08_locked_viewer_and_admin_are_not_candidates) ... ok
+test_09_insufficient_skills_and_zero_capacity_explained (test_staffing_archive.TestStaffingArchive.test_09_insufficient_skills_and_zero_capacity_explained) ... ok
+test_10_api_first_incorrect_three_normalized_to_five_and_saved (test_staffing_archive.TestStaffingArchive.test_10_api_first_incorrect_three_normalized_to_five_and_saved) ... ok
+test_11_zero_eligible_saves_honest_draft_without_provider_call (test_staffing_archive.TestStaffingArchive.test_11_zero_eligible_saves_honest_draft_without_provider_call) ... ok
+test_12_archive_rights_follow_actual_archiver_even_when_creator_differs (test_staffing_archive.TestStaffingArchive.test_12_archive_rights_follow_actual_archiver_even_when_creator_differs) ... ok
+test_13_archived_detail_is_readonly_and_admin_restores_prior_status (test_staffing_archive.TestStaffingArchive.test_13_archived_detail_is_readonly_and_admin_restores_prior_status) ... ok
+test_14_unknown_legacy_archiver_only_admin_and_service_enforces (test_staffing_archive.TestStaffingArchive.test_14_unknown_legacy_archiver_only_admin_and_service_enforces) ... ok
+test_15_member_moves_all_columns_and_sets_actual_percentage (test_staffing_archive.TestStaffingArchive.test_15_member_moves_all_columns_and_sets_actual_percentage) ... ok
+test_16_supporter_allowed_other_member_denied_and_progress_bounds (test_staffing_archive.TestStaffingArchive.test_16_supporter_allowed_other_member_denied_and_progress_bounds) ... ok
+test_17_history_and_notifications_cannot_bypass_archive_actor_permission (test_staffing_archive.TestStaffingArchive.test_17_history_and_notifications_cannot_bypass_archive_actor_permission) ... ok
+test_confirmed_draft_cannot_be_edited (test_ui_actions.TestUIActions.test_confirmed_draft_cannot_be_edited) ... ok
+test_delete_button_is_rendered_but_self_deletion_remains_blocked (test_ui_actions.TestUIActions.test_delete_button_is_rendered_but_self_deletion_remains_blocked) ... ok
+test_delete_with_replacement_keeps_business_records_and_revisions (test_ui_actions.TestUIActions.test_delete_with_replacement_keeps_business_records_and_revisions) ... ok
+test_invalid_confirmation_version_is_rejected_without_writes (test_ui_actions.TestUIActions.test_invalid_confirmation_version_is_rejected_without_writes) ... ok
+test_last_project_leader_cannot_be_deleted (test_ui_actions.TestUIActions.test_last_project_leader_cannot_be_deleted) ... ok
+test_member_cannot_clear_warnings_or_confirm_own_draft (test_ui_actions.TestUIActions.test_member_cannot_clear_warnings_or_confirm_own_draft) ... ok
+test_review_requires_leader_and_explicit_note_before_confirmation (test_ui_actions.TestUIActions.test_review_requires_leader_and_explicit_note_before_confirmation) ... ok
+test_save_alone_keeps_draft_and_returns_version_for_later_confirmation (test_ui_actions.TestUIActions.test_save_alone_keeps_draft_and_returns_version_for_later_confirmation) ... ok
+test_stale_confirmation_does_not_confirm_a_newer_unreviewed_version (test_ui_actions.TestUIActions.test_stale_confirmation_does_not_confirm_a_newer_unreviewed_version) ... ok
+test_archived_task_is_readonly_in_returned_capabilities (test_workspace_enhancements.TestWorkspaceEnhancements.test_archived_task_is_readonly_in_returned_capabilities) ... ok
+test_assignee_and_supporter_receive_server_permissions_and_can_update (test_workspace_enhancements.TestWorkspaceEnhancements.test_assignee_and_supporter_receive_server_permissions_and_can_update) ... ok
+test_capacity_is_project_specific_and_viewer_cannot_edit (test_workspace_enhancements.TestWorkspaceEnhancements.test_capacity_is_project_specific_and_viewer_cannot_edit) ... ok
+test_empty_report_has_zero_values_and_no_nonfinite_numbers (test_workspace_enhancements.TestWorkspaceEnhancements.test_empty_report_has_zero_values_and_no_nonfinite_numbers) ... ok
+test_invalid_capacity_does_not_change_saved_data (test_workspace_enhancements.TestWorkspaceEnhancements.test_invalid_capacity_does_not_change_saved_data) ... ok
+test_leader_edits_member_and_ai_retrieval_uses_current_saved_data (test_workspace_enhancements.TestWorkspaceEnhancements.test_leader_edits_member_and_ai_retrieval_uses_current_saved_data) ... ok
+test_member_can_edit_only_own_capacity (test_workspace_enhancements.TestWorkspaceEnhancements.test_member_can_edit_only_own_capacity) ... ok
+test_profile_is_current_session_account_without_secrets (test_workspace_enhancements.TestWorkspaceEnhancements.test_profile_is_current_session_account_without_secrets) ... ok
+test_progress_validation_and_hundred_percent_completion (test_workspace_enhancements.TestWorkspaceEnhancements.test_progress_validation_and_hundred_percent_completion) ... ok
+test_report_distinguishes_actual_progress_from_done_ratio (test_workspace_enhancements.TestWorkspaceEnhancements.test_report_distinguishes_actual_progress_from_done_ratio) ... ok
+test_report_filter_checks_sprint_scope_and_outsider_permissions (test_workspace_enhancements.TestWorkspaceEnhancements.test_report_filter_checks_sprint_scope_and_outsider_permissions) ... ok
+test_shared_pages_have_version_and_no_store_cache_policy (test_workspace_enhancements.TestWorkspaceEnhancements.test_shared_pages_have_version_and_no_store_cache_policy) ... ok
+test_sync_changes_on_capacity_and_notification_read_but_not_app_version (test_workspace_enhancements.TestWorkspaceEnhancements.test_sync_changes_on_capacity_and_notification_read_but_not_app_version) ... ok
+test_unassigned_member_cannot_update_another_members_task (test_workspace_enhancements.TestWorkspaceEnhancements.test_unassigned_member_cannot_update_another_members_task) ... ok
+
+----------------------------------------------------------------------
+Ran 253 tests in 38.923s
+
+OK
+[*] Đang khởi tạo Fallback Database (SQLite) để đảm bảo hệ thống luôn chạy được ngay...
+[+] Fallback Database SQLite khởi tạo thành công!
+[*] Đang khởi tạo Fallback Database (SQLite) để đảm bảo hệ thống luôn chạy được ngay...
+[+] Fallback Database SQLite khởi tạo thành công!

@@ -1,0 +1,21 @@
+{
+  "started_at": "2026-10-28T16:49:37.465884+00:00",
+  "finished_at": "2026-10-28T16:49:49.635014+00:00",
+  "legacy_template": true,
+  "database": "disposable SQLite",
+  "fixture_task_count": 56,
+  "browser": "Microsoft Edge headless",
+  "real_api_calls": false,
+  "real_emails": false,
+  "records": [
+    {
+      "name": "Failure",
+      "passed": false,
+      "error": "Page.wait_for_function: TypeError: Cannot read properties of null (reading 'getBoundingClientRect')\n    at eval (eval at predicate (eval at evaluate (:370:30)), <anonymous>:1:44)\n    at eval (<anonymous>)\n    at predicate (eval at evaluate (:370:30), <anonymous>:4:60)\n    at next (eval at evaluate (:370:30), <anonymous>:29:33)\n    at eval (eval at evaluate (:370:30), <anonymous>:42:13)\n    at UtilityScript.evaluate (<anonymous>:372:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)"
+    }
+  ],
+  "runtime_errors": [
+    "Cannot read properties of null (reading 'getBoundingClientRect')"
+  ],
+  "success": false
+}

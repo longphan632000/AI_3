@@ -1,0 +1,62 @@
+{
+  "timestamp": "2026-10-28T23:59:00.906479+07:00",
+  "root_cause": "Cached old Kanban HTML was loaded with new CSS/JS. The missing workspace wrapper collapsed the board and left filters absolutely positioned.",
+  "reproduced_before_fix": true,
+  "before_result": "before/browser-results.json",
+  "browser": [
+    {
+      "mode": "legacy-after",
+      "legacy_template": true,
+      "passed": 13,
+      "total": 13,
+      "runtime_errors": 0,
+      "finished_at": "2026-10-28T16:52:57.354131+00:00"
+    },
+    {
+      "mode": "current-after",
+      "legacy_template": false,
+      "passed": 13,
+      "total": 13,
+      "runtime_errors": 0,
+      "finished_at": "2026-10-28T16:55:34.740276+00:00"
+    }
+  ],
+  "browser_groups_passed": 26,
+  "sqlite": {
+    "timestamp": "2026-10-28T23:53:18.990751+07:00",
+    "tests_run": 254,
+    "passed": 254,
+    "failed": 0,
+    "successful": true
+  },
+  "routes_services_database_env_example_skill_docs_unchanged": true,
+  "real_api_calls": false,
+  "real_emails": false,
+  "production_test_data_written": false,
+  "live_assets": {
+    "timestamp": "2026-10-28T23:56:54.706598+07:00",
+    "assets": [
+      {
+        "path": "static/js/kanban.js",
+        "http": 200,
+        "matches_saved_file": true
+      },
+      {
+        "path": "static/css/kanban.css",
+        "http": 200,
+        "matches_saved_file": true
+      }
+    ],
+    "health": {
+      "http": 200,
+      "status": "HEALTHY",
+      "mysql_ready": true,
+      "app_version": "2752c89d87e6e3b57376"
+    }
+  },
+  "server_restart_performed": false,
+  "current_old_html_supported_without_restart": true,
+  "template_auto_reload_enabled_in_source_for_next_normal_start": true,
+  "user_edge_window_verification": "Stopped: computer-use tool could not confidently establish the current browser URL on Windows.",
+  "git_commit_or_push": false
+}

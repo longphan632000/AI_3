@@ -1,0 +1,62 @@
+{
+  "started_at": "2026-10-28T16:19:32.034933+00:00",
+  "finished_at": "2026-10-28T16:19:43.845048+00:00",
+  "database": "disposable SQLite",
+  "fixture_task_count": 56,
+  "browser": "Microsoft Edge headless",
+  "real_api_calls": false,
+  "real_emails": false,
+  "records": [
+    {
+      "name": "Crowded board stays inside viewport with compact cards and equal columns",
+      "passed": true,
+      "details": {
+        "viewport": [
+          1920,
+          1080
+        ],
+        "width": 1920,
+        "scrollWidth": 1920,
+        "pageHeight": 1080,
+        "height": 1080,
+        "columnHeights": [
+          759.734375,
+          759.734375,
+          759.734375,
+          759.734375,
+          759.734375
+        ],
+        "cardHeight": 256.296875
+      }
+    },
+    {
+      "name": "Crowded board stays inside viewport with compact cards and equal columns",
+      "passed": true,
+      "details": {
+        "viewport": [
+          1366,
+          900
+        ],
+        "width": 1366,
+        "scrollWidth": 1366,
+        "pageHeight": 900,
+        "height": 900,
+        "columnHeights": [
+          579.734375,
+          579.734375,
+          579.734375,
+          579.734375,
+          579.734375
+        ],
+        "cardHeight": 256.296875
+      }
+    },
+    {
+      "name": "Failure",
+      "passed": false,
+      "error": "{'width': 768, 'scrollWidth': 768, 'pageHeight': 1072, 'height': 1024, 'columnHeights': [690.265625, 690.265625, 690.265625, 690.265625, 690.265625], 'cardHeight': 256.296875}"
+    }
+  ],
+  "runtime_errors": [],
+  "success": false
+}

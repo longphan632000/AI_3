@@ -7,43 +7,54 @@
 {% endblock %}
 
 {% block content %}
+<section class="kanban-workspace" aria-label="Bảng nhiệm vụ">
 <!-- Kanban Toolbar -->
-<div class="kanban-toolbar">
+<div class="kanban-toolbar kanban-heading">
     <div>
         <h2 class="text-gradient-cyan">Bảng Kanban Tiến độ</h2>
         <p style="color: var(--text-secondary); font-size: 0.88rem;">
-            Quy trình chuẩn 5 trạng thái (BR-01): Tồn đọng ➔ Cần làm ➔ Đang làm ➔ Kiểm tra ➔ Hoàn thành
+            Kéo thẻ sang cột khác hoặc chọn Cập nhật để thay đổi tiến độ.
         </p>
     </div>
 
     <div style="display: flex; gap: 12px; align-items: center;">
-        <button id="create-task-button" class="btn btn-primary" style="display:none;"
+        <button id="create-task-button" class="btn btn-primary" style="display:none;" aria-label="Tạo nhiệm vụ mới" title="Tạo nhiệm vụ mới"
             onclick="openTaskForm()">
-            <span>+ Tạo Nhiệm Vụ Mới</span>
+            <span aria-hidden="true">+</span><span class="create-task-label">Tạo nhiệm vụ mới</span>
         </button>
     </div>
 </div>
 
 <!-- Filters Toolbar -->
-<div class="kanban-toolbar"
-    style="background: rgba(19, 27, 46, 0.4); padding: 12px 18px; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
-    <div class="kanban-filters">
-        <input type="text" id="filter-keyword" class="form-input" placeholder="🔍 Tìm kiếm nhiệm vụ..."
-            style="width: 220px; padding: 6px 12px; font-size: 0.85rem;">
-
-        <select id="filter-sprint" class="form-select" style="width: 180px; padding: 6px 12px; font-size: 0.85rem;">
+<div class="kanban-filter-bar">
+    <input type="search" id="filter-keyword" class="form-input" placeholder="Tìm kiếm nhiệm vụ..." aria-label="Tìm kiếm nhiệm vụ">
+    <details id="kanban-filter-panel" class="kanban-filter-panel">
+      <summary>Bộ lọc <span id="kanban-filter-count" class="column-count" hidden>0</span></summary>
+      <div class="kanban-filters">
+        <label>Sprint<select id="filter-sprint" class="form-select">
             <option value="">Tất cả Sprint</option>
-        </select>
+        </select></label>
 
-        <select id="filter-assignee" class="form-select" style="width: 180px; padding: 6px 12px; font-size: 0.85rem;">
+        <label>Người phụ trách<select id="filter-assignee" class="form-select">
             <option value="">Tất cả người phụ trách</option>
-        </select>
+        </select></label>
 
-        <label
-            style="display: flex; align-items: center; gap: 6px; font-size: 0.85rem; color: var(--neon-rose); cursor: pointer;">
-            <input type="checkbox" id="filter-overdue"> Chỉ xem việc trễ hạn (BR-02)
-        </label>
-    </div>
+        <label>Ưu tiên<select id="filter-priority" class="form-select"><option value="">Tất cả</option><option value="low">Thấp</option><option value="medium">Trung bình</option><option value="high">Cao</option><option value="urgent">Khẩn cấp</option></select></label>
+        <label>Trạng thái<select id="filter-status" class="form-select"><option value="">Tất cả</option><option value="backlog">Tồn đọng</option><option value="todo">Cần làm</option><option value="in_progress">Đang làm</option><option value="review">Kiểm tra</option><option value="done">Hoàn thành</option></select></label>
+        <label>Hạn từ<input type="date" id="filter-due-from" class="form-input"></label>
+        <label>Hạn đến<input type="date" id="filter-due-to" class="form-input"></label>
+        <label>Sắp xếp<select id="filter-sort" class="form-select"><option value="priority">Ưu tiên</option><option value="title">Tiêu đề</option><option value="due_date">Hạn hoàn thành</option><option value="status">Trạng thái</option><option value="created_at">Ngày tạo</option></select></label>
+        <label>Thứ tự<select id="filter-order" class="form-select"><option value="desc">Giảm dần</option><option value="asc">Tăng dần</option></select></label>
+        <label class="kanban-overdue-filter"><input type="checkbox" id="filter-overdue"> Chỉ xem việc trễ hạn</label>
+        <button data-project-manager hidden class="btn btn-secondary kanban-archived-tasks" onclick="showArchivedTasks()">Nhiệm vụ đã lưu trữ</button>
+      </div>
+    </details>
+    {% if session.get('role') in ['admin', 'leader'] %}
+    <details id="kanban-project-panel" class="kanban-filter-panel kanban-project-panel">
+      <summary>Dự án</summary>
+      <div id="kanban-project-actions" class="kanban-filters kanban-project-actions"></div>
+    </details>
+    {% endif %}
 </div>
 
 <!-- Kanban 5 Columns Board -->
@@ -109,16 +120,11 @@
     </div>
 </div>
 
-<div style="display:flex;flex-wrap:wrap;gap:12px;align-items:end;margin:12px 0;">
-  <label>Ưu tiên<select id="filter-priority" class="form-select"><option value="">Tất cả</option><option value="low">Thấp</option><option value="medium">Trung bình</option><option value="high">Cao</option><option value="urgent">Khẩn cấp</option></select></label>
-  <label>Trạng thái<select id="filter-status" class="form-select"><option value="">Tất cả</option><option value="backlog">Tồn đọng</option><option value="todo">Cần làm</option><option value="in_progress">Đang làm</option><option value="review">Kiểm tra</option><option value="done">Hoàn thành</option></select></label>
-  <label>Hạn từ<input type="date" id="filter-due-from" class="form-input"></label>
-  <label>Hạn đến<input type="date" id="filter-due-to" class="form-input"></label>
-  <label>Sắp xếp<select id="filter-sort" class="form-select"><option value="priority">Ưu tiên</option><option value="title">Tiêu đề</option><option value="due_date">Hạn hoàn thành</option><option value="status">Trạng thái</option><option value="created_at">Ngày tạo</option></select></label>
-  <label>Thứ tự<select id="filter-order" class="form-select"><option value="desc">Giảm dần</option><option value="asc">Tăng dần</option></select></label>
+<div class="kanban-pagination">
+  <span class="kanban-drag-hint">Kéo bằng tay nắm ⠿ để chuyển cột</span>
   <button id="tasks-prev" class="btn btn-secondary" onclick="changeTaskPage(-1)">Trang trước</button><span id="tasks-page"></span><button id="tasks-next" class="btn btn-secondary" onclick="changeTaskPage(1)">Trang sau</button>
-  <button data-project-manager hidden class="btn btn-secondary" onclick="showArchivedTasks()">Nhiệm vụ đã lưu trữ</button>
 </div>
+</section>
 <!-- Modal Tạo Nhiệm Vụ Mới -->
 <div id="modal-create-task" class="modal-overlay">
     <div class="modal-box">
@@ -183,14 +189,14 @@
 </div>
 
 <!-- Modal Chi Tiết Nhiệm Vụ & Bình Luận (UC007) -->
-<div id="modal-task-detail" class="modal-overlay">
+<div id="modal-task-detail" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="detail-task-title">
     <div class="modal-box" style="max-width: 650px;">
         <div class="modal-header">
             <div>
                 <span id="detail-task-id" class="task-id-badge" style="font-size:0.85rem;"></span>
                 <h3 id="detail-task-title" class="modal-title" style="margin-top:4px;"></h3>
             </div>
-            <button class="btn-icon" onclick="closeModal('modal-task-detail')">✕</button>
+            <button type="button" class="btn-icon" aria-label="Đóng chi tiết nhiệm vụ" onclick="closeTaskDetail()">✕</button>
         </div>
 
         <div id="detail-task-overdue-alert"

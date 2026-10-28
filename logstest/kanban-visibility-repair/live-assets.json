@@ -1,0 +1,21 @@
+{
+  "timestamp": "2026-10-28T23:56:54.706598+07:00",
+  "assets": [
+    {
+      "path": "static/js/kanban.js",
+      "http": 200,
+      "matches_saved_file": true
+    },
+    {
+      "path": "static/css/kanban.css",
+      "http": 200,
+      "matches_saved_file": true
+    }
+  ],
+  "health": {
+    "http": 200,
+    "status": "HEALTHY",
+    "mysql_ready": true,
+    "app_version": "2752c89d87e6e3b57376"
+  }
+}

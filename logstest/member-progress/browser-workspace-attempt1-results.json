@@ -1,0 +1,89 @@
+{
+  "database": "disposable SQLite",
+  "browser": "Microsoft Edge headless",
+  "real_api_calls": false,
+  "real_emails": false,
+  "records": [
+    {
+      "name": "Server permissions shown consistently for assignee, supporter and read-only tasks",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "My work shortcut shows both assigned and supported tasks with clear progress controls",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "Member gets an explanation for an empty personal filter and can return to all project tasks",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "Member moves assigned task with native drag and drop",
+      "passed": true,
+      "details": {
+        "http": 200,
+        "status": "todo"
+      }
+    },
+    {
+      "name": "Workspace acceptance",
+      "passed": false,
+      "error": "",
+      "drag_events": [
+        {
+          "type": "dragstart",
+          "target": "DIV",
+          "task": "8",
+          "column": "backlog",
+          "active": true
+        },
+        {
+          "type": "dragover",
+          "target": "BUTTON",
+          "task": "8",
+          "column": "backlog",
+          "active": true
+        },
+        {
+          "type": "dragover",
+          "target": "BUTTON",
+          "task": "8",
+          "column": "backlog",
+          "active": true
+        },
+        {
+          "type": "dragover",
+          "target": "SPAN",
+          "task": null,
+          "column": "todo",
+          "active": true
+        },
+        {
+          "type": "dragover",
+          "target": "SPAN",
+          "task": null,
+          "column": "todo",
+          "active": true
+        },
+        {
+          "type": "drop",
+          "target": "SPAN",
+          "task": null,
+          "column": "todo",
+          "active": false
+        },
+        {
+          "type": "dragend",
+          "target": "DIV",
+          "task": "8",
+          "column": "backlog",
+          "active": false
+        }
+      ]
+    }
+  ],
+  "runtime_errors": [],
+  "success": false
+}

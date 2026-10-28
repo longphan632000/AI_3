@@ -1,0 +1,20 @@
+Traceback (most recent call last):
+[*] Đang khởi tạo Fallback Database (SQLite) để đảm bảo hệ thống luôn chạy được ngay...
+[+] Fallback Database SQLite khởi tạo thành công!
+  File "D:\UNG DUNG AL_NAM3\Code Chuan\tests\browser_kanban_compact.py", line 231, in <module>
+    main()
+  File "D:\UNG DUNG AL_NAM3\Code Chuan\tests\browser_kanban_compact.py", line 43, in main
+    ok,message,primary=create_task(2,pid,'Nhiệm vụ ưu tiên: '+('Đối chiếu thông tin dài và đầy đủ. '*6),
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\UNG DUNG AL_NAM3\Code Chuan\database\connection.py", line 159, in wrapped
+    return function(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\UNG DUNG AL_NAM3\Code Chuan\services\task_service.py", line 261, in create_task
+    title, description, sprint_id, assignee_id, priority, due_date, estimated_hours, labels, blockers = task_fields(
+                                                                                                        ^^^^^^^^^^^^
+  File "D:\UNG DUNG AL_NAM3\Code Chuan\services\task_service.py", line 58, in task_fields
+    return (text(title, 'Tiêu đề', 200, required=True), text(description, 'Mô tả', 60000),
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\UNG DUNG AL_NAM3\Code Chuan\services\validation.py", line 34, in text
+    raise ValidationError(f'{label} không được vượt quá {maximum} ký tự.')
+services.validation.ValidationError: Tiêu đề không được vượt quá 200 ký tự.
