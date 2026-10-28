@@ -21,9 +21,10 @@ def build_ai_context(retrieved_data):
         lines.append("\nDANH SÁCH NHIỆM VỤ DỰ ÁN:")
         for t in tasks:
             overdue_str = " (ĐANG TRỄ HẠN!)" if t['is_overdue'] else ""
+            assignee_ref = f" [User #{t['assignee_id']}]" if t['assignee_id'] else ''
             lines.append(
                 f"- [Task #{t['task_id']}] '{t['title']}' | Trạng thái: {t['status'].upper()}{overdue_str} | "
-                f"Người phụ trách: {t['assignee']} [User #{t['assignee_id'] or 'None'}] | "
+                f"Người phụ trách: {t['assignee']}{assignee_ref} | "
                 f"Ưu tiên: {t['priority']} | Hạn chót: {t['due_date']} | "
                 f"Ước lượng: {t['estimated_hours']}h | Vướng mắc: {t['blockers']}"
             )
@@ -53,6 +54,19 @@ def build_ai_context(retrieved_data):
         return "\n".join(lines)
         
     elif data_type == 'assignment_suggestion_data':
+        if retrieved_data.get('staffing_v2'):
+            import json
+            data = retrieved_data
+            candidates = data['candidates'][:100]
+            public_fields = ('user_id','full_name','skills','availability','capacity_hours','current_workload_hours',
+                             'overdue_task_count','projected_workload_hours','is_projected_overloaded','in_project','eligible','reason')
+            return ('DỮ LIỆU NHU CẦU VÀ ỨNG VIÊN ĐÃ ĐỐI CHIẾU:\n'+json.dumps({
+                'purpose':data['purpose'],'candidate_scope':data['candidate_scope'],'task':data.get('task'),
+                'requested_count':data['requested_count'],'eligible_count':data['eligible_count'],
+                'required_skills':data['required_skills'],'total_candidates':data['total_candidates'],
+                'missing_count':data['missing_count'],
+                'candidates':[{k:c[k] for k in public_fields} for c in candidates]},ensure_ascii=False,default=str)+
+                '\nTrích dẫn người dùng bằng [User #ID], nhiệm vụ bằng [Task #ID] khi có nhiệm vụ. Không tự thêm thành viên/giao việc.')
         task = retrieved_data.get('task')
         candidates = retrieved_data.get('candidates', [])
         

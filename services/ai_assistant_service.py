@@ -8,7 +8,7 @@ from services.ai_provider_service import AIProviderService
 from services.ai_response_validator import validate_ai_response
 from services.ai_history_service import save_ai_history
 from services.meeting_minutes_service import create_meeting_minutes
-from services.gemini_service import AIProviderError
+from services.ai_errors import AIProviderError
 from database.connection import execute_db, transaction
 
 @with_ai_budget
@@ -31,6 +31,8 @@ def process_ai_request(client_data, session_user_id, session_system_role):
     structured_result = None
     try:
         ai_provider = AIProviderService()
+        if getattr(type(ai_provider), 'bind_context', None):
+            ai_provider.bind_context(structured_req, retrieved_data)
         if structured_req['task_type'] == 'meeting_minutes':
             content, structured_result, references, warnings = create_meeting_minutes(
                 retrieved_data['note'], retrieved_data['raw_notes'], ai_provider
@@ -46,12 +48,25 @@ def process_ai_request(client_data, session_user_id, session_system_role):
                 validation['warnings'].append('Tệp có trang không trích xuất được; hãy kiểm tra nội dung gốc hoặc dùng OCR.')
                 validation['status'] = 'needs_verification'
         else:
-            if structured_req['task_type'] == 'assignment_suggestion' and not retrieved_data.get('task'):
+            if structured_req['task_type'] == 'assignment_suggestion' and not retrieved_data.get('task') and not structured_req.get('staffing_v2'):
                 return {'success': False, 'error': 'Không tìm thấy nhiệm vụ thuộc dự án.'}, 404
             context_text = build_ai_context(retrieved_data)
             user_note = client_data.get('user_note', '')
-            prompt_text = build_ai_prompt(structured_req['task_type'], context_text, user_note)
-            raw_response = ai_provider.generate_response(prompt_text)
+            if structured_req.get('staffing_v2'):
+                prompt_text = build_ai_prompt(structured_req['task_type'],context_text,user_note,staffing_options=structured_req)
+            else:
+                prompt_text = build_ai_prompt(structured_req['task_type'], context_text, user_note)
+            if structured_req.get('staffing_v2'):
+                raw_response = ai_provider.generate_response(prompt_text,max_output_tokens=2048) if retrieved_data['eligible_count'] else ''
+            else:
+                raw_response = ai_provider.generate_response(prompt_text)
+            if structured_req.get('staffing_v2'):
+                from services.staffing_service import verified_staffing_result, render_staffing_result
+                structured_result = verified_staffing_result(retrieved_data,raw_response)
+                raw_response = render_staffing_result(retrieved_data,structured_result)
+                if structured_result['count_normalized'] or not structured_result['recommendations']:
+                    if getattr(type(ai_provider),'record_verified_ranking',None):
+                        ai_provider.record_verified_ranking()
             validation = validate_ai_response(raw_response, structured_req, source_refs, retrieved_data)
             if structured_req['task_type'] == 'weekly_summary':
                 tasks = retrieved_data.get('tasks', [])
@@ -94,12 +109,14 @@ def _persist_result(query, structured_req, input_params_str, source_refs_str,
         input_params_str,
         validation['validated_draft'],
         source_refs_str,
-        json.dumps(structured_result, ensure_ascii=False) if structured_result else None,
+        json.dumps(structured_result, ensure_ascii=False, default=str) if structured_result else None,
         validation['status'],
         session_user_id
     ))
+    engine = ai_provider.execution_metadata() if getattr(type(ai_provider), 'execution_metadata', None) else {}
     snapshot = {'source_refs': source_refs, 'data': retrieved_data if structured_req['task_type'] != 'meeting_minutes' else {},
                 'warnings': validation['warnings'], 'original_status': validation['status']}
+    snapshot['engine'] = engine
     execute_db('UPDATE ai_drafts SET validation_json=%s WHERE id=%s',
                (json.dumps(snapshot, ensure_ascii=False, default=str), draft_id))
     
@@ -120,9 +137,12 @@ def _persist_result(query, structured_req, input_params_str, source_refs_str,
     return {
         'success': True,
         'draft_id': draft_id,
+        'version': 1,
         'result': validation['validated_draft'],
         'source_references': validation['source_references'],
         'status': validation['status'], # 'draft' hoặc 'needs_verification'
-        'warnings': validation['warnings']
+        'warnings': validation['warnings'],
+        'engine': engine,
+        'structured_result': structured_result,
     }, 200
 

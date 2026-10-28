@@ -2,6 +2,16 @@
    KANBAN BOARD STYLING (BR-01, FR-06)
    5-State Linear Flow: Backlog -> Todo -> In Progress -> Review -> Done
    ========================================================================== */
+.task-progress-line { display:flex; justify-content:space-between; gap:8px; margin-top:14px; font-size:.78rem; color:var(--text-secondary); }
+.task-progress-track { height:7px; border-radius:4px; background:rgba(255,255,255,.08); margin:7px 0 12px; overflow:hidden; }
+.task-progress-track span { display:block; height:100%; background:var(--neon-cyan); border-radius:4px; }
+.task-card-controls { display:grid; gap:8px; border-top:1px solid var(--border-subtle); padding-top:10px; }
+.task-card-controls label { font-size:.74rem; color:var(--text-secondary); }
+.task-card-controls .btn { padding:8px; font-size:.78rem; }
+.task-drag-handle { touch-action:none; cursor:grab; background:transparent; color:var(--text-secondary); border:1px solid var(--border-subtle); border-radius:7px; min-width:32px; min-height:32px; font-size:1.3rem; }
+.task-card.dragging { transform:none!important; opacity:.55; }
+.kanban-board.is-task-dragging { scroll-snap-type:none; scroll-behavior:auto; }
+.task-readonly-hint { font-size:.7rem; }
 
 .kanban-toolbar {
     display: flex;
@@ -123,6 +133,7 @@
 
 /* Task Card */
 .task-card {
+    flex-shrink: 0;
     background: var(--bg-surface);
     border: 1px solid var(--border-subtle);
     border-radius: var(--radius-md);

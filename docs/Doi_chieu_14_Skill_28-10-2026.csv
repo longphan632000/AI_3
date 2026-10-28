@@ -1,0 +1,15 @@
+﻿Skill,Tệp tồn tại,Kết luận,Thiếu trong Skill,Đầu ra/thực tế,Số byte
+requirements-analysis,Có,Một phần,"Có Objective/Outputs; thiếu Inputs, quy trình đầy đủ, kiểm chứng và xử lý issue","Thiếu requirements, user stories, acceptance, system model/traceability và Human Gate",631
+diagram-design,Có,Một phần,Có loại sơ đồ/quy tắc hình thức; thiếu đủ quy trình độc lập rồi đối chiếu nguồn,"Chưa có .puml/PNG mới, comparison và bằng chứng chốt mô hình trước khi vẽ",788
+table-design,Có,Một phần,"Chỉ Objective/loại bảng; chưa có mẫu cột, nguồn, thao tác và verification",Chưa có bộ bảng actor/UC/class/data dictionary/traceability theo mẫu,530
+architecture-design,Có,Một phần,"Có Objective/Outputs; thiếu đầu vào được duyệt, process, quy tắc/verification","Mã có phân lớp nhưng thiếu architecture, decisions và bộ sequence/activity 13 UC",492
+database-design,Có,Một phần,Có Objective/Outputs; chưa đủ quy trình thiết kế và kiểm tra toàn vẹn,"Có schema.sql, migrations và SQLite/MySQL tests; thiếu thiết kế DB/ERD/data dictionary truy vết",482
+implementation,Có,Một phần,"Process chỉ một dòng; chưa đủ quy tắc chi tiết, inputs/outputs/verification","Có triển khai rộng; lượt này sửa 8 tệp nguồn, lint/test/diff; không chứng minh được thứ tự SDLC trước đây",329
+testing,Có,Một phần,Process chỉ một dòng; thiếu kịch bản chi tiết/đầu ra mẫu/quy tắc kết luận,"Có 221 tests, 44 nhóm browser và JSON/CSV; thiếu bộ test-plan/test-report/traceability theo hướng dẫn",281
+code-review,Có,Một phần,"Checklist một dòng; thiếu cách kiểm tra, severity, đầu ra và điều kiện kết thúc",Lượt này có review/diff và báo cáo thực tế; chưa có code-review.md hoặc minh chứng review các pha cũ,297
+security-review,Có,Một phần,"Checklist một dòng; thiếu thủ tục, minh chứng, xử lý lỗi và verification","Có test auth/scope/XSS/upload/key; chưa đủ hồ sơ HTTPS, CSRF/dependency audit và security-review.md",349
+ai-request-analysis,Có,Một phần,Chỉ danh sách task và quyền; thiếu schema/inputs/process/outputs/verification,Module thật kiểm task/session/role/tham số; thiếu tài liệu request-analysis và traceability,313
+project-data-retrieval,Có,Một phần,Hai quy tắc; thiếu whitelist dữ liệu/filter/source-ref/đầu ra kiểm chứng,Module thật có SQL tham số hóa và scope; Skill chưa mô tả đủ để lặp lại quy trình,323
+context-builder,Có,Một phần,"Hai quy tắc; thiếu cấu trúc context, nguồn, giới hạn và kiểm tra thiếu/mâu thuẫn",Có context_builder/source_refs nhưng thiếu tài liệu ngữ cảnh theo hướng dẫn,279
+project-ai-prompt,Có,Một phần,Một chuỗi bước + draft-only; thiếu template/phiên bản/đánh giá/verification,"Có prompt_builder, grounding và test lỗi; v1.0 cố định, chưa có so sánh các phiên bản prompt",351
+documentation,Có,Một phần,Chỉ danh sách outputs; thiếu quy trình đối chiếu implementation và verification,Có README và nhiều hướng dẫn/báo cáo sửa lỗi; thiếu api/deployment/user-guide theo bộ yêu cầu,222

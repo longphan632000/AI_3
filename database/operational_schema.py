@@ -1,6 +1,12 @@
 """Schema shared by production migrations and isolated test initialization."""
 
 MYSQL_TABLES = (
+    '''CREATE TABLE IF NOT EXISTS member_profiles (
+        user_id INT PRIMARY KEY, skills LONGTEXT, availability VARCHAR(50) NOT NULL DEFAULT '100%',
+        capacity_hours DECIMAL(8,2) NOT NULL DEFAULT 40,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci''',
     '''CREATE TABLE IF NOT EXISTS task_assignees (
         id INT AUTO_INCREMENT PRIMARY KEY, task_id INT NOT NULL, user_id INT NOT NULL,
         is_primary BOOLEAN NOT NULL DEFAULT FALSE, assigned_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -27,6 +33,10 @@ MYSQL_TABLES = (
 )
 
 SQLITE_TABLES = (
+    '''CREATE TABLE IF NOT EXISTS member_profiles (
+        user_id INTEGER PRIMARY KEY, skills TEXT, availability TEXT NOT NULL DEFAULT '100%',
+        capacity_hours DECIMAL NOT NULL DEFAULT 40, updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE)''',
     '''CREATE TABLE IF NOT EXISTS ai_draft_revisions (
         id INTEGER PRIMARY KEY AUTOINCREMENT, draft_id INTEGER NOT NULL,
         version INTEGER NOT NULL, edited_by INTEGER,

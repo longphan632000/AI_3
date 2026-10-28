@@ -13,6 +13,13 @@ from database.connection import query_db
 
 project_bp = Blueprint('project_bp', __name__)
 
+
+@project_bp.route('/team')
+def team_page():
+    if 'user_id' not in session:
+        return render_template('login.html')
+    return render_template('team.html', user=session)
+
 @project_bp.route('/')
 def index():
     if 'user_id' in session:
@@ -123,7 +130,8 @@ def add_member_api(project_id):
             leader_id=session['user_id'],
             project_id=project_id,
             user_ids=user_ids,
-            project_role=data.get('project_role', 'member')
+            project_role=data.get('project_role', 'member'),
+            use_profiles=data.get('use_professional_profile') is True
         )
         status_code = 200 if success else 400
         return jsonify({'success': success, 'message' if success else 'error': msg, 'added_count': count}), status_code
@@ -172,8 +180,9 @@ def assignable_users_api():
 @login_required
 def update_capacity_api(project_id, user_id):
     has_access, role = check_user_project_role(session['user_id'], project_id, session['role'])
-    if not has_access or role not in ['leader', 'admin']:
-        return jsonify({'success': False, 'error': 'Từ chối quyền: Chỉ Trưởng nhóm mới có thể sửa năng lực thành viên.'}), 403
+    can_edit = role in ('leader', 'admin') or (role == 'member' and user_id == session['user_id'])
+    if not has_access or not can_edit:
+        return jsonify({'success': False, 'error': 'Bạn chỉ được cập nhật năng lực của mình; Trưởng nhóm được quản lý năng lực cả dự án.'}), 403
         
     data = json_object()
     success, msg = update_member_capacity(
@@ -205,5 +214,78 @@ def restore_project_api(project_id):
         return jsonify(success=False, error='Không có quyền khôi phục dự án.'), 403
     from services.project_service import restore_project
     success, message = restore_project(session['user_id'], project_id)
-    return jsonify(success=success, message=message)
+    return jsonify(success=success, message=message), 200 if success else 409
+
+
+@project_bp.route('/api/me/professional-profile', methods=['GET','PUT'])
+@login_required
+def professional_profile_api():
+    from services.member_profile_service import list_professional_profiles, update_professional_profile
+    if session['role'] not in ('member','leader'):
+        return jsonify(success=False,error='Tài khoản quản trị không nằm trong nguồn ứng viên.'),403
+    if request.method=='PUT':
+        data=json_object()
+        profile=update_professional_profile(session['user_id'],data.get('skills',''),data.get('availability','100%'),data.get('capacity_hours',40))
+    else:
+        rows=list_professional_profiles(session['user_id'])
+        if not rows:
+            return jsonify(success=False,error='Không tìm thấy hồ sơ của tài khoản.'),404
+        profile=rows[0]
+    return jsonify(success=True,profile=profile)
+
+
+@project_bp.post('/api/projects/<int:project_id>/staffing-preview')
+@login_required
+def staffing_preview_api(project_id):
+    access,role=check_user_project_role(session['user_id'],project_id,session['role'])
+    if not access or role not in ('leader','admin'):
+        return jsonify(success=False,error='Chỉ Admin hoặc PM của dự án được xem nguồn ứng viên.'),403
+    from services.staffing_service import normalize_staffing_options,build_staffing_data,verified_staffing_result
+    from services.validation import integer, text
+    data=json_object()
+    options=normalize_staffing_options(data,preview=True)
+    options.update(project_id=project_id,staffing_v2=True)
+    source=build_staffing_data(options,preview=True)
+    search=text(data.get('search',''),'Tìm ứng viên',200).casefold()
+    visible=[c for c in source['candidates'] if search in ' '.join(str(c.get(k) or '') for k in ('full_name','username','user_code','skills')).casefold()]
+    offset=integer(data.get('offset',0),'Trang',minimum=0)
+    limit=integer(data.get('limit',50),'Số dòng',minimum=1,maximum=100)
+    return jsonify(success=True, candidates=visible[offset:offset+limit],total_visible=len(visible),
+        total_candidates=source['total_candidates'],eligible_count=source['eligible_count'],
+        requested_count=options['requested_count'],required_skills=options['required_skills'],
+        missing_count=source['missing_count'],purpose=options['purpose'],candidate_scope=options['candidate_scope'],
+        task=source['task'],recommendations=verified_staffing_result(source)['recommendations'],offset=offset,limit=limit)
+
+
+@project_bp.get('/projects/<int:project_id>/archived')
+def archived_project_page(project_id):
+    if 'user_id' not in session:
+        return render_template('login.html')
+    if session['role'] not in ('leader','admin') or not get_project_by_id(project_id,session['user_id'],session['role'],include_archived=True):
+        return jsonify(success=False,error='Bạn không có quyền xem dự án lưu trữ này.'),403
+    return render_template('archived_project.html',archive_project_id=project_id)
+
+
+@project_bp.get('/api/projects/<int:project_id>/archive-details')
+@login_required
+def archived_project_details_api(project_id):
+    if session['role'] not in ('leader','admin'):
+        return jsonify(success=False,error='Bạn không có quyền xem dự án lưu trữ.'),403
+    project=get_project_by_id(project_id,session['user_id'],session['role'],include_archived=True)
+    if not project:
+        return jsonify(success=False,error='Không có quyền xem dự án này.'),403
+    from database.connection import query_db
+    from services.validation import integer
+    from services.report_service import get_project_dashboard_metrics
+    offset=integer(request.args.get('offset',0),'Trang',minimum=0)
+    limit=integer(request.args.get('limit',50),'Số dòng',minimum=1,maximum=100)
+    archiver=query_db('SELECT full_name FROM users WHERE id=%s',(project['archived_by'],),one=True) if project['archived_by'] else None
+    project['archiver_name']=archiver['full_name'] if archiver else None
+    count=query_db('SELECT COUNT(*) AS n FROM tasks WHERE project_id=%s',(project_id,),one=True)['n']
+    tasks=query_db('''SELECT t.id,t.task_code,t.title,t.description,t.status,t.progress_percent,t.priority,t.due_date,
+        t.estimated_hours,t.is_archived,u.full_name AS assignee_name FROM tasks t
+        LEFT JOIN users u ON u.id=t.assignee_id WHERE t.project_id=%s ORDER BY t.id LIMIT %s OFFSET %s''',(project_id,limit,offset))
+    return jsonify(success=True,project=project,metrics=get_project_dashboard_metrics(project_id),
+        members=get_project_members(project_id),tasks=tasks,total_tasks=count,offset=offset,limit=limit,
+        can_restore=bool(project['is_archived'] and (session['role']=='admin' or project['archived_by']==session['user_id'])))
 

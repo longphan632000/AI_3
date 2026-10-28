@@ -4,7 +4,7 @@ import secrets
 from datetime import timedelta, datetime, date
 from decimal import Decimal
 from flask.json.provider import DefaultJSONProvider
-from flask import Flask, jsonify, render_template, session
+from flask import Flask, jsonify, session
 from services.validation import ValidationError, json_object, integer
 
 if sys.stdout and hasattr(sys.stdout, 'encoding') and sys.stdout.encoding != 'utf-8':
@@ -42,6 +42,23 @@ app.config['MAX_CONTENT_LENGTH'] = 6 * 1024 * 1024
 app.config['SESSION_COOKIE_HTTPONLY'] = True
 app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
 app.config['SESSION_COOKIE_SECURE'] = os.getenv('SESSION_COOKIE_SECURE', 'false').lower() == 'true'
+
+
+@app.context_processor
+def shared_app_version():
+    from services.app_version_service import get_app_version
+    return {'app_version': get_app_version()}
+
+
+@app.after_request
+def prevent_stale_shared_pages(response):
+    from flask import request
+    if request.path.startswith('/api/') or response.mimetype == 'text/html':
+        from services.app_version_service import get_app_version
+        response.headers['Cache-Control'] = 'no-store'
+        response.headers['X-App-Version'] = get_app_version()
+    return response
+
 ensure_account_approval_schema()
 ensure_core_schema()
 ensure_ai_schema()

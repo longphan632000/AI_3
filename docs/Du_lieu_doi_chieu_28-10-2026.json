@@ -1,0 +1,829 @@
+{
+  "checked_at": "2026-10-28T11:01:22.975790+07:00",
+  "project": "D:\\UNG DUNG AL_NAM3\\Code Chuan",
+  "documents": [
+    {
+      "file": "Detai33.docx",
+      "sha256": "fb7160c3b84f2c9c22a20a17e427d324bda0218d2de9f8536fd14f66103bc506",
+      "paragraphs": 1467,
+      "tables": 45
+    },
+    {
+      "file": "thuc_hanh.docx",
+      "sha256": "54676f47b0b0d25454dbbbe3bd7ac8657c27c6bc6ec1f800e29a6e2a68cc087f",
+      "paragraphs": 1605,
+      "tables": 2
+    }
+  ],
+  "requirements": [
+    {
+      "Mã": "FR-01",
+      "Nguồn": "Detai33.docx, bảng thứ 10",
+      "Nội dung nguồn": "Đăng nhập, đăng xuất và quản lý phiên; từ chối tài khoản bị khóa.",
+      "Kết luận": "Phù hợp trong phạm vi kiểm tra",
+      "Minh chứng hiện có": "auth_service, auth_routes, before_request; test_auth + khóa phiên hiện hữu + đăng xuất",
+      "Sai lệch / giới hạn": ""
+    },
+    {
+      "Mã": "FR-02",
+      "Nguồn": "Detai33.docx, bảng thứ 10",
+      "Nội dung nguồn": "Quản trị viên tạo/xem/cập nhật/khóa-mở tài khoản, gán vai trò, xem nhật ký; hệ thống phân quyền Trưởng nhóm, Thành viên và Người xem báo cáo theo dự án.",
+      "Kết luận": "Phù hợp trong phạm vi kiểm tra",
+      "Minh chứng hiện có": "admin_routes/account_service; quản lý tài khoản, vai trò, nhật ký; test_ui_actions + trình duyệt xóa/hủy xóa",
+      "Sai lệch / giới hạn": "Xem rủi ro vận hành khi khóa trưởng nhóm cuối cùng; không coi khóa bảo mật là thao tác bị cấm mặc định."
+    },
+    {
+      "Mã": "FR-03",
+      "Nguồn": "Detai33.docx, bảng thứ 10",
+      "Nội dung nguồn": "Tạo, xem, sửa, lưu trữ dự án và quản lý trạng thái dự án.",
+      "Kết luận": "Phù hợp một phần / còn lệch",
+      "Minh chứng hiện có": "project_service; CRUD, trạng thái, archive/restore có kiểm thử",
+      "Sai lệch / giới hạn": "Ngày dự án cho phép thiếu; bảng dữ liệu DuAn trong DOCX ghi ThoiGian NOT NULL. Cần thống nhất mô hình ngày."
+    },
+    {
+      "Mã": "FR-04",
+      "Nguồn": "Detai33.docx, bảng thứ 10",
+      "Nội dung nguồn": "Thêm/xóa thành viên; lưu vai trò, kỹ năng, mức sẵn sàng và năng lực làm việc dự kiến.",
+      "Kết luận": "Phù hợp trong phạm vi kiểm tra",
+      "Minh chứng hiện có": "project_member_service; thêm/xóa, kỹ năng, availability, capacity; test_multi_assignee_and_batch_members + test_requirement_repairs",
+      "Sai lệch / giới hạn": ""
+    },
+    {
+      "Mã": "FR-05",
+      "Nguồn": "Detai33.docx, bảng thứ 10",
+      "Nội dung nguồn": "Tạo, xem, sửa, xóa mềm nhiệm vụ; lưu người phụ trách, trạng thái, ưu tiên, hạn, ước lượng, nhãn, sprint và vướng mắc.",
+      "Kết luận": "Phù hợp một phần / còn lệch",
+      "Minh chứng hiện có": "task_service/task_routes; CRUD, scope, soft delete, audit, assignee, nhãn, blocker, sprint",
+      "Sai lệch / giới hạn": "Probe AUD-DATA-01: cho due_date=NULL và estimated_hours=0; khác từ điển nguồn nhưng có cảnh báo thiếu ước lượng theo FR-11. Cần chốt quy ước."
+    },
+    {
+      "Mã": "FR-06",
+      "Nguồn": "Detai33.docx, bảng thứ 10",
+      "Nội dung nguồn": "Hiển thị Kanban và chuyển nhiệm vụ qua Tồn đọng, Cần làm, Đang làm, Kiểm tra, Hoàn thành bằng kéo thả hoặc biểu mẫu.",
+      "Kết luận": "Phù hợp trong phạm vi kiểm tra",
+      "Minh chứng hiện có": "5 trạng thái, kéo thả/biểu mẫu; sai quyền/trạng thái bị chặn; browser_smoke trên 4 kích thước",
+      "Sai lệch / giới hạn": "BR-01 nói luồng mặc định; chưa có quyết định bắt buộc chỉ được đi tuần tự."
+    },
+    {
+      "Mã": "FR-07",
+      "Nguồn": "Detai33.docx, bảng thứ 10",
+      "Nội dung nguồn": "Trưởng nhóm tạo, xem, sửa, lưu trữ sprint/mốc tiến độ, gán nhiệm vụ và tính tỷ lệ hoàn thành; Thành viên chỉ xem.",
+      "Kết luận": "Phù hợp một phần / còn lệch",
+      "Minh chứng hiện có": "sprint_service; kiểm ngày, quyền leader, gán 1 sprint, tỷ lệ 0% khi rỗng",
+      "Sai lệch / giới hạn": "AUD-DATA-02: tiêu chí hoàn thành rỗng được lưu; chưa có mô hình milestone độc lập, đang dùng sprint/mốc cùng cơ chế."
+    },
+    {
+      "Mã": "FR-08",
+      "Nguồn": "Detai33.docx, bảng thứ 10",
+      "Nội dung nguồn": "Bình luận, đính kèm tệp/liên kết cho nhiệm vụ; tạo và lưu ghi chú họp làm đầu vào biên bản AI.",
+      "Kết luận": "Phù hợp một phần / còn lệch",
+      "Minh chứng hiện có": "collaboration_routes, attachment_service; bình luận, upload/download, link, note, scope, dung lượng, chữ ký tệp",
+      "Sai lệch / giới hạn": "Sau xóa vĩnh viễn tài khoản, tác giả một số dữ liệu được chuyển thành admin; cần giữ danh tính lịch sử nếu yêu cầu truy vết nguyên tác giả."
+    },
+    {
+      "Mã": "FR-09",
+      "Nguồn": "Detai33.docx, bảng thứ 10",
+      "Nội dung nguồn": "Tìm kiếm, lọc, sắp xếp và phân trang nhiệm vụ theo người, trạng thái, sprint, hạn, ưu tiên và tình trạng trễ.",
+      "Kết luận": "Phù hợp trong phạm vi kiểm tra",
+      "Minh chứng hiện có": "get_tasks_by_project; keyword, person, trạng thái, sprint, hạn, priority, overdue, sort/page; test_26_overdue_filter_precedes_pagination",
+      "Sai lệch / giới hạn": ""
+    },
+    {
+      "Mã": "FR-10",
+      "Nguồn": "Detai33.docx, bảng thứ 10",
+      "Nội dung nguồn": "Bảng điều khiển tiến độ theo dự án và sprint.",
+      "Kết luận": "Phù hợp trong phạm vi kiểm tra",
+      "Minh chứng hiện có": "report_service; dashboard theo dự án/sprint, đếm trạng thái, done/total, overdue; test_44_dashboard_metrics_use_numeric_counts_and_rate",
+      "Sai lệch / giới hạn": ""
+    },
+    {
+      "Mã": "FR-11",
+      "Nguồn": "Detai33.docx, bảng thứ 10",
+      "Nội dung nguồn": "Thống kê nhiệm vụ trễ và khối lượng công việc của từng thành viên.",
+      "Kết luận": "Phù hợp trong phạm vi kiểm tra",
+      "Minh chứng hiện có": "report_service.get_member_workload_statistics; unfinished estimates, availability/capacity, overload, missing estimates; test_25_zero_capacity_and_ai_workload_agree",
+      "Sai lệch / giới hạn": ""
+    },
+    {
+      "Mã": "FR-12",
+      "Nguồn": "Detai33.docx, bảng thứ 10",
+      "Nội dung nguồn": "Trưởng nhóm chọn dự án và khoảng tuần để AI tóm tắt tiến độ từ dữ liệu nhiệm vụ.",
+      "Kết luận": "Phù hợp trong phạm vi kiểm tra",
+      "Minh chứng hiện có": "request_analyzer → retrieval → context → prompt → provider → validator → draft; leader only; integration E2E",
+      "Sai lệch / giới hạn": "API được mô phỏng trong lượt này; không coi test hữu hạn là bảo đảm AI luôn đúng với mọi văn bản."
+    },
+    {
+      "Mã": "FR-13",
+      "Nguồn": "Detai33.docx, bảng thứ 10",
+      "Nội dung nguồn": "Trưởng nhóm hoặc Thành viên được phân quyền dùng ghi chú họp để AI tạo biên bản; được xem và chỉnh sửa bản nháp.",
+      "Kết luận": "Phù hợp trong phạm vi kiểm tra",
+      "Minh chứng hiện có": "meeting_minutes_service, ai_draft_service, confirmation_service; tạo/sửa/đối chiếu, xác nhận leader, lưu nội dung đã sửa; 18 UI checks",
+      "Sai lệch / giới hạn": "Cảnh báo phải được người có quyền đối chiếu; nút xác nhận bị khóa khi chưa xử lý cảnh báo."
+    },
+    {
+      "Mã": "FR-14",
+      "Nguồn": "Detai33.docx, bảng thứ 10",
+      "Nội dung nguồn": "AI gợi ý 1-3 người phụ trách theo kỹ năng, mức sẵn sàng và tải công việc; Trưởng nhóm quyết định cuối cùng.",
+      "Kết luận": "Phù hợp trong phạm vi kiểm tra",
+      "Minh chứng hiện có": "assignment ranked 1–3; skills/workload/availability; test giới hạn ứng viên và không tự giao việc",
+      "Sai lệch / giới hạn": ""
+    },
+    {
+      "Mã": "FR-15",
+      "Nguồn": "Detai33.docx, bảng thứ 10",
+      "Nội dung nguồn": "Lưu lịch sử yêu cầu/kết quả AI, phiên bản prompt, dữ liệu tham chiếu và trạng thái xác nhận.",
+      "Kết luận": "Phù hợp một phần / còn lệch",
+      "Minh chứng hiện có": "ai_history, ai_drafts, revisions; ai_history_service; phân quyền admin/leader",
+      "Sai lệch / giới hạn": "prompt_version luôn v1.0; UI lịch sử chưa hiển thị phiên bản prompt/tham chiếu đầy đủ như P1418 thuc_hanh; không lưu được toàn bộ đầu vào gốc cho mọi nguồn tải lên."
+    },
+    {
+      "Mã": "FR-16",
+      "Nguồn": "Detai33.docx, bảng thứ 10",
+      "Nội dung nguồn": "Thông báo trong ứng dụng về việc được giao, sắp đến hạn và thay đổi quan trọng.",
+      "Kết luận": "Phù hợp một phần / còn lệch",
+      "Minh chứng hiện có": "notification_service + task_service; giao việc, đổi hạn/trạng thái, đánh dấu đã đọc; hàm due-soon đã có",
+      "Sai lệch / giới hạn": "AUD-FR16-A/B/C: hàm quét sắp hạn chưa nối vào worker/route; thiếu người nhận leader/supporter ở một số sự kiện."
+    },
+    {
+      "Mã": "FR-17",
+      "Nguồn": "Detai33.docx, bảng thứ 10",
+      "Nội dung nguồn": "Gửi email cảnh báo đến người phụ trách khi nhiệm vụ bị trễ theo BR-02.",
+      "Kết luận": "Phù hợp một phần / còn lệch",
+      "Minh chứng hiện có": "email_service có worker, BR-02, claim chống trùng, retry, SMTP STARTTLS; test email bằng mock",
+      "Sai lệch / giới hạn": "SMTP_ENABLED không có trong .env; mã mặc định false nếu không được môi trường tiến trình ghi đè. Probe cố ý tắt SMTP trả SIMULATED_DEMO_SUCCESS. Chưa chứng minh gửi email thật trong lượt này."
+    },
+    {
+      "Mã": "NFR-01",
+      "Nguồn": "Detai33.docx, bảng thứ 12",
+      "Nội dung nguồn": "Mục tiêu đề xuất: thao tác thông thường và tìm kiếm phản hồi trong khoảng 2 giây ở bộ dữ liệu kiểm thử; tác vụ AI có kết quả hoặc lỗi rõ trong khoảng 30 giây.",
+      "Kết luận": "Phù hợp một phần / còn lệch",
+      "Minh chứng hiện có": "Bằng chứng hiệu năng MySQL cũ; các lượt Gemini thật đã lưu ở báo cáo trước",
+      "Sai lệch / giới hạn": "AI_TOTAL_TIMEOUT_SECONDS=180, khác mục tiêu đề xuất khoảng 30 giây; chưa có đo end-to-end đồng thời dưới tải ở bản hiện tại."
+    },
+    {
+      "Mã": "NFR-02",
+      "Nguồn": "Detai33.docx, bảng thứ 12",
+      "Nội dung nguồn": "Giao diện rõ ràng trên máy tính và điện thoại; thông báo lỗi bằng tiếng Việt; dữ liệu đang nhập được giữ lại khi có thể phục hồi.",
+      "Kết luận": "Phù hợp trong phạm vi kiểm tra",
+      "Minh chứng hiện có": "26 nhóm browser regression + 18 nhóm UI; desktop/tablet/phone/320px; hủy/Escape/X/backdrop không ghi DB, giữ dữ liệu nhập qua sync",
+      "Sai lệch / giới hạn": "Đã sửa thêm nút tạo AI nhận thao tác quá sớm trước khi gắn xử lý sự kiện."
+    },
+    {
+      "Mã": "NFR-03",
+      "Nguồn": "Detai33.docx, bảng thứ 12",
+      "Nội dung nguồn": "Mật khẩu được băm; quyền được kiểm tra ở máy chủ; kết nối được mã hóa; dữ liệu ngoài dự án/quyền bị từ chối.",
+      "Kết luận": "Phù hợp một phần / còn lệch",
+      "Minh chứng hiện có": "Băm mật khẩu, session HttpOnly/SameSite=Lax, kiểm tra quyền backend, khóa/hạ vai trò có hiệu lực trên phiên",
+      "Sai lệch / giới hạn": "Hướng dẫn hiện chạy HTTP LAN; SESSION_COOKIE_SECURE mặc định false; chưa có cấu hình HTTPS nghiệm thu. Không kết luận có khai thác CSRF khi chưa kiểm chứng."
+    },
+    {
+      "Mã": "NFR-04",
+      "Nguồn": "Detai33.docx, bảng thứ 12",
+      "Nội dung nguồn": "Chỉ gửi dữ liệu tối thiểu cần thiết tới dịch vụ AI; không gửi mật khẩu, khóa bí mật hoặc tài liệu ngoài quyền truy cập.",
+      "Kết luận": "Phù hợp trong phạm vi kiểm tra",
+      "Minh chứng hiện có": "retriever có phạm vi; context không lấy password/key; key backend và .env bị ignore; thử truy cập ngoài dự án bị chặn",
+      "Sai lệch / giới hạn": "Không phải chứng nhận đã rà mọi dữ liệu nhạy cảm tùy ý trong tài liệu người dùng nhập."
+    },
+    {
+      "Mã": "NFR-05",
+      "Nguồn": "Detai33.docx, bảng thứ 12",
+      "Nội dung nguồn": "Thay đổi quan trọng được ghi nhận; sao lưu theo lịch môi trường; trước nghiệm thu thử khôi phục ít nhất một bản sao lưu.",
+      "Kết luận": "Phù hợp một phần / còn lệch",
+      "Minh chứng hiện có": "transaction/rollback/audit; qa-system-checks.json cũ ghi phục hồi đủ 16 bảng và so checksum",
+      "Sai lệch / giới hạn": "Chưa thấy tác vụ sao lưu định kỳ và bằng chứng phục hồi môi trường vận hành hiện tại; bản cũ là fixture QA, không phải backup dữ liệu thật."
+    },
+    {
+      "Mã": "NFR-06",
+      "Nguồn": "Detai33.docx, bảng thứ 12",
+      "Nội dung nguồn": "Kết quả AI là bản nháp, nêu dữ liệu thiếu/mâu thuẫn và phải được con người xem xét trước khi lưu, chia sẻ hoặc dùng để phân công.",
+      "Kết luận": "Phù hợp trong phạm vi kiểm tra",
+      "Minh chứng hiện có": "draft/needs_verification, leader xác nhận chủ động; version conflict 409; không tự assign; 9 test backend mới",
+      "Sai lệch / giới hạn": "Bảo vệ phiên bản được dùng bởi giao diện mới; API cũ không truyền version vẫn được hỗ trợ tương thích."
+    },
+    {
+      "Mã": "NFR-07",
+      "Nguồn": "Detai33.docx, bảng thứ 12",
+      "Nội dung nguồn": "Giao diện, nghiệp vụ, dữ liệu và tích hợp AI được tách thành các mô-đun; thay nhà cung cấp AI không làm đổi quy tắc nghiệp vụ.",
+      "Kết luận": "Phù hợp trong phạm vi kiểm tra",
+      "Minh chứng hiện có": "templates/static → routes → services → database; provider/interface tách riêng",
+      "Sai lệch / giới hạn": "Có truy vấn SQL trong services, khác cách vẽ Repository riêng ở hình kiến trúc; cần mô tả ánh xạ thay vì khẳng định giống từng lớp."
+    },
+    {
+      "Mã": "NFR-08",
+      "Nguồn": "Detai33.docx, bảng thứ 12",
+      "Nội dung nguồn": "Có kiểm thử nhiệm vụ, sprint, thống kê và ba chức năng AI; kiểm tra phân quyền và một luồng từ tạo dự án đến báo cáo tuần.",
+      "Kết luận": "Phù hợp trong phạm vi kiểm tra",
+      "Minh chứng hiện có": "221/221 SQLite; 26/26 browser; 18/18 UI; test_integration.test_e2e_full_flow và ba tác vụ AI",
+      "Sai lệch / giới hạn": "Không chạy lại MySQL, SMTP thật hoặc Gemini thật trong lượt sửa này."
+    },
+    {
+      "Mã": "NFR-09",
+      "Nguồn": "Detai33.docx, bảng thứ 12",
+      "Nội dung nguồn": "Hệ thống lưu người thực hiện, thời điểm, hành động và đối tượng thay đổi; nhật ký không chứa mật khẩu hoặc khóa dịch vụ.",
+      "Kết luận": "Phù hợp một phần / còn lệch",
+      "Minh chứng hiện có": "audit_logs có actor/time/action/object; edits và confirm có audit",
+      "Sai lệch / giới hạn": "delete_user chuyển tác giả sang admin, xóa dấu người xác nhận và null actor audit cũ. Giữ dữ liệu nhưng suy giảm truy vết danh tính ban đầu."
+    },
+    {
+      "Mã": "NFR-10",
+      "Nguồn": "Detai33.docx, bảng thứ 12",
+      "Nội dung nguồn": "Mục tiêu đề xuất: truy vấn vẫn đáp ứng yêu cầu hiệu năng với tối thiểu 10.000 nhiệm vụ trong bộ dữ liệu kiểm thử.",
+      "Kết luận": "Có minh chứng cũ; chưa chạy lại",
+      "Minh chứng hiện có": "qa-system-checks.json: 10.000 tasks, search 0.0823s, dashboard 0.1049s, workload 0.1971s",
+      "Sai lệch / giới hạn": "Đây là kết quả fixture MySQL cũ; chưa đo lại trên bản đang sửa hoặc môi trường triển khai thực."
+    },
+    {
+      "Mã": "NFR-11",
+      "Nguồn": "Detai33.docx, bảng thứ 12",
+      "Nội dung nguồn": "Nhà cung cấp/mô hình AI được cấu hình qua lớp tích hợp riêng; khi thay đổi không phải sửa chức năng quản lý dự án cốt lõi.",
+      "Kết luận": "Phù hợp trong phạm vi kiểm tra",
+      "Minh chứng hiện có": "AIProviderService + GeminiService; cấu hình provider/model, xử lý lỗi, fallback local",
+      "Sai lệch / giới hạn": "Qwen/rules và DeepSeek tùy chọn là mở rộng hiện có; cần cập nhật hồ sơ thiết kế, không phải lý do bỏ Gemini ưu tiên."
+    },
+    {
+      "Mã": "BR-01",
+      "Nguồn": "Detai33.docx, bảng thứ 13",
+      "Nội dung nguồn": "Luồng mặc định: Tồn đọng (Backlog) → Cần làm (To do) → Đang làm (In progress) → Kiểm tra (Review) → Hoàn thành (Done).",
+      "Kết luận": "Phù hợp trong phạm vi kiểm tra",
+      "Minh chứng hiện có": "KANBAN_STATUSES và kiểm tra trạng thái/quyền",
+      "Sai lệch / giới hạn": "Không tự diễn giải mũi tên mặc định thành quy tắc cấm mọi bước nhảy; cần chốt nếu nhóm muốn nghiêm ngặt."
+    },
+    {
+      "Mã": "BR-02",
+      "Nguồn": "Detai33.docx, bảng thứ 13",
+      "Nội dung nguồn": "Nhiệm vụ trễ khi đã quá hạn, chưa Hoàn thành và chưa bị lưu trữ.",
+      "Kết luận": "Phù hợp trong phạm vi kiểm tra",
+      "Minh chứng hiện có": "is_task_overdue: due đã qua + chưa done + chưa archive; UTC→UTC+7 có test",
+      "Sai lệch / giới hạn": ""
+    },
+    {
+      "Mã": "BR-03",
+      "Nguồn": "Detai33.docx, bảng thứ 13",
+      "Nội dung nguồn": "Ngày bắt đầu không sau ngày kết thúc; một nhiệm vụ thuộc tối đa một sprint tại một thời điểm.",
+      "Kết luận": "Phù hợp trong phạm vi kiểm tra",
+      "Minh chứng hiện có": "sprint kiểm start<=end; tasks.sprint_id một giá trị; kiểm cùng dự án",
+      "Sai lệch / giới hạn": ""
+    },
+    {
+      "Mã": "BR-04",
+      "Nguồn": "Detai33.docx, bảng thứ 13",
+      "Nội dung nguồn": "Tỷ lệ = số nhiệm vụ Hoàn thành/tổng nhiệm vụ trong phạm vi; nếu không có nhiệm vụ thì hiển thị 0%.",
+      "Kết luận": "Phù hợp trong phạm vi kiểm tra",
+      "Minh chứng hiện có": "dashboard/sprint: done/total, rỗng trả 0",
+      "Sai lệch / giới hạn": ""
+    },
+    {
+      "Mã": "BR-05",
+      "Nguồn": "Detai33.docx, bảng thứ 13",
+      "Nội dung nguồn": "Tải = tổng ước lượng của nhiệm vụ chưa Hoàn thành trong sprint/khoảng lọc; quá tải khi tải vượt năng lực hoặc mức sẵn sàng đã cấu hình.",
+      "Kết luận": "Phù hợp trong phạm vi kiểm tra",
+      "Minh chứng hiện có": "unfinished estimates và effective capacity theo availability",
+      "Sai lệch / giới hạn": "Nhiều người hỗ trợ đang được tính toàn bộ ước lượng cho từng người; cần ghi rõ quy ước tải trong tài liệu mở rộng."
+    },
+    {
+      "Mã": "BR-06",
+      "Nguồn": "Detai33.docx, bảng thứ 13",
+      "Nội dung nguồn": "AI chỉ tạo bản nháp/đề xuất; người có thẩm quyền phải xem lại, chỉnh sửa và xác nhận.",
+      "Kết luận": "Phù hợp trong phạm vi kiểm tra",
+      "Minh chứng hiện có": "xác nhận tách riêng, leader/session/project kiểm lại, human review",
+      "Sai lệch / giới hạn": ""
+    },
+    {
+      "Mã": "BR-07",
+      "Nguồn": "Detai33.docx, bảng thứ 13",
+      "Nội dung nguồn": "AI không tạo sự kiện, con số hoặc người phụ trách không có trong dữ liệu; phải nêu rõ phần thiếu/mâu thuẫn.",
+      "Kết luận": "Phù hợp trong phạm vi kiểm tra",
+      "Minh chứng hiện có": "validator/source IDs, chống dữ kiện giả, cảnh báo thiếu/mâu thuẫn",
+      "Sai lệch / giới hạn": "Chỉ kết luận theo các ca đã thử; kết quả ngôn ngữ tự nhiên vẫn cần người đối chiếu."
+    },
+    {
+      "Mã": "BR-08",
+      "Nguồn": "Detai33.docx, bảng thứ 13",
+      "Nội dung nguồn": "Dự án và nhiệm vụ được lưu trữ hoặc xóa mềm để bảo toàn lịch sử; xóa vĩnh viễn theo quyền quản trị.",
+      "Kết luận": "Phù hợp trong phạm vi kiểm tra",
+      "Minh chứng hiện có": "archive/restore dự án và nhiệm vụ; hard-delete quyền admin",
+      "Sai lệch / giới hạn": ""
+    },
+    {
+      "Mã": "BR-09",
+      "Nguồn": "Detai33.docx, bảng thứ 13",
+      "Nội dung nguồn": "Khi nhiệm vụ thỏa BR-02, hệ thống gửi email cảnh báo đến địa chỉ email của tài khoản người phụ trách nhiệm vụ.",
+      "Kết luận": "Phù hợp một phần / còn lệch",
+      "Minh chứng hiện có": "email_service lọc BR-02, đúng email assignee",
+      "Sai lệch / giới hạn": "Gửi SMTP thật chưa được bật/chứng minh; xem FR-17."
+    },
+    {
+      "Mã": "UC001",
+      "Nguồn": "Detai33.docx, bảng thứ 17",
+      "Nội dung nguồn": "Đăng nhập, đăng xuất",
+      "Kết luận": "Phù hợp trong phạm vi kiểm tra",
+      "Minh chứng hiện có": "Đăng nhập/đăng xuất",
+      "Sai lệch / giới hạn": "FR-01"
+    },
+    {
+      "Mã": "UC002",
+      "Nguồn": "Detai33.docx, bảng thứ 17",
+      "Nội dung nguồn": "Quản lý tài khoản",
+      "Kết luận": "Phù hợp trong phạm vi kiểm tra",
+      "Minh chứng hiện có": "Tài khoản, vai trò và nhật ký; thêm nút xóa",
+      "Sai lệch / giới hạn": "FR-02"
+    },
+    {
+      "Mã": "UC003",
+      "Nguồn": "Detai33.docx, bảng thứ 17",
+      "Nội dung nguồn": "Quản lý dự án",
+      "Kết luận": "Phù hợp một phần / còn lệch",
+      "Minh chứng hiện có": "Quản lý dự án",
+      "Sai lệch / giới hạn": "FR-03; mô hình ngày chưa thống nhất"
+    },
+    {
+      "Mã": "UC004",
+      "Nguồn": "Detai33.docx, bảng thứ 17",
+      "Nội dung nguồn": "Quản lý thành viên",
+      "Kết luận": "Phù hợp trong phạm vi kiểm tra",
+      "Minh chứng hiện có": "Thành viên/năng lực",
+      "Sai lệch / giới hạn": "FR-04"
+    },
+    {
+      "Mã": "UC005",
+      "Nguồn": "Detai33.docx, bảng thứ 17",
+      "Nội dung nguồn": "Quản lý nhiệm vụ",
+      "Kết luận": "Phù hợp một phần / còn lệch",
+      "Minh chứng hiện có": "Nhiệm vụ/Kanban",
+      "Sai lệch / giới hạn": "FR-05/06; từ điển hạn/ước lượng khác"
+    },
+    {
+      "Mã": "UC006",
+      "Nguồn": "Detai33.docx, bảng thứ 17",
+      "Nội dung nguồn": "Quản lý Sprint/Mốc",
+      "Kết luận": "Phù hợp một phần / còn lệch",
+      "Minh chứng hiện có": "Sprint/mốc",
+      "Sai lệch / giới hạn": "FR-07; tiêu chí rỗng"
+    },
+    {
+      "Mã": "UC007",
+      "Nguồn": "Detai33.docx, bảng thứ 17",
+      "Nội dung nguồn": "Cộng tác",
+      "Kết luận": "Phù hợp một phần / còn lệch",
+      "Minh chứng hiện có": "Cộng tác/tài liệu/ghi chú",
+      "Sai lệch / giới hạn": "FR-08; tác giả lịch sử sau hard-delete"
+    },
+    {
+      "Mã": "UC008",
+      "Nguồn": "Detai33.docx, bảng thứ 17",
+      "Nội dung nguồn": "Tra cứu & Báo cáo",
+      "Kết luận": "Phù hợp trong phạm vi kiểm tra",
+      "Minh chứng hiện có": "Tra cứu/dashboard/tải",
+      "Sai lệch / giới hạn": "FR-09/10/11"
+    },
+    {
+      "Mã": "UC009",
+      "Nguồn": "Detai33.docx, bảng thứ 17",
+      "Nội dung nguồn": "AI Tóm tắt tiến độ",
+      "Kết luận": "Phù hợp trong phạm vi kiểm tra",
+      "Minh chứng hiện có": "AI tóm tắt tuần",
+      "Sai lệch / giới hạn": "FR-12; leader"
+    },
+    {
+      "Mã": "UC010",
+      "Nguồn": "Detai33.docx, bảng thứ 17",
+      "Nội dung nguồn": "AI Sinh biên bản họp",
+      "Kết luận": "Phù hợp trong phạm vi kiểm tra",
+      "Minh chứng hiện có": "AI biên bản, chỉnh sửa và xác nhận",
+      "Sai lệch / giới hạn": "FR-13; chỉ leader xác nhận"
+    },
+    {
+      "Mã": "UC011",
+      "Nguồn": "Detai33.docx, bảng thứ 17",
+      "Nội dung nguồn": "AI Gợi ý phân công",
+      "Kết luận": "Phù hợp trong phạm vi kiểm tra",
+      "Minh chứng hiện có": "AI gợi ý phân công",
+      "Sai lệch / giới hạn": "FR-14; không tự giao việc"
+    },
+    {
+      "Mã": "UC012",
+      "Nguồn": "Detai33.docx, bảng thứ 17",
+      "Nội dung nguồn": "Lịch sử AI",
+      "Kết luận": "Phù hợp một phần / còn lệch",
+      "Minh chứng hiện có": "Lịch sử AI",
+      "Sai lệch / giới hạn": "FR-15; phiên bản prompt/UI thiếu"
+    },
+    {
+      "Mã": "UC013",
+      "Nguồn": "Detai33.docx, bảng thứ 17",
+      "Nội dung nguồn": "Nhận thông báo",
+      "Kết luận": "Phù hợp một phần / còn lệch",
+      "Minh chứng hiện có": "Thông báo/email trễ hạn",
+      "Sai lệch / giới hạn": "FR-16/17; tự động và môi trường SMTP chưa đủ"
+    }
+  ],
+  "skills": [
+    {
+      "Skill": "requirements-analysis",
+      "Tệp tồn tại": "Có",
+      "Kết luận": "Một phần",
+      "Thiếu trong Skill": "Có Objective/Outputs; thiếu Inputs, quy trình đầy đủ, kiểm chứng và xử lý issue",
+      "Đầu ra/thực tế": "Thiếu requirements, user stories, acceptance, system model/traceability và Human Gate",
+      "Số byte": 631
+    },
+    {
+      "Skill": "diagram-design",
+      "Tệp tồn tại": "Có",
+      "Kết luận": "Một phần",
+      "Thiếu trong Skill": "Có loại sơ đồ/quy tắc hình thức; thiếu đủ quy trình độc lập rồi đối chiếu nguồn",
+      "Đầu ra/thực tế": "Chưa có .puml/PNG mới, comparison và bằng chứng chốt mô hình trước khi vẽ",
+      "Số byte": 788
+    },
+    {
+      "Skill": "table-design",
+      "Tệp tồn tại": "Có",
+      "Kết luận": "Một phần",
+      "Thiếu trong Skill": "Chỉ Objective/loại bảng; chưa có mẫu cột, nguồn, thao tác và verification",
+      "Đầu ra/thực tế": "Chưa có bộ bảng actor/UC/class/data dictionary/traceability theo mẫu",
+      "Số byte": 530
+    },
+    {
+      "Skill": "architecture-design",
+      "Tệp tồn tại": "Có",
+      "Kết luận": "Một phần",
+      "Thiếu trong Skill": "Có Objective/Outputs; thiếu đầu vào được duyệt, process, quy tắc/verification",
+      "Đầu ra/thực tế": "Mã có phân lớp nhưng thiếu architecture, decisions và bộ sequence/activity 13 UC",
+      "Số byte": 492
+    },
+    {
+      "Skill": "database-design",
+      "Tệp tồn tại": "Có",
+      "Kết luận": "Một phần",
+      "Thiếu trong Skill": "Có Objective/Outputs; chưa đủ quy trình thiết kế và kiểm tra toàn vẹn",
+      "Đầu ra/thực tế": "Có schema.sql, migrations và SQLite/MySQL tests; thiếu thiết kế DB/ERD/data dictionary truy vết",
+      "Số byte": 482
+    },
+    {
+      "Skill": "implementation",
+      "Tệp tồn tại": "Có",
+      "Kết luận": "Một phần",
+      "Thiếu trong Skill": "Process chỉ một dòng; chưa đủ quy tắc chi tiết, inputs/outputs/verification",
+      "Đầu ra/thực tế": "Có triển khai rộng; lượt này sửa 8 tệp nguồn, lint/test/diff; không chứng minh được thứ tự SDLC trước đây",
+      "Số byte": 329
+    },
+    {
+      "Skill": "testing",
+      "Tệp tồn tại": "Có",
+      "Kết luận": "Một phần",
+      "Thiếu trong Skill": "Process chỉ một dòng; thiếu kịch bản chi tiết/đầu ra mẫu/quy tắc kết luận",
+      "Đầu ra/thực tế": "Có 221 tests, 44 nhóm browser và JSON/CSV; thiếu bộ test-plan/test-report/traceability theo hướng dẫn",
+      "Số byte": 281
+    },
+    {
+      "Skill": "code-review",
+      "Tệp tồn tại": "Có",
+      "Kết luận": "Một phần",
+      "Thiếu trong Skill": "Checklist một dòng; thiếu cách kiểm tra, severity, đầu ra và điều kiện kết thúc",
+      "Đầu ra/thực tế": "Lượt này có review/diff và báo cáo thực tế; chưa có code-review.md hoặc minh chứng review các pha cũ",
+      "Số byte": 297
+    },
+    {
+      "Skill": "security-review",
+      "Tệp tồn tại": "Có",
+      "Kết luận": "Một phần",
+      "Thiếu trong Skill": "Checklist một dòng; thiếu thủ tục, minh chứng, xử lý lỗi và verification",
+      "Đầu ra/thực tế": "Có test auth/scope/XSS/upload/key; chưa đủ hồ sơ HTTPS, CSRF/dependency audit và security-review.md",
+      "Số byte": 349
+    },
+    {
+      "Skill": "ai-request-analysis",
+      "Tệp tồn tại": "Có",
+      "Kết luận": "Một phần",
+      "Thiếu trong Skill": "Chỉ danh sách task và quyền; thiếu schema/inputs/process/outputs/verification",
+      "Đầu ra/thực tế": "Module thật kiểm task/session/role/tham số; thiếu tài liệu request-analysis và traceability",
+      "Số byte": 313
+    },
+    {
+      "Skill": "project-data-retrieval",
+      "Tệp tồn tại": "Có",
+      "Kết luận": "Một phần",
+      "Thiếu trong Skill": "Hai quy tắc; thiếu whitelist dữ liệu/filter/source-ref/đầu ra kiểm chứng",
+      "Đầu ra/thực tế": "Module thật có SQL tham số hóa và scope; Skill chưa mô tả đủ để lặp lại quy trình",
+      "Số byte": 323
+    },
+    {
+      "Skill": "context-builder",
+      "Tệp tồn tại": "Có",
+      "Kết luận": "Một phần",
+      "Thiếu trong Skill": "Hai quy tắc; thiếu cấu trúc context, nguồn, giới hạn và kiểm tra thiếu/mâu thuẫn",
+      "Đầu ra/thực tế": "Có context_builder/source_refs nhưng thiếu tài liệu ngữ cảnh theo hướng dẫn",
+      "Số byte": 279
+    },
+    {
+      "Skill": "project-ai-prompt",
+      "Tệp tồn tại": "Có",
+      "Kết luận": "Một phần",
+      "Thiếu trong Skill": "Một chuỗi bước + draft-only; thiếu template/phiên bản/đánh giá/verification",
+      "Đầu ra/thực tế": "Có prompt_builder, grounding và test lỗi; v1.0 cố định, chưa có so sánh các phiên bản prompt",
+      "Số byte": 351
+    },
+    {
+      "Skill": "documentation",
+      "Tệp tồn tại": "Có",
+      "Kết luận": "Một phần",
+      "Thiếu trong Skill": "Chỉ danh sách outputs; thiếu quy trình đối chiếu implementation và verification",
+      "Đầu ra/thực tế": "Có README và nhiều hướng dẫn/báo cáo sửa lỗi; thiếu api/deployment/user-guide theo bộ yêu cầu",
+      "Số byte": 222
+    }
+  ],
+  "expected_artifacts": [
+    {
+      "path": "docs/acceptance-criteria.md",
+      "exists": false
+    },
+    {
+      "path": "docs/ai-acceptance-criteria.md",
+      "exists": false
+    },
+    {
+      "path": "docs/ai-assistant-architecture.md",
+      "exists": false
+    },
+    {
+      "path": "docs/ai-assistant-data-flow.md",
+      "exists": false
+    },
+    {
+      "path": "docs/ai-assistant-requirements.md",
+      "exists": false
+    },
+    {
+      "path": "docs/ai-functional-requirements.md",
+      "exists": false
+    },
+    {
+      "path": "docs/ai-prompts.md",
+      "exists": false
+    },
+    {
+      "path": "docs/ai-request-analysis.md",
+      "exists": false
+    },
+    {
+      "path": "docs/ai-requirements-issues.md",
+      "exists": false
+    },
+    {
+      "path": "docs/ai-user-stories.md",
+      "exists": false
+    },
+    {
+      "path": "docs/api.md",
+      "exists": false
+    },
+    {
+      "path": "docs/architecture-decisions.md",
+      "exists": false
+    },
+    {
+      "path": "docs/architecture.md",
+      "exists": false
+    },
+    {
+      "path": "docs/code-review.md",
+      "exists": false
+    },
+    {
+      "path": "docs/customer-requirement.md",
+      "exists": false
+    },
+    {
+      "path": "docs/database-design.md",
+      "exists": false
+    },
+    {
+      "path": "docs/deployment.md",
+      "exists": false
+    },
+    {
+      "path": "docs/diagram-comparison.md",
+      "exists": false
+    },
+    {
+      "path": "docs/diagrams/activity/UC001.puml",
+      "exists": false
+    },
+    {
+      "path": "docs/diagrams/activity/UC002.puml",
+      "exists": false
+    },
+    {
+      "path": "docs/diagrams/activity/UC003.puml",
+      "exists": false
+    },
+    {
+      "path": "docs/diagrams/activity/UC004.puml",
+      "exists": false
+    },
+    {
+      "path": "docs/diagrams/activity/UC005.puml",
+      "exists": false
+    },
+    {
+      "path": "docs/diagrams/activity/UC006.puml",
+      "exists": false
+    },
+    {
+      "path": "docs/diagrams/activity/UC007.puml",
+      "exists": false
+    },
+    {
+      "path": "docs/diagrams/activity/UC008.puml",
+      "exists": false
+    },
+    {
+      "path": "docs/diagrams/activity/UC009.puml",
+      "exists": false
+    },
+    {
+      "path": "docs/diagrams/activity/UC010.puml",
+      "exists": false
+    },
+    {
+      "path": "docs/diagrams/activity/UC011.puml",
+      "exists": false
+    },
+    {
+      "path": "docs/diagrams/activity/UC012.puml",
+      "exists": false
+    },
+    {
+      "path": "docs/diagrams/activity/UC013.puml",
+      "exists": false
+    },
+    {
+      "path": "docs/diagrams/ai-assistant-architecture.puml",
+      "exists": false
+    },
+    {
+      "path": "docs/diagrams/ai-assistant-data-flow.puml",
+      "exists": false
+    },
+    {
+      "path": "docs/diagrams/business-process-activity.puml",
+      "exists": false
+    },
+    {
+      "path": "docs/diagrams/business-process-swimlane.puml",
+      "exists": false
+    },
+    {
+      "path": "docs/diagrams/class-diagram.puml",
+      "exists": false
+    },
+    {
+      "path": "docs/diagrams/erd.puml",
+      "exists": false
+    },
+    {
+      "path": "docs/diagrams/function-hierarchy.puml",
+      "exists": false
+    },
+    {
+      "path": "docs/diagrams/sequence/UC001.puml",
+      "exists": false
+    },
+    {
+      "path": "docs/diagrams/sequence/UC002.puml",
+      "exists": false
+    },
+    {
+      "path": "docs/diagrams/sequence/UC003.puml",
+      "exists": false
+    },
+    {
+      "path": "docs/diagrams/sequence/UC004.puml",
+      "exists": false
+    },
+    {
+      "path": "docs/diagrams/sequence/UC005.puml",
+      "exists": false
+    },
+    {
+      "path": "docs/diagrams/sequence/UC006.puml",
+      "exists": false
+    },
+    {
+      "path": "docs/diagrams/sequence/UC007.puml",
+      "exists": false
+    },
+    {
+      "path": "docs/diagrams/sequence/UC008.puml",
+      "exists": false
+    },
+    {
+      "path": "docs/diagrams/sequence/UC009.puml",
+      "exists": false
+    },
+    {
+      "path": "docs/diagrams/sequence/UC010.puml",
+      "exists": false
+    },
+    {
+      "path": "docs/diagrams/sequence/UC011.puml",
+      "exists": false
+    },
+    {
+      "path": "docs/diagrams/sequence/UC012.puml",
+      "exists": false
+    },
+    {
+      "path": "docs/diagrams/sequence/UC013.puml",
+      "exists": false
+    },
+    {
+      "path": "docs/diagrams/system-architecture.puml",
+      "exists": false
+    },
+    {
+      "path": "docs/diagrams/use-case-diagram.puml",
+      "exists": false
+    },
+    {
+      "path": "docs/requirements-decisions.md",
+      "exists": false
+    },
+    {
+      "path": "docs/requirements-issues.md",
+      "exists": false
+    },
+    {
+      "path": "docs/requirements.md",
+      "exists": false
+    },
+    {
+      "path": "docs/security-review.md",
+      "exists": false
+    },
+    {
+      "path": "docs/source-urd.md",
+      "exists": false
+    },
+    {
+      "path": "docs/source/hoan_chinh.docx",
+      "exists": false
+    },
+    {
+      "path": "docs/system-model-traceability.md",
+      "exists": false
+    },
+    {
+      "path": "docs/system-model.md",
+      "exists": false
+    },
+    {
+      "path": "docs/tables/actor-specification.md",
+      "exists": false
+    },
+    {
+      "path": "docs/tables/class-specification.md",
+      "exists": false
+    },
+    {
+      "path": "docs/tables/data-dictionary.md",
+      "exists": false
+    },
+    {
+      "path": "docs/tables/requirements-traceability.md",
+      "exists": false
+    },
+    {
+      "path": "docs/tables/test-cases.md",
+      "exists": false
+    },
+    {
+      "path": "docs/tables/test-results.md",
+      "exists": false
+    },
+    {
+      "path": "docs/tables/use-case-specifications.md",
+      "exists": false
+    },
+    {
+      "path": "docs/tables/use-case-summary.md",
+      "exists": false
+    },
+    {
+      "path": "docs/test-plan.md",
+      "exists": false
+    },
+    {
+      "path": "docs/test-report.md",
+      "exists": false
+    },
+    {
+      "path": "docs/user-guide.md",
+      "exists": false
+    },
+    {
+      "path": "docs/user-stories.md",
+      "exists": false
+    }
+  ],
+  "approval_evidence": "No phase approvals established by this audit; no historical approvals created."
+}

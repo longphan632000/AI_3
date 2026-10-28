@@ -1,15 +1,24 @@
-from services.validation import json_object
-from flask import Blueprint, render_template, request, session, jsonify
+from flask import Blueprint, jsonify, render_template, request, session
+
 from routes import admin_required
 from services.account_service import (
-    list_all_users, create_user, update_user_status, update_user_role,
-    review_leader_request, delete_user
+    create_user,
+    delete_user,
+    list_all_users,
+    review_leader_request,
+    update_user_role,
+    update_user_status,
 )
-from services.audit_service import get_recent_audit_logs
-from services.project_member_service import get_project_leaders, assign_project_leader, demote_project_leader
-from services.project_service import get_project_by_id
+from services.ai_errors import AIProviderError
 from services.ai_provider_service import AIProviderService
-from services.gemini_service import AIProviderError, GeminiService
+from services.audit_service import get_recent_audit_logs
+from services.project_member_service import (
+    assign_project_leader,
+    demote_project_leader,
+    get_project_leaders,
+)
+from services.project_service import get_project_by_id
+from services.validation import json_object
 
 admin_bp = Blueprint('admin_bp', __name__)
 
@@ -25,10 +34,17 @@ def admin_page():
 def ai_status_api():
     """Expose configuration state to admins without returning the API key."""
     try:
-        service = AIProviderService().provider
+        provider = AIProviderService()
+        service = provider.provider
     except AIProviderError as error:
         return jsonify({'success': False, 'configured': False, 'error': str(error), 'error_code': error.code}), 503
     checked = request.args.get('probe') == '1'
+    fallback = provider.fallback_status(probe=checked)
+    if service is None:
+        return jsonify(success=True, configured=False, provider=provider.primary_provider_name, model=None, meeting_model=None,
+                       api_checked=checked, api_reachable=False if checked else None,
+                       message=str(provider.primary_error), error_code=provider.primary_error.code,
+                       checks={}, probe_scope=None, fallback=fallback), 200
     reachable, message = None, None
     checks = {}
     error_code = None
@@ -52,6 +68,7 @@ def ai_status_api():
     return jsonify({
         'success': True,
         'configured': service.configured,
+        'provider': provider.provider_name,
         'model': service.model,
         'meeting_model': service.meeting_model,
         'api_checked': checked,
@@ -59,7 +76,8 @@ def ai_status_api():
         'message': message,
         'error_code': error_code,
         'checks': checks,
-        'probe_scope': 'model_metadata_only' if checked else None,
+        'fallback': fallback,
+        'probe_scope': getattr(service, 'probe_scope', 'model_metadata_only') if checked else None,
     }), 200
 
 @admin_bp.route('/api/admin/users', methods=['GET'])

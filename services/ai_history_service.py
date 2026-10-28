@@ -58,12 +58,14 @@ def get_ai_history(user_id, user_system_role, project_id=None, limit=50):
             FROM ai_history ah
             JOIN projects p ON ah.project_id = p.id
             JOIN users u ON ah.requester_id = u.id
-            JOIN project_members pm ON pm.project_id = p.id AND pm.user_id = %s AND pm.project_role = 'leader'
+            LEFT JOIN project_members pm ON pm.project_id = p.id AND pm.user_id = %s
+            WHERE ((p.is_archived=FALSE AND pm.project_role='leader') OR
+                   (p.is_archived=TRUE AND p.archived_by=%s))
             ORDER BY ah.created_at DESC LIMIT %s;
         """
-        params = [user_id]
+        params = [user_id,user_id]
         if project_id:
-            query = query.replace('ORDER BY ah.created_at', 'WHERE ah.project_id = %s ORDER BY ah.created_at')
+            query = query.replace('ORDER BY ah.created_at', 'AND ah.project_id = %s ORDER BY ah.created_at')
             params.append(project_id)
         params.append(limit)
         return query_db(query, tuple(params))

@@ -1,6 +1,8 @@
 // AI Assistant Studio Controller (FR-12, FR-13, FR-14, FR-15, UC010)
 let currentAIMode = 'weekly_summary';
 let lastDraftId = null;
+let lastDraftVersion = null;
+let lastDraftStatus = null;
 let uploadWarnings = [];
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -27,6 +29,8 @@ async function initAIStudio() {
     setDefaultDateRange();
     setupGenerateButton();
     initFileDropzone();
+    document.getElementById('btn-generate-ai').disabled =
+        currentProjectRole === 'viewer' || currentUser?.role === 'admin';
 }
 
 function setupAIModeTabs() {
@@ -42,6 +46,7 @@ function setupAIModeTabs() {
 }
 
 function switchAIModeForm(mode) {
+    document.getElementById('staffing-candidate-panel').hidden=mode!=='assignment_suggestion';
     document.getElementById('form-section-weekly').style.display = (mode === 'weekly_summary') ? 'block' : 'none';
     document.getElementById('form-section-minutes').style.display = (mode === 'meeting_minutes') ? 'block' : 'none';
     document.getElementById('form-section-assignment').style.display = (mode === 'assignment_suggestion') ? 'block' : 'none';
@@ -53,6 +58,7 @@ function switchAIModeForm(mode) {
         titleEl.textContent = 'Biên bản Cuộc họp Thông minh (FR-13)';
     } else {
         titleEl.textContent = 'Gợi ý Phân công Nhiệm vụ (FR-14)';
+        loadAssignmentPreview();
     }
 }
 
@@ -83,6 +89,7 @@ async function loadAIDataSources() {
                     taskSelect.innerHTML += `<option value="${t.id}">[#TASK-${t.id}] ${escapeHtml(t.title)} (${t.status})</option>`;
                 });
                 if(Array.from(taskSelect.options).some(option=>option.value===previousValue))taskSelect.value=previousValue;
+                if(currentAIMode==='assignment_suggestion')await loadAssignmentPreview();
             }
         }
 
@@ -103,6 +110,10 @@ async function loadAIDataSources() {
     } catch (e) {
         console.error('Lỗi tải dữ liệu nguồn cho AI:', e);
     }
+}
+
+async function loadAssignmentPreview(){
+    if(typeof loadStaffingPreview==='function')await loadStaffingPreview();
 }
 
 function setupGenerateButton() {
@@ -145,12 +156,14 @@ async function handleGenerateAI() {
         if (rawNotes.trim()) payload.raw_notes = rawNotes.trim();
         if (uploadWarnings.length) payload.extraction_warnings = uploadWarnings;
     } else if (currentAIMode === 'assignment_suggestion') {
-        const taskId = document.getElementById('ai-task-select').value;
-        if (!taskId) {
+        Object.assign(payload,buildStaffingPayload(true));
+        if(!document.getElementById('ai-requested-count').reportValidity())return;
+        if(payload.purpose==='assignment'&&!payload.task_id){
             showToast('Vui lòng chọn nhiệm vụ cần gợi ý phân công.', 'error');
             return;
         }
-        payload.task_id = taskId;
+        if(payload.purpose==='recruitment'&&!payload.user_note){showToast('Hãy nhập nhu cầu tìm người vào ô chỉ dẫn bổ sung.','error');return;}
+        clearStaffingRecommendations();
     }
 
     // Hiển thị trạng thái đang xử lý (Pulse Animation)
@@ -159,7 +172,6 @@ async function handleGenerateAI() {
     const contentEl = document.getElementById('ai-output-content');
     const loadingEl = document.getElementById('ai-loading-state');
     const actionsBar = document.getElementById('ai-actions-bar');
-    const confirmBtn = document.getElementById('btn-confirm-draft');
     const sourceChipsEl = document.getElementById('ai-source-chips');
     const statusTextEl = document.getElementById('ai-status-text');
     const warningsEl = document.getElementById('ai-warnings');
@@ -168,6 +180,8 @@ async function handleGenerateAI() {
     loadingEl.classList.add('active');
     actionsBar.style.display = 'none';
     warningsEl.style.display = 'none';
+    const previousEngine = document.getElementById('ai-engine-source');
+    if (previousEngine) previousEngine.textContent = '';
 
     try {
         const res = await fetch('/api/ai', {
@@ -182,11 +196,20 @@ async function handleGenerateAI() {
 
         if (res.ok && data.success) {
             lastDraftId = data.draft_id;
-            document.getElementById('btn-edit-draft').hidden=false;
+            lastDraftVersion = data.version || 1;
 
             // Format markdown to HTML đơn giản
             contentEl.innerHTML = formatMarkdownToHtml(data.result);
+            renderStaffingRecommendations(data.structured_result);
             statusTextEl.textContent = (data.status === 'draft') ? 'BẢN NHÁP (DRAFT)' : 'CẦN XÁC MINH';
+            let engineLabel = document.getElementById('ai-engine-source');
+            if (!engineLabel) {
+                engineLabel = document.createElement('p');
+                engineLabel.id = 'ai-engine-source';
+                engineLabel.style.cssText = 'font-size:0.82rem;color:var(--text-secondary);margin:8px 0;';
+                contentEl.before(engineLabel);
+            }
+            engineLabel.textContent = data.engine?.notice || '';
             statusTextEl.style.color = (data.status === 'draft') ? 'var(--neon-cyan)' : 'var(--neon-amber)';
             if (data.warnings && data.warnings.length) {
                 warningsEl.innerHTML = `<strong>Cần kiểm tra:</strong><ul>${data.warnings.map(w => `<li>${escapeHtml(w)}</li>`).join('')}</ul>`;
@@ -205,13 +228,7 @@ async function handleGenerateAI() {
 
             // Hiển thị nút xác nhận nếu là Trưởng nhóm (Leader)
             actionsBar.style.display = 'flex';
-            if (data.status === 'draft' && canManageCurrentProject) {
-                confirmBtn.style.display = 'inline-flex';
-                confirmBtn.disabled = false;
-                confirmBtn.innerHTML = '<span>Xác nhận Bản chính thức (Leader)</span>';
-            } else {
-                confirmBtn.style.display = 'none';
-            }
+            updateDraftActions(data.status);
 
             showToast('Trợ lý AI đã xử lý và kiểm định xong!', 'success');
         } else {
@@ -241,32 +258,32 @@ async function handleGenerateAI() {
 }
 
 async function handleConfirmDraft() {
-    if (!lastDraftId) return;
+    if (!lastDraftId || !canManageCurrentProject || lastDraftStatus !== 'draft') return;
     const confirmBtn = document.getElementById('btn-confirm-draft');
     confirmBtn.disabled = true;
     confirmBtn.textContent = 'Đang xác nhận...';
 
     try {
-        const res = await fetch(`/api/ai/drafts/${lastDraftId}/confirm`, {
-            method: 'POST'
-        });
-        const data = await res.json();
-        if (data.success) {
-            uploadWarnings = Array.isArray(data.warnings) ? data.warnings : [];
-            showToast(data.message, 'success');
-            confirmBtn.innerHTML = '<span>✅ Đã xác nhận chính thức</span>';
-            document.getElementById('btn-edit-draft').hidden=true;
-            document.getElementById('ai-status-text').textContent = 'CHÍNH THỨC (CONFIRMED)';
-            document.getElementById('ai-status-text').style.color = 'var(--neon-emerald)';
-        } else {
-            showToast(data.error, 'error');
-            confirmBtn.disabled = false;
-            confirmBtn.textContent = 'Xác nhận lại';
-        }
+        const data = await apiRequest(`/api/ai/drafts/${lastDraftId}/confirm`, jsonRequest('POST', {version:lastDraftVersion}));
+        await displayDraft(lastDraftId);
+        showToast(data.message, 'success');
     } catch (e) {
-        showToast('Lỗi khi xác nhận.', 'error');
-        confirmBtn.disabled = false;
+        showToast(e.message || 'Lỗi khi xác nhận.', 'error');
+        await displayDraft(lastDraftId);
     }
+}
+
+function updateDraftActions(status) {
+    lastDraftStatus = status;
+    const confirmButton = document.getElementById('btn-confirm-draft');
+    confirmButton.style.display = canManageCurrentProject ? 'inline-flex' : 'none';
+    confirmButton.disabled = status !== 'draft';
+    confirmButton.textContent = status === 'confirmed' ? 'Đã xác nhận chính thức'
+        : status === 'needs_verification' ? 'Xác nhận (cần đối chiếu)' : 'Xác nhận bản chính thức';
+    document.getElementById('btn-edit-draft').hidden = status === 'confirmed' || currentUser?.role === 'admin' || currentProjectRole === 'viewer';
+    document.getElementById('ai-confirmation-hint').textContent = status === 'needs_verification'
+        ? 'Bản nháp còn cảnh báo. Chọn Chỉnh sửa bản nháp để đối chiếu, xử lý cảnh báo rồi lưu và xác nhận.'
+        : status === 'confirmed' ? 'Bản chính thức đã được Trưởng nhóm xác nhận.' : 'Quyết định cuối cùng thuộc Trưởng nhóm.';
 }
 
 async function loadAIHistoryModal() {
@@ -479,22 +496,24 @@ async function openOfficialMinutesModal() {
 
 
 let editingDraftVersion=null;
+let draftEditSaving=false;
+let draftEditorSource=null;
+let draftEditorReturnFocus=null;
 
 async function displayDraft(id) {
     try {
         const {draft:d}=await apiRequest(`/api/ai/drafts/${id}`);
         lastDraftId=id;
+        lastDraftVersion=d.version;
         currentAIMode=d.task_type;
         switchAIModeForm(currentAIMode);
         document.querySelectorAll('.ai-tab-btn').forEach(button=>button.classList.toggle('active',button.dataset.mode===d.task_type));
         const content=document.getElementById('ai-output-content');
         content.style.display='block';content.innerHTML=formatMarkdownToHtml(d.draft_content);
+        renderStaffingRecommendations(d.structured_result);
         document.getElementById('ai-status-text').textContent=d.status==='confirmed'?'ĐÃ XÁC NHẬN':d.status==='draft'?'BẢN NHÁP':'CẦN XÁC MINH';
         document.getElementById('ai-actions-bar').style.display='flex';
-        document.getElementById('btn-confirm-draft').style.display=canManageCurrentProject&&d.status==='draft'?'inline-flex':'none';
-        document.getElementById('btn-confirm-draft').disabled=false;
-        document.getElementById('btn-confirm-draft').textContent='Xác nhận bản chính thức';
-        document.getElementById('btn-edit-draft').hidden=d.status==='confirmed'||currentUser?.role==='admin'||currentProjectRole==='viewer';
+        updateDraftActions(d.status);
         const warnings=document.getElementById('ai-warnings');warnings.textContent=d.warnings.join(' · ');warnings.style.display=d.warnings.length?'block':'none';
         const refs=JSON.parse(d.source_references_json||'[]');
         document.getElementById('ai-source-chips').innerHTML=refs.slice(0,12).map(ref=>`<span class="source-chip">${escapeHtml(ref)}</span>`).join('');
@@ -507,6 +526,9 @@ async function openDraftEditor() {
     if(!lastDraftId)return;
     try {
         const {draft:d}=await apiRequest(`/api/ai/drafts/${lastDraftId}`);
+        if(d.status==='confirmed'){await displayDraft(lastDraftId);showToast('Bản này đã được xác nhận.','info');return;}
+        draftEditorSource=d;
+        draftEditorReturnFocus=document.activeElement;
         editingDraftVersion=d.version;
         document.getElementById('draft-edit-content').value=d.draft_content;
         document.getElementById('draft-meeting-fields').hidden=d.task_type!=='meeting_minutes';
@@ -514,21 +536,67 @@ async function openDraftEditor() {
         document.getElementById('draft-edit-title').value=result.title||'';
         document.getElementById('draft-edit-decisions').value=result.decisions||'';
         document.getElementById('draft-edit-actions').value=result.action_items||'';
-        document.getElementById('draft-review-fields').hidden=!canManageCurrentProject;
+        document.getElementById('draft-review-fields').hidden=!canManageCurrentProject||d.status!=='needs_verification';
         document.getElementById('draft-edit-verified').checked=false;
         document.getElementById('draft-edit-review-note').value='';
         document.getElementById('draft-version-info').textContent=`Phiên bản ${d.version}. Các bản chỉnh sửa được lưu để đối chiếu.`;
+        document.getElementById('btn-save-confirm-draft').hidden=!canManageCurrentProject;
         openModal('modal-draft-editor');
+        document.getElementById('modal-draft-editor').querySelector('.draft-editor-body').scrollTop=0;
+        document.getElementById('modal-draft-editor').querySelector('.modal-header button').focus();
     }catch(error){showToast(error.message,'error');}
 }
 
 async function saveDraftEdit(event) {
     event.preventDefault();
+    if(draftEditSaving)return;
+    const confirmAfterSave=event.submitter?.dataset.action==='confirm';
+    if(confirmAfterSave&&!canManageCurrentProject)return;
     const payload={version:editingDraftVersion,draft_content:document.getElementById('draft-edit-content').value};
     if(!document.getElementById('draft-meeting-fields').hidden)Object.assign(payload,{title:document.getElementById('draft-edit-title').value,decisions:document.getElementById('draft-edit-decisions').value,action_items:document.getElementById('draft-edit-actions').value,verified:document.getElementById('draft-edit-verified').checked,review_note:document.getElementById('draft-edit-review-note').value});
-    try{await apiRequest(`/api/ai/drafts/${lastDraftId}`,jsonRequest('PUT',payload));closeModal('modal-draft-editor');await displayDraft(lastDraftId);showToast('Đã lưu bản chỉnh sửa.','success');}
-    catch(error){showToast(error.message,'error');}
+    if(confirmAfterSave&&draftEditorSource?.status==='needs_verification'&&draftEditorSource.task_type==='meeting_minutes'
+            &&(!payload.verified||!payload.review_note.trim())){
+        showToast('Hãy đối chiếu nguồn, đánh dấu xác minh và nhập ghi chú trước khi xác nhận.','error');
+        document.getElementById(payload.verified?'draft-edit-review-note':'draft-edit-verified').focus();return;
+    }
+    draftEditSaving=true;
+    const buttons=document.querySelectorAll('#modal-draft-editor button');buttons.forEach(button=>button.disabled=true);
+    try{
+        const saved=await apiRequest(`/api/ai/drafts/${lastDraftId}`,jsonRequest('PUT',payload));
+        editingDraftVersion=saved.version;
+        lastDraftVersion=saved.version;
+        draftEditorSource.status=saved.status;
+        document.getElementById('draft-version-info').textContent=`Phiên bản ${saved.version}. Các bản chỉnh sửa được lưu để đối chiếu.`;
+        if(confirmAfterSave){
+            if(saved.status!=='draft'){showToast('Bản nháp vẫn còn cảnh báo. Hãy xử lý nội dung trước khi xác nhận.','error');return;}
+            await apiRequest(`/api/ai/drafts/${lastDraftId}/confirm`,jsonRequest('POST',{version:saved.version}));
+        }
+        closeModal('modal-draft-editor');
+        await displayDraft(lastDraftId);
+        showToast(confirmAfterSave?'Đã lưu và xác nhận bản chính thức.':'Đã lưu bản chỉnh sửa.','success');
+    }catch(error){showToast(error.message,'error');}
+    finally{draftEditSaving=false;buttons.forEach(button=>button.disabled=false);}
 }
+
+function closeDraftEditor(){
+    if(draftEditSaving)return;
+    closeModal('modal-draft-editor');
+    draftEditorSource=null;
+    draftEditorReturnFocus?.focus();
+}
+
+document.addEventListener('keydown',event=>{
+    const modal=document.getElementById('modal-draft-editor');
+    if(!modal?.classList.contains('active'))return;
+    if(event.key==='Escape'){event.preventDefault();closeDraftEditor();}
+    if(event.key==='Tab'){
+        const controls=Array.from(modal.querySelectorAll('button,input,textarea,select,[tabindex]'))
+            .filter(el=>!el.disabled&&el.tabIndex>=0&&el.getClientRects().length);
+        const first=controls[0],last=controls[controls.length-1];
+        if(event.shiftKey&&document.activeElement===first){event.preventDefault();last?.focus();}
+        else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first?.focus();}
+    }
+});
 
 function openMeetingNoteForm(){document.getElementById('meeting-note-date').value=dateTimeInput(new Date().toISOString());openModal('modal-meeting-note');}
 

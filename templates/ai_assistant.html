@@ -11,8 +11,8 @@
     <div>
         <h2 class="text-gradient-purple">Trợ lý AI Quản lý Dự án (AI-Augmented SDLC)</h2>
         <p style="color:var(--text-secondary); font-size:0.88rem;">
-            Tích hợp Gemini qua quy trình 5 bước an toàn: Kiểm soát quyền ➔ Truy xuất có tham số ➔ Context sạch ➔
-            Response Validator ➔ Xác nhận của con người
+            Tạo bản nháp dựa trên dữ liệu dự án, có kiểm tra nguồn và bước xác nhận của Trưởng nhóm.
+            Ưu tiên API; tự chuyển sang xử lý tại máy khi API gặp lỗi.
         </p>
     </div>
 
@@ -128,10 +128,15 @@
 
         <!-- Mode Form 3: Assignment Suggestion -->
         <div id="form-section-assignment" style="display:none;">
-            <div class="form-group">
+            <label for="ai-staffing-purpose">Mục đích</label><select id="ai-staffing-purpose" class="form-select" onchange="staffingControlsChanged()"><option value="assignment">Phân công một nhiệm vụ</option><option value="recruitment">Tìm người bổ sung vào dự án</option></select>
+            <label for="ai-candidate-scope">Nguồn ứng viên</label><select id="ai-candidate-scope" class="form-select" onchange="staffingControlsChanged()"><option value="system">Tất cả tài khoản nhân sự đang hoạt động</option><option value="project">Chỉ thành viên trong dự án</option></select>
+            <label for="ai-requested-count">Số người cần gợi ý</label><input id="ai-requested-count" class="form-input" type="number" min="1" max="100" value="3" oninput="scheduleStaffingPreview()">
+            <div id="staffing-task-picker" class="form-group">
                 <label class="form-label">Chọn nhiệm vụ cần gợi ý</label>
-                <select id="ai-task-select" class="form-select"></select>
+                <select id="ai-task-select" class="form-select" onchange="staffingControlsChanged()"></select>
             </div>
+            <a href="/team" class="btn btn-secondary">Cập nhật kỹ năng & năng lực thành viên</a>
+            <div id="ai-assignment-context" class="assignment-preview" aria-live="polite">Không cần chọn thành viên trước. Chọn nhiệm vụ hoặc nhập nhu cầu tìm người như “Tôi cần 5 người backend”.</div>
         </div>
 
         <!-- Extra Note -->
@@ -141,7 +146,7 @@
                 placeholder="Ví dụ: Nhấn mạnh các việc có rủi ro cao...">
         </div>
 
-        <button id="btn-generate-ai" class="btn btn-ai" style="width:100%; margin-top:12px;">
+        <button id="btn-generate-ai" class="btn btn-ai" style="width:100%; margin-top:12px;" disabled>
             <span>Tạo bản nháp bằng AI</span>
         </button>
     </div>
@@ -157,12 +162,20 @@
                 Pipeline: RequestAnalyzer ➔ Retriever ➔ Validator
             </div>
         </div>
+        <section id="staffing-candidate-panel" hidden>
+          <h3>Nguồn ứng viên</h3><p id="staffing-pool-summary" class="form-help" aria-live="polite"></p>
+          <p class="form-help">Danh sách hiển thị mọi ứng viên trong phạm vi, kể cả người chưa đủ kỹ năng. Bạn không cần đánh dấu ai trước khi tạo gợi ý. Tải và việc trễ được tổng hợp, không chia sẻ nội dung nhiệm vụ của dự án khác.</p>
+          <label for="staffing-search">Lọc danh sách theo tên hoặc kỹ năng</label><input id="staffing-search" class="form-input" type="search" placeholder="Backend, Python, tên thành viên…" oninput="scheduleStaffingPreview()">
+          <div class="report-table-wrap"><table class="report-table staffing-table"><thead><tr><th>Chọn thêm</th><th>Ứng viên</th><th>Kỹ năng</th><th>Sẵn sàng / Khả dụng</th><th>Tải / Sau nhận việc</th><th>Việc trễ</th><th>Đánh giá / Thao tác</th></tr></thead><tbody id="staffing-candidates-body"></tbody></table></div>
+          <div class="workspace-actions"><button id="staffing-prev" class="btn btn-secondary" onclick="changeStaffingPage(-1)">Trang trước</button><span id="staffing-page"></span><button id="staffing-next" class="btn btn-secondary" onclick="changeStaffingPage(1)">Trang sau</button><button id="staffing-add-selected" class="btn btn-primary" onclick="addSelectedStaffingCandidates()" disabled>Thêm người đã chọn</button></div>
+          <div id="staffing-recommendations" aria-live="polite"></div>
+        </section>
 
         <!-- Spinner Loading Animation -->
         <div id="ai-loading-state" class="ai-loading-state">
             <div class="ai-spinner"></div>
             <div style="color:var(--neon-cyan); font-weight:600; font-size:0.92rem;">
-                Đang truy xuất CSDL và xử lý qua Gemini...
+                Đang truy xuất CSDL và xử lý qua AI...
             </div>
             <div style="font-size:0.78rem; color:var(--text-muted);">
                 Kiểm định ID tham chiếu và tuân thủ Grounding Rules
@@ -191,7 +204,7 @@
 
         <!-- Action Bar: Confirm Draft (Leader Only UC010) -->
         <div id="ai-actions-bar" class="ai-actions-bar" style="display:none;">
-            <span style="font-size:0.8rem; color:var(--text-muted);">
+            <span id="ai-confirmation-hint" style="font-size:0.8rem; color:var(--text-muted);">
                 * Quyết định cuối cùng thuộc Trưởng nhóm.
             </span>
             <button id="btn-edit-draft" class="btn btn-secondary" onclick="openDraftEditor()" hidden>Chỉnh sửa bản nháp</button>
@@ -203,19 +216,33 @@
 </div>
 
 <button id="add-meeting-note-button" class="btn btn-secondary" onclick="openMeetingNoteForm()">Thêm ghi chú cuộc họp</button>
-<div id="modal-draft-editor" class="modal-overlay"><div class="modal-box" style="max-width:850px;">
-  <div class="modal-header"><h3>Đối chiếu và chỉnh sửa bản nháp</h3><button class="btn-icon" onclick="closeModal('modal-draft-editor')">✕</button></div>
-  <form onsubmit="saveDraftEdit(event)">
+<div id="modal-draft-editor" class="modal-overlay" onclick="if(event.target===this)closeDraftEditor()">
+ <div class="modal-box draft-editor-dialog" role="dialog" aria-modal="true" aria-labelledby="draft-editor-title" aria-describedby="draft-editor-help">
+  <div class="modal-header"><h3 id="draft-editor-title">Đối chiếu và chỉnh sửa bản nháp</h3><button type="button" class="btn-icon" aria-label="Đóng cửa sổ chỉnh sửa bản nháp" onclick="closeDraftEditor()">✕</button></div>
+  <form id="draft-editor-form" onsubmit="saveDraftEdit(event)">
+   <div class="draft-editor-body">
+    <p id="draft-editor-help" class="form-help">Lưu bản nháp để tiếp tục chỉnh sửa, hoặc đối chiếu xong rồi lưu và xác nhận. Hủy thay đổi sẽ đóng cửa sổ mà không lưu.</p>
     <label for="draft-edit-content">Nội dung</label><textarea id="draft-edit-content" class="form-textarea" rows="12" required></textarea>
     <div id="draft-meeting-fields">
       <label for="draft-edit-title">Tiêu đề</label><input id="draft-edit-title" class="form-input" maxlength="200">
       <label for="draft-edit-decisions">Quyết định</label><textarea id="draft-edit-decisions" class="form-textarea" rows="4"></textarea>
       <label for="draft-edit-actions">Việc cần làm, người phụ trách và hạn</label><textarea id="draft-edit-actions" class="form-textarea" rows="4"></textarea>
-      <div id="draft-review-fields"><label><input id="draft-edit-verified" type="checkbox"> Tôi đã đối chiếu và xử lý các cảnh báo với tài liệu nguồn</label><label for="draft-edit-review-note">Ghi chú đối chiếu</label><input id="draft-edit-review-note" class="form-input"></div>
+      <div id="draft-review-fields">
+        <p class="form-help">Bản nháp có cảnh báo cần được Trưởng nhóm kiểm tra với nguồn trước khi xác nhận.</p>
+        <label class="draft-review-check"><input id="draft-edit-verified" type="checkbox"> <span>Tôi đã đối chiếu và xử lý các cảnh báo với tài liệu nguồn</span></label>
+        <label for="draft-edit-review-note">Ghi chú đối chiếu</label><textarea id="draft-edit-review-note" class="form-textarea" rows="2" maxlength="2000" placeholder="Nêu các nội dung đã đối chiếu hoặc chỉnh sửa"></textarea>
+      </div>
     </div>
-    <p id="draft-version-info"></p><button class="btn btn-primary" type="submit">Lưu bản nháp</button>
+    <p id="draft-version-info" class="form-help"></p>
+   </div>
+   <div class="draft-editor-footer">
+    <button id="btn-cancel-draft-edit" class="btn btn-secondary" type="button" onclick="closeDraftEditor()">Hủy thay đổi</button>
+    <button id="btn-save-draft-edit" class="btn btn-primary" type="submit" data-action="save">Lưu bản nháp</button>
+    <button id="btn-save-confirm-draft" class="btn btn-success" type="submit" data-action="confirm" hidden>Lưu và xác nhận</button>
+   </div>
   </form>
-</div></div>
+ </div>
+</div>
 <div id="modal-meeting-note" class="modal-overlay"><div class="modal-box">
   <div class="modal-header"><h3>Ghi chú cuộc họp</h3><button class="btn-icon" onclick="closeModal('modal-meeting-note')">✕</button></div>
   <form onsubmit="saveMeetingNote(event)">
@@ -256,4 +283,5 @@
 
 {% block extra_js %}
 <script src="{{ url_for('static', filename='js/ai.js') }}"></script>
+<script src="{{ url_for('static', filename='js/staffing.js') }}"></script>
 {% endblock %}

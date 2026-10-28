@@ -1,0 +1,127 @@
+{
+  "timestamp": "2026-10-28T01:10:44.559942+07:00",
+  "database": "disposable SQLite",
+  "real_cloud_api": true,
+  "real_local_model": true,
+  "success": true,
+  "records": [
+    {
+      "name": "Installed Qwen3 CPU model generates text without key",
+      "passed": true,
+      "seconds": 8.25,
+      "reply": "SQLite là một công cụ quản lý cơ sở dữ liệu mở源, dùng để lưu trữ và truy cập dữ liệu trong ứng dụng."
+    },
+    {
+      "name": "weekly_summary: real SQLite pipeline with installed model",
+      "passed": true,
+      "seconds": 4.94,
+      "engine": {
+        "failure_codes": [
+          "AI_KEY_MISSING"
+        ],
+        "fallback_used": true,
+        "notice": "Nguồn xử lý: mô hình Qwen3 chạy tại máy, bộ xử lý nghiệp vụ cục bộ.",
+        "primary": "deepseek",
+        "used_providers": [
+          "local_llm",
+          "local_rules"
+        ]
+      },
+      "status": "draft",
+      "draft_id": 1,
+      "result": "**Số liệu từ hệ thống:** 0/1 nhiệm vụ hoàn thành (0.0%).\n\n[Task #8] Kiểm thử Python SQLite đang ở trạng thái backlog, không có blockers.\n\n### Tổng quan tiến độ\nPhạm vi: 2026-10-26 đến 2026-11-01.\nTổng số 1 nhiệm vụ; hoàn thành 0; tỷ lệ 0.0%.\ntồn đọng: 1; cần làm: 0; đang làm: 0; đang duyệt: 0; hoàn thành: 0.\nTrạng thái hiện tại của các nhiệm vụ được tạo, cập nhật hoặc đến hạn trong khoảng đã chọn; không khẳng định thời điểm hoàn thành trong tuần.\n\n### Trễ hạn và rủi ro\nChưa ghi nhận nhiệm vụ trễ hạn hoặc vướng mắc trong dữ liệu đã truy xuất.\n\n### Việc cần ưu tiên\n- [Task #8] Kiểm thử Python SQLite | tồn đọng | Phụ trách: Lưu Trà My (Thành viên 33) [User #3] | Ưu tiên: high | Hạn: 2026-10-30 00:00:00 | Vướng mắc: Không có\n\n### Dữ liệu cần kiểm tra\nDữ liệu có người phụ trách, hạn và ước lượng. Cần đối chiếu vướng mắc với nhóm trước khi chốt.\nBản nháp để Trưởng nhóm xem xét và xác nhận."
+    },
+    {
+      "name": "meeting_minutes: real SQLite pipeline with installed model",
+      "passed": true,
+      "seconds": 6.08,
+      "engine": {
+        "failure_codes": [
+          "AI_KEY_MISSING"
+        ],
+        "fallback_used": true,
+        "notice": "Nguồn xử lý: mô hình Qwen3 chạy tại máy.",
+        "primary": "deepseek",
+        "used_providers": [
+          "local_llm"
+        ]
+      },
+      "status": "draft",
+      "draft_id": 2,
+      "result": "### Biên bản cuộc họp (bản nháp)\n\nThời gian và thành viên tham dự: đối chiếu trong nội dung nguồn; nếu không được ghi thì chưa xác định.\n\n#### Thông tin cuộc họp\n- Thời gian họp: 28/10/2026. [Đoạn #1: Tệp tải lên / nội dung nhập]\n\n#### Nội dung thảo luận\n- Không được nêu rõ trong nguồn.\n\n#### Quyết định đã ghi nhận\n- Đã thống nhất dùng SQLite. [Đoạn #2: Tệp tải lên / nội dung nhập]\n\n#### Việc cần làm\n- Long sẽ kiểm thử trước 30/10/2026. | Phụ trách: Long | Hạn: 30/10/2026 [Đoạn #3: Tệp tải lên / nội dung nhập]\n\n#### Vấn đề chưa chốt / rủi ro\n- Chưa chốt triển khai. [Đoạn #4: Tệp tải lên / nội dung nhập]\n\n#### Nội dung khác\n- Không được nêu rõ trong nguồn.\n\nBản nháp cần Trưởng nhóm xem xét trước khi xác nhận chính thức."
+    },
+    {
+      "name": "assignment_suggestion: real SQLite pipeline with installed model",
+      "passed": true,
+      "seconds": 0.2,
+      "engine": {
+        "failure_codes": [
+          "AI_KEY_MISSING"
+        ],
+        "fallback_used": true,
+        "notice": "Nguồn xử lý: bộ xử lý nghiệp vụ cục bộ.",
+        "primary": "deepseek",
+        "used_providers": [
+          "local_rules"
+        ]
+      },
+      "status": "draft",
+      "draft_id": 3,
+      "result": "### Gợi ý phân công [Task #8] Kiểm thử Python SQLite\nƯớc lượng của nhiệm vụ: 4 giờ. Xếp hạng theo mức sẵn sàng, tải sau khi nhận việc và kỹ năng.\n- [User #2] Phan Chân Long (Trưởng nhóm 33): lý do — chưa đối chiếu được kỹ năng với mô tả/nhãn; cần xác minh.\n  Mức sẵn sàng: 100%; tải hiện tại 0/40 giờ định mức hiệu dụng; tải dự kiến 4 giờ nếu giao toàn bộ ước lượng nhiệm vụ này.\n- [User #4] Lê Nam Khánh (Thành viên 33): lý do — chưa đối chiếu được kỹ năng với mô tả/nhãn; cần xác minh.\n  Mức sẵn sàng: 100%; tải hiện tại 0/40 giờ định mức hiệu dụng; tải dự kiến 4 giờ nếu giao toàn bộ ước lượng nhiệm vụ này.\n- [User #3] Lưu Trà My (Thành viên 33): lý do — chưa đối chiếu được kỹ năng với mô tả/nhãn; cần xác minh.\n  Mức sẵn sàng: 100%; tải hiện tại 4/40 giờ định mức hiệu dụng; tải dự kiến 4 giờ nếu giao toàn bộ ước lượng nhiệm vụ này.\nĐây là đề xuất; Trưởng nhóm quyết định phân công, hệ thống chưa thay đổi nhiệm vụ."
+    },
+    {
+      "name": "Model disabled: local domain brain keeps assistant working",
+      "passed": true
+    },
+    {
+      "name": "weekly_summary: real primary API with synthetic project data",
+      "passed": true,
+      "seconds": 42.78,
+      "engine": {
+        "failure_codes": [
+          "AI_TIMEOUT"
+        ],
+        "fallback_used": true,
+        "notice": "Nguồn xử lý: mô hình Qwen3 chạy tại máy, bộ xử lý nghiệp vụ cục bộ.",
+        "primary": "deepseek",
+        "used_providers": [
+          "local_llm",
+          "local_rules"
+        ]
+      },
+      "status": "draft"
+    },
+    {
+      "name": "meeting_minutes: real primary API with synthetic project data",
+      "passed": true,
+      "seconds": 3.3,
+      "engine": {
+        "failure_codes": [],
+        "fallback_used": false,
+        "notice": "Nguồn xử lý: DeepSeek API.",
+        "primary": "deepseek",
+        "used_providers": [
+          "deepseek"
+        ]
+      },
+      "status": "draft"
+    },
+    {
+      "name": "assignment_suggestion: real primary API with synthetic project data",
+      "passed": true,
+      "seconds": 34.33,
+      "engine": {
+        "failure_codes": [
+          "AI_TIMEOUT"
+        ],
+        "fallback_used": true,
+        "notice": "Nguồn xử lý: bộ xử lý nghiệp vụ cục bộ.",
+        "primary": "deepseek",
+        "used_providers": [
+          "local_rules"
+        ]
+      },
+      "status": "draft"
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "database": "disposable SQLite",
+  "real_api_calls": false,
+  "real_emails": false,
+  "kind": "alignment observations, not regression success count",
+  "timestamp": "2026-10-28T11:01:28.214299",
+  "observations": [
+    {
+      "id": "AUD-FR16-A",
+      "observation": "Opening notification list does not run due-soon scan",
+      "due_in_hours": 12,
+      "due_soon_notifications": 0
+    },
+    {
+      "id": "AUD-FR16-B",
+      "observation": "Manual scan works but notifies assignees/supporters only",
+      "recipients": [
+        3,
+        4
+      ],
+      "project_leaders": [
+        2,
+        6
+      ]
+    },
+    {
+      "id": "AUD-FR16-C",
+      "observation": "Member status change omits supporter and second project leader",
+      "recipients": [
+        2
+      ],
+      "supporter": 4,
+      "other_leader": 6
+    },
+    {
+      "id": "AUD-DATA-01",
+      "observation": "Task accepts missing due date and zero estimate unlike source data dictionary",
+      "actual": {
+        "due_date": null,
+        "estimated_hours": 0
+      },
+      "source": "Detai33 tables 37-38: due NOT NULL; estimate NULL or >0"
+    },
+    {
+      "id": "AUD-DATA-02",
+      "observation": "Sprint accepts empty completion criteria",
+      "sprint_id": 3
+    },
+    {
+      "id": "AUD-FR17",
+      "observation": "Disabled SMTP reports simulated success, not a real email",
+      "result": "SIMULATED_DEMO_SUCCESS"
+    },
+    {
+      "id": "AUD-OPS-01",
+      "observation": "Admin can lock a sole project leader without replacement",
+      "http": 200,
+      "project_id": 3,
+      "classification": "operational risk; needs explicit policy"
+    }
+  ]
+}

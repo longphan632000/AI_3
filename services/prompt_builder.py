@@ -1,4 +1,4 @@
-def build_ai_prompt(task_type, context_text, user_extra_prompt=""):
+def build_ai_prompt(task_type, context_text, user_extra_prompt="", staffing_options=None):
     """
     Module xây dựng Prompt an toàn (project-ai-prompt skill).
     Đính kèm Grounding Rules nghiêm ngặt chống ảo giác (hallucination).
@@ -51,6 +51,16 @@ YÊU CẦU CẤU TRÚC KẾT QUẢ:
 3. CẢNH BÁO QUÁ TẢI & KHUYẾN NGHỊ: Cảnh báo nếu ứng viên tiềm năng đang quá tải hoặc thiếu thời gian.
 4. LƯU Ý CHO TRƯỞNG NHÓM: Nhắc nhở Trưởng nhóm là người đưa ra quyết định phân công cuối cùng, AI không tự gán người phụ trách.
 """
+        if staffing_options:
+            count = staffing_options['requested_count']
+            specific_task = f'''MỤC TIÊU: Gợi ý đúng {count} người đáp ứng nhu cầu từ dữ liệu nguồn.
+Nếu số người eligible=true ít hơn {count}, trả toàn bộ người đủ điều kiện và nêu rõ số còn thiếu.
+Không giới hạn cố định ba người. Chỉ chọn ứng viên eligible=true. Không bịa người/kỹ năng/số giờ.
+Ưu tiên kỹ năng phù hợp, mức sẵn sàng, tải hiện tại/sau nhận việc và số việc trễ hạn.
+Chỉ trả về danh sách ID theo thứ tự ưu tiên, mỗi dòng một [User #ID]. Không lặp ID, không cần viết diễn giải dài.
+Máy chủ sẽ đối chiếu ID và tự gắn lý do bằng chứng, tải/giờ khả dụng, việc trễ và cảnh báo từ dữ liệu nguồn.
+Nếu purpose=recruitment thì đây là tìm người bổ sung, không yêu cầu nhiệm vụ và không tạo nhiệm vụ giả.
+PM phải chủ động chọn thêm người và phân công; không tự ghi dữ liệu.'''
     else:
         specific_task = "Hãy xử lý yêu cầu quản lý dự án sau dựa trên ngữ cảnh được cấp."
 

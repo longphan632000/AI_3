@@ -19,8 +19,11 @@ sys.path.insert(0,str(ROOT))
 os.environ['SMTP_ENABLED']='false'
 os.environ['DEADLINE_WORKER_ENABLED']='false'
 os.environ['QA_TEST_ENGINE']='mysql'
-os.environ['AI_PROVIDER']='gemini'
+os.environ['AI_PROVIDER']='deepseek'
+os.environ['OPENAI_API_KEY']='your_openai_api_key'
 os.environ['AI_CONFIG_SOURCE']='process'
+os.environ['AI_LOCAL_FALLBACK_ENABLED']='false'
+os.environ['LOCAL_AI_MODEL_ENABLED']='false'
 from database import connection, init_db
 import mysql.connector
 

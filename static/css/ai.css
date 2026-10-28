@@ -216,6 +216,31 @@
     border-top: 1px solid var(--border-subtle);
 }
 
+#ai-confirmation-hint { flex: 1 1 240px; line-height: 1.6; }
+#modal-draft-editor .draft-editor-dialog {
+    display: flex; flex-direction: column; padding: 0; max-width: 850px;
+    max-height: calc(100dvh - 32px); overflow: hidden;
+}
+#modal-draft-editor .modal-header {
+    flex: 0 0 auto; margin: 0; padding: 16px 20px; gap: 12px;
+}
+#modal-draft-editor .modal-header h3 { min-width: 0; overflow-wrap: anywhere; }
+#modal-draft-editor .modal-header button { flex: 0 0 auto; }
+#draft-editor-form { display: flex; flex-direction: column; min-height: 0; }
+.draft-editor-body { padding: 16px 20px; min-height: 0; overflow-y: auto; }
+.draft-editor-body label { display: block; margin: 12px 0 6px; }
+.draft-editor-body .draft-review-check { display: flex; align-items: flex-start; gap: 10px; line-height: 1.5; }
+.draft-review-check input { flex: 0 0 auto; width: 18px; height: 18px; margin-top: 3px; }
+.draft-editor-footer {
+    display: flex; flex: 0 0 auto; justify-content: flex-end; flex-wrap: wrap; gap: 10px;
+    padding: 14px 20px; border-top: 1px solid var(--border-subtle); background: var(--bg-surface);
+}
+@media(max-width: 600px) {
+    #modal-draft-editor .draft-editor-dialog { width: calc(100% - 20px); max-height: calc(100dvh - 20px); }
+    #modal-draft-editor .modal-header, .draft-editor-body, .draft-editor-footer { padding: 12px; }
+    .draft-editor-footer .btn { flex: 1 1 120px; }
+}
+
 /* Loading State Animation */
 .ai-loading-state {
     display: none;

@@ -1,9 +1,9 @@
-from services.validation import json_object
+from services.validation import json_object, integer
 from flask import Blueprint, render_template, request, session, jsonify
 from io import BytesIO
 from routes import login_required
 from services.ai_assistant_service import process_ai_request
-from services.ai_confirmation_service import confirm_ai_draft
+from services.ai_confirmation_service import confirm_ai_draft, DraftVersionConflict
 from services.ai_history_service import get_ai_history
 
 ai_bp = Blueprint('ai_bp', __name__)
@@ -37,11 +37,17 @@ def confirm_draft_api(draft_id):
     API Xác nhận bản nháp AI thành bản chính thức (UC010, D05).
     Chỉ Trưởng nhóm dự án mới có quyền xác nhận!
     """
-    success, msg = confirm_ai_draft(
-        draft_id=draft_id,
-        user_id=session['user_id'],
-        user_system_role=session['role']
-    )
+    data = json_object() if request.is_json else {}
+    version = integer(data['version'], 'Phiên bản', minimum=1) if 'version' in data else None
+    try:
+        success, msg = confirm_ai_draft(
+            draft_id=draft_id,
+            user_id=session['user_id'],
+            user_system_role=session['role'],
+            expected_version=version,
+        )
+    except DraftVersionConflict as error:
+        return jsonify(success=False, error=str(error)), 409
     status_code = 200 if success else 403
     return jsonify({'success': success, 'message' if success else 'error': msg}), status_code
 
@@ -182,8 +188,6 @@ def get_project_meeting_minutes_api(project_id):
     minutes = query_db(query, (project_id,))
     return jsonify({'success': True, 'minutes': minutes}), 200
 
-    return jsonify({'success': True, 'draft': draft}), 200
-
 
 
 
@@ -196,5 +200,10 @@ def read_edit_draft_api(draft_id):
         return jsonify(success=False,error='Bản nháp không tồn tại hoặc bạn không có quyền truy cập.'), 404
     if request.method == 'GET':
         return jsonify(success=True,draft=draft)
-    success,message = edit_ai_draft(draft_id,session['user_id'],session['role'],json_object())
-    return jsonify(success=success, **({'message':message} if success else {'error':message})), 200 if success else 403
+    data = json_object()
+    success,message = edit_ai_draft(draft_id,session['user_id'],session['role'],data)
+    if not success:
+        return jsonify(success=False,error=message), 403
+    saved_version = integer(data.get('version',draft['version']), 'Phiên bản', minimum=1) + 1
+    saved = get_ai_draft(draft_id,session['user_id'],session['role'])
+    return jsonify(success=True,message=message,version=saved_version,status=saved['status'])

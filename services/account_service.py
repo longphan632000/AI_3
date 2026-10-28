@@ -1,4 +1,4 @@
-from services.validation import text, ValidationError
+from services.validation import text
 from uuid import uuid4
 from werkzeug.security import generate_password_hash
 from database.connection import query_db, execute_db, atomic
@@ -161,8 +161,19 @@ def delete_user(admin_id, target_user_id):
         if admin_count['total'] <= 1:
             return False, "Không thể xóa Quản trị viên đang hoạt động cuối cùng trong hệ thống."
 
+    orphaned_project = query_db('''SELECT p.id,p.name FROM project_members pm
+        JOIN projects p ON p.id=pm.project_id
+        WHERE pm.user_id=%s AND pm.project_role='leader' AND NOT EXISTS (
+            SELECT 1 FROM project_members replacement JOIN users u ON u.id=replacement.user_id
+            WHERE replacement.project_id=pm.project_id AND replacement.user_id<>%s
+              AND replacement.project_role='leader' AND u.role='leader' AND u.status='active'
+        ) LIMIT 1''', (target_user_id, target_user_id), one=True)
+    if orphaned_project:
+        return False, f"Hãy gán Trưởng nhóm thay thế cho dự án '{orphaned_project['name']}' trước khi xóa tài khoản."
+
     # 1. Chuyển giao quyền sở hữu dự án (projects.created_by ON DELETE RESTRICT) sang Quản trị viên
     execute_db("UPDATE projects SET created_by = %s WHERE created_by = %s;", (admin_id, target_user_id))
+    execute_db('UPDATE projects SET archived_by=NULL WHERE archived_by=%s', (target_user_id,))
 
     # 2. Chuyển giao người tạo nhiệm vụ (tasks.reporter_id ON DELETE RESTRICT) sang Quản trị viên
     execute_db("UPDATE tasks SET reporter_id = %s WHERE reporter_id = %s;", (admin_id, target_user_id))

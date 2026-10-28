@@ -81,13 +81,11 @@ def analyze_ai_request(client_data, session_user_id, session_system_role):
         structured_request["raw_notes"] = raw_notes
         
     elif task_type == 'assignment_suggestion':
-        task_id = client_data.get('task_id')
-        if not task_id:
-            return False, "Tác vụ gợi ý phân công yêu cầu task_id nhiệm vụ cần phân công.", None
-            
-        try:
-            structured_request["task_id"] = int(task_id)
-        except (ValueError, TypeError):
-            return False, 'task_id không hợp lệ.', None
+        from services.staffing_service import normalize_staffing_options
+        options = normalize_staffing_options(client_data)
+        if options['staffing_v2']:
+            structured_request.update(options)
+        else:
+            structured_request['task_id'] = options['task_id']
         
     return True, "Yêu cầu hợp lệ.", structured_request

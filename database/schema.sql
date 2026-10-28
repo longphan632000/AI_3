@@ -37,6 +37,9 @@ CREATE TABLE IF NOT EXISTS projects (
     status ENUM('planning', 'active', 'completed', 'archived') NOT NULL DEFAULT 'planning',
     created_by INT NOT NULL,
     is_archived BOOLEAN NOT NULL DEFAULT FALSE,
+    archived_by INT NULL,
+    archived_at DATETIME NULL,
+    pre_archive_status VARCHAR(20) NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (created_by) REFERENCES users(id) ON DELETE RESTRICT,
@@ -212,7 +215,7 @@ CREATE TABLE IF NOT EXISTS ai_history (
     project_id INT NOT NULL,
     requester_id INT NOT NULL,
     task_type ENUM('weekly_summary', 'meeting_minutes', 'assignment_suggestion') NOT NULL,
-    model_provider VARCHAR(50) NOT NULL DEFAULT 'gemini',
+    model_provider VARCHAR(50) NOT NULL DEFAULT 'deepseek',
     prompt_version VARCHAR(50) NOT NULL DEFAULT 'v1.0',
     data_references_json TEXT,
     result_summary TEXT NOT NULL,
@@ -280,5 +283,13 @@ CREATE TABLE IF NOT EXISTS email_deliveries (
         status VARCHAR(32) NOT NULL, attempts INT NOT NULL DEFAULT 1,
         attempted_at DATETIME NOT NULL, updated_at DATETIME NOT NULL,
         FOREIGN KEY(task_id) REFERENCES tasks(id) ON DELETE CASCADE,
+        FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Reusable professional profiles for staffing recommendations
+CREATE TABLE IF NOT EXISTS member_profiles (
+        user_id INT PRIMARY KEY, skills LONGTEXT, availability VARCHAR(50) NOT NULL DEFAULT '100%',
+        capacity_hours DECIMAL(8,2) NOT NULL DEFAULT 40,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
         FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

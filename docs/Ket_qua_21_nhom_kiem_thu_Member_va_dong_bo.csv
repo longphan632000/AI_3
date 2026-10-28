@@ -1,0 +1,22 @@
+﻿STT,Nội dung kiểm tra,Kết quả,Chi tiết
+1,Quyền người được giao/người hỗ trợ và nhiệm vụ chỉ xem,Đạt,{}
+2,Thành viên kéo thả nhiệm vụ bằng chuột,Đạt,"{""http"": 200, ""status"": ""todo""}"
+3,Lưu tiến độ thực tế; báo cáo PM tự cập nhật,Đạt,"{""progress"": 45, ""average"": 29.0}"
+4,Người hỗ trợ đổi trạng thái và tiến độ,Đạt,{}
+5,Giữ tiến độ chưa lưu; đóng cửa sổ nhận dữ liệu mới đang chờ,Đạt,{}
+6,Chi tiết nhiệm vụ đang xem tự nhận cập nhật từ phiên khác,Đạt,{}
+7,Ảnh đại diện mở đúng tài khoản đăng nhập; đóng bằng Escape,Đạt,{}
+8,"Member sửa năng lực của mình, PM sửa cả nhóm và đồng bộ hai phiên",Đạt,{}
+9,Biểu đồ và bộ lọc khớp tổng nhiệm vụ/tải/giờ khả dụng/quá tải,Đạt,"{""effective"": 3, ""workload"": 12}"
+10,Sprint mới tự xuất hiện trong bộ lọc thiết bị khác,Đạt,{}
+11,AI nhận dữ liệu mới đã lưu; gợi ý không tự giao nhiệm vụ,Đạt,"{""transport"": ""mock Gemini HTTP""}"
+12,Báo mất kết nối; có mạng trở lại thì đồng bộ,Đạt,{}
+13,Kéo thả bằng sự kiện cảm ứng thực của trình duyệt,Đạt,"{""width"": 768}"
+14,Kéo thả bằng sự kiện cảm ứng thực của trình duyệt,Đạt,"{""width"": 390}"
+15,Đồng nhất chức năng và bố cục: desktop,Đạt,"{""width"": 1366, ""pages"": 3, ""profile"": true}"
+16,Đồng nhất chức năng và bố cục: small-desktop,Đạt,"{""width"": 1024, ""pages"": 3, ""profile"": true}"
+17,Đồng nhất chức năng và bố cục: tablet,Đạt,"{""width"": 768, ""pages"": 3, ""profile"": true}"
+18,Đồng nhất chức năng và bố cục: phone,Đạt,"{""width"": 390, ""pages"": 3, ""profile"": true}"
+19,Đồng nhất chức năng và bố cục: small-phone,Đạt,"{""width"": 320, ""pages"": 3, ""profile"": true}"
+20,"Nhận bản giao diện mới sau khi hoàn tất/hủy, giữ nội dung đang nhập",Đạt,{}
+21,Không có lỗi JavaScript trong các kịch bản kiểm tra,Đạt,"{""errors"": []}"

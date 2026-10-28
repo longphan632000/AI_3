@@ -40,7 +40,7 @@ class TestGeminiFailures(unittest.TestCase):
     def test_timeout_retries_then_succeeds_with_meeting_timeout(self):
         with patch('services.gemini_service.urllib.request.urlopen',
                    side_effect=[TimeoutError(), _response()]) as urlopen, \
-                patch('services.gemini_service.time.sleep') as sleep:
+                patch('services.ai_deadline.time.sleep') as sleep:
             self.assertEqual(self.service.generate_content('meeting', json_output=True), 'Xin chào')
         self.assertEqual(urlopen.call_count, 2)
         self.assertEqual(urlopen.call_args.kwargs['timeout'], 90)
@@ -55,7 +55,7 @@ class TestGeminiFailures(unittest.TestCase):
     def test_persistent_timeout_returns_specific_safe_error(self):
         with patch('services.gemini_service.urllib.request.urlopen',
                    side_effect=TimeoutError()) as urlopen, \
-                patch('services.gemini_service.time.sleep'):
+                patch('services.ai_deadline.time.sleep'):
             with self.assertRaises(AIProviderError) as caught:
                 self.service.generate_content('private meeting text')
         self.assertEqual(caught.exception.code, 'AI_TIMEOUT')
@@ -66,7 +66,7 @@ class TestGeminiFailures(unittest.TestCase):
     def test_connection_failure_and_invalid_json_are_distinct(self):
         with patch('services.gemini_service.urllib.request.urlopen',
                    side_effect=urllib.error.URLError('dns failure')), \
-                patch('services.gemini_service.time.sleep'):
+                patch('services.ai_deadline.time.sleep'):
             with self.assertRaises(AIProviderError) as caught:
                 self.service.generate_content('meeting')
         self.assertEqual(caught.exception.code, 'AI_CONNECTION')
@@ -80,7 +80,7 @@ class TestGeminiFailures(unittest.TestCase):
 
         with patch('services.gemini_service.urllib.request.urlopen',
                    side_effect=http.client.IncompleteRead(b'partial')), \
-                patch('services.gemini_service.time.sleep'):
+                patch('services.ai_deadline.time.sleep'):
             with self.assertRaises(AIProviderError) as caught:
                 self.service.generate_content('meeting')
         self.assertEqual(caught.exception.code, 'AI_CONNECTION')
@@ -88,13 +88,13 @@ class TestGeminiFailures(unittest.TestCase):
     def test_service_unavailable_retries_and_rate_limit_is_separate(self):
         with patch('services.gemini_service.urllib.request.urlopen',
                    side_effect=[_http_error(503), _response()]) as urlopen, \
-                patch('services.gemini_service.time.sleep'):
+                patch('services.ai_deadline.time.sleep'):
             self.assertEqual(self.service.generate_content('meeting'), 'Xin chào')
         self.assertEqual(urlopen.call_count, 2)
 
         with patch('services.gemini_service.urllib.request.urlopen',
                    side_effect=_http_error(429)), \
-                patch('services.gemini_service.time.sleep'):
+                patch('services.ai_deadline.time.sleep'):
             with self.assertRaises(AIProviderError) as caught:
                 self.service.generate_content('meeting')
         self.assertEqual(caught.exception.code, 'AI_RATE_LIMIT')
@@ -105,7 +105,7 @@ class TestGeminiFailures(unittest.TestCase):
         for error in [denied,urllib.error.URLError(denied),OSError(10013,'test_secret_key')]:
             with self.subTest(wrapped=type(error).__name__), \
                     patch('services.gemini_service.urllib.request.urlopen',side_effect=error) as network, \
-                    patch('services.gemini_service.time.sleep') as sleep, \
+                    patch('services.ai_deadline.time.sleep') as sleep, \
                     self.assertLogs('services.gemini_service',level='WARNING') as logs:
                 with self.assertRaises(AIProviderError) as caught:
                     self.service.generate_content('private meeting text')
@@ -121,7 +121,7 @@ class TestGeminiFailures(unittest.TestCase):
                            (ssl.SSLError(1,'handshake'),'AI_TLS_ERROR')]:
             with self.subTest(code=code), \
                     patch('services.gemini_service.urllib.request.urlopen',side_effect=urllib.error.URLError(error)) as network, \
-                    patch('services.gemini_service.time.sleep') as sleep:
+                    patch('services.ai_deadline.time.sleep') as sleep:
                 with self.assertRaises(AIProviderError) as caught:
                     self.service.generate_content('note')
                 self.assertEqual(caught.exception.code,code)
@@ -129,7 +129,7 @@ class TestGeminiFailures(unittest.TestCase):
 
     def test_permanent_dns_failure_is_separate_from_connection(self):
         with patch('services.gemini_service.urllib.request.urlopen',side_effect=urllib.error.URLError(socket.gaierror(socket.EAI_NONAME,'host not found'))) as network, \
-                patch('services.gemini_service.time.sleep') as sleep:
+                patch('services.ai_deadline.time.sleep') as sleep:
             with self.assertRaises(AIProviderError) as caught:
                 self.service.generate_content('note')
         self.assertEqual(caught.exception.code,'AI_DNS')
@@ -137,7 +137,7 @@ class TestGeminiFailures(unittest.TestCase):
 
     def test_temporary_dns_failure_can_recover(self):
         with patch('services.gemini_service.urllib.request.urlopen',side_effect=[urllib.error.URLError(socket.gaierror(socket.EAI_AGAIN,'temporary')),_response()]) as network, \
-                patch('services.gemini_service.time.sleep') as sleep:
+                patch('services.ai_deadline.time.sleep') as sleep:
             self.assertEqual(self.service.generate_content('note'),'Xin chào')
         self.assertEqual(network.call_count,2)
         sleep.assert_called_once_with(1)
@@ -145,7 +145,7 @@ class TestGeminiFailures(unittest.TestCase):
     def test_http_errors_are_distinct_and_never_echo_provider_body(self):
         for status,code in [(400,'AI_HTTP_ERROR'),(401,'AI_KEY_REJECTED'),(403,'AI_KEY_REJECTED'),
                             (404,'AI_MODEL_UNAVAILABLE'),(429,'AI_RATE_LIMIT'),(503,'AI_SERVICE_UNAVAILABLE')]:
-            with self.subTest(status=status),patch('services.gemini_service.urllib.request.urlopen',side_effect=_http_error(status)) as network,patch('services.gemini_service.time.sleep'):
+            with self.subTest(status=status),patch('services.gemini_service.urllib.request.urlopen',side_effect=_http_error(status)) as network,patch('services.ai_deadline.time.sleep'):
                 with self.assertRaises(AIProviderError) as caught:
                     self.service.generate_content('note')
                 self.assertEqual(caught.exception.code,code)
@@ -167,9 +167,10 @@ class TestGeminiFailures(unittest.TestCase):
         self.assertEqual(self.service.last_probe_error_code,'AI_NETWORK_DENIED')
         self.assertEqual(self.service.last_probe_diagnostics['winerror'],10013)
         self.assertNotIn('secret',message)
-        metadata=io.BytesIO(json.dumps({'supportedGenerationMethods':['generateContent']}).encode())
-        with patch('services.gemini_service.urllib.request.urlopen',return_value=metadata):
+        with patch('services.gemini_service.urllib.request.urlopen',return_value=_response('OK')) as network:
             self.assertTrue(self.service.probe_model()[0])
+        self.assertEqual(network.call_args.args[0].method, 'POST')
+        self.assertEqual(self.service.probe_scope, 'generate_content')
         self.assertIsNone(self.service.last_probe_error_code)
         self.assertEqual(self.service.last_probe_diagnostics,{})
 

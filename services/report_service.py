@@ -1,4 +1,3 @@
-from datetime import datetime
 from database.connection import query_db
 from services.task_service import is_task_overdue
 
@@ -23,11 +22,13 @@ def get_project_dashboard_metrics(project_id, sprint_id=None):
             SUM(CASE WHEN status = 'todo' THEN 1 ELSE 0 END) AS count_todo,
             SUM(CASE WHEN status = 'in_progress' THEN 1 ELSE 0 END) AS count_in_progress,
             SUM(CASE WHEN status = 'review' THEN 1 ELSE 0 END) AS count_review,
-            SUM(CASE WHEN status = 'done' THEN 1 ELSE 0 END) AS count_done
+            SUM(CASE WHEN status = 'done' THEN 1 ELSE 0 END) AS count_done,
+            COALESCE(AVG(progress_percent),0) AS average_progress
         FROM tasks
         WHERE {where_clause};
     """
     metrics = query_db(query, tuple(params), one=True) or {}
+    average_progress = round(float(metrics.pop('average_progress', 0) or 0), 1)
     metrics = {key: int(value or 0) for key, value in metrics.items()}
     total = metrics.get('total_tasks') or 0
     done = metrics.get('count_done') or 0
@@ -52,13 +53,14 @@ def get_project_dashboard_metrics(project_id, sprint_id=None):
         'count_review': metrics.get('count_review') or 0,
         'count_done': done,
         'completion_rate': completion_rate,
-        'overdue_count': overdue_count
+        'overdue_count': overdue_count,
+        'average_progress': average_progress
     }
 
 def get_member_workload_statistics(project_id, sprint_id=None):
     """FR-11/BR-05: the same scoped workload feeds reports and AI."""
     from services.validation import availability_percent, ValidationError
-    members = query_db("""SELECT pm.user_id,u.full_name,u.email,u.status AS account_status,
+    members = query_db("""SELECT pm.user_id,u.full_name,u.username,u.user_code,u.email,u.status AS account_status,
         pm.project_role,pm.skills,pm.availability,pm.capacity_hours
         FROM project_members pm JOIN users u ON u.id=pm.user_id WHERE pm.project_id=%s""", (project_id,))
     clauses = ['project_id=%s','is_archived=FALSE']

@@ -5,9 +5,12 @@ from pathlib import Path
 
 from dotenv import dotenv_values
 
-
 ENV_FILE = Path(__file__).resolve().parents[1] / '.env'
-PLACEHOLDER_KEYS = {'your_gemini_api_key', 'khoa_api_gemini_cua_ban', 'your_kira_api_key', 'khoa_api_kira_cua_ban'}
+PLACEHOLDER_KEYS = {
+    'your_gemini_api_key', 'khoa_api_gemini_cua_ban',
+    'your_kira_api_key', 'khoa_api_kira_cua_ban',
+    'your_openai_api_key', 'khoa_api_openai_cua_ban',
+}
 
 
 def resolve_ai_setting(name, default='', *, environ=None, env_file=None):

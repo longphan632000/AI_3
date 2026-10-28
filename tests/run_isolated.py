@@ -9,10 +9,13 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 os.environ['DB_HOST'] = '127.0.0.2'
-os.environ['GEMINI_API_KEY'] = ''
-os.environ['KIRA_API_KEY'] = ''
-os.environ['AI_PROVIDER'] = 'gemini'
+os.environ['OPENAI_API_KEY'] = 'your_openai_api_key'
+os.environ['AI_PROVIDER'] = 'deepseek'
 os.environ['AI_CONFIG_SOURCE'] = 'process'
+# Existing strict-provider tests deliberately exercise API errors without fallback.
+# test_local_brain.py explicitly enables and verifies the new fallback policy.
+os.environ['AI_LOCAL_FALLBACK_ENABLED'] = 'false'
+os.environ['LOCAL_AI_MODEL_ENABLED'] = 'false'
 os.environ['SMTP_ENABLED'] = 'false'
 os.environ['DEADLINE_WORKER_ENABLED'] = 'false'
 os.environ['QA_TEST_ENGINE'] = 'sqlite'

@@ -114,7 +114,10 @@ def get_user_notifications(user_id, unread_only=False, limit=30):
         FROM notifications n
         LEFT JOIN projects p ON n.project_id = p.id
         LEFT JOIN tasks t ON n.task_id = t.id
+        JOIN users recipient ON recipient.id=n.user_id
         WHERE n.user_id = %s
+          AND (p.id IS NULL OR p.is_archived=FALSE OR recipient.role='admin'
+               OR (recipient.role='leader' AND p.archived_by=n.user_id))
     """
     if unread_only:
         query += " AND n.is_read = FALSE"
@@ -123,7 +126,10 @@ def get_user_notifications(user_id, unread_only=False, limit=30):
     return query_db(query, (user_id, limit))
 
 def get_unread_count(user_id):
-    query = "SELECT COUNT(*) AS count FROM notifications WHERE user_id = %s AND is_read = FALSE;"
+    query = '''SELECT COUNT(*) AS count FROM notifications n LEFT JOIN projects p ON p.id=n.project_id
+        JOIN users recipient ON recipient.id=n.user_id WHERE n.user_id=%s AND n.is_read=FALSE
+        AND (p.id IS NULL OR p.is_archived=FALSE OR recipient.role='admin'
+             OR (recipient.role='leader' AND p.archived_by=n.user_id))'''
     res = query_db(query, (user_id,), one=True)
     return res['count'] if res else 0
 

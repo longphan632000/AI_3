@@ -2,12 +2,21 @@ from database.connection import query_db, execute_db, atomic
 from services.audit_service import log_audit
 from services.validation import text, iso_date, choice, integer, ValidationError
 from services.access_service import require_active_project
+from datetime import datetime
 
 def get_projects_for_user(user_id, user_role, archived=False):
     """
     Lấy danh sách dự án mà người dùng có quyền truy cập (FR-03, D01, D02).
     Admin có thể xem tất cả; Trưởng nhóm và Thành viên xem dự án tham gia.
     """
+    if archived:
+        if user_role not in ('admin', 'leader'):
+            return []
+        condition, params = ('', ()) if user_role == 'admin' else (' AND p.archived_by=%s', (user_id,))
+        return query_db('''SELECT p.*,u.full_name AS creator_name,a.full_name AS archiver_name,
+            %s AS current_user_project_role FROM projects p LEFT JOIN users u ON u.id=p.created_by
+            LEFT JOIN users a ON a.id=p.archived_by WHERE p.is_archived=TRUE''' + condition + ' ORDER BY p.id DESC',
+            (user_role if user_role == 'admin' else 'leader', *params))
     if user_role == 'admin':
         query = """
             SELECT p.id, p.project_code, p.name, p.description, p.start_date, p.end_date, p.status, 
@@ -47,6 +56,7 @@ def get_project_by_id(project_id, user_id, user_role, include_archived=False):
     """
     if include_archived:
         query = query.replace(' AND p.is_archived = FALSE', '')
+    query = query.replace('p.created_at', 'p.created_at,p.archived_by,p.archived_at,p.pre_archive_status')
     project = query_db(query, (project_id,), one=True)
     if not project:
         return None
@@ -54,6 +64,11 @@ def get_project_by_id(project_id, user_id, user_role, include_archived=False):
     if user_role == 'admin':
         project['current_user_project_role'] = 'admin'
         return project
+    if project['is_archived']:
+        if user_role == 'leader' and project['archived_by'] == user_id:
+            project['current_user_project_role'] = 'leader'
+            return project
+        return None
         
     member = query_db("""
         SELECT project_role FROM project_members 
@@ -206,13 +221,29 @@ def delete_project(user_id, project_id):
 @atomic
 def archive_project(user_id, project_id):
     """Lưu trữ dự án (Xóa mềm - BR-08)."""
-    execute_db("UPDATE projects SET is_archived = TRUE, status='archived' WHERE id = %s;", (project_id,))
+    project = require_active_project(project_id)
+    actor = query_db('SELECT role,status FROM users WHERE id=%s', (user_id,), one=True)
+    from services.project_member_service import check_user_project_role
+    access, role = check_user_project_role(user_id, project_id, actor['role'] if actor else 'member')
+    if not actor or actor['status'] != 'active' or not access or role not in ('leader','admin'):
+        return False, 'Không có quyền lưu trữ dự án.'
+    execute_db("""UPDATE projects SET pre_archive_status=status,is_archived=TRUE,status='archived',
+        archived_by=%s,archived_at=%s WHERE id=%s AND is_archived=FALSE""", (user_id,datetime.now(),project['id']))
     log_audit(user_id, 'ARCHIVE_PROJECT', 'PROJECT', project_id)
     return True, "Đã lưu trữ dự án thành công."
 
 
 @atomic
 def restore_project(user_id, project_id):
-    execute_db("UPDATE projects SET is_archived=FALSE, status='active' WHERE id=%s", (project_id,))
+    project = query_db('SELECT * FROM projects WHERE id=%s', (project_id,), one=True)
+    actor = query_db('SELECT role,status FROM users WHERE id=%s', (user_id,), one=True)
+    if not project or not project['is_archived']:
+        return False, 'Dự án không còn ở trạng thái lưu trữ.'
+    if not actor or actor['status'] != 'active' or not (actor['role'] == 'admin' or
+            (actor['role'] == 'leader' and project['archived_by'] == user_id)):
+        return False, 'Chỉ Admin hoặc PM đã trực tiếp lưu trữ dự án được khôi phục.'
+    status = project.get('pre_archive_status')
+    status = status if status in ('active','planning','completed') else 'active'
+    execute_db('UPDATE projects SET is_archived=FALSE,status=%s WHERE id=%s', (status, project_id))
     log_audit(user_id, 'RESTORE_PROJECT', 'PROJECT', project_id)
     return True, 'Đã khôi phục dự án.'

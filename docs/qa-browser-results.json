@@ -11,7 +11,7 @@
       }
     },
     {
-      "name": "Admin diagnostics distinguish network denied and metadata reachable",
+      "name": "Admin diagnostics distinguish network denied and generation reachable",
       "passed": true,
       "details": {
         "error_code": "AI_NETWORK_DENIED",
@@ -32,7 +32,7 @@
       "name": "PM writes; member Dashboard and Admin read same task",
       "passed": true,
       "details": {
-        "before": "0",
+        "before": "--",
         "after": "1",
         "admin_read": 200
       }
@@ -51,10 +51,36 @@
       "passed": true,
       "details": {
         "draft": 200,
-        "model": "gemini-3.8-flash",
+        "model": "gemini-3.6-flash",
         "calls": 3,
         "member_cannot_confirm": true,
         "AI_HTTP": "mock"
+      }
+    },
+    {
+      "name": "Offline minutes UI survives API network denial",
+      "passed": true,
+      "details": {
+        "http": 200,
+        "engine": "local_rules",
+        "member_cannot_confirm": true
+      }
+    },
+    {
+      "name": "Offline weekly summary UI survives API network denial",
+      "passed": true,
+      "details": {
+        "http": 200,
+        "engine": "local_rules"
+      }
+    },
+    {
+      "name": "Offline assignment UI retains existing assignments",
+      "passed": true,
+      "details": {
+        "http": 200,
+        "engine": "local_rules",
+        "tasks_unchanged": true
       }
     },
     {

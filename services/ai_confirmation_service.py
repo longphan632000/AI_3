@@ -8,8 +8,12 @@ from services.audit_service import log_audit
 from services.project_member_service import check_user_project_role
 
 
+class DraftVersionConflict(RuntimeError):
+    """The client must review the exact version being confirmed."""
+
+
 @atomic
-def confirm_ai_draft(draft_id, user_id, user_system_role):
+def confirm_ai_draft(draft_id, user_id, user_system_role, expected_version=None):
     draft = query_db('SELECT * FROM ai_drafts WHERE id = %s', (draft_id,), one=True)
     if not draft:
         return False, 'Bản nháp không tồn tại.'
@@ -18,6 +22,8 @@ def confirm_ai_draft(draft_id, user_id, user_system_role):
         return False, 'Từ chối quyền: Chỉ Trưởng nhóm dự án mới có thẩm quyền xác nhận bản chính thức.'
     from services.access_service import require_active_project
     require_active_project(draft['project_id'])
+    if expected_version is not None and draft['version'] != expected_version:
+        raise DraftVersionConflict('Bản nháp đã thay đổi phiên bản; hãy mở lại để đối chiếu trước khi xác nhận.')
     if draft['status'] != 'draft':
         return False, 'Bản nháp không ở trạng thái có thể xác nhận; hãy kiểm tra hoặc tạo lại.'
 

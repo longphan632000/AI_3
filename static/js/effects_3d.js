@@ -13,6 +13,7 @@ function init3DTiltEffects() {
 
 function handleCardMouseMove(e) {
     const card = e.currentTarget;
+    if(card.classList.contains('task-card'))return;
     const rect = card.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;

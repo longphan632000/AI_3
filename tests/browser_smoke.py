@@ -3,17 +3,15 @@
 Install optional QA dependency: pip install playwright
 Uses the installed Microsoft Edge browser; no production database or real AI calls.
 """
-import io
 import errno
 import json
 import os
 from pathlib import Path
 import re
-import socket
 import sys
 import tempfile
 import threading
-import time
+import io
 import urllib.error
 from unittest.mock import patch
 
@@ -21,7 +19,8 @@ ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT))
 sys.path.insert(0,str(ROOT/'scratch/qa_audit_2026_10_27/browser_deps'))
 os.environ.update(AI_CONFIG_SOURCE='process',AI_PROVIDER='gemini',GEMINI_API_KEY='qa_fake_key',
-                  GEMINI_MODEL='gemini-3.8-flash',GEMINI_MEETING_MODEL='gemini-3.8-flash',
+                  AI_LOCAL_FALLBACK_ENABLED='false',LOCAL_AI_MODEL_ENABLED='false',
+                  GEMINI_MODEL='gemini-3.6-flash',GEMINI_MEETING_MODEL='gemini-3.6-flash',
                   SMTP_ENABLED='false',DEADLINE_WORKER_ENABLED='false',FLASK_DEBUG='false')
 from playwright.sync_api import sync_playwright, expect
 
@@ -31,21 +30,22 @@ def main():
     records=[]; errors=[]; calls=[]; network_mode={'denied':False}
     out=ROOT/'docs'; shots=out/'qa-screenshots'; shots.mkdir(parents=True,exist_ok=True)
     def record(name,details): records.append({'name':name,'passed':True,'details':details})
-    def gemini(request,**kwargs):
-        assert request.full_url.startswith('https://generativelanguage.googleapis.com/')
-        calls.append(request.full_url)
+    def gemini_http(request, timeout=None):
+        assert request.full_url == 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent'
+        payload = json.loads(request.data)
+        calls.append('gemini-3.6-flash')
         if network_mode['denied']:
-            denied=PermissionError(errno.EACCES,'qa_transport_detail')
-            denied.winerror=10013
+            denied = PermissionError(errno.EACCES, 'qa_transport_detail')
+            denied.winerror = 10013
             raise urllib.error.URLError(denied)
-        if request.get_method()=='GET':
-            return io.BytesIO(json.dumps({'supportedGenerationMethods':['generateContent']}).encode())
-        prompt=json.loads(request.data)['contents'][0]['parts'][0]['text']
+        prompt = payload['contents'][0]['parts'][0]['text']
         if 'NGUỒN:\n' in prompt:
-            ids=re.findall(r'^\[(\d+)\]',prompt.split('NGUỒN:\n')[-1],re.MULTILINE)
-            text=json.dumps({'items':[{'id':int(uid),'kinds':['discussion'],'summary':'Trao đổi theo nguồn cuộc họp.'} for uid in ids]})
-        else: text='Bản nháp đối chiếu với dữ liệu dự án được cung cấp.'
-        return io.BytesIO(json.dumps({'candidates':[{'content':{'parts':[{'text':text}]}}]}).encode())
+            ids = re.findall(r'^\[(\d+)\]', prompt.split('NGUỒN:\n')[-1], re.MULTILINE)
+            text = json.dumps({'items':[{'id':int(uid), 'kinds':['discussion'], 'summary':'Trao đổi theo nguồn cuộc họp.'} for uid in ids]})
+        else:
+            text = 'Bản nháp đối chiếu với dữ liệu dự án được cung cấp.'
+        return io.BytesIO(json.dumps({'candidates':[{'finishReason':'STOP',
+            'content':{'parts':[{'text':text}]}}]}).encode('utf-8'))
     with tempfile.TemporaryDirectory() as directory:
         connection._USE_MYSQL=False
         connection._SQLITE_PATH=init_db.SQLITE_PATH=str(Path(directory)/'browser.sqlite3')
@@ -55,7 +55,7 @@ def main():
         server=make_server('0.0.0.0',0,app,threaded=True)
         port=server.server_port; base=f'http://127.0.0.1:{port}'
         worker=threading.Thread(target=server.serve_forever,daemon=True);worker.start()
-        with patch('services.gemini_service.urllib.request.urlopen',side_effect=gemini),sync_playwright() as pw:
+        with patch('services.gemini_service.urllib.request.urlopen', side_effect=gemini_http),sync_playwright() as pw:
             browser=pw.chromium.launch(channel='msedge',headless=True)
             def context(width=1366,height=900):
                 ctx=browser.new_context(viewport={'width':width,'height':height},locale='vi-VN',is_mobile=width<600,has_touch=width<1000)
@@ -79,8 +79,8 @@ def main():
                 expect(admin.locator('#admin-ai-status')).to_contain_text('AI_NETWORK_DENIED')
                 network_mode['denied']=False
                 admin.get_by_role('button',name='Kiểm tra API',exact=True).click()
-                expect(admin.locator('#admin-ai-status')).to_contain_text('Đã kiểm tra thông tin model')
-                record('Admin diagnostics distinguish network denied and metadata reachable',{'error_code':'AI_NETWORK_DENIED','recovery':True,'quota_not_claimed':True})
+                expect(admin.locator('#admin-ai-status')).to_contain_text('Đã kiểm tra tạo nội dung')
+                record('Admin diagnostics distinguish network denied and generation reachable',{'error_code':'AI_NETWORK_DENIED','recovery':True,'quota_not_claimed':True})
 
                 # Real modal interaction, Unicode rendering and initial staff selection.
                 leader.get_by_role('button',name='+ Tạo dự án',exact=True).click()
@@ -99,8 +99,9 @@ def main():
                 record('Create project with staff; independent member receives update',{'members':2,'project_id':pid,'sync':'within 12s'})
 
                 # Different browser contexts share data from one server, with role checks.
-                member.locator('#project-select-input').select_option(str(pid))
-                member.wait_for_function(f'String(currentProjectId)==="{pid}"')
+                with member.expect_navigation(wait_until='domcontentloaded'):
+                    member.locator('#project-select-input').select_option(str(pid))
+                member.wait_for_function(f'typeof currentProjectId !== "undefined" && String(currentProjectId)==="{pid}"')
                 before=member.locator('#metric-total-tasks').inner_text()
                 task=leader_ctx.request.post(base+f'/api/projects/{pid}/tasks',data={'title':'Nhiệm vụ trên điện thoại','assignee_id':3,'estimated_hours':2})
                 assert task.status==201,task.text()
@@ -138,9 +139,52 @@ def main():
                 with member.expect_response('**/api/ai') as generated: member.locator('#btn-generate-ai').click()
                 assert generated.value.status==200,generated.value.text()
                 expect(member.locator('#ai-output-content')).to_contain_text('Biên bản')
-                assert calls and all('gemini-3.8-flash' in url for url in calls)
+                assert calls and all(model == 'gemini-3.6-flash' for model in calls)
                 assert member.locator('#btn-confirm-draft').is_hidden()
-                record('DOCX meeting minutes through Gemini adapter',{'draft':200,'model':'gemini-3.8-flash','calls':len(calls),'member_cannot_confirm':True,'AI_HTTP':'mock'})
+                record('DOCX meeting minutes through Gemini adapter',{'draft':200,'model':'gemini-3.6-flash','calls':len(calls),'member_cannot_confirm':True,'AI_HTTP':'mock'})
+
+                # Actual UI workflow while the upstream transport is denied.
+                with patch.dict(os.environ, {'AI_LOCAL_FALLBACK_ENABLED':'true','LOCAL_AI_MODEL_ENABLED':'false'}):
+                    network_mode['denied']=True
+                    member.locator('#ai-note-select').select_option('')
+                    member.locator('#ai-raw-notes').fill('Đã thống nhất dùng SQLite.\nLong sẽ kiểm thử trước 30/10/2026.')
+                    with member.expect_response('**/api/ai') as offline_minutes:
+                        member.locator('#btn-generate-ai').click()
+                    assert offline_minutes.value.status==200,offline_minutes.value.text()
+                    expect(member.locator('#ai-engine-source')).to_contain_text('bộ xử lý nghiệp vụ cục bộ')
+                    expect(member.locator('#ai-output-content')).to_contain_text('Long sẽ kiểm thử')
+                    assert member.locator('#btn-confirm-draft').is_hidden()
+                    member.screenshot(path=str(shots/'local-brain-meeting.png'),full_page=True)
+                    record('Offline minutes UI survives API network denial',{'http':200,'engine':'local_rules','member_cannot_confirm':True})
+
+                    leader.goto(base+'/ai-assistant')
+                    leader.wait_for_function('currentUser !== null && currentProjectId !== null')
+                    with leader.expect_navigation(wait_until='domcontentloaded'):
+                        leader.locator('#project-select-input').select_option(str(pid))
+                    leader.wait_for_function(f'typeof currentProjectId !== "undefined" && String(currentProjectId)==="{pid}"')
+                    leader.goto(base+'/ai-assistant')
+                    expect(leader.locator('#btn-generate-ai')).to_be_enabled()
+                    leader.locator('#ai-week-start').fill('2026-10-01')
+                    leader.locator('#ai-week-end').fill('2026-11-30')
+                    with leader.expect_response('**/api/ai') as offline_summary:
+                        leader.locator('#btn-generate-ai').click()
+                    assert offline_summary.value.status==200,offline_summary.value.text()
+                    expect(leader.locator('#ai-engine-source')).to_contain_text('bộ xử lý nghiệp vụ cục bộ')
+                    expect(leader.locator('#ai-output-content')).to_contain_text('Tổng quan tiến độ')
+                    record('Offline weekly summary UI survives API network denial',{'http':200,'engine':'local_rules'})
+
+                    before_assignment=leader_ctx.request.get(base+f'/api/projects/{pid}/tasks').json()['tasks']
+                    leader.locator('[data-mode="assignment_suggestion"]').click()
+                    leader.locator('#ai-task-select').select_option(str(tid))
+                    with leader.expect_response('**/api/ai') as offline_assignment:
+                        leader.locator('#btn-generate-ai').click()
+                    assert offline_assignment.value.status==200,offline_assignment.value.text()
+                    expect(leader.locator('#ai-output-content')).to_contain_text('Gợi ý phân công')
+                    expect(leader.locator('#ai-engine-source')).to_contain_text('bộ xử lý nghiệp vụ cục bộ')
+                    after_assignment=leader_ctx.request.get(base+f'/api/projects/{pid}/tasks').json()['tasks']
+                    assert before_assignment==after_assignment
+                    record('Offline assignment UI retains existing assignments',{'http':200,'engine':'local_rules','tasks_unchanged':True})
+                    network_mode['denied']=False
 
                 member.get_by_role('button',name='Thêm ghi chú cuộc họp',exact=True).click()
                 member.locator('#meeting-note-title').fill('Ghi chú lưu từ giao diện')
@@ -191,7 +235,7 @@ def main():
                             expect(page.locator('#app-sidebar')).not_to_have_class(re.compile('mobile-open'))
                         record(f'Responsive {label}: {role}',{'width':width,'pages':len(paths),'body_overflow':False,'navigation':True})
                     member.goto(base+'/kanban');member.wait_for_function('currentTasks.length>0')
-                    member.locator('.kanban-card, .task-card').first.click()
+                    member.locator('.kanban-card, .task-card').first.locator('.task-title').click()
                     expect(member.locator('#detail-status')).to_be_visible()
                     member.locator('#detail-status').select_option('review')
                     member.get_by_role('button',name='Lưu trạng thái',exact=True).click()
@@ -205,7 +249,7 @@ def main():
                 for width,height in [(390,844),(768,1024)]:
                     touch=context(width,height);page=login(touch,'member_my')
                     page.goto(base+'/kanban');page.wait_for_function('currentTasks.length>0')
-                    page.locator('.kanban-card, .task-card').first.tap()
+                    page.locator('.kanban-card, .task-card').first.locator('.task-title').tap()
                     expect(page.locator('#detail-status')).to_be_visible()
                     page.locator('#detail-status').select_option('todo')
                     page.get_by_role('button',name='Lưu trạng thái',exact=True).tap()

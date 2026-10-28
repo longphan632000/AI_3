@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Thành viên & Năng lực | AI SDLC Pro{% endblock %}
+{% block content %}
+<div class="workspace-heading"><div><h2 class="text-gradient-cyan">Thành viên & Năng lực</h2>
+<p class="form-help">Cập nhật kỹ năng, mức sẵn sàng và năng lực để AI gợi ý đúng người. Tải công việc lấy trực tiếp từ các nhiệm vụ chưa hoàn thành.</p></div>
+<button id="edit-my-capacity" class="btn btn-primary" hidden onclick="editMemberCapacity(currentUser.id)">Cập nhật năng lực của tôi</button></div>
+{% if session.get('role') in ['leader','member'] %}<p><button class="btn btn-secondary" onclick="openProfessionalProfile()">Cập nhật hồ sơ chung để tham gia dự án mới</button></p>{% endif %}
+<div class="glass-panel">
+  <div class="workspace-heading"><label class="team-search">Tìm thành viên hoặc kỹ năng<input id="team-search" type="search" class="form-input" placeholder="Họ tên, tài khoản, Python, thiết kế…" oninput="renderTeamMembers()"></label><span id="team-count" class="badge"></span></div>
+  <p id="team-permission-help" class="form-help"></p>
+  <p class="form-help">Giờ khả dụng = năng lực × mức sẵn sàng. Quá tải khi số giờ nhiệm vụ chưa hoàn thành vượt giờ khả dụng. Mỗi người phụ trách/hỗ trợ được tính đủ ước lượng nhiệm vụ đang tham gia.</p>
+  <div id="team-members-grid" class="team-grid" aria-live="polite">Đang tải thành viên…</div>
+</div>
+{% endblock %}
+{% block extra_js %}<script src="{{ url_for('static', filename='js/team.js') }}"></script>{% endblock %}

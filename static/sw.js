@@ -1,5 +1,5 @@
 // Service Worker for AI SDLC Pro PWA
-const CACHE_VERSION = 'v2-safe';
+const CACHE_VERSION = 'v3-shared-workspace';
 
 self.addEventListener('install', (event) => {
   self.skipWaiting();

@@ -11,6 +11,13 @@ from services.project_member_service import check_user_project_role
 
 task_bp = Blueprint('task_bp', __name__)
 
+
+def task_capabilities(task, project_role):
+    """Expose the same permissions to every browser; writes still check again."""
+    assigned = session['user_id'] == task.get('assignee_id') or session['user_id'] in (task.get('support_member_ids') or [])
+    allowed = not task.get('is_archived') and (project_role in ('leader', 'admin') or (project_role == 'member' and assigned))
+    return {**task, 'can_update_status': bool(allowed), 'can_update_progress': bool(allowed)}
+
 @task_bp.route('/kanban')
 def kanban_page():
     if 'user_id' not in session:
@@ -20,7 +27,7 @@ def kanban_page():
 @task_bp.route('/api/projects/<int:project_id>/tasks', methods=['GET'])
 @login_required
 def list_tasks_api(project_id):
-    has_access, _ = check_user_project_role(session['user_id'], project_id, session['role'])
+    has_access, role = check_user_project_role(session['user_id'], project_id, session['role'])
     if not has_access:
         return jsonify({'success': False, 'error': 'Từ chối quyền truy cập dự án.'}), 403
         
@@ -46,7 +53,7 @@ def list_tasks_api(project_id):
         due_to=request.args.get('due_to'), sort_by=request.args.get('sort_by', 'priority'),
         sort_order=request.args.get('sort_order', 'desc')
     )
-    return jsonify({'success': True, 'tasks': tasks}), 200
+    return jsonify({'success': True, 'tasks': [task_capabilities(task, role) for task in tasks]}), 200
 
 @task_bp.route('/api/projects/<int:project_id>/tasks', methods=['POST'])
 @login_required
@@ -85,11 +92,11 @@ def get_task_api(task_id):
     if not task:
         return jsonify({'success': False, 'error': 'Nhiệm vụ không tồn tại.'}), 404
         
-    has_access, _ = check_user_project_role(session['user_id'], task['project_id'], session['role'])
+    has_access, role = check_user_project_role(session['user_id'], task['project_id'], session['role'])
     if not has_access:
         return jsonify({'success': False, 'error': 'Từ chối quyền truy cập nhiệm vụ.'}), 403
         
-    return jsonify({'success': True, 'task': task}), 200
+    return jsonify({'success': True, 'task': task_capabilities(task, role)}), 200
 
 @task_bp.route('/api/tasks/<int:task_id>/status', methods=['PUT'])
 @login_required

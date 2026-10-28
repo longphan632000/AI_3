@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Chi tiết dự án lưu trữ | AI SDLC Pro{% endblock %}
+{% block content %}
+<div class="workspace-heading"><div><h2 id="archive-name">Chi tiết dự án lưu trữ</h2><p id="archive-state" class="form-help"></p></div><button id="restore-archived-project" hidden class="btn btn-primary" onclick="restoreProject({{ archive_project_id }})">Khôi phục dự án</button></div>
+<p id="archive-error" class="workspace-warning" role="alert" hidden></p>
+<div id="archive-content">
+ <section class="glass-panel"><h3>Thông tin dự án</h3><dl id="archive-metadata" class="profile-details"></dl><p id="archive-description" style="white-space:pre-wrap"></p></section>
+ <div id="archive-metrics" class="report-kpis"></div>
+ <section class="glass-panel"><h3>Thành viên tại dự án</h3><div id="archive-members" class="team-grid"></div></section>
+ <section class="glass-panel" style="margin-top:20px"><h3>Nhiệm vụ — chỉ xem</h3><p class="form-help">Bao gồm các nhiệm vụ đã lưu trữ riêng. Khôi phục dự án không tự khôi phục nhiệm vụ đã lưu trữ riêng.</p><div id="archive-tasks"></div>
+ <div class="workspace-actions"><button id="archive-prev" class="btn btn-secondary" onclick="changeArchivePage(-1)">Trang trước</button><span id="archive-page"></span><button id="archive-next" class="btn btn-secondary" onclick="changeArchivePage(1)">Trang sau</button></div></section>
+</div>
+{% endblock %}
+{% block extra_js %}<script>const archiveProjectId={{ archive_project_id|tojson }};</script><script src="{{ url_for('static',filename='js/archived_project.js') }}"></script>{% endblock %}

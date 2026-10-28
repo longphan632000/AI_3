@@ -97,9 +97,15 @@ def retrieve_ai_data(structured_request):
         }, source_references
 
     elif task_type == 'assignment_suggestion':
+        if structured_request.get('staffing_v2'):
+            from services.staffing_service import build_staffing_data
+            data = build_staffing_data(structured_request)
+            source_references['tasks'] = [data['task']['id']] if data.get('task') else []
+            source_references['members'] = [c['user_id'] for c in data['candidates']]
+            return data, source_references
         task_id = structured_request['task_id']
         task = query_db("""
-            SELECT id, sprint_id, title, description, priority, due_date, estimated_hours, labels, blockers
+            SELECT id, sprint_id, title, description, priority, due_date, estimated_hours, labels, blockers, status, assignee_id
             FROM tasks
             WHERE id = %s AND project_id = %s AND is_archived=FALSE;
         """, (task_id, project_id), one=True)
@@ -111,6 +117,10 @@ def retrieve_ai_data(structured_request):
         
         from services.report_service import get_member_workload_statistics
         members = get_member_workload_statistics(project_id, task.get('sprint_id'))
+        assigned = {row['user_id'] for row in query_db(
+            'SELECT user_id FROM task_assignees WHERE task_id=%s', (task['id'],))}
+        if task.get('assignee_id'):
+            assigned.add(task['assignee_id'])
         candidates = []
         for member in members:
             if member['account_status'] != 'active' or member['project_role'] not in ('leader','member'):
@@ -120,6 +130,7 @@ def retrieve_ai_data(structured_request):
                 'skills':member['skills'] or 'Chưa cập nhật', 'availability':member['availability'],
                 'capacity_hours':member['effective_capacity_hours'],
                 'current_workload_hours':member['current_workload_hours'],
+                'already_assigned':member['user_id'] in assigned,
                 'is_currently_overloaded':member['is_overloaded']})
 
         return {

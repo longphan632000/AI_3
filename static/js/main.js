@@ -34,10 +34,15 @@ async function fetchCurrentUser() {
             const roleEl = document.getElementById('header-user-role');
             if (nameEl) nameEl.textContent = currentUser.full_name;
             if (roleEl) roleEl.textContent = currentUser.role.toUpperCase();
+            const avatar = document.getElementById('header-user-avatar');
+            if (avatar) avatar.textContent = (currentUser.full_name || 'U').charAt(0).toUpperCase();
+            return currentUser;
         }
+        currentUser=null;
     } catch (e) {
         console.error('Lỗi lấy thông tin user:', e);
     }
+    return null;
 }
 
 async function loadProjectSelector() {
@@ -142,6 +147,11 @@ function openModal(modalId) {
 function closeModal(modalId) {
     const el = document.getElementById(modalId);
     if (el) el.classList.remove('active');
+    if (modalId === 'modal-task-detail' && el) {
+        el.dataset.dirty = 'false';
+        el.dataset.generation=String(Number(el.dataset.generation||0)+1);
+    }
+    setTimeout(() => { if (syncHasChanges && !hasUnsavedWork()) refreshSharedData(); }, 0);
 }
 
 async function submitCreateProject(event) {
@@ -416,24 +426,25 @@ async function openArchivedProjects() {
         const data=await apiRequest('/api/projects?archived=true');
         document.getElementById('modal-archived-projects').querySelector('h3').textContent='Dự án đã lưu trữ';
         const list=document.getElementById('archived-project-list');
-        list.innerHTML=data.projects.map(p=>`<div style="padding:12px;display:flex;justify-content:space-between;gap:12px"><span>${escapeHtml(p.name)}</span>${p.current_user_project_role==='leader'||currentUser?.role==='admin'?`<button class="btn btn-secondary" onclick="restoreProject(${p.id})">Khôi phục</button>`:''}</div>`).join('')||'Chưa có dự án lưu trữ.';
+        list.innerHTML=data.projects.map(p=>`<div class="archive-list-row"><div><strong>${escapeHtml(p.name)}</strong><p class="form-help">Người lưu trữ: ${escapeHtml(p.archiver_name||'Chưa xác định')} · ${escapeHtml(p.archived_at||'Chưa rõ thời gian')}</p></div><div class="workspace-actions"><a class="btn btn-secondary" href="/projects/${p.id}/archived">Xem chi tiết</a><button class="btn btn-primary" onclick="restoreProject(${p.id})">Khôi phục</button></div></div>`).join('')||'Không có dự án lưu trữ trong quyền xem của bạn.';
         openModal('modal-archived-projects');
     } catch(error) { showToast(error.message,'error'); }
 }
-
 async function restoreProject(id) {
-    try { await apiRequest(`/api/projects/${id}/restore`,{method:'POST'}); localStorage.setItem('active_project_id',id); window.location.reload(); }
-    catch(error) { showToast(error.message,'error'); }
+    if(!confirm('Khôi phục dự án này và cho phép làm việc trở lại?'))return;
+    try {await apiRequest(`/api/projects/${id}/restore`,{method:'POST'});localStorage.setItem('active_project_id',id);window.location.href='/dashboard';}
+    catch(error){showToast(error.message,'error');}
 }
-
 
 async function editMemberCapacity(id){
     try{
-        const data=await apiRequest(`/api/projects/${currentProjectId}/members`),m=data.members.find(m=>m.user_id===id);
+        if (!canEditMemberCapacity(id)) throw new Error('Bạn không có quyền cập nhật năng lực của thành viên này.');
+        const data=await apiRequest(`/api/projects/${currentProjectId}/members`),m=data.members.find(m=>Number(m.user_id)===Number(id));
+        if (!m) throw new Error('Thành viên không còn thuộc dự án.');
         document.getElementById('member-edit-id').value=id;
+        document.getElementById('member-edit-name').textContent=m.full_name;
         document.getElementById('member-edit-skills').value=m.skills||'';
-        const percent=String(m.availability||'100').match(/^(\d+(?:\.\d+)?)/);
-        document.getElementById('member-edit-availability').value=percent?Number(percent[1]):100;
+        document.getElementById('member-edit-availability').value=m.availability_percent??'';
         document.getElementById('member-edit-capacity').value=m.capacity_hours??40;
         openModal('modal-member-capacity');
     }catch(error){showToast(error.message,'error');}
@@ -441,11 +452,21 @@ async function editMemberCapacity(id){
 
 async function saveMemberCapacity(event){
     event.preventDefault();
+    const button=event.submitter||event.target.querySelector('[type=submit]');
+    if(button.disabled)return;
+    button.disabled=true;
+    const capacityButtons=document.querySelectorAll('#modal-member-capacity button');
+    capacityButtons.forEach(control=>control.disabled=true);
     try{
         const id=Number(document.getElementById('member-edit-id').value);
         await apiRequest(`/api/projects/${currentProjectId}/members/${id}/capacity`,jsonRequest('PUT',{skills:document.getElementById('member-edit-skills').value,availability:document.getElementById('member-edit-availability').value+'%',capacity_hours:Number(document.getElementById('member-edit-capacity').value)}));
-        closeModal('modal-member-capacity');if(typeof openProjectTeamModal==='function')await openProjectTeamModal();showToast('Đã cập nhật năng lực.','success');
+        closeModal('modal-member-capacity');
+        if(typeof openProjectTeamModal==='function'&&document.getElementById('modal-project-team')?.classList.contains('active'))await openProjectTeamModal();
+        if(typeof loadTeamData==='function')await loadTeamData();
+        if(typeof loadWorkloadReport==='function')await loadWorkloadReport();
+        showToast('Đã cập nhật năng lực. AI phân công sẽ dùng dữ liệu mới.','success');
     }catch(error){showToast(error.message,'error');}
+    finally{capacityButtons.forEach(control=>control.disabled=false);}
 }
 
 async function removeProjectMember(id){
@@ -458,15 +479,29 @@ let syncRevision = null;
 let syncBusy = false;
 let syncHasChanges = false;
 let formHasChanges = false;
+let syncRefreshBusy = false;
+let syncWasOffline = false;
+let syncBuildChanged = false;
+const pageAppVersion = document.querySelector('meta[name="app-version"]')?.content;
 
 document.addEventListener('input', event => {
     if (event.target.closest('form') && !['search','checkbox'].includes(event.target.type)) formHasChanges = true;
     if (event.target.closest('.project-team-picker')) formHasChanges = true;
     if (event.target.matches('#ai-raw-notes, #ai-user-prompt')) formHasChanges = true;
+    const drawer=event.target.closest('#modal-task-detail');
+    if(drawer)drawer.dataset.dirty='true';
+});
+document.addEventListener('change',event=>{
+    const drawer=event.target.closest('#modal-task-detail');
+    if(drawer)drawer.dataset.dirty='true';
 });
 
 function hasUnsavedWork() {
-    return Boolean(document.querySelector('.modal-overlay.active')) ||
+    const editingModal=Array.from(document.querySelectorAll('.modal-overlay.active')).some(el=>
+        !['modal-account-profile','modal-project-team'].includes(el.id) &&
+        (el.id!=='modal-task-detail'||el.dataset.dirty==='true'||
+            Array.from(el.querySelectorAll('textarea,input[type="text"],input[type="url"],input[type="file"]')).some(input=>input.type==='file'?input.files.length:input.value.trim())));
+    return editingModal || Boolean(window.taskDragActive) || Boolean(window.kanbanProgressDrafts?.size) ||
         Boolean(document.getElementById('ai-loading-state')?.classList.contains('active')) ||
         Boolean(formHasChanges && (document.getElementById('ai-raw-notes')?.value || document.getElementById('ai-user-prompt')?.value));
 }
@@ -485,28 +520,38 @@ async function pollSharedData() {
     try {
         const response = await fetch('/api/sync',{cache:'no-store'});
         if (response.status===401) {
-            document.getElementById('sync-banner').hidden=false;
-            document.getElementById('sync-banner').querySelector('span').textContent='Phiên đăng nhập đã hết hiệu lực. Hãy sao chép nội dung đang nhập và đăng nhập lại.';
+            setSyncState('offline','Cần đăng nhập lại');
+            showSyncBanner('Phiên đăng nhập đã hết hiệu lực. Hãy sao chép nội dung đang nhập và đăng nhập lại.');
             return;
         }
-        if (!response.ok) return;
+        if (!response.ok) throw new Error('Máy chủ chưa sẵn sàng.');
         const data=await response.json();
-        if(syncRevision && syncRevision!==data.revision){
-            syncHasChanges=true;
-            if(hasUnsavedWork())document.getElementById('sync-banner').hidden=false;
+        if (syncWasOffline || (syncRevision && syncRevision!==data.revision)) syncHasChanges=true;
+        syncWasOffline=false;
+        syncBuildChanged=Boolean(pageAppVersion&&data.app_version&&pageAppVersion!==data.app_version);
+        syncRevision=data.revision;
+        if(syncBuildChanged){
+            if(hasUnsavedWork())showSyncBanner('Máy chủ có phiên bản mới. Hãy lưu hoặc hủy nội dung đang sửa; trang sẽ cập nhật khi bạn hoàn tất.');
+            else { window.location.reload();return; }
+        } else if(syncHasChanges){
+            if(hasUnsavedWork())showSyncBanner('Có dữ liệu mới từ máy chủ. Nội dung bạn đang nhập được giữ nguyên; dữ liệu sẽ cập nhật khi bạn hoàn tất.');
             else await refreshSharedData();
         }
-        syncRevision=data.revision;
-    }catch(_){ /* Try again on focus, reconnection or the next poll. */ }
+        setSyncState('online',syncBuildChanged?'Chờ cập nhật phiên bản':syncHasChanges?'Có dữ liệu mới':'Đã đồng bộ');
+    }catch(_){syncWasOffline=true;setSyncState('offline','Mất kết nối máy chủ');}
     finally{syncBusy=false;}
 }
 
 async function refreshSharedData(manual=false) {
-    if(!syncHasChanges)return;
-    if(manual&&hasUnsavedWork()){
+    if(syncRefreshBusy||(!syncHasChanges&&!syncBuildChanged))return;
+    if(hasUnsavedWork()){
+        if(!manual)return;
         showToast('Hãy lưu hoặc đóng biểu mẫu trước khi cập nhật để giữ nội dung đang nhập.','info');
         return;
     }
+    if(syncBuildChanged){window.location.reload();return;}
+    syncRefreshBusy=true;
+    try {
     const previousProject=String(currentProjectId), previousRole=currentProjectRole, previousSystemRole=currentUser?.role;
     await fetchCurrentUser(); await loadProjectSelector();
     if(previousProject!==String(currentProjectId)||previousRole!==currentProjectRole||previousSystemRole!==currentUser?.role){
@@ -521,9 +566,82 @@ async function refreshSharedData(manual=false) {
     }
     if(typeof loadSprintsList==='function'&&currentProjectId)await loadSprintsList();
     if(typeof loadWorkloadReport==='function'&&currentProjectId)await loadWorkloadReport();
+    if(typeof loadTeamData==='function'&&currentProjectId)await loadTeamData();
+    if(typeof loadArchivedProjectView==='function')await loadArchivedProjectView();
+    if(document.getElementById('modal-archived-projects')?.classList.contains('active'))await openArchivedProjects();
+    if(document.getElementById('modal-account-profile')?.classList.contains('active'))await renderAccountProfile();
+    if(document.getElementById('modal-project-team')?.classList.contains('active')&&typeof openProjectTeamModal==='function')await openProjectTeamModal();
+    if(document.getElementById('modal-task-detail')?.classList.contains('active')&&typeof openTaskDetailDrawer==='function'&&detailTaskId)await openTaskDetailDrawer(detailTaskId,{refresh:true});
     if(typeof loadUsersList==='function'){await loadUsersList();await loadAuditLogs();await loadProjectAssignmentOptions();}
     if(typeof loadNotifications==='function')await loadNotifications();
     if(typeof loadAIDataSources==='function'&&currentProjectId)await loadAIDataSources();
     await updateUnreadNotificationsCount();
     syncHasChanges=false; document.getElementById('sync-banner').hidden=true;
+    setSyncState('online','Đã đồng bộ');
+    }catch(_){syncHasChanges=true;setSyncState('offline','Chưa cập nhật đủ dữ liệu');}
+    finally{syncRefreshBusy=false;}
+}
+
+function setSyncState(state,message){
+    const el=document.getElementById('sync-connection-status');
+    if(el){el.dataset.state=state;el.textContent=message;}
+}
+function showSyncBanner(message){
+    const el=document.getElementById('sync-banner');
+    if(el){el.hidden=false;el.querySelector('span').textContent=message;}
+}
+function roleLabel(role){return {admin:'Quản trị viên',leader:'Trưởng nhóm',member:'Thành viên',viewer:'Chỉ xem'}[role]||role;}
+function canEditMemberCapacity(id){
+    return Boolean(currentProjectId)&&(canManageCurrentProject||currentUser?.role==='admin'||
+        (currentProjectRole==='member'&&Number(id)===Number(currentUser?.id)));
+}
+async function openAccountProfile(){
+    try{await projectReady;if(!await fetchCurrentUser())throw new Error('Vui lòng đăng nhập lại hoặc kiểm tra kết nối.');
+        await renderAccountProfile();openModal('modal-account-profile');
+        document.querySelector('#modal-account-profile .btn-icon').focus();
+    }catch(error){showToast(error.message,'error');}
+}
+async function renderAccountProfile(){
+    const fields=[['Họ tên',currentUser.full_name],['Mã tài khoản',currentUser.user_code||'Chưa cấp'],
+        ['Tên đăng nhập',currentUser.username],['Email',currentUser.email],['Vai trò hệ thống',roleLabel(currentUser.role)],
+        ['Trạng thái',currentUser.status==='active'?'Đang hoạt động':currentUser.status],['Ngày tạo',dateInput(currentUser.created_at)]];
+    document.getElementById('account-profile-info').innerHTML=fields.map(([label,value])=>`<dt>${label}</dt><dd>${escapeHtml(value)}</dd>`).join('');
+    document.getElementById('account-profile-project').innerHTML=currentProjectId
+        ? `<p class="form-help">Dự án hiện tại: ${escapeHtml(document.getElementById('project-select-input').selectedOptions[0]?.textContent)} · ${escapeHtml(roleLabel(currentProjectRole))}</p><a class="btn btn-secondary" href="/team">Xem năng lực và tải công việc</a>`
+        : '<p class="form-help">Bạn chưa chọn dự án.</p>';
+    if(currentUser.role!=='admin')document.getElementById('account-profile-project').innerHTML+='<button class="btn btn-primary" type="button" onclick="closeAccountProfile();openProfessionalProfile()">Hồ sơ năng lực chung</button>';
+}
+function closeAccountProfile(){closeModal('modal-account-profile');document.getElementById('account-profile-button')?.focus();}
+document.addEventListener('keydown',event=>{
+    if(!document.getElementById('modal-account-profile')?.classList.contains('active'))return;
+    if(event.key==='Escape'){event.preventDefault();closeAccountProfile();}
+    if(event.key==='Tab'){
+        const controls=Array.from(document.querySelectorAll('#modal-account-profile button,#modal-account-profile a')).filter(el=>el.getClientRects().length);
+        const first=controls[0],last=controls[controls.length-1];
+        if(event.shiftKey&&document.activeElement===first){event.preventDefault();last.focus();}
+        else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus();}
+    }
+});
+
+async function openProfessionalProfile(){
+    try{
+        const data=await apiRequest('/api/me/professional-profile'),p=data.profile;
+        document.getElementById('professional-skills').value=p.skills;
+        document.getElementById('professional-availability').value=p.availability_percent;
+        document.getElementById('professional-capacity').value=p.nominal_capacity_hours;
+        document.getElementById('professional-profile-hint').textContent=p.profile_declared?'Hồ sơ chung đã khai báo.':p.profile_warnings.join(' ');
+        openModal('modal-professional-profile');
+    }catch(error){showToast(error.message,'error');}
+}
+async function saveProfessionalProfile(event){
+    event.preventDefault();
+    const buttons=event.target.closest('.modal-box').querySelectorAll('button');buttons.forEach(el=>el.disabled=true);
+    try{
+        await apiRequest('/api/me/professional-profile',jsonRequest('PUT',{skills:document.getElementById('professional-skills').value,
+            availability:document.getElementById('professional-availability').value+'%',capacity_hours:Number(document.getElementById('professional-capacity').value)}));
+        closeModal('modal-professional-profile');
+        if(typeof loadAssignmentPreview==='function')await loadAssignmentPreview();
+        showToast('Đã cập nhật hồ sơ chung để PM tìm ứng viên.','success');
+    }catch(error){showToast(error.message,'error');}
+    finally{buttons.forEach(el=>el.disabled=false);}
 }

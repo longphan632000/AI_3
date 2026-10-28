@@ -1,0 +1,15 @@
+{
+  "root": "D:\\UNG DUNG AL_NAM3\\Code Chuan",
+  "previous_pid": 4260,
+  "pid": 24620,
+  "port": 5000,
+  "healthy": true,
+  "mysql_ready": true,
+  "app_version": "8db3f99a94378eeba500",
+  "functional_tests_database": "disposable SQLite",
+  "activation_check": "public read-only health endpoint",
+  "timestamp": "2026-10-28T18:03:06",
+  "lan_url": "http://192.168.1.39:5000",
+  "lan_http_ready": true,
+  "lan_probe_scope": "HTTP from this host to its Wi-Fi IPv4; physical remote devices not exercised"
+}

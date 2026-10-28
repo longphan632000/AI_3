@@ -1,57 +1,88 @@
 {
-  "timestamp": "2026-10-27T13:37:00.013711+00:00",
+  "timestamp": "2026-10-28T10:28:31.527435+07:00",
   "provider": "gemini",
-  "model": "gemini-3.8-flash",
-  "meeting_model": "gemini-3.8-flash",
+  "model": "gemini-3.6-flash",
+  "meeting_model": "gemini-3.6-flash",
   "database": "disposable SQLite; application MySQL never used",
   "input": "synthetic QA data only",
   "records": [
     {
       "task_type": "weekly_summary",
-      "http": 503,
-      "passed": false,
-      "status": null,
-      "error_code": "AI_TIMEOUT",
-      "message": "Yêu cầu AI đã hết thời gian xử lý. Vui lòng chia nhỏ nội dung và thử lại.",
+      "http": 200,
+      "pipeline_passed": true,
+      "gemini_only_success": true,
+      "engine": {
+        "failure_codes": [],
+        "fallback_used": false,
+        "notice": "Nguồn xử lý: Gemini API.",
+        "primary": "gemini",
+        "used_providers": [
+          "gemini"
+        ]
+      },
+      "status": "draft",
+      "error_code": null,
+      "error": null,
       "warnings": [],
-      "result_chars": 0,
-      "draft_saved": false,
-      "seconds": 30.203
+      "draft_saved": true,
+      "seconds": 9.016
     },
     {
       "task_type": "meeting_minutes",
-      "http": 503,
-      "passed": false,
-      "status": null,
-      "error_code": "AI_TIMEOUT",
-      "message": "Không xử lý được phần 1/1 của biên bản: Yêu cầu AI đã hết thời gian xử lý. Vui lòng chia nhỏ nội dung và thử lại.",
+      "http": 200,
+      "pipeline_passed": true,
+      "gemini_only_success": true,
+      "engine": {
+        "failure_codes": [],
+        "fallback_used": false,
+        "notice": "Nguồn xử lý: Gemini API.",
+        "primary": "gemini",
+        "used_providers": [
+          "gemini"
+        ]
+      },
+      "status": "draft",
+      "error_code": null,
+      "error": null,
       "warnings": [],
-      "result_chars": 0,
-      "draft_saved": false,
-      "seconds": 30.109
+      "draft_saved": true,
+      "seconds": 1.937
     },
     {
       "task_type": "assignment_suggestion",
-      "http": 503,
-      "passed": false,
-      "status": null,
-      "error_code": "AI_TIMEOUT",
-      "message": "Yêu cầu AI đã hết thời gian xử lý. Vui lòng chia nhỏ nội dung và thử lại.",
+      "http": 200,
+      "pipeline_passed": true,
+      "gemini_only_success": true,
+      "engine": {
+        "failure_codes": [],
+        "fallback_used": false,
+        "notice": "Nguồn xử lý: Gemini API.",
+        "primary": "gemini",
+        "used_providers": [
+          "gemini"
+        ]
+      },
+      "status": "draft",
+      "error_code": null,
+      "error": null,
       "warnings": [],
-      "result_chars": 0,
-      "draft_saved": false,
-      "seconds": 30.157
+      "draft_saved": true,
+      "seconds": 9.141
     }
   ],
-  "metadata_probe": {
+  "generation_probe": {
     "passed": true,
     "code": null,
-    "message": "Gemini đã xác nhận khóa và mô hình có thể tạo nội dung."
+    "message": "Gemini (gemini-3.6-flash) đã xác thực khóa và tạo phản hồi thử thành công.",
+    "configured": true
   },
   "safety": {
     "task_still_unassigned": true,
     "official_meeting_count": 0,
     "confirmed_draft_count": 0
   },
-  "success": false
+  "integration_success": true,
+  "cloud_success": true,
+  "cloud_status": "passed",
+  "success": true
 }

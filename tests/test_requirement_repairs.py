@@ -9,6 +9,26 @@ import tempfile
 import unittest
 from unittest.mock import Mock, patch
 
+
+@contextlib.contextmanager
+def mocked_deepseek(handler):
+    import httpx
+    from openai import OpenAI
+    network = Mock(side_effect=handler)
+    def client_factory(**kwargs):
+        return OpenAI(api_key='qa_fake_key', base_url='https://discovery-api.intern-ai.org.cn/v1',
+                      max_retries=0, http_client=httpx.Client(transport=httpx.MockTransport(network)))
+    with patch('services.openai_service.OpenAIService._get_client', side_effect=client_factory):
+        yield network
+
+
+def deepseek_response(content, **message_fields):
+    import httpx
+    return httpx.Response(200, json={'id':'qa', 'object':'chat.completion', 'created':0,
+        'model':'deepseek-v4.1-flash-1017', 'choices':[{'index':0, 'finish_reason':'stop',
+        'message':{'role':'assistant', 'content':content, **message_fields}}]})
+
+
 class TestRequirementRepairs(unittest.TestCase):
     evidence = {}
     sequence = 0
@@ -510,7 +530,8 @@ class TestRequirementRepairs(unittest.TestCase):
         def call():
             remaining_timeout(20)
             return {'success':True},200
-        with patch('services.ai_deadline.time.monotonic',side_effect=[0,31]):
+        with patch.dict(os.environ, {'AI_TOTAL_TIMEOUT_SECONDS': '30'}), \
+                patch('services.ai_deadline.time.monotonic',side_effect=[0,31]):
             body,status=call()
         self.assertEqual((status,body['error_code']),(503,'AI_TIMEOUT'))
         self.save(['NFR-01'],'expired total AI budget returns controlled timeout',{'http':503,'error':'AI_TIMEOUT'})
@@ -649,7 +670,8 @@ class TestRequirementRepairs(unittest.TestCase):
         self.assertNotEqual(before,after.get_json()['revision'])
         self.assertEqual(after.headers['Cache-Control'],'no-store')
         data=after.get_json()
-        self.assertEqual(set(data),{'success','revision','poll_seconds'})
+        self.assertEqual(set(data),{'success','revision','poll_seconds','app_version'})
+        self.assertRegex(data['app_version'], r'^[0-9a-f]{20}$')
         self.assertEqual(self.admin.get('/api/sync').status_code,200)
         self.assertEqual(self.app.test_client().get('/api/sync').status_code,401)
         self.save(['FR-10','FR-11','NFR-05'],'separate sessions receive opaque invalidation token; no cached API',{'changed':True,'poll_seconds':5,'anonymous':401,'no_store':True})
@@ -678,52 +700,59 @@ class TestRequirementRepairs(unittest.TestCase):
 
     def test_59_live_file_config_overrides_stale_kira_environment(self):
         from services.ai_provider_service import AIProviderService
-        from services.gemini_service import GeminiService
+        from services.openai_service import OpenAIService
         with tempfile.TemporaryDirectory() as directory:
-            path=Path(directory)/'.env'
-            config='AI_CONFIG_SOURCE=env_file\nAI_PROVIDER=gemini\nGEMINI_MODEL=gemini-3.8-flash\nGEMINI_MEETING_MODEL=gemini-3.8-flash\nGEMINI_API_KEY='
-            path.write_text(config+'\n',encoding='utf-8')
-            with patch.dict(os.environ,{'AI_CONFIG_SOURCE':'env_file','AI_PROVIDER':'kira','GEMINI_API_KEY':'stale_secret'}),patch('services.ai_config.ENV_FILE',path):
-                first=AIProviderService()
-                self.assertEqual(first.provider_name,'gemini')
-                self.assertIsInstance(first.provider,GeminiService)
+            path = Path(directory) / '.env'
+            config = 'AI_CONFIG_SOURCE=env_file\nAI_PROVIDER=deepseek\nOPENAI_MODEL=deepseek-v4.1-flash-1017\nOPENAI_MEETING_MODEL=deepseek-v4.1-flash-1017\nOPENAI_API_KEY='
+            path.write_text(config + '\n', encoding='utf-8')
+            with patch.dict(os.environ, {'AI_CONFIG_SOURCE':'env_file', 'AI_PROVIDER':'gemini', 'OPENAI_API_KEY':'stale_secret'}), patch('services.ai_config.ENV_FILE', path):
+                first = AIProviderService()
+                self.assertEqual(first.provider_name, 'deepseek')
+                self.assertIsInstance(first.provider, OpenAIService)
                 self.assertFalse(first.provider.configured)
-                path.write_text(config+'qa_fake_new_key\n',encoding='utf-8')
-                second=AIProviderService()
+                path.write_text(config + 'qa_fake_new_key\n', encoding='utf-8')
+                second = AIProviderService()
                 self.assertTrue(second.provider.configured)
-                self.assertEqual(second.provider.meeting_model,second.provider.model)
-        self.save(['FR-12','FR-13','FR-14','NFR-11'],'all AI actions use live Gemini config despite stale Kira process settings',{'provider':'gemini','models':'gemini-3.8-flash','blank_key_rejected':True,'reload_key':True})
+                self.assertEqual(second.provider.meeting_model, second.provider.model)
+        self.save(['FR-12','FR-13','FR-14','NFR-11'], 'all AI actions use live DeepSeek config despite stale provider settings', {'provider':'deepseek', 'blank_key_rejected':True, 'reload_key':True})
 
-    def test_60_gemini_wire_contract_and_thought_filter(self):
-        from services.gemini_service import GeminiService
-        response={'candidates':[{'content':{'parts':[{'thought':True,'text':'Internal thought'},{'text':'{"items":[]}'}]}}]}
-        with patch.dict(os.environ,{'AI_CONFIG_SOURCE':'process','GEMINI_API_KEY':'qa_fake_key','GEMINI_MODEL':'gemini-3.8-flash','GEMINI_MEETING_MODEL':'gemini-3.8-flash'}),patch('services.gemini_service.urllib.request.urlopen',return_value=io.BytesIO(json.dumps(response).encode())) as network:
-            result=GeminiService().generate_content('Source note',json_output=True)
-        self.assertEqual(json.loads(result),{'items':[]})
-        request=network.call_args.args[0];payload=json.loads(request.data)
-        self.assertIn('/models/gemini-3.8-flash:generateContent',request.full_url)
-        self.assertEqual(payload['generationConfig']['responseMimeType'],'application/json')
-        self.assertNotIn('temperature',payload['generationConfig'])
-        self.save(['FR-13','NFR-06','NFR-11'],'Gemini JSON contract excludes thought text and deprecated sampling field',{'model':'gemini-3.8-flash','json_output':True,'thought_excluded':True})
+    def test_60_deepseek_wire_contract_and_thought_filter(self):
+        from services.openai_service import OpenAIService
+        captured = []
+        def respond(request):
+            captured.append(request)
+            return deepseek_response('{"items":[]}', reasoning_content='Internal thought')
+        with patch.dict(os.environ, {'AI_CONFIG_SOURCE':'process', 'OPENAI_API_KEY':'qa_fake_key'}), mocked_deepseek(respond):
+            result = OpenAIService().generate_content('Source note', json_output=True)
+        self.assertEqual(json.loads(result), {'items':[]})
+        self.assertNotIn('Internal thought', result)
+        payload = json.loads(captured[0].content)
+        self.assertEqual(str(captured[0].url), 'https://discovery-api.intern-ai.org.cn/v1/chat/completions')
+        self.assertEqual(payload['model'], 'deepseek-v4.1-flash-1017')
+        self.assertEqual(payload['response_format'], {'type':'json_object'})
+        self.save(['FR-13','NFR-06','NFR-11'], 'DeepSeek JSON contract excludes reasoning text', {'model':payload['model'], 'json_output':True, 'thought_excluded':True})
 
-    def test_61_meeting_pipeline_uses_gemini_and_saves_draft(self):
+    def test_61_meeting_pipeline_uses_deepseek_and_saves_draft(self):
         import re
-        captured=[]
-        def respond(request,**kwargs):
-            captured.append(request.full_url)
-            prompt=json.loads(request.data)['contents'][0]['parts'][0]['text']
-            source=prompt.split('NGUỒN:\n')[-1]
-            identifiers=re.findall(r'^\[(\d+)\]',source,re.MULTILINE)
-            items=[{'id':int(uid),'kinds':['discussion'],'summary':'Trao đổi theo nội dung nguồn.'} for uid in identifiers]
-            return io.BytesIO(json.dumps({'candidates':[{'content':{'parts':[{'text':json.dumps({'items':items})}]}}]}).encode())
-        with patch.dict(os.environ,{'AI_CONFIG_SOURCE':'process','AI_PROVIDER':'gemini','GEMINI_API_KEY':'qa_fake_key','GEMINI_MODEL':'gemini-3.8-flash','GEMINI_MEETING_MODEL':'gemini-3.8-flash'}),patch('services.gemini_service.urllib.request.urlopen',side_effect=respond):
-            response=self.member.post('/api/ai',json={'task_type':'meeting_minutes','project_id':self.pid,'raw_notes':'Cuộc họp trao đổi tiến độ.\nCần kiểm tra giao diện điện thoại.'})
-        self.assertEqual(response.status_code,200,response.get_json())
+        from database.connection import query_db
+        captured = []
+        def respond(request):
+            payload = json.loads(request.content)
+            captured.append(payload['model'])
+            source = payload['messages'][0]['content'].split('NGUỒN:\n')[-1]
+            identifiers = re.findall(r'^\[(\d+)\]', source, re.MULTILINE)
+            items = [{'id':int(uid), 'kinds':['discussion'], 'summary':'Trao đổi theo nội dung nguồn.'} for uid in identifiers]
+            return deepseek_response(json.dumps({'items':items}))
+        with patch.dict(os.environ, {'AI_CONFIG_SOURCE':'process', 'AI_PROVIDER':'deepseek', 'OPENAI_API_KEY':'qa_fake_key'}), mocked_deepseek(respond):
+            response = self.member.post('/api/ai', json={'task_type':'meeting_minutes', 'project_id':self.pid, 'raw_notes':'Cuộc họp trao đổi tiến độ.\nCần kiểm tra giao diện điện thoại.'})
+        self.assertEqual(response.status_code, 200, response.get_json())
         self.assertTrue(captured)
-        self.assertTrue(all('generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:' in url for url in captured))
-        draft=response.get_json()['draft_id']
-        self.assertEqual(self.member.get(f'/api/ai/drafts/{draft}').status_code,200)
-        self.save(['FR-13','BR-06','BR-07'],'meeting API routes to Gemini, processes grounded source and persists readable draft',{'http':200,'draft_read':200,'provider':'gemini','network':'mock HTTP transport'})
+        self.assertTrue(all(model == 'deepseek-v4.1-flash-1017' for model in captured))
+        draft = response.get_json()['draft_id']
+        self.assertEqual(self.member.get(f'/api/ai/drafts/{draft}').status_code, 200)
+        history = query_db('SELECT model_provider FROM ai_history WHERE draft_id=%s', (draft,), one=True)
+        self.assertEqual(history['model_provider'], 'deepseek')
+        self.save(['FR-13','BR-06','BR-07'], 'meeting API uses only DeepSeek and persists a readable draft', {'http':200, 'draft_read':200, 'provider':'deepseek', 'network':'mock HTTP transport'})
 
     def test_62_repair_only_damaged_known_sample_names(self):
         from scripts.repair_sample_names import repair, SAMPLE_NAMES
@@ -759,50 +788,59 @@ class TestRequirementRepairs(unittest.TestCase):
         self.save(['FR-01','FR-02','NFR-03'],'cookie forged with published sample secret does not grant Admin',{'forged_cookie_http':401})
 
     def test_65_network_denied_returns_specific_error_without_draft(self):
-        from database.connection import query_db
         import errno
-        import urllib.error
-        before=query_db('SELECT COUNT(*) AS total FROM ai_drafts WHERE project_id=%s',(self.pid,),one=True)['total']
-        denied=PermissionError(errno.EACCES,'qa_private_secret')
-        denied.winerror=10013
-        with patch.dict(os.environ,{'AI_CONFIG_SOURCE':'process','AI_PROVIDER':'gemini','GEMINI_API_KEY':'qa_fake_key'}),patch('services.gemini_service.urllib.request.urlopen',side_effect=urllib.error.URLError(denied)) as network,patch('services.gemini_service.time.sleep') as sleep:
-            response=self.leader.post('/api/ai',json={'task_type':'weekly_summary','project_id':self.pid,'week_start':'2026-10-20','week_end':'2026-10-27'})
-        self.assertEqual(response.status_code,503)
-        self.assertEqual(response.get_json()['error_code'],'AI_NETWORK_DENIED')
-        self.assertNotIn('qa_private_secret',response.get_data(as_text=True))
-        network.assert_called_once();sleep.assert_not_called()
-        after=query_db('SELECT COUNT(*) AS total FROM ai_drafts WHERE project_id=%s',(self.pid,),one=True)['total']
-        self.assertEqual(before,after)
-        self.save(['FR-12','NFR-01','NFR-03','NFR-06'],'network access denial is explicit; no retry or partial draft',{'http':503,'code':'AI_NETWORK_DENIED','calls':1,'draft_created':False})
+        import httpx
+        from database.connection import query_db
+        before = query_db('SELECT COUNT(*) AS total FROM ai_drafts WHERE project_id=%s', (self.pid,), one=True)['total']
+        denied = PermissionError(errno.EACCES, 'qa_private_secret')
+        denied.winerror = 10013
+        def refuse(request):
+            raise httpx.ConnectError('qa_private_secret', request=request) from denied
+        with patch.dict(os.environ, {'AI_CONFIG_SOURCE':'process', 'AI_PROVIDER':'deepseek', 'OPENAI_API_KEY':'qa_fake_key'}), mocked_deepseek(refuse) as network, patch('services.openai_service.pause_retry') as retry:
+            response = self.leader.post('/api/ai', json={'task_type':'weekly_summary', 'project_id':self.pid, 'week_start':'2026-10-20', 'week_end':'2026-10-27'})
+        self.assertEqual(response.status_code, 503)
+        self.assertEqual(response.get_json()['error_code'], 'AI_NETWORK_DENIED')
+        self.assertNotIn('qa_private_secret', response.get_data(as_text=True))
+        network.assert_called_once()
+        retry.assert_not_called()
+        after = query_db('SELECT COUNT(*) AS total FROM ai_drafts WHERE project_id=%s', (self.pid,), one=True)['total']
+        self.assertEqual(before, after)
+        self.save(['FR-12','NFR-01','NFR-03','NFR-06'], 'network denial is explicit without retry or partial draft', {'http':503, 'code':'AI_NETWORK_DENIED', 'calls':1, 'draft_created':False})
 
     def test_66_admin_probe_exposes_safe_network_diagnostics(self):
         import errno
-        import urllib.error
-        denied=PermissionError(errno.EACCES,'qa_private_secret')
-        denied.winerror=10013
-        with patch.dict(os.environ,{'AI_CONFIG_SOURCE':'process','AI_PROVIDER':'gemini','GEMINI_API_KEY':'qa_fake_key','GEMINI_MODEL':'qa-model','GEMINI_MEETING_MODEL':'qa-model'}),patch('services.gemini_service.urllib.request.urlopen',side_effect=urllib.error.URLError(denied)) as network:
-            response=self.admin.get('/api/admin/ai-status?probe=1')
-        data=response.get_json()
-        self.assertEqual(response.status_code,200)
+        import httpx
+        denied = PermissionError(errno.EACCES, 'qa_private_secret')
+        denied.winerror = 10013
+        def refuse(request):
+            raise httpx.ConnectError('qa_private_secret', request=request) from denied
+        with patch.dict(os.environ, {'AI_CONFIG_SOURCE':'process', 'AI_PROVIDER':'deepseek', 'OPENAI_API_KEY':'qa_fake_key'}), mocked_deepseek(refuse) as network:
+            response = self.admin.get('/api/admin/ai-status?probe=1')
+        data = response.get_json()
+        self.assertEqual(response.status_code, 200)
         self.assertFalse(data['api_reachable'])
-        self.assertEqual(data['error_code'],'AI_NETWORK_DENIED')
-        self.assertEqual(data['checks']['general']['diagnostics']['winerror'],10013)
-        self.assertEqual(data['probe_scope'],'model_metadata_only')
+        self.assertEqual(data['error_code'], 'AI_NETWORK_DENIED')
+        self.assertEqual(data['checks']['general']['diagnostics']['winerror'], 10013)
+        self.assertEqual(data['probe_scope'], 'chat_completion')
         network.assert_called_once()
-        self.assertNotIn('qa_private_secret',response.get_data(as_text=True))
-        self.assertNotIn('qa_fake_key',response.get_data(as_text=True))
-        self.save(['FR-02','NFR-03','NFR-09'],'Admin gets safe error category and OS code; one probe for shared model',{'http':200,'reachable':False,'code':'AI_NETWORK_DENIED','winerror':10013,'probe_calls':1})
+        self.assertNotIn('qa_private_secret', response.get_data(as_text=True))
+        self.assertNotIn('qa_fake_key', response.get_data(as_text=True))
+        self.save(['FR-02','NFR-03','NFR-09'], 'Admin gets safe diagnostics from one generation probe', {'http':200, 'reachable':False, 'code':'AI_NETWORK_DENIED', 'winerror':10013, 'probe_calls':1})
 
     def test_67_meeting_tls_error_preserves_no_partial_result(self):
         import ssl
-        import urllib.error
+        import httpx
         from database.connection import query_db
-        with patch.dict(os.environ,{'AI_CONFIG_SOURCE':'process','AI_PROVIDER':'gemini','GEMINI_API_KEY':'qa_fake_key'}),patch('services.gemini_service.urllib.request.urlopen',side_effect=urllib.error.URLError(ssl.SSLCertVerificationError(1,'private_detail'))) as network,patch('services.gemini_service.time.sleep') as sleep:
-            response=self.member.post('/api/ai',json={'task_type':'meeting_minutes','project_id':self.pid,'raw_notes':'Cuộc họp kiểm thử chứng chỉ TLS.'})
-        self.assertEqual(response.status_code,503)
-        self.assertEqual(response.get_json()['error_code'],'AI_TLS_CERTIFICATE')
-        self.assertNotIn('private_detail',response.get_data(as_text=True))
-        network.assert_called_once();sleep.assert_not_called()
-        self.assertEqual(query_db('SELECT COUNT(*) AS total FROM ai_drafts WHERE project_id=%s',(self.pid,),one=True)['total'],0)
-        self.save(['FR-13','NFR-03','NFR-06'],'TLS failure remains verified/explicit and never saves partial meeting',{'http':503,'code':'AI_TLS_CERTIFICATE','draft_created':False,'calls':1})
+        certificate_error = ssl.SSLCertVerificationError(1, 'private_detail')
+        def refuse(request):
+            raise httpx.ConnectError('private_detail', request=request) from certificate_error
+        with patch.dict(os.environ, {'AI_CONFIG_SOURCE':'process', 'AI_PROVIDER':'deepseek', 'OPENAI_API_KEY':'qa_fake_key'}), mocked_deepseek(refuse) as network, patch('services.openai_service.pause_retry') as retry:
+            response = self.member.post('/api/ai', json={'task_type':'meeting_minutes', 'project_id':self.pid, 'raw_notes':'Cuộc họp kiểm thử chứng chỉ TLS.'})
+        self.assertEqual(response.status_code, 503)
+        self.assertEqual(response.get_json()['error_code'], 'AI_TLS_CERTIFICATE')
+        self.assertNotIn('private_detail', response.get_data(as_text=True))
+        network.assert_called_once()
+        retry.assert_not_called()
+        self.assertEqual(query_db('SELECT COUNT(*) AS total FROM ai_drafts WHERE project_id=%s', (self.pid,), one=True)['total'], 0)
+        self.save(['FR-13','NFR-03','NFR-06'], 'TLS failure never saves a partial meeting', {'http':503, 'code':'AI_TLS_CERTIFICATE', 'draft_created':False, 'calls':1})
 

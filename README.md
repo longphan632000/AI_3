@@ -28,32 +28,33 @@ DB_NAME=ai_project_management
 
 SECRET_KEY=
 
-# Cấu hình Gemini AI
-GEMINI_API_KEY=khoa_api_gemini_cua_ban
+# Gemini API được ưu tiên; AI cục bộ dự phòng khi API lỗi
 AI_PROVIDER=gemini
 AI_CONFIG_SOURCE=env_file
-GEMINI_MODEL=gemini-3.8-flash
-GEMINI_MEETING_MODEL=gemini-3.8-flash
-AI_TIMEOUT_SECONDS=30
-AI_MEETING_TIMEOUT_SECONDS=90
-AI_TOTAL_TIMEOUT_SECONDS=30
+GEMINI_API_KEY=
+GEMINI_MODEL=gemini-3.6-flash
+GEMINI_MEETING_MODEL=gemini-3.6-flash
+AI_TIMEOUT_SECONDS=60
+AI_MEETING_TIMEOUT_SECONDS=60
+AI_PRIMARY_BUDGET_SECONDS=30
+AI_TOTAL_TIMEOUT_SECONDS=180
+AI_LOCAL_FALLBACK_ENABLED=true
 ```
 
-Với `AI_CONFIG_SOURCE=env_file`, cấu hình AI được đọc từ `.env` cho mỗi yêu cầu mới;
-khóa để trống không dùng lại khóa cũ trong tiến trình. Tất cả ba chức năng AI dùng
-`gemini-3.8-flash` theo cấu hình trên. Không bật tùy chọn này thì biến môi trường
-tiến trình khác rỗng được ưu tiên. Quản trị viên có thể
-xem trạng thái AI tại `/admin` và bấm **Kiểm tra API** để xác nhận khóa và mô hình
-có truy cập được Gemini hay không; giao diện không hiển thị khóa.
-`AI_MEETING_TIMEOUT_SECONDS` là giới hạn cho mỗi lượt xử lý biên bản Word;
-`GEMINI_MEETING_MODEL` chọn mô hình riêng cho biên bản Word (mặc định là
-`GEMINI_MODEL`); các tác vụ AI còn lại dùng `GEMINI_MODEL`.
-Ứng dụng thử lại tối đa ba lần với lỗi mạng, hết thời gian hoặc Gemini tạm thời quá tải.
-Toàn bộ retry và các phần của một yêu cầu dùng chung ngân sách
-`AI_TOTAL_TIMEOUT_SECONDS` (mặc định 30 giây); thời gian mỗi lượt không vượt ngân sách còn lại.
-Nếu một phần thất bại, API báo rõ loại lỗi và số thứ tự phần, đồng thời không lưu bản
-nháp chưa hoàn chỉnh. Log chỉ ghi mã lỗi và kích thước phần, không ghi nội dung họp
-hoặc khóa API.
+Điền khóa Gemini riêng vào `GEMINI_API_KEY` trong `.env`; không dùng khóa DeepSeek cho Google.
+Với `AI_CONFIG_SOURCE=env_file`, yêu cầu mới đọc cấu hình mới, kể cả khi khóa được đổi hoặc xóa.
+Trang Quản trị hiển thị đúng provider và nút **Kiểm tra API** tạo một phản hồi thử thật,
+không chỉ đọc metadata model. Kết quả và lịch sử ghi đúng nguồn `gemini`, `local_llm`, `local_rules`.
+
+Khi API Gemini lỗi, hết hạn mức, quá thời gian hoặc trả nội dung không qua kiểm định,
+ứng dụng dùng Qwen3 tại máy rồi bộ xử lý nghiệp vụ dự phòng. Các yêu cầu mới vẫn thử Gemini trước.
+Gemini 3.6 Flash dùng mức suy luận low để giảm thời gian; biên bản dùng JSON và giữ ID/nguyên văn nguồn.
+Thời gian từng lượt và retry dùng chung ngân sách của yêu cầu. Log không ghi khóa hoặc nội dung họp.
+
+DeepSeek được giữ như tùy chọn tương thích khi người vận hành chủ động đặt `AI_PROVIDER=deepseek`.
+Ở cấu hình Gemini, ứng dụng không gọi DeepSeek hay tự dùng lại khóa DeepSeek.
+Xem [báo cáo chuyển Gemini](docs/BAO_CAO_CHUYEN_GEMINI.md) và
+[hướng dẫn AI cục bộ](docs/HUONG_DAN_BO_NAO_AI_CUC_BO.md).
 
 > **Lưu trữ:** Ứng dụng sử dụng MySQL cho mọi thao tác đọc và ghi. Nếu MySQL không khả dụng, thao tác trả lỗi thay vì chuyển sang SQLite. Bộ kiểm thử riêng dùng SQLite tạm để không ảnh hưởng dữ liệu thật.
 
@@ -97,8 +98,9 @@ Mở trình duyệt tại địa chỉ: **`http://127.0.0.1:5000`**
 python -B tests/run_isolated.py
 python -B tests/run_mysql_isolated.py
 python -B tests/export_test_cases.py
+python -B tests/run_local_brain_live.py
 ```
-Hai runner thực thi cùng bộ 145 ca trên SQLite tạm và MySQL cách ly. Runner MySQL
+Hai runner thực thi bộ kiểm thử trên SQLite tạm và MySQL cách ly. Kết quả mới nhất và số ca thực tế nằm trong các tệp `docs/qa-results-*.json`. Runner MySQL
 tạo database `qa_repair_...`, kiểm tra migration, hiệu năng và khôi phục rồi xóa đúng
 database kiểm thử đã tạo. Bảng 67 kịch bản chi tiết nằm tại
 [TEST_CASES_SAU_CHINH_SUA.md](docs/TEST_CASES_SAU_CHINH_SUA.md), cùng bản CSV và HTML để sao chép sang Word.
@@ -153,4 +155,16 @@ Hệ thống tuân thủ nghiêm ngặt nguyên tắc **AI chỉ là công cụ 
 
 Tệp `.docx`, `.pdf`, `.txt`, `.md` được trích xuất tối đa 5 MB và 120.000 ký tự văn bản. PDF cần có lớp chữ; bản quét cần OCR trước khi tải lên. Với Word, hệ thống giữ thứ tự đoạn văn và bảng. Các quyết định trong mục ghi rõ và các dòng công việc có người phụ trách, hạn hoàn thành trong bảng được giữ trực tiếp từ nguồn. AI phân loại các đoạn còn lại; đoạn bị bỏ sót được thử lại riêng. Mỗi đoạn nguồn đều có vị trí tham chiếu trong bản nháp. Nếu vẫn còn đoạn chưa phân loại hoặc thông tin không đối chiếu được, bản nháp cần kiểm tra trước khi xác nhận. Quyết định và việc cần làm khi xác nhận được lưu từ nội dung nguồn vào MySQL.
 
-Nếu thiếu khóa Gemini, mô hình không khả dụng hoặc dịch vụ quá tải, API trả lỗi rõ ràng và không tạo biên bản mẫu. `GEMINI_MODEL` có thể đổi sang mô hình được tài khoản cho phép; mặc định là `gemini-3.8-flash`.
+Nếu thiếu khóa AI, mô hình API không khả dụng hoặc dịch vụ quá tải, ứng dụng dùng Qwen3-1.7B cục bộ; nếu Qwen3 không sẵn sàng, bộ xử lý nghiệp vụ vẫn tạo bản nháp từ dữ liệu nguồn. Nguồn xử lý được hiển thị và lưu lịch sử. Có thể tắt dự phòng bằng `AI_LOCAL_FALLBACK_ENABLED=false`.
+
+## AI dự phòng chạy tại máy
+
+Đã tích hợp Qwen3-1.7B CPU và bộ xử lý nghiệp vụ cục bộ cho ba chức năng trợ lý. Gemini API được ưu tiên; mỗi yêu cầu mới tự thử lại Gemini API. Hướng dẫn cài đặt, cấu hình, phạm vi và kiểm thử: [HUONG_DAN_BO_NAO_AI_CUC_BO.md](docs/HUONG_DAN_BO_NAO_AI_CUC_BO.md).
+
+## Thành viên, biểu đồ và đồng bộ nhiều thiết bị
+
+Menu **Thành viên & Năng lực** cho phép thành viên cập nhật kỹ năng/mức sẵn sàng/năng lực của mình; PM quản lý cả nhóm. Dữ liệu đã lưu đi vào tải công việc và AI phân công. Kanban có kéo thả máy tính/cảm ứng, lựa chọn trạng thái và cập nhật phần trăm tiến độ cho người phụ trách hoặc hỗ trợ. Trang báo cáo có biểu đồ trạng thái, tải/giờ khả dụng và bộ lọc sprint. Bấm ảnh đại diện để xem tài khoản đang đăng nhập.
+
+Các thiết bị dùng chung máy chủ/MySQL, nhận cập nhật khoảng mỗi 5 giây; biểu mẫu đang nhập được giữ lại. Phiên bản giao diện được kiểm tra để cập nhật sau khi hoàn tất biểu mẫu. Chi tiết sử dụng và cách nhận bản mới: [Hướng dẫn thành viên và đồng bộ](docs/HUONG_DAN_THANH_VIEN_VA_DONG_BO.md).
+
+Kiểm thử riêng bằng SQLite tạm: `python tests/run_isolated.py`, `python tests/browser_workspace.py`; kiểm thử giao diện dùng Microsoft Edge và Playwright đã cài. Các ca Gemini trong lượt này mô phỏng đường truyền, không gửi khóa hoặc dữ liệu thật ra ngoài.

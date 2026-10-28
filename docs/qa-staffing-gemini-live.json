@@ -1,0 +1,47 @@
+{
+  "database": "disposable SQLite",
+  "data": "synthetic QA profiles only",
+  "real_api_calls": true,
+  "real_emails": false,
+  "success": true,
+  "records": [
+    {
+      "purpose": "assignment",
+      "passed": true,
+      "http": 200,
+      "requested_count": 5,
+      "actual_count": 5,
+      "status": "draft",
+      "engine": {
+        "failure_codes": [],
+        "fallback_used": false,
+        "notice": "Nguồn xử lý: Gemini API.",
+        "primary": "gemini",
+        "used_providers": [
+          "gemini"
+        ]
+      },
+      "real_api_succeeded": true,
+      "error_code": null
+    },
+    {
+      "purpose": "recruitment",
+      "passed": true,
+      "http": 200,
+      "requested_count": 5,
+      "actual_count": 5,
+      "status": "draft",
+      "engine": {
+        "failure_codes": [],
+        "fallback_used": false,
+        "notice": "Nguồn xử lý: Gemini API.",
+        "primary": "gemini",
+        "used_providers": [
+          "gemini"
+        ]
+      },
+      "real_api_succeeded": true,
+      "error_code": null
+    }
+  ]
+}

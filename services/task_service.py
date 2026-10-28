@@ -345,10 +345,8 @@ def update_task_status(user_id, task_id, new_status):
         
     if new_status == 'done':
         execute_db("UPDATE tasks SET status = %s, progress_percent = 100 WHERE id = %s;", (new_status, task_id))
-    elif old_status == 'todo' and new_status == 'in_progress':
-        execute_db("UPDATE tasks SET status = %s, progress_percent = CASE WHEN progress_percent = 0 THEN 10 ELSE progress_percent END WHERE id = %s;", (new_status, task_id))
     elif old_status == 'done' and new_status != 'done':
-        execute_db("UPDATE tasks SET status = %s, progress_percent = CASE WHEN progress_percent = 100 THEN 80 ELSE progress_percent END WHERE id = %s;", (new_status, task_id))
+        execute_db("UPDATE tasks SET status = %s, progress_percent = CASE WHEN progress_percent = 100 THEN 0 ELSE progress_percent END WHERE id = %s;", (new_status, task_id))
     else:
         execute_db("UPDATE tasks SET status = %s WHERE id = %s;", (new_status, task_id))
 

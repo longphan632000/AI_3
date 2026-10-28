@@ -2,15 +2,16 @@ import io
 import json
 import re
 import tempfile
+import threading
+import time
 import unittest
 from pathlib import Path
 from unittest.mock import patch
 
 from app import app
 from database.connection import execute_db, query_db
-from services.ai_confirmation_service import confirm_ai_draft
+from services.ai_errors import AIProviderError
 from services.meeting_minutes_service import create_meeting_minutes
-from services.gemini_service import AIProviderError
 from services.project_data_retriever import retrieve_ai_data
 
 
@@ -42,6 +43,55 @@ class FakeClassifier:
 
 
 class TestMeetingMinutesQuality(unittest.TestCase):
+    def test_compact_json_preserves_exact_action_evidence(self):
+        class CompactClassifier:
+            def generate_response(self, prompt, **kwargs):
+                return json.dumps({'items': [
+                    [1, ['action'], '', [['Giao Lan kiểm thử trước 30/10.', 'Lan', '30/10']]],
+                    [2, ['discussion'], 'Chưa đối chiếu kết quả.'],
+                    [[1], ['decision']],
+                    [True, ['action']],
+                ]}, ensure_ascii=False)
+
+        content, structured, refs, warnings = create_meeting_minutes(
+            None, 'Giao Lan kiểm thử trước 30/10.\nKết quả còn chờ đối chiếu.', CompactClassifier()
+        )
+        self.assertEqual(len(refs), 2)
+        self.assertEqual(structured['action_details'][0]['owner'], 'Lan')
+        self.assertEqual(structured['action_details'][0]['deadline'], '30/10')
+        self.assertIn('Kết quả còn chờ đối chiếu.', content)
+        self.assertFalse(warnings)
+
+    def test_parallel_chunks_share_deadline_and_keep_source_order(self):
+        from services.ai_deadline import _DEADLINE, remaining_timeout
+
+        barrier = threading.Barrier(3)
+        observed = []
+        observation_lock = threading.Lock()
+
+        class ParallelClassifier(FakeClassifier):
+            def generate_response(self, prompt, **kwargs):
+                with observation_lock:
+                    observed.append((threading.get_ident(), remaining_timeout(1000)))
+                barrier.wait(timeout=3)
+                return super().generate_response(prompt, **kwargs)
+
+        token = _DEADLINE.set(time.monotonic() + 30)
+        try:
+            with patch('services.meeting_minutes_service.MAX_CHUNK_PASSAGES', 1):
+                content, _, refs, warnings = create_meeting_minutes(
+                    None, 'Thảo luận hạng mục thứ nhất.\nThảo luận hạng mục thứ hai.\nThảo luận hạng mục thứ ba.',
+                    ParallelClassifier(),
+                )
+        finally:
+            _DEADLINE.reset(token)
+        self.assertEqual(len({thread for thread, _ in observed}), 3)
+        self.assertTrue(all(0 < timeout <= 30 for _, timeout in observed))
+        self.assertLess(content.index('thứ nhất'), content.index('thứ hai'))
+        self.assertLess(content.index('thứ hai'), content.index('thứ ba'))
+        self.assertEqual(len(refs), 3)
+        self.assertFalse(warnings)
+
     def setUp(self):
         self.client = app.test_client()
         self.client.post('/api/auth/login', json={
@@ -63,7 +113,7 @@ class TestMeetingMinutesQuality(unittest.TestCase):
     def test_existing_note_and_uploaded_text_are_both_processed(self):
         note = {'id': 7, 'title': 'Họp kế hoạch', 'meeting_date': '2026-09-25',
                 'attendees': 'Lan, Minh', 'content': 'Quyết định chọn A.'}
-        content, structured, refs, warnings = create_meeting_minutes(
+        _content, structured, refs, warnings = create_meeting_minutes(
             note, 'Giao Lan kiểm thử trước 30/09.', FakeClassifier()
         )
         self.assertEqual(len(refs), 2)
@@ -228,7 +278,7 @@ class TestMeetingMinutesQuality(unittest.TestCase):
     def test_missing_provider_key_creates_no_draft(self):
         before = query_db('SELECT COUNT(*) AS total FROM ai_drafts', one=True)['total']
         with tempfile.TemporaryDirectory() as directory, \
-                patch.dict('os.environ', {'GEMINI_API_KEY': ''}), \
+                patch.dict('os.environ', {'OPENAI_API_KEY': ''}), \
                 patch('services.ai_config.ENV_FILE', Path(directory) / 'missing.env'):
             response = self.client.post('/api/ai', json={
                 'task_type': 'meeting_minutes', 'project_id': 1,
@@ -242,7 +292,7 @@ class TestMeetingMinutesQuality(unittest.TestCase):
         before = query_db('SELECT COUNT(*) AS total FROM ai_drafts', one=True)['total']
         notes = '\n'.join(f'Nội dung cuộc họp đoạn {number}.' for number in range(45))
         with patch('services.ai_provider_service.AIProviderService.generate_response',
-                   side_effect=AIProviderError('Gemini xử lý quá thời gian chờ.', 'AI_TIMEOUT')):
+                   side_effect=AIProviderError('DeepSeek xử lý quá thời gian chờ.', 'AI_TIMEOUT')):
             response = self.client.post('/api/ai', json={
                 'task_type': 'meeting_minutes', 'project_id': 1, 'raw_notes': notes
             })

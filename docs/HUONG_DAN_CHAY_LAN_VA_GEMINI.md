@@ -1,5 +1,8 @@
 # Chạy trên mạng nội bộ và sử dụng Gemini
 
+> Cập nhật 28/10/2026: đã tích hợp xử lý AI cục bộ khi API lỗi. Xem
+> [hướng dẫn bộ não AI cục bộ](HUONG_DAN_BO_NAO_AI_CUC_BO.md) để biết cấu hình và kiểm thử mới.
+
 ## Máy chủ và máy khách
 
 Chỉ máy chủ chạy Flask và kết nối MySQL. Laptop, điện thoại, máy tính bảng mở cùng
@@ -29,36 +32,29 @@ Không dùng Flask development server làm máy chủ triển khai công khai.
 AI_CONFIG_SOURCE=env_file
 AI_PROVIDER=gemini
 GEMINI_API_KEY=
-GEMINI_MODEL=gemini-3.8-flash
-GEMINI_MEETING_MODEL=gemini-3.8-flash
+GEMINI_MODEL=gemini-3.6-flash
+GEMINI_MEETING_MODEL=gemini-3.6-flash
 AI_TIMEOUT_SECONDS=60
-AI_MEETING_TIMEOUT_SECONDS=120
-AI_TOTAL_TIMEOUT_SECONDS=30
+AI_MEETING_TIMEOUT_SECONDS=60
+AI_PRIMARY_BUDGET_SECONDS=30
+AI_TOTAL_TIMEOUT_SECONDS=180
+AI_LOCAL_FALLBACK_ENABLED=true
 ```
 
-Nhập khóa Gemini sau dấu `=` ở GEMINI_API_KEY và lưu tệp trên máy chủ. Không gửi khóa
-cho máy khách. Các yêu cầu AI mới đọc cấu hình từ file khi AI_CONFIG_SOURCE=env_file;
-giá trị rỗng không khôi phục khóa cũ trong môi trường tiến trình. Sau khi cập nhật mã,
-khởi động lại máy chủ một lần. Admin có thể bấm `Kiểm tra API` để xác minh quyền
-truy cập model; thao tác đó gọi dịch vụ Google thật.
+Điền khóa Google Gemini riêng vào `GEMINI_API_KEY` và lưu tệp. Khóa chỉ được đọc ở máy chủ,
+không gửi cho trình duyệt. Khóa DeepSeek không dùng để xác thực với Google.
+Sau khi thay đổi mã nguồn, khởi động lại máy chủ một lần. Sau đó cấu hình trong `.env`
+được đọc cho mỗi yêu cầu mới khi `AI_CONFIG_SOURCE=env_file`.
 
-Máy chủ cần được chạy trong môi trường cho phép kết nối Internet. Nếu Codex chạy
-Flask trong sandbox chặn mạng, hãy dừng tiến trình đó rồi chạy `python -B app.py`
-trong PowerShell thông thường, hoặc cấp quyền chạy ngoài sandbox cho tiến trình máy chủ.
-AI_NETWORK_DENIED/WinError 10013 là lỗi quyền kết nối; việc thay key không giải quyết
-được quyền mạng của tiến trình. Không cần chạy bằng Administrator chỉ để gọi Gemini.
+Nút `Kiểm tra API` gửi yêu cầu tạo nội dung ngắn tới Gemini. Thành công xác nhận khóa và
+model đã tạo được phản hồi tại thời điểm kiểm tra. Lỗi DNS, TLS, timeout, quota, key/model
+và HTTP 503 được phân biệt; không bỏ xác minh chứng chỉ HTTPS.
 
-`Kiểm tra API` chỉ đọc metadata model: trạng thái thành công chưa chứng minh quota
-hoặc tạo nội dung thành công. Các lỗi DNS, TLS, timeout, key/model và dịch vụ 503
-được báo riêng; không bỏ xác minh TLS để vượt lỗi chứng chỉ.
+Khi Gemini lỗi, Qwen3 tại máy và bộ xử lý nghiệp vụ sẽ dự phòng. Lịch sử và giao diện ghi
+nguồn thực sự tạo kết quả; bản do AI cục bộ tạo không được tính là Gemini đã trả lời thành công.
+DeepSeek chỉ được dùng nếu chủ động đổi `AI_PROVIDER=deepseek`.
 
-Timeout từng lượt là giới hạn trên. Toàn bộ retry và các phần của biên bản vẫn dùng
-chung ngân sách 30 giây theo NFR-01. Tệp quá dài hoặc dịch vụ chậm có thể trả lỗi rõ
-ràng; nội dung nguồn trong giao diện được giữ để người dùng chia nhỏ và thử lại.
-
-Model được đối chiếu theo [tài liệu Google](https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash).
-Quyền/hạn mức thực tế phụ thuộc tài khoản và API key; kiểm thử giả lập không xác minh
-được hạn mức hoặc kết nối thật.
+Xem [báo cáo chuyển Gemini](BAO_CAO_CHUYEN_GEMINI.md) để biết kết quả kiểm thử mới nhất.
 
 ## Nhân viên, dự án và duyệt đăng ký
 

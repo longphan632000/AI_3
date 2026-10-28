@@ -250,7 +250,7 @@ def init_sqlite_fallback():
         project_id INTEGER NOT NULL,
         requester_id INTEGER NOT NULL,
         task_type TEXT NOT NULL,
-        model_provider TEXT NOT NULL DEFAULT 'gemini',
+        model_provider TEXT NOT NULL DEFAULT 'deepseek',
         prompt_version TEXT NOT NULL DEFAULT 'v1.0',
         data_references_json TEXT,
         result_summary TEXT NOT NULL,
@@ -291,6 +291,8 @@ def init_sqlite_fallback():
     from database.operational_schema import SQLITE_TABLES
     for statement in SQLITE_TABLES:
         cursor.execute(statement)
+    from database.archive_schema import ensure_archive_schema
+    ensure_archive_schema(conn, 'sqlite')
     current = {row[1] for row in cursor.execute('PRAGMA table_info(ai_drafts)').fetchall()}
     for name, definition in (('version', 'INTEGER NOT NULL DEFAULT 1'), ('validation_json','TEXT')):
         if name not in current:

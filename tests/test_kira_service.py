@@ -6,12 +6,22 @@ import unittest
 from pathlib import Path
 from unittest.mock import MagicMock, patch
 
+from services.ai_errors import AIProviderError
 from services.ai_provider_service import AIProviderService
-from services.gemini_service import AIProviderError
 from services.kira_service import KiraAIService
 
 
 class TestKiraService(unittest.TestCase):
+    def setUp(self):
+        directory = tempfile.TemporaryDirectory()
+        self.addCleanup(directory.cleanup)
+        file_patch = patch('services.ai_config.ENV_FILE', Path(directory.name) / 'missing.env')
+        file_patch.start()
+        self.addCleanup(file_patch.stop)
+        env_patch = patch.dict(os.environ, {'AI_CONFIG_SOURCE': 'process'})
+        env_patch.start()
+        self.addCleanup(env_patch.stop)
+
     def test_kira_service_init_and_configured(self):
         with patch.dict(os.environ, {
             'AI_PROVIDER': 'kira',
@@ -77,13 +87,11 @@ class TestKiraService(unittest.TestCase):
                 self.assertEqual(kwargs['response_format'], {'type': 'json_object'})
 
     def test_ai_provider_service_routing(self):
-        with patch.dict(os.environ, {'AI_PROVIDER': 'kira', 'KIRA_API_KEY': 'kira_test_123'}):
-            provider_service = AIProviderService()
-            self.assertIsInstance(provider_service.provider, KiraAIService)
-
-        with patch.dict(os.environ, {'AI_PROVIDER': 'gemini', 'GEMINI_API_KEY': 'gemini_test_123'}):
-            provider_service = AIProviderService()
-            self.assertEqual(provider_service.provider_name, 'gemini')
+        for provider in ('kira', 'unknown'):
+            with self.subTest(provider=provider), patch.dict(os.environ, {'AI_PROVIDER': provider}):
+                with self.assertRaises(AIProviderError) as raised:
+                    AIProviderService()
+                self.assertEqual(raised.exception.code, 'AI_CONFIG')
 
 
 if __name__ == '__main__':

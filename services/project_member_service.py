@@ -16,12 +16,23 @@ def get_project_members(project_id):
         WHERE pm.project_id = %s
         ORDER BY pm.project_role ASC, u.full_name ASC;
     """
-    return query_db(query, (project_id,))
+    members = query_db(query, (project_id,))
+    for member in members:
+        try:
+            member['availability_percent'] = availability_percent(member['availability'])
+        except ValidationError:
+            member['availability_percent'] = None
+    return members
 
 def check_user_project_role(user_id, project_id, system_role='member'):
     """Kiểm tra quyền hạn của người dùng trong dự án."""
     if system_role == 'admin':
         return True, 'admin'
+    project = query_db('SELECT is_archived,archived_by FROM projects WHERE id=%s', (project_id,), one=True)
+    if project and project['is_archived']:
+        if system_role == 'leader' and project['archived_by'] == user_id:
+            return True, 'leader'
+        return False, None
         
     query = """
         SELECT project_role FROM project_members
@@ -66,7 +77,7 @@ def add_project_member(leader_id, project_id, user_id, project_role='member', sk
     return True, "Thêm thành viên thành công."
 
 @atomic
-def add_project_members(leader_id, project_id, user_ids, project_role='member'):
+def add_project_members(leader_id, project_id, user_ids, project_role='member', use_profiles=False):
     """Thêm một lúc nhiều thành viên vào dự án (FR-04 - Hỗ trợ thao tác hàng loạt)."""
     if not isinstance(user_ids, (list, tuple, set)) or not user_ids:
         return False, "Danh sách thành viên không hợp lệ.", 0
@@ -95,10 +106,14 @@ def add_project_members(leader_id, project_id, user_ids, project_role='member'):
         if existing:
             continue
 
+        defaults = {'skills':'','availability':'100%','capacity_hours':40}
+        if use_profiles:
+            from services.member_profile_service import public_profile_defaults
+            defaults = public_profile_defaults(uid)
         execute_db("""
             INSERT INTO project_members (project_id, user_id, project_role, skills, availability, capacity_hours)
             VALUES (%s, %s, %s, %s, %s, %s);
-        """, (project_id, uid, project_role, '', '100%', 40.00))
+        """, (project_id, uid, project_role, defaults['skills'], defaults['availability'], defaults['capacity_hours']))
         added_count += 1
         added_names.append(target['full_name'])
 

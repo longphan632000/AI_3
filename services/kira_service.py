@@ -1,10 +1,10 @@
-from services.ai_deadline import remaining_timeout, pause_retry
 """Kira AI (OpenAI-compatible) adapter for Qwen and Kira models. A provider failure must not look like a real summary."""
 
 import logging
-import time
+
 from services.ai_config import key_is_configured, resolve_ai_setting
-from services.gemini_service import AIProviderError
+from services.ai_deadline import pause_retry, remaining_timeout
+from services.ai_errors import AIProviderError
 
 LOGGER = logging.getLogger(__name__)
 MAX_ATTEMPTS = 3
@@ -15,11 +15,18 @@ class KiraAIService:
     Adapter kết nối tới Kira AI thông qua chuẩn OpenAI API.
     Hỗ trợ mô hình qwen3.8-flash-next-free và các mô hình OpenAI-compatible khác.
     """
-    def __init__(self):
-        self.api_key, self.key_source = resolve_ai_setting('KIRA_API_KEY')
-        self.base_url = resolve_ai_setting('KIRA_BASE_URL', 'https://kiraai.vn/api/v1')[0]
-        self.model = resolve_ai_setting('KIRA_MODEL', 'qwen3.8-flash-next-free')[0]
-        self.meeting_model = resolve_ai_setting('KIRA_MEETING_MODEL', self.model)[0]
+    def __init__(self, *, setting_prefix='KIRA', provider_label='Kira AI',
+                 default_base_url='https://kiraai.vn/api/v1',
+                 default_model='qwen3.8-flash-next-free'):
+        self.setting_prefix = setting_prefix
+        self.provider_label = provider_label
+        self.api_key, self.key_source = resolve_ai_setting(f'{setting_prefix}_API_KEY')
+        self.base_url = resolve_ai_setting(f'{setting_prefix}_BASE_URL', default_base_url)[0]
+        self.model = resolve_ai_setting(f'{setting_prefix}_MODEL', default_model)[0]
+        self.meeting_model = resolve_ai_setting(f'{setting_prefix}_MEETING_MODEL', self.model)[0]
+        self.probe_scope = 'chat_completion'
+        self.last_probe_error_code = None
+        self.last_probe_diagnostics = {}
 
         timeout, _ = resolve_ai_setting('AI_TIMEOUT_SECONDS', '60')
         meeting_timeout, _ = resolve_ai_setting('AI_MEETING_TIMEOUT_SECONDS', '120')
@@ -52,32 +59,46 @@ class KiraAIService:
         )
 
     def probe_model(self, model=None):
-        """Kiểm tra kết nối và tính sẵn sàng của mô hình Kira AI cho trang Admin Diagnostics."""
+        """Check authentication and generation with a short synthetic prompt."""
+        self.last_probe_error_code = None
+        self.last_probe_diagnostics = {}
         if not self.configured:
-            return False, 'Chưa nạp khóa Kira AI hợp lệ.'
+            self.last_probe_error_code = 'AI_KEY_MISSING'
+            return False, f'Chưa nạp khóa {self.provider_label} hợp lệ.'
         target_model = model or self.model
         try:
-            client = self._get_client(timeout=min(self.timeout, 15))
+            client = self._get_client(timeout=self.timeout)
             # Gửi một tin nhắn ngắn để kiểm tra xác thực và mô hình
             response = client.chat.completions.create(
                 model=target_model,
-                messages=[{'role': 'user', 'content': 'ping'}],
-                max_tokens=5,
+                messages=[{'role': 'user', 'content': 'Reply with exactly OK.'}],
+                max_tokens=64,
                 temperature=0.1,
             )
-            if response and response.choices:
-                return True, f'Kira AI ({target_model}) đã xác nhận kết nối và sẵn sàng tạo nội dung.'
-            return False, f'Kira AI ({target_model}) không trả về lựa chọn phản hồi hợp lệ.'
-        except Exception as error:
+            choices = getattr(response, 'choices', None) or []
+            message = getattr(choices[0], 'message', None) if choices else None
+            content = getattr(message, 'content', None)
+            if isinstance(content, str) and content.strip():
+                return True, f'{self.provider_label} ({target_model}) đã xác nhận kết nối và sẵn sàng tạo nội dung.'
+            self.last_probe_error_code = 'AI_INVALID_RESPONSE'
+            return False, f'{self.provider_label} ({target_model}) không trả về nội dung văn bản hợp lệ.'
+        except Exception as error:  # noqa: BLE001 - diagnostics must hide SDK exception text
             error_str = str(error)
             error_type = type(error).__name__
-            if 'AuthenticationError' in error_type or '401' in error_str:
-                return False, 'Khóa Kira AI bị từ chối hoặc không có quyền truy cập.'
+            status = getattr(error, 'status_code', None)
+            if isinstance(status, int):
+                self.last_probe_diagnostics = {'http_status': status}
+            if 'AuthenticationError' in error_type or '401' in error_str or '403' in error_str:
+                self.last_probe_error_code = 'AI_KEY_REJECTED'
+                return False, f'Khóa {self.provider_label} bị từ chối hoặc không có quyền truy cập.'
             if 'NotFoundError' in error_type or '404' in error_str:
-                return False, f'Mô hình {target_model} của Kira AI không khả dụng.'
+                self.last_probe_error_code = 'AI_MODEL_UNAVAILABLE'
+                return False, f'Mô hình {target_model} của {self.provider_label} không khả dụng.'
             if 'RateLimitError' in error_type or '429' in error_str:
-                return False, 'Kira AI đang giới hạn số lần gọi (Rate Limit).'
-            return False, 'Không kết nối được Kira AI. Hãy kiểm tra cấu hình và thử lại.'
+                self.last_probe_error_code = 'AI_RATE_LIMIT'
+                return False, f'{self.provider_label} đang giới hạn số lần gọi (Rate Limit).'
+            self.last_probe_error_code = 'AI_TIMEOUT' if 'timeout' in error_type.lower() else 'AI_CONNECTION'
+            return False, f'Không kết nối được {self.provider_label}. Hãy kiểm tra cấu hình và thử lại.'
 
     def generate_content(self, prompt_text, max_output_tokens=4096, json_output=False):
         """
@@ -85,7 +106,7 @@ class KiraAIService:
         Hỗ trợ JSON mode nếu json_output=True, có fallback tự động nếu upstream proxy lỗi 5xx với response_format.
         """
         if not self.configured:
-            raise AIProviderError('Trợ lý AI chưa được cấu hình khóa Kira AI. Không thể tạo bản nháp đáng tin cậy.', 'AI_KEY_MISSING')
+            raise AIProviderError(f'Trợ lý AI chưa được cấu hình khóa {self.provider_label}. Không thể tạo bản nháp đáng tin cậy.', 'AI_KEY_MISSING')
 
         target_model = self.meeting_model if json_output else self.model
         request_timeout = self.meeting_timeout if json_output else self.timeout
@@ -129,47 +150,47 @@ class KiraAIService:
 
                 # Kiểm tra lỗi xác thực (401 / 403)
                 if 'AuthenticationError' in error_type or '401' in error_str or '403' in error_str:
-                    raise AIProviderError('Khóa Kira AI bị từ chối hoặc không có quyền truy cập.', 'AI_KEY_REJECTED') from error
+                    raise AIProviderError(f'Khóa {self.provider_label} bị từ chối hoặc không có quyền truy cập.', 'AI_KEY_REJECTED') from error
 
                 # Kiểm tra mô hình không tồn tại (404)
                 if 'NotFoundError' in error_type or '404' in error_str:
-                    raise AIProviderError(f'Mô hình {target_model} của Kira AI không khả dụng. Hãy kiểm tra KIRA_MODEL.', 'AI_MODEL_UNAVAILABLE') from error
+                    raise AIProviderError(f'Mô hình {target_model} của {self.provider_label} không khả dụng. Hãy kiểm tra {self.setting_prefix}_MODEL.', 'AI_MODEL_UNAVAILABLE') from error
 
                 # Rate limit (429)
                 if 'RateLimitError' in error_type or '429' in error_str:
-                    LOGGER.warning('Kira AI RateLimit, attempt %s/%s', attempt + 1, MAX_ATTEMPTS)
+                    LOGGER.warning('%s RateLimit, attempt %s/%s', self.provider_label, attempt + 1, MAX_ATTEMPTS)
                     if attempt < MAX_ATTEMPTS - 1:
                         pause_retry(2 ** attempt)
                         continue
-                    raise AIProviderError('Kira AI đang giới hạn số lần gọi. Vui lòng thử lại sau.', 'AI_RATE_LIMIT') from error
+                    raise AIProviderError(f'{self.provider_label} đang giới hạn số lần gọi. Vui lòng thử lại sau.', 'AI_RATE_LIMIT') from error
 
                 # Lỗi server nội bộ (500, 502, 503, 504)
                 if any(code in error_str for code in ('500', '502', '503', '504')) or 'InternalServerError' in error_type:
-                    LOGGER.warning('Kira AI server error, attempt %s/%s', attempt + 1, MAX_ATTEMPTS)
+                    LOGGER.warning('%s server error, attempt %s/%s', self.provider_label, attempt + 1, MAX_ATTEMPTS)
                     # Nếu đang bật response_format json_object mà upstream lỗi 5xx, thử bỏ constraint để Qwen sinh JSON tự nhiên
                     if 'response_format' in kwargs:
-                        LOGGER.info('Retrying Kira AI request without response_format constraint')
+                        LOGGER.info('Retrying %s request without response_format constraint', self.provider_label)
                         del kwargs['response_format']
                     if attempt < MAX_ATTEMPTS - 1:
                         pause_retry(2 ** attempt)
                         continue
-                    raise AIProviderError('Dịch vụ Kira AI tạm thời không khả dụng. Vui lòng thử lại sau.', 'AI_SERVICE_UNAVAILABLE') from error
+                    raise AIProviderError(f'Dịch vụ {self.provider_label} tạm thời không khả dụng. Vui lòng thử lại sau.', 'AI_SERVICE_UNAVAILABLE') from error
 
                 # Timeout
                 if 'Timeout' in error_type or 'timeout' in error_str.lower():
-                    LOGGER.warning('Kira AI timeout, attempt %s/%s', attempt + 1, MAX_ATTEMPTS)
+                    LOGGER.warning('%s timeout, attempt %s/%s', self.provider_label, attempt + 1, MAX_ATTEMPTS)
                     if attempt < MAX_ATTEMPTS - 1:
                         pause_retry(2 ** attempt)
                         continue
-                    raise AIProviderError('Kira AI xử lý quá thời gian chờ. Hãy thử lại hoặc chia tệp nhỏ hơn.', 'AI_TIMEOUT') from error
+                    raise AIProviderError(f'{self.provider_label} xử lý quá thời gian chờ. Hãy thử lại hoặc chia tệp nhỏ hơn.', 'AI_TIMEOUT') from error
 
                 # Lỗi kết nối mạng
                 if 'ConnectionError' in error_type or 'APIConnectionError' in error_type:
-                    LOGGER.warning('Kira AI connection error, attempt %s/%s', attempt + 1, MAX_ATTEMPTS)
+                    LOGGER.warning('%s connection error, attempt %s/%s', self.provider_label, attempt + 1, MAX_ATTEMPTS)
                     if attempt < MAX_ATTEMPTS - 1:
                         pause_retry(2 ** attempt)
                         continue
-                    raise AIProviderError('Không kết nối được Kira AI. Hãy kiểm tra mạng hoặc URL rồi thử lại.', 'AI_CONNECTION') from error
+                    raise AIProviderError(f'Không kết nối được {self.provider_label}. Hãy kiểm tra mạng hoặc URL rồi thử lại.', 'AI_CONNECTION') from error
 
-                LOGGER.warning('Kira AI unexpected error (%s)', error_type)
-                raise AIProviderError('Dịch vụ Kira AI trả về lỗi không xác định. Vui lòng thử lại.', 'AI_PROVIDER_ERROR') from error
+                LOGGER.warning('%s unexpected error (%s)', self.provider_label, error_type)
+                raise AIProviderError(f'Dịch vụ {self.provider_label} trả về lỗi không xác định. Vui lòng thử lại.', 'AI_PROVIDER_ERROR') from error

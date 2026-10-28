@@ -12,7 +12,7 @@
         <p id="admin-db-status" style="color:var(--text-muted); font-size:0.8rem; margin-top:6px;">Đang kiểm tra
             MySQL...</p>
         <div style="display:flex; align-items:center; gap:8px; margin-top:6px; flex-wrap:wrap;">
-            <p id="admin-ai-status" style="color:var(--text-muted); font-size:0.8rem;">Đang kiểm tra cấu hình Gemini...
+            <p id="admin-ai-status" style="color:var(--text-muted); font-size:0.8rem;">Đang kiểm tra cấu hình AI...
             </p>
             <button type="button" class="btn btn-secondary" style="font-size:0.72rem; padding:3px 8px;"
                 onclick="loadAdminAiStatus(true)">Kiểm tra API</button>
@@ -168,6 +168,7 @@
 
 <script>
     let adminUsers = [];
+    const currentAdminId = {{ session.get('user_id') | tojson }};
     document.addEventListener('DOMContentLoaded', () => {
         loadAdminDatabaseStatus();
         loadAdminAiStatus();
@@ -192,25 +193,33 @@
 
     async function loadAdminAiStatus(probe = false) {
         const label = document.getElementById('admin-ai-status');
-        label.textContent = probe ? 'Đang kiểm tra kết nối Gemini...' : 'Đang kiểm tra cấu hình Gemini...';
+        label.textContent = probe ? 'Đang kiểm tra kết nối AI...' : 'Đang kiểm tra cấu hình AI...';
         try {
             const response = await fetch(`/api/admin/ai-status${probe ? '?probe=1' : ''}`);
             const data = await response.json();
             if (!data.success) throw new Error(data.error || 'Không đọc được cấu hình AI.');
+            const provider = data.provider === 'gemini' ? 'Gemini' : 'DeepSeek';
             if (!data.configured) {
-                label.textContent = 'Chưa nạp khóa Gemini hợp lệ.';
+                label.textContent = `Chưa nạp khóa ${provider} hợp lệ.`;
                 label.style.color = 'var(--neon-rose)';
             } else if (probe) {
                 label.textContent = data.api_reachable
-                    ? `Gemini kết nối được: tác vụ chung (${data.model}), biên bản (${data.meeting_model}). Đã kiểm tra thông tin model; chưa kiểm tra tạo nội dung hoặc quota.`
-                    : `Gemini${data.error_code ? ' ['+data.error_code+']' : ''}: ${data.message || 'Không kết nối được.'}`;
+                    ? `${provider} kết nối được: tác vụ chung (${data.model}), biên bản (${data.meeting_model}). ${['chat_completion', 'generate_content'].includes(data.probe_scope) ? 'Đã kiểm tra tạo nội dung bằng yêu cầu thử.' : 'Đã kiểm tra thông tin model; chưa kiểm tra tạo nội dung hoặc quota.'}`
+                    : `${provider}${data.error_code ? ' ['+data.error_code+']' : ''}: ${data.message || 'Không kết nối được.'}`;
                 label.style.color = data.api_reachable ? 'var(--neon-emerald)' : 'var(--neon-rose)';
             } else {
-                label.textContent = `Đã nạp khóa Gemini: tác vụ chung (${data.model}), biên bản (${data.meeting_model}); chưa kiểm tra API.`;
+                label.textContent = `Đã nạp khóa ${provider}: tác vụ chung (${data.model}), biên bản (${data.meeting_model}); chưa kiểm tra API.`;
                 label.style.color = 'var(--neon-amber)';
             }
+            if (data.fallback?.enabled) {
+                label.textContent += data.fallback.model_installed && data.fallback.model_enabled
+                    ? ' Dự phòng: mô hình Qwen3 tại máy và bộ xử lý nghiệp vụ cục bộ đã sẵn sàng.'
+                    : ' Dự phòng: bộ xử lý nghiệp vụ cục bộ đã sẵn sàng; mô hình Qwen3 chưa được bật hoặc cài đặt.';
+            } else {
+                label.textContent += ' Xử lý dự phòng đang tắt.';
+            }
         } catch (error) {
-            label.textContent = error.message || 'Không kiểm tra được trạng thái Gemini.';
+            label.textContent = error.message || 'Không kiểm tra được trạng thái AI.';
             label.style.color = 'var(--neon-rose)';
         }
     }
@@ -336,6 +345,7 @@
                             </span>
                         </td>
                         <td style="padding:12px; text-align:right;">
+                          <div style="display:flex; justify-content:flex-end; gap:8px; flex-wrap:wrap;">
                             <button class="btn btn-secondary" onclick="openUserEditor(${u.id})">Sửa thông tin</button>
                             ${u.status === 'pending' ? `
                                 <button class="btn btn-primary" onclick="reviewLeaderRequest(${u.id}, 'approve')">Duyệt</button>
@@ -343,6 +353,9 @@
                             ` : u.status === 'rejected' ? `<button class="btn btn-secondary" onclick="reviewLeaderRequest(${u.id}, 'reopen')">Mở lại</button>` : `<button class="btn btn-secondary" style="font-size:0.75rem; padding:4px 10px;" onclick="toggleUserStatus(${u.id}, '${u.status}')">
                                 ${u.status === 'active' ? '🔒 Khóa' : '🔓 Mở khóa'}
                             </button>`}
+                            <button type="button" class="btn btn-danger" onclick="deleteUserAccount(${u.id}, this)"
+                                ${u.id === currentAdminId ? 'disabled title="Không thể tự xóa tài khoản đang sử dụng"' : ''}>Xóa tài khoản</button>
+                          </div>
                         </td>
                     </tr>
                 `).join('') : '<tr><td colspan="6" style="padding:20px; text-align:center; color:var(--text-muted);">Không có tài khoản phù hợp.</td></tr>';
@@ -404,6 +417,21 @@
             }
         } catch (e) {
             showToast('Lỗi cập nhật trạng thái.', 'error');
+        }
+    }
+
+    async function deleteUserAccount(userId, button) {
+        const user = adminUsers.find(item => item.id === userId);
+        if (!user || button.disabled) return;
+        if (!window.confirm(`Xóa vĩnh viễn tài khoản ${user.full_name} (${user.username})?\n\nNếu chỉ muốn ngừng truy cập, hãy chọn Khóa. Dữ liệu dự án được giữ lại; một số bản ghi do tài khoản tạo sẽ chuyển về Quản trị viên. Nhiệm vụ đang phụ trách cần được phân công lại.`)) return;
+        button.disabled = true;
+        try {
+            const data = await apiRequest(`/api/admin/users/${userId}`, {method: 'DELETE'});
+            showToast(data.message || 'Đã xóa tài khoản.', 'success');
+            await Promise.all([loadUsersList(), loadAuditLogs(), loadProjectAssignmentOptions()]);
+        } catch (error) {
+            showToast(error.message || 'Không thể xóa tài khoản.', 'error');
+            button.disabled = false;
         }
     }
 

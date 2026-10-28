@@ -6,10 +6,15 @@ venv/
 .venv/
 env/
 .env
+.env.*
+!.env.example
 
 # Database
 *.sqlite3
+*.sqlite
+*.sqlite3-*
 *.db
+*.db-*
 
 # IDE & Editor
 .vscode/
@@ -23,6 +28,12 @@ Thumbs.db
 
 # Test reports
 .pytest_cache/
+.ruff_cache/
+scratch/
 coverage/
 htmlcov/
 instance/
+
+# Project-local CPU model and verified runtime (installed by setup_local_brain.py)
+runtime/
+local_models/

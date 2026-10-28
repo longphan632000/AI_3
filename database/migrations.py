@@ -28,6 +28,8 @@ def ensure_core_schema():
                     cursor.execute("UPDATE tasks SET progress_percent=100 WHERE status='done'")
         for sql in MYSQL_TABLES:
             cursor.execute(sql)
+        from database.archive_schema import ensure_archive_schema
+        ensure_archive_schema(connection, engine)
         for table, field in (('projects','description'),('project_members','skills'),('tasks','description'),
                              ('tasks','blockers'),('sprints','goal'),('sprints','completion_criteria'),
                              ('comments','content'),('meeting_notes','content')):
