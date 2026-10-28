@@ -1,0 +1,47 @@
+{
+  "timestamp": "2026-10-28T21:36:20.458990+07:00",
+  "database": "disposable SQLite",
+  "real_api_calls": false,
+  "real_emails": false,
+  "records": [
+    {
+      "id": "PROBE-01",
+      "issue": "REQ-11",
+      "expected": "Saving unchanged valid five-candidate draft preserves valid draft state",
+      "observed": {
+        "http": 200,
+        "before": "draft",
+        "after": "needs_verification",
+        "warnings": [
+          "Đề xuất phải có từ 1 đến 3 ứng viên, không trùng nhau."
+        ]
+      },
+      "defect_reproduced": true,
+      "application_changed": false
+    },
+    {
+      "id": "PROBE-02",
+      "issue": "REQ-02",
+      "expected": "Observe actual Admin collaboration policy; no authorization decision is fabricated",
+      "observed": {
+        "comment_http": 201,
+        "note_http": 201,
+        "attachment_http": 403
+      },
+      "defect_reproduced": false,
+      "application_changed": false
+    },
+    {
+      "id": "PROBE-03",
+      "issue": "REQ-04",
+      "expected": "Observe current nullable date and zero-estimate rule",
+      "observed": {
+        "due_date": null,
+        "estimated_hours": 0
+      },
+      "defect_reproduced": false,
+      "application_changed": false
+    }
+  ],
+  "completed": true
+}

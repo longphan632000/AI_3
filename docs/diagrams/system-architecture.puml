@@ -1,0 +1,50 @@
+@startuml
+skinparam defaultFontName Arial
+skinparam defaultFontSize 15
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam padding 8
+skinparam nodesep 35
+skinparam ranksep 45
+skinparam ArrowColor #43556B
+skinparam backgroundColor white
+skinparam classAttributeIconSize 0
+skinparam linetype polyline
+title Kiến trúc hệ thống hiện trạng
+top to bottom direction
+actor "Người dùng" as User
+package "Presentation" {
+ component "HTML templates\nJavaScript và CSS" as UI
+}
+package "Flask backend" {
+ component "Routes / session / RBAC\nvalidation và archive guard" as API
+ component "Business services\nproject, task, sprint, report" as S
+ component "AI coordinator / validator\ndraft và confirmation" as C
+ component "Sync revision / app version" as SY
+ component "database.connection\ntransaction / parameterized SQL" as D
+ component "Email worker\nclaim / dedup / retry" as W
+}
+database "MySQL\n17 bảng runtime" as DB
+cloud "Gemini API\nưu tiên" as G
+component "Qwen3 local / domain rules\ndự phòng" as L
+cloud "SMTP\ntùy cấu hình" as SMTP
+User --> UI
+UI --> API : HTTP / fetch
+API --> S
+API --> C
+API --> SY
+API ..> D : một số route đọc SQL trực tiếp
+S --> D
+C --> D : nguồn và draft
+SY --> D : revision
+D --> DB
+C --> G
+C --> L
+W --> D
+W --> SMTP
+legend bottom
+SQLite: chỉ bộ kiểm thử cách ly. AI không truy cập MySQL trực tiếp.
+HTTPS/proxy và backup theo lịch cần nghiệm thu vận hành riêng.
+endlegend
+
+@enduml

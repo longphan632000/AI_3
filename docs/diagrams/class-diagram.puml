@@ -1,0 +1,65 @@
+@startuml
+skinparam defaultFontName Arial
+skinparam defaultFontSize 15
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam padding 8
+skinparam nodesep 35
+skinparam ranksep 45
+skinparam ArrowColor #43556B
+skinparam backgroundColor white
+skinparam classAttributeIconSize 0
+skinparam linetype polyline
+title Lớp miền khái niệm và ánh xạ dữ liệu
+hide empty members
+class TaiKhoan <<khái niệm>> {
+HoTen
+Email
+TrangThai
+VaiTro
+}
+class DuAn <<khái niệm>> {
+TenDuAn
+MoTa
+ThoiGian
+TrangThai
+}
+class ThanhVienDuAn <<khái niệm>> {
+VaiTroDuAn
+KyNang
+MucSanSang
+NangLucLamViec
+}
+class Sprint <<khái niệm>> {
+TenSprint
+NgayBatDau
+NgayKetThuc
+TieuChiHoanThanh
+}
+class NhiemVu <<khái niệm>> {
+TieuDe
+TrangThai
+HanHoanThanh
+UocLuong
+}
+class LichSuAI <<khái niệm>> {
+LoaiTacVu
+PromptYeuCau
+KetQuaAI
+TrangThaiXacNhan
+}
+TaiKhoan "1" -- "0..*" ThanhVienDuAn
+DuAn "1" -- "0..*" ThanhVienDuAn
+TaiKhoan "1" -- "0..*" DuAn : tạo
+DuAn "1" -- "0..*" Sprint
+DuAn "1" -- "0..*" NhiemVu
+Sprint "0..1" -- "0..*" NhiemVu
+TaiKhoan "0..*" -- "0..*" NhiemVu : chính / hỗ trợ qua task_assignees
+TaiKhoan "1" -- "0..*" LichSuAI : yêu cầu
+DuAn "1" -- "0..*" LichSuAI
+legend bottom
+Lớp miền có nguồn URD; không phải tên Python ORM đang tồn tại.
+Mã thật dùng module service và SQL; xem class-specification.md.
+endlegend
+
+@enduml

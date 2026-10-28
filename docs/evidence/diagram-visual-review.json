@@ -1,0 +1,18 @@
+{
+  "reviewed_at": "2026-10-28T22:11:24.306086+07:00",
+  "generated_pngs_reviewed": 39,
+  "method": "contact sheets of all 39; full-size views for Use Case, UC010 sequence and ERD core; source figures viewed only after independent freeze",
+  "layout_corrections": [
+    "fixed multiline-label syntax before render",
+    "sequence maxMessageSize 48 to 220 pixels",
+    "moved Member/AI associations to right",
+    "polyline edges to reduce label overlap"
+  ],
+  "remaining_limitations": [
+    "some crossings remain in global graphs",
+    "global 17-table ERD is overview; use split ERDs/SVG for reading",
+    "human diagram signoff pending"
+  ],
+  "initial_sources": 39,
+  "final_sources": 39
+}

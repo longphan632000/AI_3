@@ -1,0 +1,57 @@
+{
+  "changed_test_helpers": [
+    {
+      "path": "tests/result_reporting.py",
+      "destination_literals_only": true
+    },
+    {
+      "path": "tests/export_test_cases.py",
+      "destination_literals_only": true
+    },
+    {
+      "path": "tests/browser_smoke.py",
+      "destination_literals_only": true
+    },
+    {
+      "path": "tests/browser_workspace.py",
+      "destination_literals_only": true
+    },
+    {
+      "path": "tests/browser_ui_repairs.py",
+      "destination_literals_only": true
+    },
+    {
+      "path": "tests/browser_staffing_archive.py",
+      "destination_literals_only": true
+    },
+    {
+      "path": "tests/run_gemini_live.py",
+      "destination_literals_only": true
+    },
+    {
+      "path": "tests/run_local_brain_live.py",
+      "destination_literals_only": true
+    },
+    {
+      "path": "tests/run_staffing_live.py",
+      "destination_literals_only": true
+    },
+    {
+      "path": "tests/run_mysql_isolated.py",
+      "destination_literals_only": true
+    },
+    {
+      "path": "tests/run_alignment_audit.py",
+      "destination_literals_only": true
+    }
+  ],
+  "test_assertions_changed": false,
+  "changed_markdown_files": [
+    "README.md",
+    "docs/SKILL_REPORT_INDEX.md",
+    "logstest/BAO_CAO_DOI_CHIEU_DETAI33_THUC_HANH.md",
+    "logstest/BAO_CAO_SUA_GIAO_DIEN_28_10_2026.md",
+    "logstest/BAO_CAO_TICH_HOP_BO_NAO_AI.md",
+    "logstest/HUONG_DAN_BO_NAO_AI_CUC_BO.md"
+  ]
+}

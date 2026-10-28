@@ -1,0 +1,26 @@
+@startuml
+skinparam defaultFontName Arial
+skinparam defaultFontSize 15
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam padding 8
+skinparam nodesep 35
+skinparam ranksep 45
+skinparam ArrowColor #43556B
+skinparam backgroundColor white
+skinparam classAttributeIconSize 0
+skinparam linetype polyline
+title UC004 Quản lý thành viên
+start
+:Xem thành viên và năng lực;
+if (Quyền và dữ liệu hợp lệ?) then (không)
+ :Thông báo lỗi, không ghi dở dang;
+ stop
+else (có)
+ :PM chọn thêm, xóa hoặc sửa năng lực; Member sửa của mình;
+ :Kiểm tra account hoạt động và quyền;
+ :Lưu thông tin, cập nhật tải và nguồn ứng viên;
+endif
+stop
+
+@enduml

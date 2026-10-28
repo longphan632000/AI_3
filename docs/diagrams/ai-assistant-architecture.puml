@@ -1,0 +1,49 @@
+@startuml
+skinparam defaultFontName Arial
+skinparam defaultFontSize 15
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam padding 8
+skinparam nodesep 35
+skinparam ranksep 45
+skinparam ArrowColor #43556B
+skinparam backgroundColor white
+skinparam classAttributeIconSize 0
+skinparam linetype polyline
+title Kiến trúc điều phối Trợ lý AI
+top to bottom direction
+actor "PM / Member theo task" as U
+component "Giao diện AI" as UI
+component "AI routes: session và scope" as R
+package "AI coordinator" {
+ component "Request Analyzer: quyền / tham số" as A
+ component "Data Retriever: SQL tham số hóa" as D
+ component "Context / Prompt Builder" as C
+ component "Provider Service: API trước, local dự phòng" as P
+ component "Response Validator: nguồn / canonical staffing" as V
+ component "Draft / snapshot / history" as H
+}
+component "Confirmation: PM + version + trạng thái" as F
+database "MySQL nguồn và lưu vết" as DB
+cloud "Gemini API" as G
+component "Local model / domain rules" as L
+U --> UI
+UI --> R
+R --> A
+A --> D
+D --> C
+C --> P
+P --> V
+V --> H
+H --> DB
+D --> DB : chỉ nguồn đúng quyền
+P --> G
+P --> L
+UI --> F : PM chủ động xác nhận
+F --> DB : chính thức khi hợp lệ
+legend bottom
+Các bước trong coordinator là luồng điều phối; AI không tự gọi tool ghi DB.
+Member chỉ tạo/sửa meeting draft của mình; Admin không xác nhận AI.
+endlegend
+
+@enduml

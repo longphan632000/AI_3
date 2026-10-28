@@ -1,0 +1,46 @@
+@startuml
+skinparam defaultFontName Arial
+skinparam defaultFontSize 15
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam padding 8
+skinparam nodesep 35
+skinparam ranksep 45
+skinparam ArrowColor #43556B
+skinparam backgroundColor white
+skinparam classAttributeIconSize 0
+skinparam linetype polyline
+title Bốn làn trách nhiệm trong nghiệp vụ
+|Trưởng nhóm|
+start
+:Tạo dự án, thêm người và năng lực;
+:Tạo Sprint, nhiệm vụ;
+if (Cần AI gợi ý?) then (có)
+ |Hệ thống|
+ :Kiểm quyền, lấy dữ liệu;
+ |Dịch vụ AI|
+ :Xếp hạng ứng viên / tạo gợi ý;
+ |Hệ thống|
+ :Đối chiếu ID, số lượng và số liệu;
+ |Trưởng nhóm|
+ :Xem xét và quyết định;
+endif
+:Xác nhận thêm người / giao nhiệm vụ;
+|Thành viên|
+:Thực hiện, cập nhật trạng thái và phần trăm;
+:Bình luận, đính kèm, ghi chú họp;
+|Hệ thống|
+:Tính tiến độ, tải và việc trễ;
+|Trưởng nhóm|
+:Chọn tuần hoặc ghi chú và yêu cầu AI;
+|Hệ thống|
+:Kiểm quyền, dựng nguồn và prompt;
+|Dịch vụ AI|
+:Trả bản nháp;
+|Hệ thống|
+:Kiểm định, ghi draft và nguồn tham chiếu;
+|Trưởng nhóm|
+:Đối chiếu, chỉnh sửa và xác nhận;
+stop
+
+@enduml

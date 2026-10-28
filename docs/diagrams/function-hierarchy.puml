@@ -1,0 +1,36 @@
+@startuml
+skinparam defaultFontName Arial
+skinparam defaultFontSize 15
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam padding 8
+skinparam nodesep 35
+skinparam ranksep 45
+skinparam ArrowColor #43556B
+skinparam backgroundColor white
+skinparam classAttributeIconSize 0
+skinparam linetype polyline
+title Phân cấp chức năng từ các Use Case
+top to bottom direction
+rectangle "Quản lý dự án nhóm có AI" as ROOT
+rectangle "Tài khoản / quyền\nUC001, UC002" as G1
+rectangle "Dự án / thành viên\nUC003, UC004" as G2
+rectangle "Nhiệm vụ / Kanban\nUC005" as G3
+rectangle "Sprint / mốc thời gian\nUC006" as G4
+rectangle "Cộng tác\nUC007" as G5
+rectangle "Tra cứu / báo cáo /\nlịch sử / thông báo\nUC008, UC012, UC013" as G6
+rectangle "Trợ lý AI\nUC009, UC010, UC011" as G7
+ROOT --> G1
+ROOT --> G2
+ROOT --> G3
+ROOT --> G4
+ROOT --> G5
+ROOT --> G6
+ROOT --> G7
+G1 -[hidden]right- G2
+G2 -[hidden]right- G3
+G3 -[hidden]right- G4
+G5 -[hidden]right- G6
+G6 -[hidden]right- G7
+
+@enduml

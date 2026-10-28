@@ -108,7 +108,7 @@ def main():
         raise
     finally:
         stop_owned_runtime()
-        output = ROOT / 'docs/qa-gemini-live-results.json'
+        output = ROOT / 'logstest/qa-gemini-live-results.json'
         output.write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding='utf-8')
     print('Integration:', report['integration_success'], 'Gemini cloud:', report['cloud_status'], flush=True)
     return 0 if report['success'] else 2

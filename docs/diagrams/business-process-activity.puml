@@ -1,0 +1,35 @@
+@startuml
+skinparam defaultFontName Arial
+skinparam defaultFontSize 15
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam padding 8
+skinparam nodesep 35
+skinparam ranksep 45
+skinparam ArrowColor #43556B
+skinparam backgroundColor white
+skinparam classAttributeIconSize 0
+skinparam linetype polyline
+title Quy trình nghiệp vụ hiện trạng
+start
+:PM tạo dự án và thêm thành viên/năng lực;
+:PM tạo Sprint và nhiệm vụ;
+if (Dùng gợi ý AI?) then (có)
+ :Hệ thống kiểm quyền, lấy dữ liệu tối thiểu;
+ :AI trả ID/gợi ý, hệ thống kiểm định;
+ :PM xem lý do, tải và việc trễ;
+endif
+:PM xác nhận thêm người/giao việc riêng;
+:Member thực hiện, cập nhật phần trăm và Kanban;
+:Hệ thống cập nhật tiến độ, tải và việc trễ;
+if (Có nhiệm vụ trễ và đủ điều kiện?) then (có)
+ :Quét/claim email, gửi hoặc mô phỏng theo cấu hình;
+endif
+if (Yêu cầu tóm tắt hoặc biên bản?) then (có)
+ :Kiểm quyền và nguồn, gọi AI;
+ :Kiểm định và lưu bản nháp/cảnh báo;
+ :PM đối chiếu, chỉnh sửa và xác nhận;
+endif
+stop
+
+@enduml

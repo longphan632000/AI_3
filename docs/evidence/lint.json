@@ -1,0 +1,250 @@
+[
+  {
+    "cell": null,
+    "code": "F401",
+    "end_location": {
+      "column": 45,
+      "row": 2
+    },
+    "filename": "D:\\UNG DUNG AL_NAM3\\Code Chuan\\routes\\__init__.py",
+    "fix": null,
+    "location": {
+      "column": 37,
+      "row": 2
+    },
+    "message": "`flask.redirect` imported but unused",
+    "name": "unused-import",
+    "noqa_row": 2,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/unused-import"
+  },
+  {
+    "cell": null,
+    "code": "F401",
+    "end_location": {
+      "column": 54,
+      "row": 2
+    },
+    "filename": "D:\\UNG DUNG AL_NAM3\\Code Chuan\\routes\\__init__.py",
+    "fix": null,
+    "location": {
+      "column": 47,
+      "row": 2
+    },
+    "message": "`flask.url_for` imported but unused",
+    "name": "unused-import",
+    "noqa_row": 2,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/unused-import"
+  },
+  {
+    "cell": null,
+    "code": "F401",
+    "end_location": {
+      "column": 41,
+      "row": 6
+    },
+    "filename": "D:\\UNG DUNG AL_NAM3\\Code Chuan\\routes\\collaboration_routes.py",
+    "fix": {
+      "applicability": "safe",
+      "edits": [
+        {
+          "content": "from services.collaboration_service import (\r\n    get_task_comments, add_comment,\r\n    get_task_attachments, get_project_meeting_notes, create_meeting_note\r\n)",
+          "end_location": {
+            "column": 2,
+            "row": 8
+          },
+          "location": {
+            "column": 1,
+            "row": 4
+          }
+        }
+      ],
+      "message": "Remove unused import"
+    },
+    "location": {
+      "column": 27,
+      "row": 6
+    },
+    "message": "`services.collaboration_service.add_attachment` imported but unused",
+    "name": "unused-import",
+    "noqa_row": 6,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/unused-import"
+  },
+  {
+    "cell": null,
+    "code": "F401",
+    "end_location": {
+      "column": 54,
+      "row": 7
+    },
+    "filename": "D:\\UNG DUNG AL_NAM3\\Code Chuan\\routes\\collaboration_routes.py",
+    "fix": {
+      "applicability": "safe",
+      "edits": [
+        {
+          "content": "from services.collaboration_service import (\r\n    get_task_comments, add_comment,\r\n    get_task_attachments, get_project_meeting_notes, create_meeting_note\r\n)",
+          "end_location": {
+            "column": 2,
+            "row": 8
+          },
+          "location": {
+            "column": 1,
+            "row": 4
+          }
+        }
+      ],
+      "message": "Remove unused import"
+    },
+    "location": {
+      "column": 32,
+      "row": 7
+    },
+    "message": "`services.collaboration_service.get_meeting_note_by_id` imported but unused",
+    "name": "unused-import",
+    "noqa_row": 7,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/unused-import"
+  },
+  {
+    "cell": null,
+    "code": "F401",
+    "end_location": {
+      "column": 54,
+      "row": 1
+    },
+    "filename": "D:\\UNG DUNG AL_NAM3\\Code Chuan\\services\\auth_service.py",
+    "fix": {
+      "applicability": "safe",
+      "edits": [
+        {
+          "content": "from services.validation import text",
+          "end_location": {
+            "column": 54,
+            "row": 1
+          },
+          "location": {
+            "column": 1,
+            "row": 1
+          }
+        }
+      ],
+      "message": "Remove unused import: `services.validation.ValidationError`"
+    },
+    "location": {
+      "column": 39,
+      "row": 1
+    },
+    "message": "`services.validation.ValidationError` imported but unused",
+    "name": "unused-import",
+    "noqa_row": 1,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/unused-import"
+  },
+  {
+    "cell": null,
+    "code": "F841",
+    "end_location": {
+      "column": 15,
+      "row": 27
+    },
+    "filename": "D:\\UNG DUNG AL_NAM3\\Code Chuan\\services\\collaboration_service.py",
+    "fix": {
+      "applicability": "unsafe",
+      "edits": [
+        {
+          "content": "",
+          "end_location": {
+            "column": 18,
+            "row": 27
+          },
+          "location": {
+            "column": 5,
+            "row": 27
+          }
+        }
+      ],
+      "message": "Remove assignment to unused variable `comment_id`"
+    },
+    "location": {
+      "column": 5,
+      "row": 27
+    },
+    "message": "Local variable `comment_id` is assigned to but never used",
+    "name": "unused-variable",
+    "noqa_row": 27,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/unused-variable"
+  },
+  {
+    "cell": null,
+    "code": "F401",
+    "end_location": {
+      "column": 31,
+      "row": 5
+    },
+    "filename": "D:\\UNG DUNG AL_NAM3\\Code Chuan\\services\\email_service.py",
+    "fix": {
+      "applicability": "safe",
+      "edits": [
+        {
+          "content": "",
+          "end_location": {
+            "column": 1,
+            "row": 6
+          },
+          "location": {
+            "column": 1,
+            "row": 5
+          }
+        }
+      ],
+      "message": "Remove unused import: `datetime.timedelta`"
+    },
+    "location": {
+      "column": 22,
+      "row": 5
+    },
+    "message": "`datetime.timedelta` imported but unused",
+    "name": "unused-import",
+    "noqa_row": 5,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/unused-import"
+  },
+  {
+    "cell": null,
+    "code": "F401",
+    "end_location": {
+      "column": 50,
+      "row": 12
+    },
+    "filename": "D:\\UNG DUNG AL_NAM3\\Code Chuan\\services\\email_service.py",
+    "fix": {
+      "applicability": "safe",
+      "edits": [
+        {
+          "content": "",
+          "end_location": {
+            "column": 1,
+            "row": 13
+          },
+          "location": {
+            "column": 1,
+            "row": 12
+          }
+        }
+      ],
+      "message": "Remove unused import: `services.task_service.is_task_overdue`"
+    },
+    "location": {
+      "column": 35,
+      "row": 12
+    },
+    "message": "`services.task_service.is_task_overdue` imported but unused",
+    "name": "unused-import",
+    "noqa_row": 12,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/unused-import"
+  }
+]

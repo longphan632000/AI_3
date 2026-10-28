@@ -1,0 +1,27 @@
+@startuml
+skinparam defaultFontName Arial
+skinparam defaultFontSize 15
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam padding 8
+skinparam nodesep 35
+skinparam ranksep 45
+skinparam ArrowColor #43556B
+skinparam backgroundColor white
+skinparam classAttributeIconSize 0
+skinparam linetype polyline
+title UC011 AI Gợi ý phân công
+start
+:PM chọn task hoặc nhu cầu tuyển thêm;
+if (Quyền và dữ liệu hợp lệ?) then (không)
+ :Thông báo lỗi, không ghi dở dang;
+ stop
+else (có)
+ :Đọc hồ sơ, kỹ năng, giờ khả dụng, tải và việc trễ;
+ :Provider xếp hạng ID hoặc dùng xếp hạng đã xác minh;
+ :Trả số ứng viên thực và số thiếu, không tự giao việc;
+ :PM chọn thêm hoặc giao việc bằng thao tác riêng;
+endif
+stop
+
+@enduml

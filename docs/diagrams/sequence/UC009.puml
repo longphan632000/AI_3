@@ -1,0 +1,46 @@
+@startuml
+skinparam defaultFontName Arial
+skinparam defaultFontSize 15
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam padding 8
+skinparam nodesep 35
+skinparam ranksep 45
+skinparam ArrowColor #43556B
+skinparam backgroundColor white
+skinparam classAttributeIconSize 0
+skinparam linetype polyline
+title UC009 AI Tóm tắt tiến độ
+skinparam maxMessageSize 220
+autonumber
+actor "PM" as A
+participant "Giao diện AI" as UI
+participant "routes/ai_routes" as R
+participant "ai_assistant_service" as S
+database "MySQL" as DB
+participant "Provider\nGemini / local fallback" as AI
+A -> UI : Gửi yêu cầu chủ động
+UI -> R : POST /api/ai (weekly_summary)
+R -> S : process_ai_request(session)
+S -> DB : Kiểm quyền và đọc nguồn tối thiểu
+DB --> S : dữ liệu + source IDs
+alt Ngoài quyền hoặc nguồn không hợp lệ
+ S --> R : Từ chối / validation error
+ R --> UI : lỗi, không có bản chính thức
+else Dữ liệu hợp lệ
+ S -> AI : Context + grounding, không secret
+ AI --> S : Nội dung hoặc lỗi provider
+ S -> S : Kiểm schema, ID, nguồn, số liệu hoặc canonical staffing
+ S -> DB : Transaction draft + snapshot + history
+ S --> R : draft_id / warnings / engine / version
+ R --> UI : draft hoặc needs_verification
+ UI --> A : Hiển thị bản nháp và nguồn
+end
+actor "PM xác nhận" as PM
+PM -> UI : Đối chiếu / sửa / xác nhận version
+UI -> R : POST /drafts/{id}/confirm
+R -> S : Confirmation service kiểm PM và version
+S -> DB : confirmed + biên bản nếu meeting + audit
+S --> UI : Trạng thái chính thức theo backend
+
+@enduml

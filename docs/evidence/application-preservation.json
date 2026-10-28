@@ -1,0 +1,21 @@
+{
+  "application_files_verified": 89,
+  "application_files_changed": [],
+  "skill_documents_updated": 14,
+  "environment_unchanged": true,
+  "server_before": {
+    "http": 200,
+    "app_version": "396983399f12706bcbdf",
+    "mysql_ready": true,
+    "status": "HEALTHY"
+  },
+  "server_after": {
+    "http": 200,
+    "app_version": "396983399f12706bcbdf",
+    "mysql_ready": true,
+    "status": "HEALTHY"
+  },
+  "database_writes_in_review": "disposable SQLite only",
+  "live_server_restarted": false,
+  "schema_or_runtime_config_changed": false
+}

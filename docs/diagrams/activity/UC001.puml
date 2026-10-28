@@ -1,0 +1,26 @@
+@startuml
+skinparam defaultFontName Arial
+skinparam defaultFontSize 15
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam padding 8
+skinparam nodesep 35
+skinparam ranksep 45
+skinparam ArrowColor #43556B
+skinparam backgroundColor white
+skinparam classAttributeIconSize 0
+skinparam linetype polyline
+title UC001 Đăng nhập, đăng xuất
+start
+:Nhập thông tin đăng nhập;
+if (Quyền và dữ liệu hợp lệ?) then (không)
+ :Thông báo lỗi, không ghi dở dang;
+ stop
+else (có)
+ :Kiểm tra account và mật khẩu băm;
+ :Tạo session và mở trang theo vai trò;
+ :Đăng xuất khi người dùng yêu cầu;
+endif
+stop
+
+@enduml

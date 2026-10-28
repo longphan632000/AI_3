@@ -1,0 +1,38 @@
+@startuml
+skinparam defaultFontName Arial
+skinparam defaultFontSize 15
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam padding 8
+skinparam nodesep 35
+skinparam ranksep 45
+skinparam ArrowColor #43556B
+skinparam backgroundColor white
+skinparam classAttributeIconSize 0
+skinparam linetype polyline
+title UC008 Tra cứu & Báo cáo
+skinparam maxMessageSize 220
+autonumber
+actor "Người có quyền dự án" as A
+participant "Giao diện web" as UI
+participant "HTTP route / guards" as R
+participant "report_service / task_service" as S
+database "MySQL" as DB
+A -> UI : Chọn dự án và bộ lọc
+UI -> R : /tasks với bộ lọc; /report; /workload-stats
+R -> S : Session / scope + tham số hợp lệ
+S -> DB : Truy vấn tham số hóa / kiểm đối tượng
+DB --> S : Dữ liệu thuộc phạm vi
+alt Sai quyền hoặc dữ liệu không hợp lệ
+ S --> R : Từ chối, không ghi dở dang
+ R --> UI : Thông báo lỗi an toàn
+else Hợp lệ
+ S -> S : Truy xuất đúng scope với tham số
+ S -> DB : Đọc / tổng hợp dữ liệu theo scope
+ DB --> S : Kết quả
+ S --> R : Dữ liệu / trạng thái xử lý
+ R --> UI : Hiển thị biểu đồ và cảnh báo thiếu ước lượng
+ UI --> A : Hiển thị kết quả
+end
+
+@enduml

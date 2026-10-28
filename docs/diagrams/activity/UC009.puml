@@ -1,0 +1,33 @@
+@startuml
+skinparam defaultFontName Arial
+skinparam defaultFontSize 15
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam padding 8
+skinparam nodesep 35
+skinparam ranksep 45
+skinparam ArrowColor #43556B
+skinparam backgroundColor white
+skinparam classAttributeIconSize 0
+skinparam linetype polyline
+title UC009 AI Tóm tắt tiến độ
+start
+:PM chọn dự án và hai ngày tuần;
+if (Quyền và dữ liệu hợp lệ?) then (không)
+ :Thông báo lỗi, không ghi dở dang;
+ stop
+else (có)
+ :Truy xuất nhiệm vụ thuộc phạm vi và dựng context;
+ :Gọi Gemini trước, dùng fallback nếu cần;
+ :Đối chiếu ID, số liệu và nguồn;
+ if (Nguồn/kết quả còn cảnh báo?) then (có)
+  :Để cần xác minh, người dùng đối chiếu nguồn;
+ else (không)
+  :Hiển thị draft hợp lệ;
+ endif
+ :PM chủ động sửa/xác nhận đúng version;
+ :Backend kiểm quyền/version rồi lưu chính thức;
+endif
+stop
+
+@enduml

@@ -1,0 +1,208 @@
+{
+  "database": "disposable SQLite",
+  "browser": "Microsoft Edge headless",
+  "real_api_calls": false,
+  "real_emails": false,
+  "records": [
+    {
+      "name": "Server permissions shown consistently for assignee, supporter and read-only tasks",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "Member moves assigned task with native drag and drop",
+      "passed": true,
+      "details": {
+        "http": 200,
+        "status": "todo"
+      }
+    },
+    {
+      "name": "Member saves actual progress; PM report updates automatically",
+      "passed": true,
+      "details": {
+        "progress": 45,
+        "average": 29.0
+      }
+    },
+    {
+      "name": "Supporter changes status and actual progress through visible controls",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "Concurrent update keeps unsaved progress; closing applies pending revision without another server change",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "Unedited task detail refreshes automatically from another client",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "Avatar opens the current session account; Escape closes safely",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "Member edits own capacity; PM edits team capacity; both clients receive the changes",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "Charts and sprint filters match backend totals, workload and overload",
+      "passed": true,
+      "details": {
+        "effective": 3,
+        "workload": 12
+      }
+    },
+    {
+      "name": "New sprint filter appears automatically on another device",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "AI adapter receives current skills/capacity/workload; proposal does not assign task",
+      "passed": true,
+      "details": {
+        "transport": "mock Gemini HTTP"
+      }
+    },
+    {
+      "name": "Lost connection is visible; reconnection refreshes shared data",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "Touch drag with browser events",
+      "passed": true,
+      "details": {
+        "width": 768
+      }
+    },
+    {
+      "name": "Touch drag with browser events",
+      "passed": true,
+      "details": {
+        "width": 390
+      }
+    },
+    {
+      "name": "Feature parity and layout: desktop",
+      "passed": true,
+      "details": {
+        "width": 1366,
+        "pages": 3,
+        "profile": true
+      }
+    },
+    {
+      "name": "Workspace acceptance",
+      "passed": false,
+      "error": "Locator expected to have text '5'\nActual value: 0 \nCall log:\n  - Expect \"to_have_text\" locator(\"#report-total\") with timeout 5000ms\n  - waiting for locator(\"#report-total\")\n    11 × locator resolved to <strong id=\"report-total\">0</strong>\n       - unexpected value \"0\"\n\nAria snapshot:\n- strong: \"0\"",
+      "drag_events": [],
+      "touch_events": [
+        {
+          "type": "pointerdown",
+          "tag": "BUTTON",
+          "pointer": "touch",
+          "active": true,
+          "x": 191.328125,
+          "y": 755.875
+        },
+        {
+          "type": "pointermove",
+          "tag": "BUTTON",
+          "pointer": "touch",
+          "active": true,
+          "x": 208.79531860351562,
+          "y": 736.8671875
+        },
+        {
+          "type": "pointermove",
+          "tag": "BUTTON",
+          "pointer": "touch",
+          "active": true,
+          "x": 226.2624969482422,
+          "y": 717.859375
+        },
+        {
+          "type": "pointermove",
+          "tag": "BUTTON",
+          "pointer": "touch",
+          "active": true,
+          "x": 243.7296905517578,
+          "y": 698.8515625
+        },
+        {
+          "type": "pointermove",
+          "tag": "BUTTON",
+          "pointer": "touch",
+          "active": true,
+          "x": 261.1968688964844,
+          "y": 679.84375
+        },
+        {
+          "type": "pointermove",
+          "tag": "BUTTON",
+          "pointer": "touch",
+          "active": true,
+          "x": 278.6640625,
+          "y": 660.8359375
+        },
+        {
+          "type": "pointermove",
+          "tag": "BUTTON",
+          "pointer": "touch",
+          "active": true,
+          "x": 296.1312561035156,
+          "y": 641.828125
+        },
+        {
+          "type": "pointermove",
+          "tag": "BUTTON",
+          "pointer": "touch",
+          "active": true,
+          "x": 313.59844970703125,
+          "y": 622.8203125
+        },
+        {
+          "type": "pointermove",
+          "tag": "BUTTON",
+          "pointer": "touch",
+          "active": true,
+          "x": 331.06561279296875,
+          "y": 603.8125
+        },
+        {
+          "type": "pointermove",
+          "tag": "BUTTON",
+          "pointer": "touch",
+          "active": true,
+          "x": 348.5328063964844,
+          "y": 584.8046875
+        },
+        {
+          "type": "pointermove",
+          "tag": "BUTTON",
+          "pointer": "touch",
+          "active": true,
+          "x": 366,
+          "y": 565.796875
+        },
+        {
+          "type": "pointerup",
+          "tag": "BUTTON",
+          "pointer": "touch",
+          "active": false,
+          "x": 366,
+          "y": 565.796875
+        }
+      ]
+    }
+  ],
+  "runtime_errors": [],
+  "success": false
+}

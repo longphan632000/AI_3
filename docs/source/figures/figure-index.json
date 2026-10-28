@@ -1,0 +1,594 @@
+{
+  "generated_freeze": "2026-10-28T21:38:22+0700",
+  "extracted_after_generation": true,
+  "figures": [
+    {
+      "figure": 1,
+      "path": "source/figures/figure-01.png",
+      "media": "media/image1.png",
+      "sha256": "2e982d559456b25113d6fc4f7d1f493bf90c8aaed913470b1d8a38280cc8cc8a",
+      "size": [
+        2048,
+        2048
+      ],
+      "preceding_text": [
+        "TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN VÀ TRUYỀN THÔNG",
+        "KHOA CÔNG NGHỆ THÔNG TIN"
+      ]
+    },
+    {
+      "figure": 2,
+      "path": "source/figures/figure-02.png",
+      "media": "media/image1.png",
+      "sha256": "2e982d559456b25113d6fc4f7d1f493bf90c8aaed913470b1d8a38280cc8cc8a",
+      "size": [
+        2048,
+        2048
+      ],
+      "preceding_text": [
+        "TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN VÀ TRUYỀN THÔNG",
+        "KHOA CÔNG NGHỆ THÔNG TIN"
+      ]
+    },
+    {
+      "figure": 3,
+      "path": "source/figures/figure-03.png",
+      "media": "media/image2.png",
+      "sha256": "281fe7f02b699bbc1bff78a61106a17c6b1dad42aa2662ff9573c871c15a63be",
+      "size": [
+        2400,
+        1800
+      ],
+      "preceding_text": [
+        "Quy trình tổng quan",
+        "Quy trình bắt đầu khi Trưởng nhóm tạo dự án và kết thúc khi báo cáo/biên bản được người có thẩm quyền xác nhận. Dịch vụ AI chỉ tham gia sau khi hệ thống kiểm tra quyền và người dùng chủ động yêu cầu."
+      ]
+    },
+    {
+      "figure": 4,
+      "path": "source/figures/figure-04.png",
+      "media": "media/image3.png",
+      "sha256": "82bcf911dc3b1f4ba3530a160d4a971071bdca3d37454a5f44caffc282cf24a8",
+      "size": [
+        2400,
+        2160
+      ],
+      "preceding_text": [
+        "Sơ đồ phân cấp chức năng  ",
+        "Các yêu cầu chức năng được gom thành bảy nhóm để nhóm dễ theo dõi phạm vi. Nhánh Trợ lý AI đặt ngang hàng với các nhóm nghiệp vụ nhưng không thay thế quyền của người dùng."
+      ]
+    },
+    {
+      "figure": 5,
+      "path": "source/figures/figure-05.png",
+      "media": "media/image4.png",
+      "sha256": "d0c8c972a4d55e7936998d61318b94ce44350b573e1de943da7b8f6e55485c98",
+      "size": [
+        567,
+        1230
+      ],
+      "preceding_text": [
+        "Biểu đồ Usecase tổng quát  ",
+        "Biểu đồ Use Case cho biết mỗi tác nhân tương tác với nhóm chức năng nào. Dịch vụ AI là hệ thống hỗ trợ bên ngoài và chỉ tạo bản nháp; quyền xem xét, xác nhận thuộc người có thẩm quyền."
+      ]
+    },
+    {
+      "figure": 6,
+      "path": "source/figures/figure-06.png",
+      "media": "media/image5.png",
+      "sha256": "e375ae48103c0fd338b1a6d2467fb7364b3f15784bfed9c1257d9fbf79a26c14",
+      "size": [
+        865,
+        404
+      ],
+      "preceding_text": [
+        "Use case phân rã",
+        "UC001: Đăng nhập, đăng xuất"
+      ]
+    },
+    {
+      "figure": 7,
+      "path": "source/figures/figure-07.png",
+      "media": "media/image6.png",
+      "sha256": "d4a4969aafa2a607dbf7b12c2a635eceb20b3b8b5910c5087bd7d779effc7eb7",
+      "size": [
+        627,
+        842
+      ],
+      "preceding_text": [
+        "UC001: Đăng nhập, đăng xuất",
+        "UC002: Quản lý tài khoản"
+      ]
+    },
+    {
+      "figure": 8,
+      "path": "source/figures/figure-08.png",
+      "media": "media/image7.png",
+      "sha256": "67081daf81be1826b73cf8c0f5bdf77016e3f803c2953da5b1f63fa3dff31b01",
+      "size": [
+        817,
+        570
+      ],
+      "preceding_text": [
+        "UC002: Quản lý tài khoản",
+        "UC003: Quản lý dự án"
+      ]
+    },
+    {
+      "figure": 9,
+      "path": "source/figures/figure-09.png",
+      "media": "media/image8.png",
+      "sha256": "e64e2d5b9250e152261fd0483dfcde31fff94b14842682a387f809df398c7361",
+      "size": [
+        938,
+        379
+      ],
+      "preceding_text": [
+        "UC003: Quản lý dự án",
+        "UC004: Quản lý thành viên"
+      ]
+    },
+    {
+      "figure": 10,
+      "path": "source/figures/figure-10.png",
+      "media": "media/image9.png",
+      "sha256": "6460b2c093431d505f38bfef8a3519af8851dcc046f03c72e1320ab050407c3f",
+      "size": [
+        676,
+        793
+      ],
+      "preceding_text": [
+        "UC004: Quản lý thành viên",
+        "UC005: Quản lý nhiệm vụ và Kanban"
+      ]
+    },
+    {
+      "figure": 11,
+      "path": "source/figures/figure-11.png",
+      "media": "media/image10.png",
+      "sha256": "1bbf87ee3edbf3486935455dcfad6d4af7a07043064c07adc88d6232adb7b55c",
+      "size": [
+        666,
+        780
+      ],
+      "preceding_text": [
+        "UC005: Quản lý nhiệm vụ và Kanban",
+        "UC006: Quản lý Sprint và mốc tiến độ"
+      ]
+    },
+    {
+      "figure": 12,
+      "path": "source/figures/figure-12.png",
+      "media": "media/image11.png",
+      "sha256": "d021bb1f6edac96a191bd6ba9995a28ecaa235a9a74d8eadcacf09981ab058f8",
+      "size": [
+        970,
+        798
+      ],
+      "preceding_text": [
+        "UC006: Quản lý Sprint và mốc tiến độ",
+        "UC007: Cộng tác (Bình luận, đính kèm, ghi chú)"
+      ]
+    },
+    {
+      "figure": 13,
+      "path": "source/figures/figure-13.png",
+      "media": "media/image12.png",
+      "sha256": "6c23ac7185ff38244b0cb79a5e2b6ba376bd0e097af08e258d4284269e990358",
+      "size": [
+        865,
+        531
+      ],
+      "preceding_text": [
+        "UC007: Cộng tác (Bình luận, đính kèm, ghi chú)",
+        "UC008: Tra cứu, báo cáo và bảng điều khiển"
+      ]
+    },
+    {
+      "figure": 14,
+      "path": "source/figures/figure-14.png",
+      "media": "media/image13.png",
+      "sha256": "a28b40a1d2f694602efbf3b8029d62329215029ad3792d4f36ee1a589e81cf6b",
+      "size": [
+        898,
+        587
+      ],
+      "preceding_text": [
+        "UC008: Tra cứu, báo cáo và bảng điều khiển",
+        "UC009: AI Tóm tắt tiến độ"
+      ]
+    },
+    {
+      "figure": 15,
+      "path": "source/figures/figure-15.png",
+      "media": "media/image14.png",
+      "sha256": "bb97eda56975eadeca1df533725fe8953c66f66b177b928843572198d2351308",
+      "size": [
+        847,
+        582
+      ],
+      "preceding_text": [
+        "UC009: AI Tóm tắt tiến độ",
+        "UC10: AI Sinh biên bản cuộc họp"
+      ]
+    },
+    {
+      "figure": 16,
+      "path": "source/figures/figure-16.png",
+      "media": "media/image15.png",
+      "sha256": "f0c48ad66da142acdb8f582f7d86e8852376b44bbe647357d29587d1b072f978",
+      "size": [
+        949,
+        564
+      ],
+      "preceding_text": [
+        "UC10: AI Sinh biên bản cuộc họp",
+        "UC11: AI gợi ý phân công"
+      ]
+    },
+    {
+      "figure": 17,
+      "path": "source/figures/figure-17.png",
+      "media": "media/image16.png",
+      "sha256": "640644bc23f2ae875a081b75b217a773578c280d9ab2fe70230dd31d77eae5fb",
+      "size": [
+        907,
+        559
+      ],
+      "preceding_text": [
+        "UC11: AI gợi ý phân công",
+        "UC12: Xem lịch sử AI"
+      ]
+    },
+    {
+      "figure": 18,
+      "path": "source/figures/figure-18.png",
+      "media": "media/image17.png",
+      "sha256": "4317557270869b32eb393f484f7e4f22edb83d82f4baaddf745056878f17c303",
+      "size": [
+        1242,
+        984
+      ],
+      "preceding_text": [
+        "UC12: Xem lịch sử AI",
+        "UC13: Nhận thông báo"
+      ]
+    },
+    {
+      "figure": 19,
+      "path": "source/figures/figure-19.png",
+      "media": "media/image18.png",
+      "sha256": "740acd8b500ea98d3c13e9cf7d75bdf6b8f07ac4e405c0ac633481979346d695",
+      "size": [
+        947,
+        900
+      ],
+      "preceding_text": [
+        "UC001 — Đăng nhập, đăng xuất",
+        "Biểu đồ trình tự UC001 mô tả quá trình người dùng gửi thông tin đăng nhập đến hệ thống, hệ thống tiến hành xác thực tài khoản và quyền truy cập trước khi cho phép người dùng vào hệ thống. Khi đăng xuất, phiên làm việc hiện tại được kết thúc để bảo đảm an toàn "
+      ]
+    },
+    {
+      "figure": 20,
+      "path": "source/figures/figure-20.png",
+      "media": "media/image19.png",
+      "sha256": "08442ab9858fcd42a61af64ba28bb051f226def7115f624f0d9b4bf817b0a825",
+      "size": [
+        1161,
+        816
+      ],
+      "preceding_text": [
+        "UC002 — Quản lý tài khoản",
+        "Biểu đồ trình tự UC002 mô tả quá trình Quản trị viên thực hiện các thao tác quản lý tài khoản như tạo, xem, cập nhật, khóa hoặc mở tài khoản, gán vai trò và xem nhật ký hoạt động. Hệ thống kiểm tra quyền quản trị trước khi thực hiện và lưu lại các thay đổi cần"
+      ]
+    },
+    {
+      "figure": 21,
+      "path": "source/figures/figure-21.png",
+      "media": "media/image20.png",
+      "sha256": "494eee0da4a1679ae4d6194c11b5a0e60cedd8179e2c8d08f9e62a90ae5dc1fd",
+      "size": [
+        854,
+        887
+      ],
+      "preceding_text": [
+        "UC003 — Quản lý dự án",
+        "Biểu đồ trình tự UC003 mô tả quá trình Trưởng nhóm tạo, xem, chỉnh sửa và quản lý trạng thái của dự án. Thông tin dự án được hệ thống kiểm tra tính hợp lệ trước khi lưu và trở thành phạm vi chung để quản lý thành viên, nhiệm vụ, Sprint và báo cáo."
+      ]
+    },
+    {
+      "figure": 22,
+      "path": "source/figures/figure-22.png",
+      "media": "media/image21.png",
+      "sha256": "550ef92cdb1f170b11e98acf0e199457fc93bd328673e8fb23823c9fce98c08b",
+      "size": [
+        920,
+        855
+      ],
+      "preceding_text": [
+        "UC004 — Quản lý thành viên",
+        "Biểu đồ trình tự UC004 mô tả quá trình Trưởng nhóm thêm hoặc loại thành viên khỏi dự án, đồng thời cập nhật vai trò, kỹ năng, mức sẵn sàng và năng lực làm việc của từng thành viên. Các thông tin này được lưu để phục vụ phân quyền, thống kê tải công việc và hỗ "
+      ]
+    },
+    {
+      "figure": 23,
+      "path": "source/figures/figure-23.png",
+      "media": "media/image22.png",
+      "sha256": "2edad318239beb23335649402d82a94960001bc9c5b1207db1a15c4fd44e6030",
+      "size": [
+        1167,
+        977
+      ],
+      "preceding_text": [
+        "UC005 — Quản lý nhiệm vụ và Kanban",
+        "Biểu đồ trình tự UC005 mô tả quá trình tạo, chỉnh sửa, cập nhật và theo dõi nhiệm vụ trên bảng Kanban. Khi trạng thái nhiệm vụ thay đổi, hệ thống cập nhật thông tin tương ứng và sử dụng dữ liệu đó để xác định tiến độ, nhiệm vụ trễ và tải công việc của thành vi"
+      ]
+    },
+    {
+      "figure": 24,
+      "path": "source/figures/figure-24.png",
+      "media": "media/image23.png",
+      "sha256": "353e651fcf08fb74dc458c30aea4d4bb05163d5036100a3a2e3bbaa122ddf98f",
+      "size": [
+        965,
+        799
+      ],
+      "preceding_text": [
+        "UC006 — Quản lý Sprint và mốc tiến độ",
+        "Biểu đồ trình tự UC006 mô tả quá trình Trưởng nhóm tạo và cập nhật Sprint, mốc tiến độ, mục tiêu và khoảng thời gian thực hiện. Hệ thống kiểm tra dữ liệu thời gian, liên kết nhiệm vụ với Sprint và tính toán tỷ lệ hoàn thành dựa trên trạng thái nhiệm vụ."
+      ]
+    },
+    {
+      "figure": 25,
+      "path": "source/figures/figure-25.png",
+      "media": "media/image24.png",
+      "sha256": "a49a2bd9b9c0606dfbc95751ba04cbec783d3b4f3e96ffafa9173e07c3ef920f",
+      "size": [
+        1272,
+        947
+      ],
+      "preceding_text": [
+        "UC007 — Cộng tác",
+        "Biểu đồ trình tự UC007 mô tả quá trình các thành viên trao đổi thông tin trong dự án thông qua bình luận, tài liệu đính kèm và ghi chú. Hệ thống kiểm tra quyền truy cập trước khi lưu nội dung cùng thông tin tác giả, thời điểm và nhiệm vụ hoặc dự án liên quan."
+      ]
+    },
+    {
+      "figure": 26,
+      "path": "source/figures/figure-26.png",
+      "media": "media/image25.png",
+      "sha256": "f4fd775f7de0e84a161fc5a71080a903353c2fb3814110bf1d5ab440eda578e4",
+      "size": [
+        991,
+        747
+      ],
+      "preceding_text": [
+        "UC008 — Tra cứu, báo cáo và bảng điều khiển",
+        "Biểu đồ trình tự UC008 mô tả quá trình người dùng nhập điều kiện tìm kiếm hoặc bộ lọc, hệ thống truy xuất dữ liệu phù hợp và tổng hợp các thông tin về tiến độ, nhiệm vụ trễ, tỷ lệ hoàn thành và khối lượng công việc trước khi hiển thị kết quả."
+      ]
+    },
+    {
+      "figure": 27,
+      "path": "source/figures/figure-27.png",
+      "media": "media/image26.png",
+      "sha256": "cf405a852c4a8ec9299e010b3cd75d3a434399f2f0b26d2d6591deedb5ad61f7",
+      "size": [
+        1416,
+        949
+      ],
+      "preceding_text": [
+        "UC009 — AI tóm tắt tiến độ",
+        "Biểu đồ trình tự UC009 mô tả quá trình Trưởng nhóm yêu cầu AI tóm tắt tiến độ. Hệ thống kiểm tra quyền và tập hợp các dữ liệu nhiệm vụ cần thiết, gửi dữ liệu tới dịch vụ AI để tạo bản nháp tóm tắt. Kết quả sau đó được Trưởng nhóm đối chiếu, chỉnh sửa và xác nh"
+      ]
+    },
+    {
+      "figure": 28,
+      "path": "source/figures/figure-28.png",
+      "media": "media/image27.png",
+      "sha256": "6844dcdd5ba4c651e6731fda7bf1a140ea7e0a8543a7979d78716773634eee14",
+      "size": [
+        1727,
+        929
+      ],
+      "preceding_text": [
+        "UC010 — AI sinh biên bản họp",
+        "Biểu đồ trình tự UC010 mô tả quá trình người dùng có quyền gửi ghi chú cuộc họp để yêu cầu AI tạo bản nháp biên bản. Dịch vụ AI xử lý nội dung và trả về bản nháp gồm các nội dung chính, quyết định và công việc cần thực hiện; người dùng tiếp tục kiểm tra, chỉnh"
+      ]
+    },
+    {
+      "figure": 29,
+      "path": "source/figures/figure-29.png",
+      "media": "media/image28.png",
+      "sha256": "5f1cb26d166f66d0167f29299fd3075983b86dd765eb17b61699a7a5455b479e",
+      "size": [
+        1522,
+        992
+      ],
+      "preceding_text": [
+        "UC011 — AI gợi ý phân công",
+        "Biểu đồ trình tự UC011 mô tả quá trình Trưởng nhóm yêu cầu AI đề xuất người phù hợp cho một nhiệm vụ. Hệ thống cung cấp các dữ liệu cần thiết như kỹ năng, mức sẵn sàng, năng lực và tải công việc; AI trả về từ 1–3 ứng viên kèm lý do và cảnh báo quá tải. Trưởng "
+      ]
+    },
+    {
+      "figure": 30,
+      "path": "source/figures/figure-30.png",
+      "media": "media/image29.png",
+      "sha256": "5a868779de987625466ac39d92c53e99088653817835f0222f79dc21bec4b637",
+      "size": [
+        1089,
+        765
+      ],
+      "preceding_text": [
+        "UC012 — Xem lịch sử AI",
+        "Biểu đồ trình tự UC012 mô tả quá trình Quản trị viên hoặc Trưởng nhóm truy cập lịch sử sử dụng AI. Hệ thống truy xuất các bản ghi liên quan đến người yêu cầu, loại tác vụ AI, dữ liệu tham chiếu, phiên bản prompt, kết quả và trạng thái xác nhận để người dùng có"
+      ]
+    },
+    {
+      "figure": 31,
+      "path": "source/figures/figure-31.png",
+      "media": "media/image30.png",
+      "sha256": "db6b3d90cbee8f7456ad3ae7a967f71a3fc05aa6558e95aa25069221f87da416",
+      "size": [
+        1115,
+        644
+      ],
+      "preceding_text": [
+        "UC013 — Nhận thông báo",
+        "Biểu đồ trình tự UC013 mô tả quá trình hệ thống tạo và gửi thông báo trong ứng dụng khi phát sinh các sự kiện quan trọng như được giao nhiệm vụ hoặc nhiệm vụ sắp đến hạn. Đồng thời, khi hệ thống xác định một nhiệm vụ bị trễ theo BR-02, hệ thống lấy địa chỉ ema"
+      ]
+    },
+    {
+      "figure": 32,
+      "path": "source/figures/figure-32.png",
+      "media": "media/image31.png",
+      "sha256": "615cba6fa009ce5ac86a481308603500df9b81e220ca8bac48fc3b2e6d9b87f1",
+      "size": [
+        1367,
+        1060
+      ],
+      "preceding_text": [
+        "Đối với Hệ thống quản lý dự án nhóm có tích hợp AI, quy trình bắt đầu khi Trưởng nhóm tạo dự án, bổ sung thành viên, xây dựng Sprint, mốc tiến độ và nhiệm vụ. Sau khi nhiệm vụ được phân công, Thành viên thực hiện công việc, cập nhật trạng thái, bình luận và tà",
+        "Đây cũng chính là nguyên tắc nghiệp vụ đã được xác định trong tài liệu: quy trình bắt đầu từ Trưởng nhóm tạo dự án và kết thúc khi báo cáo hoặc biên bản được xác nhận;  dịch vụ AI chỉ tham gia sau khi hệ thống kiểm tra quyền và có yêu cầu chủ động từ người dùn"
+      ]
+    },
+    {
+      "figure": 33,
+      "path": "source/figures/figure-33.png",
+      "media": "media/image32.png",
+      "sha256": "774495dd2f5fb12ec084bfbc381a4ce24a5597953e2eedd6b294d8a5dcc32a8f",
+      "size": [
+        487,
+        710
+      ],
+      "preceding_text": [
+        "Biểu đồ lớp (Class Diagram) là biểu đồ UML dùng để mô hình hóa  cấu trúc tĩnh của hệ thống , bao gồm các lớp, thuộc tính, phương thức và mối quan hệ giữa các lớp. Biểu đồ lớp giúp chuyển từ các yêu cầu và nghiệp vụ đã phân tích sang mô hình thiết kế cụ thể, đồ",
+        "Đối với Hệ thống quản lý dự án nhóm có tích hợp AI, biểu đồ lớp tập trung mô hình hóa các đối tượng nghiệp vụ chính như tài khoản, dự án, thành viên dự án, nhiệm vụ, Sprint  và mốc tiến độ, bình luận và tài liệu, ghi chú/biên bản họp, yêu cầu và kết quả AI, bá"
+      ]
+    },
+    {
+      "figure": 34,
+      "path": "source/figures/figure-34.png",
+      "media": "media/image33.png",
+      "sha256": "4cab8dfa800e617b12f72f6b3cd5b5d727e9f6f72b16bf42ee7fd7c46785ec69",
+      "size": [
+        613,
+        1046
+      ],
+      "preceding_text": [
+        "E RD (Entity Relationship Diagram) là biểu đồ dùng để mô tả  các thực thể dữ liệu, các thuộc tính quan trọng và mối quan hệ giữa các thực thể trong cơ sở dữ liệu . ERD  giúp xác định dữ liệu nào cần được lưu trữ, cách các bảng liên kết với nhau và cách bảo đảm",
+        "Đối với Hệ thống quản lý dự án nhóm có tích hợp AI, ERD được xây dựng dựa trên các nhóm dữ liệu chính của hệ thống như tài khoản, dự án, thành viên dự án, nhiệm vụ, Sprint/mốc tiến độ, bình luận/tài liệu, ghi chú và biên bản họp, lịch sử yêu cầu/kết quả AI, bá"
+      ]
+    },
+    {
+      "figure": 35,
+      "path": "source/figures/figure-35.png",
+      "media": "media/image34.png",
+      "sha256": "1cef432464ff768952513433417842184590e0530af6c327de690865a03e3deb",
+      "size": [
+        971,
+        733
+      ],
+      "preceding_text": [
+        "Tên trường Kiểu dữ liệu Ràng buộc Ý nghĩa MaNhiemVu int PK, NOT NULL Mã nhiệm vụ MaSprint int FK → Sprint(MaSprint), NULL Sprint chứa nhiệm vụ MaNguoiPhuTrach int FK → TaiKhoan(MaTaiKhoan), NULL Người phụ trách nhiệm vụ TieuDe nvarchar(255) NOT NULL Tiêu đề nh",
+        "Kiến trúc phân tầng  "
+      ]
+    },
+    {
+      "figure": 36,
+      "path": "source/figures/figure-36.png",
+      "media": "media/image35.png",
+      "sha256": "3d2803f7f7eec6e4bd81bb24b376e63a8d4684689db1202a585b17152b3b9b76",
+      "size": [
+        1910,
+        1041
+      ],
+      "preceding_text": [
+        "Một số giao diện hệ thống",
+        "Giao diện chức năng đăng nhập"
+      ]
+    },
+    {
+      "figure": 37,
+      "path": "source/figures/figure-37.png",
+      "media": "media/image36.png",
+      "sha256": "55db6c098f8e37622606f272081714f85d8e01472e8c97229267f1e042bfabfd",
+      "size": [
+        1908,
+        1037
+      ],
+      "preceding_text": [
+        "Giao diện chức năng đăng nhập",
+        "Giao diện bảng điều khiển "
+      ]
+    },
+    {
+      "figure": 38,
+      "path": "source/figures/figure-38.png",
+      "media": "media/image37.png",
+      "sha256": "87e39f240bd304e3df92cd83721165b01ae3834b7c74e7aae685099aaad3f8ba",
+      "size": [
+        1917,
+        1051
+      ],
+      "preceding_text": [
+        "Giao diện bảng điều khiển ",
+        "Giao diện bảng kanban"
+      ]
+    },
+    {
+      "figure": 39,
+      "path": "source/figures/figure-39.png",
+      "media": "media/image38.png",
+      "sha256": "490000bcab05fe1fb8192b4eefce4a7e4d726c4d177b3b09b00f6f159f2b569e",
+      "size": [
+        1912,
+        1038
+      ],
+      "preceding_text": [
+        "Giao diện bảng kanban",
+        "Giao diện các chức năng AI (tóm tắt tiến độ, sinh biên bản cuộc họp, gợi ý phân công)"
+      ]
+    },
+    {
+      "figure": 40,
+      "path": "source/figures/figure-40.png",
+      "media": "media/image39.png",
+      "sha256": "8a8a3d9372ae5ce625b10dd7101f5fface82b80ac7c4a84283e93467a52e3e09",
+      "size": [
+        1911,
+        1041
+      ],
+      "preceding_text": [
+        "Giao diện các chức năng AI (tóm tắt tiến độ, sinh biên bản cuộc họp, gợi ý phân công)",
+        "Giao diện bảng thông báo"
+      ]
+    },
+    {
+      "figure": 41,
+      "path": "source/figures/figure-41.png",
+      "media": "media/image40.png",
+      "sha256": "c8b358d7fce3767f9abcc65ad8aa71d3b9d183100474da61d797fd52546f6f54",
+      "size": [
+        1906,
+        1031
+      ],
+      "preceding_text": [
+        "Giao diện bảng thông báo",
+        "Giao diện xem lịch sử AI"
+      ]
+    },
+    {
+      "figure": 42,
+      "path": "source/figures/figure-42.png",
+      "media": "media/image41.png",
+      "sha256": "e0f900902dbc0423deaa94c55ff0d3a864c40b08c0c5f9a0e116d707dd0b9f66",
+      "size": [
+        1902,
+        1042
+      ],
+      "preceding_text": [
+        "Giao diện xem lịch sử AI",
+        "Giao diện quản lí thành viên"
+      ]
+    }
+  ]
+}

@@ -24,7 +24,7 @@ from playwright.sync_api import sync_playwright, expect
 
 def main():
     records, errors, prompts = [], [], []
-    out = ROOT / 'docs'
+    out = ROOT / 'logstest'
     shots = out / 'qa-workspace'
     shots.mkdir(exist_ok=True)
     def record(name, **details):

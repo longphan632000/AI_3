@@ -16,7 +16,7 @@ sys.path.insert(0, str(ROOT))
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--output', type=Path, default=ROOT / 'docs' / 'qa-local-brain-live.json')
+    parser.add_argument('--output', type=Path, default=ROOT / 'logstest' / 'qa-local-brain-live.json')
     parser.add_argument('--probe-primary', action='store_true', help='Also exercise the configured cloud API with synthetic data.')
     args = parser.parse_args()
     from services.ai_config import resolve_ai_setting, key_is_configured

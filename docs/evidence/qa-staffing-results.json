@@ -1,0 +1,97 @@
+{
+  "database": "disposable SQLite",
+  "browser": "Microsoft Edge headless",
+  "real_api_calls": false,
+  "real_emails": false,
+  "records": [
+    {
+      "name": "All 19 active candidates visible across pages before selecting a member",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "Five requested in natural language; mocked API returns three; five verified suggestions shown without assignment",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "Recruitment works without task; selection and explicit add copy real profile without automatic task assignment",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "Choose candidate opens normal task editor; only Save assigns",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "Inline percent save/cancel; pending edit protected; Done 100 and reopened Todo 0",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "Self professional profile updates and reaches PM on another browser automatically",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "Admin sees all archive details; creator PM denied when different PM archived; actual archiver allowed",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "Actual PM restores project; admin detail updates on separate client",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "Responsive staffing and detail desktop",
+      "passed": true,
+      "details": {
+        "width": 1920,
+        "touch": false
+      }
+    },
+    {
+      "name": "Responsive staffing and detail laptop",
+      "passed": true,
+      "details": {
+        "width": 1366,
+        "touch": false
+      }
+    },
+    {
+      "name": "Responsive staffing and detail tablet",
+      "passed": true,
+      "details": {
+        "width": 768,
+        "touch": true
+      }
+    },
+    {
+      "name": "Responsive staffing and detail phone",
+      "passed": true,
+      "details": {
+        "width": 390,
+        "touch": true
+      }
+    },
+    {
+      "name": "Responsive staffing and detail small-phone",
+      "passed": true,
+      "details": {
+        "width": 360,
+        "touch": true
+      }
+    },
+    {
+      "name": "No browser JavaScript errors",
+      "passed": true,
+      "details": {
+        "errors": []
+      }
+    }
+  ],
+  "runtime_errors": [],
+  "success": true
+}

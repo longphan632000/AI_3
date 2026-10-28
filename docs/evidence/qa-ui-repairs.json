@@ -1,0 +1,115 @@
+{
+  "database": "disposable SQLite",
+  "browser": "Microsoft Edge headless",
+  "real_api_calls": false,
+  "records": [
+    {
+      "name": "Admin sees delete control; own account is protected",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "Cancel account deletion keeps account",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "Confirm deletion removes fixture account and updates table",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "Deletion of last project leader is blocked",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "Warning draft shows disabled confirm plus review explanation",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "Header and footer stay visible while scrolling: laptop",
+      "passed": true,
+      "details": {
+        "width": 1366,
+        "height": 600
+      }
+    },
+    {
+      "name": "Header and footer stay visible while scrolling: tablet",
+      "passed": true,
+      "details": {
+        "width": 768,
+        "height": 700
+      }
+    },
+    {
+      "name": "Header and footer stay visible while scrolling: phone",
+      "passed": true,
+      "details": {
+        "width": 390,
+        "height": 640
+      }
+    },
+    {
+      "name": "Header and footer stay visible while scrolling: small-phone",
+      "passed": true,
+      "details": {
+        "width": 320,
+        "height": 560
+      }
+    },
+    {
+      "name": "Close without saving keeps database unchanged: cancel",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "Close without saving keeps database unchanged: escape",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "Close without saving keeps database unchanged: close",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "Close without saving keeps database unchanged: backdrop",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "Save and confirm requires explicit source review",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "Leader reviews, saves and confirms exact version through UI",
+      "passed": true,
+      "details": {
+        "version": 2
+      }
+    },
+    {
+      "name": "Save alone stays draft; main confirm control then works",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "Member can edit own draft but cannot review away warnings or confirm",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "name": "No JavaScript runtime errors",
+      "passed": true,
+      "details": {
+        "errors": []
+      }
+    }
+  ],
+  "runtime_errors": [],
+  "success": true
+}

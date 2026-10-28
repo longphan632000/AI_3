@@ -8,14 +8,14 @@
 ## 1. Giới thiệu Dự án
 Hệ thống Quản lý Dự án Nhóm Tích hợp AI là nền tảng quản trị công việc nhóm linh hoạt, hỗ trợ Kanban 5 trạng thái, quản lý Sprint, phân bổ tải công việc thành viên và tích hợp 3 chức năng Trợ lý AI.
 
-Yêu cầu nghiệp vụ được đối chiếu với `Detai33.docx`: 9 quy tắc **BR-01 đến BR-09**, 17 yêu cầu chức năng **FR-01 đến FR-17** và 11 yêu cầu phi chức năng **NFR-01 đến NFR-11**. FR-01–14 là bắt buộc; FR-15–17 là phần nên có. Kết quả và giới hạn kiểm thử được ghi tại [báo cáo sửa lỗi](docs/BAO_CAO_SUA_LOI_VA_KET_QUA.md), không suy rộng tỷ lệ test đạt thành việc đã nghiệm thu mọi yêu cầu.
+Yêu cầu nghiệp vụ được đối chiếu với URD [bản nguồn hiện tại](docs/source-urd.md): 9 quy tắc **BR-01 đến BR-09**, 17 yêu cầu chức năng **FR-01 đến FR-17** và 11 yêu cầu phi chức năng **NFR-01 đến NFR-11**. FR-01–14 là bắt buộc; FR-15–17 là phần nên có. Kết quả và giới hạn kiểm thử được ghi tại [báo cáo sửa lỗi](logstest/BAO_CAO_SUA_LOI_VA_KET_QUA.md), không suy rộng tỷ lệ test đạt thành việc đã nghiệm thu mọi yêu cầu.
 
 ---
 
 ## 2. Thông số Cơ sở Dữ liệu MySQL
 - **Tên Database đề xuất:** `ai_project_management`
 - **Bộ mã ký tự (Charset / Collation):** `utf8mb4` / `utf8mb4_unicode_ci`
-- **File Schema:** `database/schema.sql` gồm 16 bảng; có các bảng phân công nhiều người, lịch sử chỉnh draft và trạng thái gửi email. Migration trong `database/migrations.py` dùng để nâng cấp cấu trúc cũ và bảo toàn dữ liệu.
+- **File Schema:** `database/schema.sql` gồm 17 bảng; có các bảng phân công nhiều người, lịch sử chỉnh draft và trạng thái gửi email. Migration trong `database/migrations.py` dùng để nâng cấp cấu trúc cũ và bảo toàn dữ liệu.
 - **Dữ liệu mẫu:** `database/seed_data.sql` (Có sẵn tài khoản kiểm thử, dự án mẫu, sprint mẫu, nhiệm vụ trễ hạn, ghi chú cuộc họp).
 
 ### Cấu hình biến môi trường (`.env`):
@@ -53,8 +53,8 @@ Thời gian từng lượt và retry dùng chung ngân sách của yêu cầu. L
 
 DeepSeek được giữ như tùy chọn tương thích khi người vận hành chủ động đặt `AI_PROVIDER=deepseek`.
 Ở cấu hình Gemini, ứng dụng không gọi DeepSeek hay tự dùng lại khóa DeepSeek.
-Xem [báo cáo chuyển Gemini](docs/BAO_CAO_CHUYEN_GEMINI.md) và
-[hướng dẫn AI cục bộ](docs/HUONG_DAN_BO_NAO_AI_CUC_BO.md).
+Xem [báo cáo chuyển Gemini](logstest/BAO_CAO_CHUYEN_GEMINI.md) và
+[hướng dẫn AI cục bộ](logstest/HUONG_DAN_BO_NAO_AI_CUC_BO.md).
 
 > **Lưu trữ:** Ứng dụng sử dụng MySQL cho mọi thao tác đọc và ghi. Nếu MySQL không khả dụng, thao tác trả lỗi thay vì chuyển sang SQLite. Bộ kiểm thử riêng dùng SQLite tạm để không ảnh hưởng dữ liệu thật.
 
@@ -100,10 +100,10 @@ python -B tests/run_mysql_isolated.py
 python -B tests/export_test_cases.py
 python -B tests/run_local_brain_live.py
 ```
-Hai runner thực thi bộ kiểm thử trên SQLite tạm và MySQL cách ly. Kết quả mới nhất và số ca thực tế nằm trong các tệp `docs/qa-results-*.json`. Runner MySQL
+Hai runner thực thi bộ kiểm thử trên SQLite tạm và MySQL cách ly. Kết quả mới nhất và số ca thực tế nằm trong các tệp `logstest/qa-results-*.json`. Runner MySQL
 tạo database `qa_repair_...`, kiểm tra migration, hiệu năng và khôi phục rồi xóa đúng
 database kiểm thử đã tạo. Bảng 67 kịch bản chi tiết nằm tại
-[TEST_CASES_SAU_CHINH_SUA.md](docs/TEST_CASES_SAU_CHINH_SUA.md), cùng bản CSV và HTML để sao chép sang Word.
+[TEST_CASES_SAU_CHINH_SUA.md](logstest/TEST_CASES_SAU_CHINH_SUA.md), cùng bản CSV và HTML để sao chép sang Word.
 
 ### Duyệt tài khoản Trưởng nhóm
 
@@ -139,7 +139,7 @@ python -B tests/browser_smoke.py
 
 Bộ kiểm thử giao diện dùng Microsoft Edge headless đã cài trên máy, database tạm,
 Gemini HTTP giả lập; không cần API key thật. Xem hướng dẫn chi tiết tại
-[HUONG_DAN_CHAY_LAN_VA_GEMINI.md](docs/HUONG_DAN_CHAY_LAN_VA_GEMINI.md).
+[HUONG_DAN_CHAY_LAN_VA_GEMINI.md](logstest/HUONG_DAN_CHAY_LAN_VA_GEMINI.md).
 
 ---
 
@@ -159,12 +159,24 @@ Nếu thiếu khóa AI, mô hình API không khả dụng hoặc dịch vụ qu�
 
 ## AI dự phòng chạy tại máy
 
-Đã tích hợp Qwen3-1.7B CPU và bộ xử lý nghiệp vụ cục bộ cho ba chức năng trợ lý. Gemini API được ưu tiên; mỗi yêu cầu mới tự thử lại Gemini API. Hướng dẫn cài đặt, cấu hình, phạm vi và kiểm thử: [HUONG_DAN_BO_NAO_AI_CUC_BO.md](docs/HUONG_DAN_BO_NAO_AI_CUC_BO.md).
+Đã tích hợp Qwen3-1.7B CPU và bộ xử lý nghiệp vụ cục bộ cho ba chức năng trợ lý. Gemini API được ưu tiên; mỗi yêu cầu mới tự thử lại Gemini API. Hướng dẫn cài đặt, cấu hình, phạm vi và kiểm thử: [HUONG_DAN_BO_NAO_AI_CUC_BO.md](logstest/HUONG_DAN_BO_NAO_AI_CUC_BO.md).
 
 ## Thành viên, biểu đồ và đồng bộ nhiều thiết bị
 
 Menu **Thành viên & Năng lực** cho phép thành viên cập nhật kỹ năng/mức sẵn sàng/năng lực của mình; PM quản lý cả nhóm. Dữ liệu đã lưu đi vào tải công việc và AI phân công. Kanban có kéo thả máy tính/cảm ứng, lựa chọn trạng thái và cập nhật phần trăm tiến độ cho người phụ trách hoặc hỗ trợ. Trang báo cáo có biểu đồ trạng thái, tải/giờ khả dụng và bộ lọc sprint. Bấm ảnh đại diện để xem tài khoản đang đăng nhập.
 
-Các thiết bị dùng chung máy chủ/MySQL, nhận cập nhật khoảng mỗi 5 giây; biểu mẫu đang nhập được giữ lại. Phiên bản giao diện được kiểm tra để cập nhật sau khi hoàn tất biểu mẫu. Chi tiết sử dụng và cách nhận bản mới: [Hướng dẫn thành viên và đồng bộ](docs/HUONG_DAN_THANH_VIEN_VA_DONG_BO.md).
+Các thiết bị dùng chung máy chủ/MySQL, nhận cập nhật khoảng mỗi 5 giây; biểu mẫu đang nhập được giữ lại. Phiên bản giao diện được kiểm tra để cập nhật sau khi hoàn tất biểu mẫu. Chi tiết sử dụng và cách nhận bản mới: [Hướng dẫn thành viên và đồng bộ](logstest/HUONG_DAN_THANH_VIEN_VA_DONG_BO.md).
 
 Kiểm thử riêng bằng SQLite tạm: `python tests/run_isolated.py`, `python tests/browser_workspace.py`; kiểm thử giao diện dùng Microsoft Edge và Playwright đã cài. Các ca Gemini trong lượt này mô phỏng đường truyền, không gửi khóa hoặc dữ liệu thật ra ngoài.
+
+
+## Hồ sơ Skill bổ sung sau triển khai
+
+Bắt đầu tại [mục lục hồ sơ](docs/SKILL_REPORT_INDEX.md). Bộ hồ sơ có nguồn URD, 17 FR/11 NFR/9 BR/13 UC, yêu cầu và tiêu chí, kiến trúc, từ điển 17 bảng, API, sơ đồ PlantUML/PNG/SVG, test plan/report, code/security review, prompt và nhật ký áp dụng 14 Skill. Chức năng/UI/runtime/schema được giữ nguyên bằng kiểm tra hash và health/build version.
+
+Đây là hồ sơ bổ sung theo mã hiện tại, không chứng minh đã qua Human Gate trước khi lập trình. Xem [điểm còn thiếu](docs/requirements-issues.md), [test report](docs/test-report.md), [code review](docs/code-review.md) và [checklist con người](docs/human-verification.md). Test xanh không thay chữ ký nghiệm thu; defect lưu draft gợi ý trên 3 người đã được ghi nhận và chưa sửa trong lượt tài liệu.
+
+
+## Nơi lưu tài liệu và kết quả kiểm thử
+
+`docs/` lưu hồ sơ và minh chứng của đợt chạy Skill. [logstest/](logstest/README.md) lưu báo cáo cũ, kết quả/ảnh kiểm thử và các lần kiểm thử tiếp theo. Việc sắp xếp chỉ đổi vị trí tài liệu và nơi xuất báo cáo kiểm thử.

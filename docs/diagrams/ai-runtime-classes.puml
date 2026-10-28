@@ -1,0 +1,53 @@
+@startuml
+skinparam defaultFontName Arial
+skinparam defaultFontSize 15
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam padding 8
+skinparam nodesep 35
+skinparam ranksep 45
+skinparam ArrowColor #43556B
+skinparam backgroundColor white
+skinparam classAttributeIconSize 0
+skinparam linetype polyline
+title Các class Python tích hợp AI có trong mã
+hide empty members
+class AIProviderService {
+bind_context()
+record_verified_ranking()
+execution_metadata()
+fallback_status()
+generate_response()
+generate_local_response()
+}
+class GeminiService {
+configured()
+probe_model()
+generate_content()
+}
+class OpenAIService {
+configured()
+probe_model()
+generate_content()
+}
+class LocalModelService {
+installed()
+reachable()
+ensure_running()
+generate_content()
+}
+class LocalBrainService {
+model_prompt()
+model_schema()
+generate_response()
+weekly_summary()
+task_line()
+assignment_suggestion()
+validate_model_response()
+}
+AIProviderService --> GeminiService
+AIProviderService --> OpenAIService
+AIProviderService --> LocalModelService
+AIProviderService --> LocalBrainService
+
+@enduml

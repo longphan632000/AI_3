@@ -1,0 +1,26 @@
+@startuml
+skinparam defaultFontName Arial
+skinparam defaultFontSize 15
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam padding 8
+skinparam nodesep 35
+skinparam ranksep 45
+skinparam ArrowColor #43556B
+skinparam backgroundColor white
+skinparam classAttributeIconSize 0
+skinparam linetype polyline
+title UC006 Quản lý Sprint/Mốc
+start
+:PM nhập Sprint và ngày bắt đầu, kết thúc;
+if (Quyền và dữ liệu hợp lệ?) then (không)
+ :Thông báo lỗi, không ghi dở dang;
+ stop
+else (có)
+ :Kiểm tra ngày không đảo và project hợp lệ;
+ :Lưu Sprint, gán nhiệm vụ theo project;
+ :Hiển thị tỷ lệ Done/tổng, rỗng bằng 0;
+endif
+stop
+
+@enduml

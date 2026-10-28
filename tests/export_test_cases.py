@@ -9,7 +9,7 @@ import sys
 from case_catalog import CASES
 
 ROOT=Path(__file__).resolve().parents[1]
-OUT=ROOT/'docs'
+OUT=ROOT/'logstest'
 
 
 def cell(value):

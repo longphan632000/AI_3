@@ -18,7 +18,7 @@ from playwright.sync_api import sync_playwright, expect
 
 def main():
     from database import connection, init_db
-    out = ROOT / 'docs'
+    out = ROOT / 'logstest'
     shots = out / 'qa-ui-repairs'
     shots.mkdir(exist_ok=True)
     records, errors = [], []

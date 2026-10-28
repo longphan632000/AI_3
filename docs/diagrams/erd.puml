@@ -1,0 +1,151 @@
+@startuml
+skinparam defaultFontName Arial
+skinparam defaultFontSize 15
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam padding 8
+skinparam nodesep 35
+skinparam ranksep 45
+skinparam ArrowColor #43556B
+skinparam backgroundColor white
+skinparam classAttributeIconSize 0
+skinparam linetype polyline
+title ERD vật lý toàn hệ thống 17 bảng
+hide methods
+hide stereotypes
+entity "users" as users {
+  id : INT
+  status : ENUM('active',
+}
+entity "projects" as projects {
+  id : INT
+  status : ENUM('planning',
+  created_by : INT
+  is_archived : BOOLEAN
+  archived_by : INT
+}
+entity "project_members" as project_members {
+  id : INT
+  project_id : INT
+  user_id : INT
+}
+entity "sprints" as sprints {
+  id : INT
+  project_id : INT
+  status : ENUM('planning',
+  is_archived : BOOLEAN
+}
+entity "tasks" as tasks {
+  id : INT
+  project_id : INT
+  sprint_id : INT
+  assignee_id : INT
+  reporter_id : INT
+  status : ENUM('backlog',
+  progress_percent : INT
+  is_archived : BOOLEAN
+}
+entity "comments" as comments {
+  id : INT
+  task_id : INT
+  user_id : INT
+}
+entity "attachments" as attachments {
+  id : INT
+  project_id : INT
+  task_id : INT
+}
+entity "meeting_notes" as meeting_notes {
+  id : INT
+  project_id : INT
+  created_by : INT
+}
+entity "meeting_minutes" as meeting_minutes {
+  id : INT
+  project_id : INT
+  meeting_note_id : INT
+  status : ENUM('draft',
+  created_by : INT
+}
+entity "ai_drafts" as ai_drafts {
+  id : INT
+  project_id : INT
+  status : ENUM('draft',
+  created_by : INT
+}
+entity "ai_history" as ai_history {
+  id : INT
+  draft_id : INT
+  project_id : INT
+  requester_id : INT
+}
+entity "notifications" as notifications {
+  id : INT
+  user_id : INT
+  project_id : INT
+  task_id : INT
+}
+entity "audit_logs" as audit_logs {
+  id : INT
+  user_id : INT
+  target_id : INT
+}
+entity "task_assignees" as task_assignees {
+  id : INT
+  task_id : INT
+  user_id : INT
+}
+entity "ai_draft_revisions" as ai_draft_revisions {
+  id : INT
+  draft_id : INT
+}
+entity "email_deliveries" as email_deliveries {
+  id : INT
+  task_id : INT
+  user_id : INT
+  status : VARCHAR(32)
+}
+entity "member_profiles" as member_profiles {
+  user_id : INT
+}
+users ||--o{ projects : created_by
+projects ||--o{ project_members : project_id
+users ||--o{ project_members : user_id
+projects ||--o{ sprints : project_id
+projects ||--o{ tasks : project_id
+sprints |o--o{ tasks : sprint_id
+users |o--o{ tasks : assignee_id
+users ||--o{ tasks : reporter_id
+tasks ||--o{ comments : task_id
+users ||--o{ comments : user_id
+projects ||--o{ attachments : project_id
+tasks |o--o{ attachments : task_id
+users ||--o{ attachments : uploaded_by
+projects ||--o{ meeting_notes : project_id
+users ||--o{ meeting_notes : created_by
+projects ||--o{ meeting_minutes : project_id
+meeting_notes |o--o{ meeting_minutes : meeting_note_id
+users ||--o{ meeting_minutes : created_by
+users |o--o{ meeting_minutes : confirmed_by
+projects ||--o{ ai_drafts : project_id
+users ||--o{ ai_drafts : created_by
+users |o--o{ ai_drafts : confirmed_by
+projects ||--o{ ai_history : project_id
+users ||--o{ ai_history : requester_id
+users ||--o{ notifications : user_id
+projects ||--o{ notifications : project_id
+tasks |o--o{ notifications : task_id
+users |o--o{ audit_logs : user_id
+tasks ||--o{ task_assignees : task_id
+users ||--o{ task_assignees : user_id
+ai_drafts ||--o{ ai_draft_revisions : draft_id
+users |o--o{ ai_draft_revisions : edited_by
+tasks ||--o{ email_deliveries : task_id
+users ||--o{ email_deliveries : user_id
+users ||--o| member_profiles : user_id
+legend bottom
+Chỉ vẽ FK vật lý trong DDL; archived_by và audit target không được vẽ như FK.
+Toàn bộ thuộc tính/ràng buộc: docs/tables/data-dictionary.md.
+endlegend
+
+@enduml

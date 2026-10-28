@@ -1,0 +1,40 @@
+@startuml
+skinparam defaultFontName Arial
+skinparam defaultFontSize 15
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam padding 8
+skinparam nodesep 35
+skinparam ranksep 45
+skinparam ArrowColor #43556B
+skinparam backgroundColor white
+skinparam classAttributeIconSize 0
+skinparam linetype polyline
+title Luồng nguồn đến bản AI được kiểm định
+top to bottom direction
+rectangle "Yêu cầu + session / project / task / tuần / ghi chú" as Q
+database "MySQL: task, ghi chú, hồ sơ, tải tổng hợp" as DB
+rectangle "Kiểm quyền, truy xuất tối thiểu + tập ID nguồn" as D
+rectangle "Context + Prompt ràng buộc BR-06/07" as C
+rectangle "Provider: Gemini / fallback có engine" as AI
+rectangle "Kiểm schema, ID, nguồn, số lượng / số liệu" as V
+rectangle "Draft hoặc needs_verification: snapshot + history" as H
+rectangle "Người dùng xem / sửa; PM đối chiếu version" as U
+rectangle "Confirmation kiểm quyền rồi lưu chính thức + audit" as F
+Q --> D
+DB --> D
+D --> C
+C --> AI
+AI --> V
+D ..> V : tập ID / số liệu nguồn
+V --> H
+H --> DB : lưu vết
+H --> U
+U --> F : PM chủ động
+F --> DB
+legend bottom
+Không đưa password/API key vào context; AI không đọc DB trực tiếp.
+Staffing ngoài dự án chỉ dùng hồ sơ và tải tổng hợp, không lấy nội dung việc khác.
+endlegend
+
+@enduml

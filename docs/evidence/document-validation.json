@@ -1,0 +1,24 @@
+{
+  "validated_at": "2026-10-28T22:11:24.574462+07:00",
+  "required_markdown_artifacts": 45,
+  "required_diagram_families": 35,
+  "actual_plantuml_sources": 39,
+  "png": 39,
+  "svg": 39,
+  "source_requirement_ids": {
+    "FR": 17,
+    "NFR": 11,
+    "BR": 9,
+    "UC": 13
+  },
+  "missing_artifacts": [],
+  "broken_links": [],
+  "protected_application_files": 89,
+  "protected_files_changed": [],
+  "same_live_app_version": "396983399f12706bcbdf",
+  "mysql_ready": true,
+  "source_documents_preserved": true,
+  "human_approval": "PENDING",
+  "reproduced_open_defects": 1,
+  "all_document_checks_passed": true
+}

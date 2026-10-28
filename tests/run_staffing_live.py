@@ -44,7 +44,7 @@ def main():
                 'error_code':data.get('error_code')})
     result={'database':'disposable SQLite','data':'synthetic QA profiles only','real_api_calls':True,'real_emails':False,
         'success':all(r['passed'] for r in records),'records':records}
-    (ROOT/'docs/qa-staffing-gemini-live.json').write_text(json.dumps(result,ensure_ascii=False,indent=2),encoding='utf-8')
+    (ROOT/'logstest/qa-staffing-gemini-live.json').write_text(json.dumps(result,ensure_ascii=False,indent=2),encoding='utf-8')
     print(json.dumps({'live_staffing_checks':len(records),'passed':sum(r['passed'] for r in records),'gemini_succeeded':sum(r['real_api_succeeded'] for r in records)}))
     return 0 if result['success'] else 1
 

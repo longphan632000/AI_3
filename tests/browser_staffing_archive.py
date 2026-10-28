@@ -16,7 +16,7 @@ from playwright.sync_api import sync_playwright,expect
 
 
 def main():
-    records=[];errors=[];prompts=[];shots=ROOT/'docs/qa-staffing';shots.mkdir(exist_ok=True)
+    records=[];errors=[];prompts=[];shots=ROOT/'logstest/qa-staffing';shots.mkdir(exist_ok=True)
     def record(name,**details):records.append({'name':name,'passed':True,'details':details})
     with tempfile.TemporaryDirectory() as directory:
         from database import connection,init_db
@@ -144,7 +144,7 @@ def main():
                         except Exception:pass
                 raise
             finally:
-                (ROOT/'docs/qa-staffing-results.json').write_text(json.dumps({'database':'disposable SQLite','browser':'Microsoft Edge headless','real_api_calls':False,'real_emails':False,'records':records,'runtime_errors':errors,'success':bool(records) and all(r['passed'] for r in records)},ensure_ascii=False,indent=2),encoding='utf-8')
+                (ROOT/'logstest/qa-staffing-results.json').write_text(json.dumps({'database':'disposable SQLite','browser':'Microsoft Edge headless','real_api_calls':False,'real_emails':False,'records':records,'runtime_errors':errors,'success':bool(records) and all(r['passed'] for r in records)},ensure_ascii=False,indent=2),encoding='utf-8')
                 browser.close();server.shutdown()
     print('Staffing browser checks:',len(records),'passed:',sum(r['passed'] for r in records))
 

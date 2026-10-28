@@ -1,0 +1,79 @@
+{
+  "timestamp": "2026-10-28T22:45:04.834100+07:00",
+  "scope": "Relocate documentation/report output only; no application behavior changes",
+  "moved_files": 81,
+  "all_move_checksums_verified_before_relinking": true,
+  "original_reports_backup_files_verified": 81,
+  "skill_screenshot_snapshots": 40,
+  "docs_skill_files": 281,
+  "docs_unchanged_by_tests": true,
+  "protected_application_config_and_skill_files_unchanged": 104,
+  "raw_skill_evidence_files_unchanged": 28,
+  "changed_test_helpers": [
+    "tests/browser_smoke.py",
+    "tests/browser_staffing_archive.py",
+    "tests/browser_ui_repairs.py",
+    "tests/browser_workspace.py",
+    "tests/export_test_cases.py",
+    "tests/result_reporting.py",
+    "tests/run_alignment_audit.py",
+    "tests/run_gemini_live.py",
+    "tests/run_local_brain_live.py",
+    "tests/run_mysql_isolated.py",
+    "tests/run_staffing_live.py"
+  ],
+  "test_changes_are_output_path_literals_only": true,
+  "sqlite": {
+    "timestamp": "2026-10-28T22:40:35.249381+07:00",
+    "tests_run": 253,
+    "successful": true,
+    "passed": 253,
+    "failed": 0
+  },
+  "browser": [
+    {
+      "file": "logstest/qa-browser-results.json",
+      "passed": 26,
+      "total": 26,
+      "last_modified": "2026-10-28T22:40:41.920080+07:00"
+    },
+    {
+      "file": "logstest/qa-workspace-results.json",
+      "passed": 21,
+      "total": 21,
+      "last_modified": "2026-10-28T22:43:35.939176+07:00"
+    },
+    {
+      "file": "logstest/qa-staffing-results.json",
+      "passed": 14,
+      "total": 14,
+      "last_modified": "2026-10-28T22:43:17.218363+07:00"
+    },
+    {
+      "file": "logstest/qa-ui-repairs.json",
+      "passed": 18,
+      "total": 18,
+      "last_modified": "2026-10-28T22:44:14.221243+07:00"
+    }
+  ],
+  "browser_groups_passed": 79,
+  "live_before": {
+    "http": 200,
+    "app_version": "396983399f12706bcbdf",
+    "status": "HEALTHY",
+    "mysql_ready": true
+  },
+  "live_after": {
+    "http": 200,
+    "app_version": "396983399f12706bcbdf",
+    "status": "HEALTHY",
+    "mysql_ready": true
+  },
+  "production_database_writes": false,
+  "real_api_calls": false,
+  "real_emails": false,
+  "mysql_regression_rerun": false,
+  "git_commit_or_push": false,
+  "current_broken_local_markdown_links": [],
+  "baseline_broken_local_markdown_links": []
+}

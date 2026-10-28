@@ -1,0 +1,38 @@
+@startuml
+skinparam defaultFontName Arial
+skinparam defaultFontSize 15
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam padding 8
+skinparam nodesep 35
+skinparam ranksep 45
+skinparam ArrowColor #43556B
+skinparam backgroundColor white
+skinparam classAttributeIconSize 0
+skinparam linetype polyline
+title UC005 Quản lý nhiệm vụ
+skinparam maxMessageSize 220
+autonumber
+actor "PM hoặc Member được giao" as A
+participant "Giao diện web" as UI
+participant "HTTP route / guards" as R
+participant "task_service" as S
+database "MySQL" as DB
+A -> UI : Chọn nhiệm vụ hoặc tạo mới theo quyền
+UI -> R : /api/tasks/{id}; /progress; /status
+R -> S : Session / scope + tham số hợp lệ
+S -> DB : Truy vấn tham số hóa / kiểm đối tượng
+DB --> S : Dữ liệu thuộc phạm vi
+alt Sai quyền hoặc dữ liệu không hợp lệ
+ S --> R : Từ chối, không ghi dở dang
+ R --> UI : Thông báo lỗi an toàn
+else Hợp lệ
+ S -> S : Nhập dữ liệu, phần trăm hoặc kéo sang cột
+ S -> DB : Transaction thay đổi hoặc đọc theo thao tác
+ DB --> S : Kết quả
+ S --> R : Dữ liệu / trạng thái xử lý
+ R --> UI : Lưu, ghi audit và cập nhật Kanban/tải
+ UI --> A : Hiển thị kết quả
+end
+
+@enduml

@@ -129,7 +129,7 @@ def main():
                  'success':all(check['passed'] for check in checks)}
         output=ROOT/'scratch/qa_audit_2026_10_27/mysql_final_results.json'
         output.write_text(json.dumps(summary,ensure_ascii=False,indent=2),encoding='utf-8')
-        (ROOT/'docs/qa-system-checks.json').write_text(json.dumps(summary,ensure_ascii=False,indent=2),encoding='utf-8')
+        (ROOT/'logstest/qa-system-checks.json').write_text(json.dumps(summary,ensure_ascii=False,indent=2),encoding='utf-8')
         print(json.dumps(summary,ensure_ascii=False))
         return 0 if summary['success'] else 1
     finally:

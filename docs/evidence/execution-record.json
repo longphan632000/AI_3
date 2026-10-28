@@ -1,0 +1,77 @@
+{
+  "recorded_at": "2026-10-28T22:11:24.306086+07:00",
+  "cwd": "D:\\UNG DUNG AL_NAM3\\Code Chuan",
+  "commands": [
+    [
+      "python",
+      "-B",
+      "tests/run_isolated.py"
+    ],
+    [
+      "python",
+      "-B",
+      "tests/browser_smoke.py"
+    ],
+    [
+      "python",
+      "-B",
+      "tests/browser_workspace.py"
+    ],
+    [
+      "python",
+      "-B",
+      "C:\\Users\\phanc\\Documents\\Codex\\2026-10-28\\d-ung-dung-al-nam3-code\\work\\rerun_workspace_acceptance.py"
+    ],
+    [
+      "python",
+      "-B",
+      "tests/browser_staffing_archive.py"
+    ],
+    [
+      "python",
+      "-B",
+      "tests/browser_ui_repairs.py"
+    ],
+    [
+      "python",
+      "-B",
+      "C:\\Users\\phanc\\Documents\\Codex\\2026-10-28\\d-ung-dung-al-nam3-code\\work\\probe_skill_findings.py"
+    ],
+    [
+      "python",
+      "-m",
+      "ruff",
+      "check",
+      "app.py",
+      "routes",
+      "services",
+      "database",
+      "--select",
+      "F,E9",
+      "--output-format",
+      "json"
+    ]
+  ],
+  "isolation": {
+    "functional_database": "temporary SQLite",
+    "smtp_enabled": false,
+    "real_gemini_calls_in_this_run": false
+  },
+  "workspace_rerun_default_wait_ms": 15000,
+  "source_test_assertions_modified": false,
+  "python_executable_for_app_tests": "C:\\Users\\phanc\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+  "diagram_tool": {
+    "release": "v1.2026.9",
+    "url": "https://github.com/plantuml/plantuml/releases/download/v1.2026.9/plantuml-1.2026.9.jar",
+    "sha256": "aa4a1d06f8911c4b842beff4828dd955be431692b631a312d04c0e9fab9581de",
+    "bytes": 30020557,
+    "local_rendering": true,
+    "reference": "https://plantuml.com/starting"
+  },
+  "historical_test_results_not_counted_as_current": [
+    "qa-staffing-gemini-live.json",
+    "qa-gemini-live-results.json",
+    "qa-system-checks.json",
+    "qa-results-mysql.json"
+  ]
+}

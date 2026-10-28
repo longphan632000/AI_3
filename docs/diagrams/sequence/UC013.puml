@@ -1,0 +1,45 @@
+@startuml
+skinparam defaultFontName Arial
+skinparam defaultFontSize 15
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam padding 8
+skinparam nodesep 35
+skinparam ranksep 45
+skinparam ArrowColor #43556B
+skinparam backgroundColor white
+skinparam classAttributeIconSize 0
+skinparam linetype polyline
+title UC013 Nhận thông báo
+skinparam maxMessageSize 220
+autonumber
+actor "Người liên quan" as A
+participant "Giao diện web" as UI
+participant "HTTP route / guards" as R
+participant "notification_service / email_service" as S
+database "MySQL" as DB
+A -> UI : Có sự kiện nhiệm vụ hoặc worker quét email trễ
+UI -> R : GET /api/notifications; /read
+R -> S : Session / scope + tham số hợp lệ
+S -> DB : Truy vấn tham số hóa / kiểm đối tượng
+DB --> S : Dữ liệu thuộc phạm vi
+alt Sai quyền hoặc dữ liệu không hợp lệ
+ S --> R : Từ chối, không ghi dở dang
+ R --> UI : Thông báo lỗi an toàn
+else Hợp lệ
+ S -> S : Kiểm người nhận, project, trạng thái và hạn
+ S -> DB : Transaction thay đổi hoặc đọc theo thao tác
+ DB --> S : Kết quả
+ S --> R : Dữ liệu / trạng thái xử lý
+ R --> UI : Hiển thị hoặc gửi/mô phỏng email, lưu trạng thái
+ UI --> A : Hiển thị kết quả
+end
+participant "Deadline worker" as W
+participant "SMTP / mô phỏng" as SMTP
+W -> S : Quét email trễ định kỳ
+S -> DB : BR-02 + claim/dedup/retry
+S -> SMTP : Gửi nếu cấu hình cho phép
+SMTP --> S : SENT / FAILED / SIMULATED
+S -> DB : Lưu trạng thái delivery
+
+@enduml

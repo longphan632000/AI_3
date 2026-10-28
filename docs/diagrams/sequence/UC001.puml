@@ -1,0 +1,45 @@
+@startuml
+skinparam defaultFontName Arial
+skinparam defaultFontSize 15
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam padding 8
+skinparam nodesep 35
+skinparam ranksep 45
+skinparam ArrowColor #43556B
+skinparam backgroundColor white
+skinparam classAttributeIconSize 0
+skinparam linetype polyline
+title UC001 Đăng nhập, đăng xuất
+skinparam maxMessageSize 220
+autonumber
+actor "Người dùng" as A
+participant "Giao diện đăng nhập" as UI
+participant "auth_routes" as R
+participant "auth_service" as S
+database "MySQL" as DB
+A -> UI : Nhập username/email và mật khẩu
+UI -> R : POST /api/auth/login
+R -> S : authenticate_user(input, password)
+S -> DB : SELECT account theo username hoặc email, tham số hóa
+DB --> S : Account + hash chỉ dùng nội bộ
+S -> S : Kiểm password hash và status=active
+alt Không hợp lệ
+ S -> DB : Audit lỗi khi xác định được account
+ S --> R : Từ chối đăng nhập
+ R --> UI : 401, thông báo an toàn
+else Hợp lệ
+ S -> DB : Audit LOGIN_SUCCESS
+ S --> R : User DTO không có password_hash
+ R -> R : Tạo session ở backend
+ R --> UI : 200, redirect_url và user DTO
+ UI --> A : Mở trang theo vai trò
+end
+group Đăng xuất khi người dùng yêu cầu
+ A -> UI : Chọn đăng xuất
+ UI -> R : GET hoặc POST /logout
+ R -> R : session.clear()
+ R --> UI : Chuyển về /login
+ UI --> A : Trang đăng nhập, phiên cũ hết hiệu lực
+end
+@enduml

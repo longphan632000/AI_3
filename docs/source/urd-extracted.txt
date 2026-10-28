@@ -1,0 +1,871 @@
+L0001 TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN VÀ TRUYỀN THÔNG
+L0002 KHOA CÔNG NGHỆ THÔNG TIN
+L0003 BÁO CÁO
+L0004 MÔN: ỨNG DỤNG TRÍ TUỆ NHÂN TẠO
+L0005 ĐỀ TÀI 33: HỆ THỐNG QUẢN LÍ DỰ ÁN NHÓM CÓ TÍCH HỢP AI
+L0006 SINH VIÊN THỰC HIỆN:
+L0007 [TABLE]
+L0008 Phan Chân Long | : | ATTT K23A
+L0009 Lưu Trà My | : | ATTT K23A
+L0010 Lê Nam Khánh | : | ATTT K23A
+L0011  |  | 
+L0012 [/TABLE]
+L0013 [TABLE]
+L0014 GIẢNG VIÊN HƯỚNG DẪN | : | Nguyễn Đình Dũng
+L0015 [/TABLE]
+L0016 Thái Nguyên, năm 2026
+L0017 TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN VÀ TRUYỀN THÔNG
+L0018 KHOA CÔNG NGHỆ THÔNG TIN
+L0019 BÁO CÁO
+L0020 MÔN: ỨNG DỤNG TRÍ TUỆ NHÂN TẠO
+L0021 ĐỀ TÀI 33: HỆ THỐNG QUẢN LÍ DỰ ÁN NHÓM CÓ TÍCH HỢP AI
+L0022 SINH VIÊN THỰC HIỆN:
+L0023 [TABLE]
+L0024 Phan Chân Long | : | ATTT K23A
+L0025 Lưu Trà My | : | ATTT K23A
+L0026 Lê Nam Khánh | : | ATTT K23A
+L0027 [/TABLE]
+L0028 XÂY DỰNG TÀI LIỆU URD
+L0029 Bảng phân công nhiệm vụ tổng hợp – Nhóm 33
+L0030 [TABLE]
+L0031 Nội dung phân công | Phan Chân Long | Lưu Trà My | Lê Nam Khánh
+L0032 Vai trò / nhiệm vụ chính | Phụ trách lập trình hệ thống, phân tích yêu cầu và xây dựng Prompt cho AI | Phụ trách thiết kế kiến trúc hệ thống, cơ sở dữ liệu, luồng xử lý dữ liệu AI và tổng hợp tài liệu dự án | Phụ trách kiểm thử hệ thống, kiểm tra chất lượng mã nguồn và kiểm tra bảo mật
+L0033 Thu thập & phân tích yêu cầu | Chủ trì thu thập và tổng hợp yêu cầu; xác định Actor, FR, NFR, BR, UC; xây dựng User Story, Acceptance Criteria và Traceability; phân tích yêu cầu cho các chức năng AI | Làm rõ các yêu cầu liên quan đến dữ liệu, quan hệ thực thể, kiến trúc, đầu vào/đầu ra và luồng dữ liệu; tổng hợp các nội dung đã được thống nhất vào tài liệu | Rà soát yêu cầu về khả năng kiểm thử, phân quyền, xử lý lỗi, bảo mật và điều kiện nghiệm thu
+L0034 Prompt phụ trách | PROMPT 00A, 01, 01T, 04, 08, 10, 13, 14, 15, 16, 17; thực hiện PROMPT 00 cho các Skill được giao | PROMPT 02, 02A, 02B, 02C, 02D, 02E, 03, 03V, 09, 11, 12, 19; thực hiện PROMPT 00 cho các Skill được giao | PROMPT 05, 06, 07, 18; thực hiện PROMPT 00 cho các Skill được giao
+L0035 Skill phụ trách | requirements-analysis; table-design; implementation; ai-request-analysis; project-ai-prompt | diagram-design; architecture-design; database-design; project-data-retrieval; context-builder; documentation | testing; code-review; security-review
+L0036 Chức năng / phần triển khai chính | Phân tích và quản lý yêu cầu; lập trình Core FR-01 → FR-11; xây dựng Request Analyzer; Prompt Builder; AI Provider/Gemini; AI Assistant Service; Response Validator; Confirmation Service; Flask AI API; giao diện Trợ lý AI | Thiết kế kiến trúc hệ thống; Sequence/Class/Activity Diagram; ERD; Data Dictionary; SQL Schema; kiến trúc Trợ lý AI; AI Data Flow; Project Data Retrieval; Context Builder; tổng hợp README và các tài liệu dự án | Xây dựng Test Scenario, Test Case; thực hiện Unit Test, Integration Test, E2E và Regression; phân tích lỗi; Code Review; Security Review; tổng hợp kết quả kiểm thử, lỗi và vấn đề bảo mật
+L0037 Chức năng kiểm thử phụ trách | Không phụ trách kiểm thử chính; phối hợp sửa lỗi chương trình được phát hiện trong quá trình test; hỗ trợ đối chiếu kết quả với Requirements và Prompt AI | Không phụ trách kiểm thử chính; hỗ trợ kiểm tra dữ liệu, CSDL, kiến trúc và luồng AI khi có lỗi; đối chiếu dữ liệu nguồn của các chức năng AI | Chịu trách nhiệm chính toàn bộ UC001–UC013: đăng nhập; tài khoản; dự án; thành viên; nhiệm vụ/Kanban; Sprint; cộng tác; tra cứu/báo cáo; AI tóm tắt; AI biên bản; AI gợi ý phân công; lịch sử AI; thông báo. Đồng thời thực hiện Unit, Integration, E2E và Regression
+L0038 [/TABLE]
+L0039 Danh sách các câu hỏi khi thu thập và làm rõ yêu cầu của ứng dụng 
+L0040 [TABLE]
+L0041 STT | Câu hỏi (Questions) | Trả lời (Answers) | Ghi chú
+L0042 1 | Những ai sẽ sử dụng hệ thống? | Hệ thống có Quản trị viên, Trưởng nhóm và Thành viên. Mỗi người có quyền sử dụng khác nhau. | Cần phân quyền
+L0043 2 | Hệ thống cần quản lý những thông tin nào? | Hệ thống quản lý dự án, thành viên, nhiệm vụ, sprint, mốc tiến độ, bình luận và tài liệu. | Chức năng chính
+L0044 3 | Thành viên cập nhật tiến độ công việc như thế nào? | Thành viên thay đổi trạng thái nhiệm vụ trên bảng Kanban như Cần làm, Đang làm, Kiểm tra và Hoàn thành. | Theo dõi tiến độ
+L0045 4 | AI sẽ hỗ trợ những công việc gì? | AI hỗ trợ tóm tắt tiến độ tuần, tạo bản nháp biên bản họp và gợi ý người phù hợp để thực hiện nhiệm vụ. | Ba chức năng AI
+L0046 5 | AI có được tự động phân công nhiệm vụ không? | Không. AI chỉ đưa ra gợi ý, còn Trưởng nhóm là người xem xét và quyết định cuối cùng. | Con người quyết định
+L0047 6 | Nếu kết quả AI chưa chính xác thì xử lý thế nào? | Người dùng có thể đối chiếu dữ liệu nguồn, chỉnh sửa bản nháp rồi mới xác nhận và lưu. | Phải kiểm tra AI
+L0048 7 | Một nhiệm vụ cần có những thông tin gì? | Mỗi nhiệm vụ cần có tên, người phụ trách, trạng thái, mức ưu tiên, thời hạn và thời gian dự kiến hoàn thành. | Thông tin nhiệm vụ
+L0049 8 | Làm thế nào để biết một nhiệm vụ bị trễ? | Nhiệm vụ được xem là bị trễ khi đã quá thời hạn nhưng vẫn chưa chuyển sang trạng thái Hoàn thành, chưa báo cáo | Hệ thống tự kiểm tra
+L0050 9 | Các thành viên trao đổi công việc bằng cách nào? | Thành viên có thể bình luận và đính kèm tài liệu trực tiếp trong nhiệm vụ liên quan. | Hỗ trợ cộng tác
+L0051 10 | Tất cả những thành viên không tham gia cuộc họp cần xem báo cáo như nào? | Cần có AI tóm tắt nội dung cuộc họp, biên bản cuộc họp để qua đấy nắm bắt đầy đủ thông tin | Hỗ trợ theo dõi
+L0052 [/TABLE]
+L0053 Giới thiệu 
+L0054 Mục tiêu tài liệu
+L0055 Tài liệu này trình bày nhu cầu người dùng và các yêu cầu chính của Hệ thống quản lý dự án nhóm có tích hợp AI. Đây là cơ sở để nhóm thống nhất phạm vi, thiết kế chức năng, lập trình và kiểm thử nghiệm thu.
+L0056 Các yêu cầu được viết theo hướng dễ hiểu, có thể kiểm tra và phù hợp với một dự án môn học. Trợ lý AI chỉ hỗ trợ tạo nội dung hoặc đề xuất; người dùng vẫn là người xem xét và đưa ra quyết định cuối cùng.
+L0057 Phạm vi tài liệu 
+L0058 Tài liệu tập trung vào các nghiệp vụ quản lý dự án, thành viên, nhiệm vụ, sprint, mốc tiến độ, trao đổi, tra cứu, báo cáo và ba chức năng AI: tóm tắt tiến độ, sinh biên bản họp, gợi ý phân công.
+L0059 Tài liệu cũng tóm tắt dữ liệu, yêu cầu kỹ thuật, kiểm thử và kế hoạch sử dụng AI trong SDLC. Thiết kế CSDL chi tiết và đặc tả giao diện từng màn hình sẽ được trình bày ở các chương sau.
+L0060 Thuật ngữ và định nghĩa 
+L0061 [TABLE]
+L0062 Từ viết tắt/Thuật ngữ | Tên gọi | Giải thích
+L0063 Admin | Quản trị viên | Quản lý tài khoản, vai trò, trạng thái tài khoản và nhật ký hoạt động của hệ thống.
+L0064 Trưởng nhóm/PM | Người quản lý dự án | Lập kế hoạch, phân công, theo dõi và xác nhận kết quả AI trong dự án.
+L0065 Member | Thành viên | Thực hiện nhiệm vụ và cập nhật tiến độ trong dự án được tham gia.
+L0066 Project | Dự án | Không gian tập hợp thành viên, sprint, nhiệm vụ, tài liệu và báo cáo.
+L0067 Task | Nhiệm vụ | Đơn vị công việc có người phụ trách, trạng thái, mức ưu tiên và hạn hoàn thành.
+L0068 Sprint | Đợt làm việc ngắn | Khoảng thời gian có mục tiêu cụ thể và danh sách nhiệm vụ cần hoàn thành.
+L0069 Kanban | Bảng trạng thái | Hiển thị nhiệm vụ theo năm trạng thái: Tồn đọng, Cần làm, Đang làm, Kiểm tra và Hoàn thành.
+L0070 AI | Trí tuệ nhân tạo | Trợ lý tạo bản nháp tóm tắt, biên bản họp và gợi ý phân công.
+L0071 Trợ lý AI | Chức năng trong hệ thống | Phần chức năng người dùng thao tác để yêu cầu, xem và xác nhận nội dung hỗ trợ.
+L0072 Dịch vụ AI | Hệ thống bên ngoài | Nhà cung cấp hoặc mô hình nhận dữ liệu tối thiểu và trả kết quả; không tự thay đổi dữ liệu nghiệp vụ.
+L0073 FR | Yêu cầu chức năng | Những việc hệ thống phải thực hiện.
+L0074 NFR | Yêu cầu phi chức năng | Mức chất lượng hệ thống cần đáp ứng như tốc độ, an toàn và dễ dùng.
+L0075 UAT | Kiểm thử chấp nhận | Kiểm tra hệ thống theo tình huống sử dụng thực tế trước khi nghiệm thu.
+L0076 As-Is | Hiện trạng | Cách nhóm đang làm việc trước khi có hệ thống mới.
+L0077 Activity/Swimlane | Biểu đồ hoạt động theo làn | Mô tả thứ tự công việc và trách nhiệm của từng tác nhân.
+L0078 API | Giao diện lập trình ứng dụng | Cách các phần mềm trao đổi dữ liệu và gọi chức năng của nhau.
+L0079 CSDL | Cơ sở dữ liệu | Nơi lưu trữ dữ liệu có cấu trúc của hệ thống.
+L0080 CRUD | Tạo, xem, sửa, xóa | Bốn thao tác quản lý dữ liệu cơ bản; trong tài liệu ưu tiên viết đầy đủ bằng tiếng Việt.
+L0081 Prompt | Chỉ dẫn cho AI | Nội dung mô tả vai trò, dữ liệu đầu vào và yêu cầu đầu ra gửi tới mô hình AI.
+L0082 SDLC | Vòng đời phát triển phần mềm | Các giai đoạn phân tích, thiết kế, lập trình, kiểm thử và hoàn thiện sản phẩm.
+L0083 Unit / Integration /E2E | Các mức kiểm thử | Kiểm thử đơn vị, kiểm thử tích hợp và kiểm thử toàn bộ luồng từ đầu đến cuối.
+L0084 README | Tệp hướng dẫn dự án | Tài liệu giới thiệu cách cài đặt, chạy, kiểm thử và demo hệ thống.
+L0085 [/TABLE]
+L0086  Mô tả tổng quan hệ thống
+L0087 Hiện trang (As-Is)
+L0088 Nhiều nhóm hiện trao đổi công việc qua Zalo/Messenger, lưu danh sách trên bảng tính và gửi tài liệu qua nhiều kênh. Thông tin phân tán làm thành viên khó biết đâu là bản mới nhất, Trưởng nhóm phải nhắc hạn thủ công và mất thời gian tổng hợp báo cáo.
+L0089 Khi họp, quyết định và việc cần làm có thể bị bỏ sót. Việc đánh giá khối lượng công việc của từng thành viên chủ yếu dựa vào cảm nhận, nên phân công dễ thiếu cân bằng. Đây là những vấn đề hệ thống cần giải quyết.
+L0090 Sau mỗi cuộc họp, nhóm thường chưa có bản tóm tắt hoặc biên bản đầy đủ, các quyết định, nhiệm vụ được giao và thời hạn thực hiện có thể bị bỏ sót hoặc ghi chép không thống nhất.
+L0091 Phạm vi ệ thống 
+L0092 Trong phạm vi:
+L0093 Tài khoản, vai trò và quyền theo dự án.
+L0094 Dự án, thành viên và thông tin kỹ năng/mức sẵn sàng.
+L0095 Nhiệm vụ, Kanban, sprint, mốc tiến độ, bình luận và tệp đính kèm.
+L0096 Tìm kiếm, bảng điều khiển, báo cáo việc trễ và khối lượng; gửi email cảnh báo nhiệm vụ trễ đến người phụ trách.
+L0097 Tóm tắt tuần, biên bản họp và gợi ý phân công bằng AI.
+L0098 Ngoài phạm vi:
+L0099 Chấm công, tính lương và quản lý nhân sự đầy đủ.
+L0100 Để AI tự động phân công, thay đổi hoặc xóa dữ liệu mà không có xác nhận.
+L0101 Quy trình nghiệp vụ
+L0102 Quy trình tổng quan
+L0103 Quy trình bắt đầu khi Trưởng nhóm tạo dự án và kết thúc khi báo cáo/biên bản được người có thẩm quyền xác nhận. Dịch vụ AI chỉ tham gia sau khi hệ thống kiểm tra quyền và người dùng chủ động yêu cầu.
+L0104 Bảng quy trình nghiệp vụ
+L0105 [TABLE]
+L0106 Bước | Tác nhân | Đầu vào | Mô tả | Kết quả
+L0107 1 | Trưởng nhóm | Tên, mục tiêu, thời gian dự án | Tạo dự án và khai báo thông tin cơ bản. | Dự án được tạo
+L0108 2 | Trưởng nhóm | Tài khoản, vai trò, kỹ năng | Thêm thành viên; ghi nhận kỹ năng, mức sẵn sàng và năng lực làm việc. | Danh sách thành viên
+L0109 3 | Trưởng nhóm | Mục tiêu và mốc thời gian | Tạo sprint, mốc tiến độ và danh sách nhiệm vụ. | Kế hoạch thực hiện
+L0110 4 | Trưởng nhóm | Nhiệm vụ, kỹ năng, tải hiện tại | Chọn phân công trực tiếp hoặc yêu cầu AI đề xuất người phù hợp. | Phương thức phân công
+L0111 5 | Hệ thống | Quyền và dữ liệu liên quan | Nếu dùng AI, kiểm tra quyền và chỉ chọn dữ liệu tối thiểu cần thiết. | Dữ liệu hợp lệ
+L0112 6 | Dịch vụ AI | Kỹ năng, mức sẵn sàng, tải, hạn | Tạo 1-3 gợi ý kèm lý do và cảnh báo quá tải. | Bản gợi ý
+L0113 7 | Trưởng nhóm | Gợi ý AI hoặc phương án thủ công | Xem xét và quyết định người phụ trách; AI không tự gán việc. | Phân công đã duyệt
+L0114 8 | Thành viên | Nhiệm vụ được giao | Thực hiện, cập nhật trạng thái, bình luận và tài liệu liên quan. | Tiến độ được cập nhật
+L0115 9 | Hệ thống | Trạng thái, hạn, sprint, ước lượng | Cập nhật Kanban, việc trễ, tỷ lệ hoàn thành và tải công việc; nếu nhiệm vụ bị trễ theo BR-02 thì gửi email cảnh báo đến người phụ trách. | Thông tin theo dõi và email cảnh báo trễ hạn
+L0116 10 | Người dùng được cấp quyền | Khoảng tuần hoặc ghi chú họp | Yêu cầu tóm tắt tuần hoặc tạo bản nháp biên bản họp. | Yêu cầu AI
+L0117 11 | Hệ thống/Dịch vụ AI | Dữ liệu đã kiểm tra | Tạo và hiển thị bản nháp; chỉ rõ dữ liệu thiếu hoặc mâu thuẫn. | Bản nháp AI
+L0118 12 | Trưởng nhóm | Bản nháp và dữ liệu nguồn | Đối chiếu, chỉnh sửa, xác nhận; hệ thống chỉ lưu/chia sẻ bản chính thức. | Báo cáo/biên bản đã xác nhận
+L0119 [/TABLE]
+L0120  Nhu cầu người dùng
+L0121 [TABLE]
+L0122 Mã | Nhóm người dùng | Nhu cầu chính
+L0123 UN-01 | Người dùng có tài khoản | Đăng nhập, đăng xuất an toàn và chỉ truy cập dữ liệu đúng vai trò, đúng dự án.
+L0124 UN-02 | Quản trị viên | Quản lý tài khoản, khóa/mở tài khoản, gán vai trò và xem nhật ký hoạt động quan trọng.
+L0125 UN-03 | Trưởng nhóm | Quản lý dự án, thành viên, sprint, mốc, nhiệm vụ; theo dõi Kanban, việc trễ, tải công việc, báo cáo và việc gửi email cảnh báo nhiệm vụ trễ cho người phụ trách.
+L0126 UN-04 | Trưởng nhóm | Yêu cầu AI tóm tắt tiến độ tuần từ dữ liệu nhiệm vụ; đối chiếu nguồn, chỉnh sửa và xác nhận trước khi chia sẻ.
+L0127 UN-05 | Trưởng nhóm | Nhận 1-3 gợi ý phân công theo kỹ năng, mức sẵn sàng và tải; xem lý do/cảnh báo quá tải và tự quyết định.
+L0128 UN-06 | Thành viên | Xem sprint và nhiệm vụ liên quan; cập nhật trạng thái, bình luận, tài liệu và tra cứu trong phạm vi quyền; nhận email cảnh báo khi nhiệm vụ do mình phụ trách bị trễ.
+L0129 UN-07 | Thành viên được phân quyền | Cung cấp ghi chú họp, yêu cầu AI tạo biên bản và chỉnh sửa bản nháp; bản chính thức phải được người có thẩm quyền xác nhận.
+L0130 UN-08 | Quản trị viên/Trưởng nhóm | Tra cứu lịch sử sử dụng AI, dữ liệu tham chiếu và trạng thái xác nhận để kiểm tra, truy vết.
+L0131 [/TABLE]
+L0132 Mô tả tác nhân 
+L0133 [TABLE]
+L0134 Tác nhân | Vai trò | Quyền và hoạt động chính
+L0135 Quản trị viên | Người quản lý hệ thống | Quản lý tài khoản, trạng thái tài khoản, vai trò, quyền và nhật ký hoạt động chung.
+L0136 Trưởng nhóm | Người chịu trách nhiệm dự án | Quản lý dự án, thành viên, sprint, nhiệm vụ, báo cáo; yêu cầu và xác nhận kết quả AI.
+L0137 Thành viên | Người thực hiện công việc | Xem sprint; cập nhật nhiệm vụ; bình luận, tải tệp; nhận email cảnh báo khi nhiệm vụ phụ trách bị trễ; yêu cầu/chỉnh sửa bản nháp AI khi được cấp quyền.
+L0138 Dịch vụ AI | Hệ thống hỗ trợ bên ngoài | Nhận dữ liệu tối thiểu và trả bản nháp; không tự xác nhận, phân công, sửa hoặc xóa dữ liệu.
+L0139 [/TABLE]
+L0140 Yêu cầu chức năg 
+L0141 Các yêu cầu chức năng dưới đây được hình thành từ nhu cầu người dùng tại Mục 1.4. Mỗi yêu cầu phải có ít nhất một nhu cầu tương ứng; bảng đối chiếu cuối mục thể hiện mối liên hệ này. Mức “Bắt buộc” cần hoàn thành để nghiệm thu phiên bản đầu; “Nên có” là phần mở rộng sau khi chức năng cốt lõi ổn định.
+L0142 [TABLE]
+L0143 Mã | Yêu cầu chức năng | Mức | Điều kiện chấp nhận
+L0144 FR-01 | Đăng nhập, đăng xuất và quản lý phiên; từ chối tài khoản bị khóa. | Bắt buộc | Đăng nhập đúng thì vào hệ thống; đăng xuất làm phiên hết hiệu lực; phiên hết hạn và tài khoản khóa bị từ chối mà không lộ thông tin nhạy cảm.
+L0145 FR-02 | Quản trị viên tạo/xem/cập nhật/khóa-mở tài khoản, gán vai trò, xem nhật ký; hệ thống phân quyền Trưởng nhóm, Thành viên và Người xem báo cáo theo dự án. | Bắt buộc | Người dùng không thể đọc hoặc sửa dữ liệu ngoài quyền, kể cả gọi trực tiếp API; thao tác quản trị được ghi nhật ký.
+L0146 FR-03 | Tạo, xem, sửa, lưu trữ dự án và quản lý trạng thái dự án. | Bắt buộc | Trưởng nhóm tạo được dự án hợp lệ; tên, thời gian, trạng thái và dữ liệu bắt buộc được kiểm tra.
+L0147 FR-04 | Thêm/xóa thành viên; lưu vai trò, kỹ năng, mức sẵn sàng và năng lực làm việc dự kiến. | Bắt buộc | Danh sách thành viên và năng lực được cập nhật, có hiệu lực trong thống kê tải và gợi ý phân công.
+L0148 FR-05 | Tạo, xem, sửa, xóa mềm nhiệm vụ; lưu người phụ trách, trạng thái, ưu tiên, hạn, ước lượng, nhãn, sprint và vướng mắc. | Bắt buộc | Dữ liệu nhiệm vụ hợp lệ; Thành viên chỉ cập nhật nhiệm vụ trong phạm vi quyền; lịch sử thay đổi quan trọng được lưu.
+L0149 FR-06 | Hiển thị Kanban và chuyển nhiệm vụ qua Tồn đọng, Cần làm, Đang làm, Kiểm tra, Hoàn thành bằng kéo thả hoặc biểu mẫu. | Bắt buộc | Thẻ ở đúng cột; máy chủ từ chối chuyển trạng thái sai quyền hoặc sai quy tắc và giữ nguyên dữ liệu trước đó.
+L0150 FR-07 | Trưởng nhóm tạo, xem, sửa, lưu trữ sprint/mốc tiến độ, gán nhiệm vụ và tính tỷ lệ hoàn thành; Thành viên chỉ xem. | Bắt buộc | Ngày sprint/mốc và tiêu chí hoàn thành hợp lệ; tỷ lệ = nhiệm vụ Hoàn thành/tổng nhiệm vụ, bằng 0% khi chưa có nhiệm vụ.
+L0151 FR-08 | Bình luận, đính kèm tệp/liên kết cho nhiệm vụ; tạo và lưu ghi chú họp làm đầu vào biên bản AI. | Bắt buộc | Nội dung hiển thị đúng dự án/nhiệm vụ, lưu tác giả và thời điểm; tệp sai loại/dung lượng hoặc người sai quyền bị chặn.
+L0152 FR-09 | Tìm kiếm, lọc, sắp xếp và phân trang nhiệm vụ theo người, trạng thái, sprint, hạn, ưu tiên và tình trạng trễ. | Bắt buộc | Có thể kết hợp nhiều tiêu chí; kết quả đúng phạm vi dự án và quyền truy cập.
+L0153 FR-10 | Bảng điều khiển tiến độ theo dự án và sprint. | Bắt buộc | Số nhiệm vụ theo trạng thái, tỷ lệ hoàn thành và dữ liệu rủi ro khớp dữ liệu nguồn.
+L0154 FR-11 | Thống kê nhiệm vụ trễ và khối lượng công việc của từng thành viên. | Bắt buộc | Tải = tổng ước lượng của nhiệm vụ chưa Hoàn thành trong phạm vi lọc; cảnh báo quá tải khi vượt năng lực cấu hình và cảnh báo khi thiếu ước lượng.
+L0155 FR-12 | Trưởng nhóm chọn dự án và khoảng tuần để AI tóm tắt tiến độ từ dữ liệu nhiệm vụ. | Bắt buộc | Kết quả có tiến độ, rủi ro, ưu tiên và nhiệm vụ nguồn; nêu dữ liệu thiếu/mâu thuẫn và không tạo thông tin ngoài nguồn.
+L0156 FR-13 | Trưởng nhóm hoặc Thành viên được phân quyền dùng ghi chú họp để AI tạo biên bản; được xem và chỉnh sửa bản nháp. | Bắt buộc | Biên bản có nội dung chính, quyết định, việc cần làm, người phụ trách và hạn; chỉ bản do người có thẩm quyền xác nhận mới lưu/chia sẻ chính thức.
+L0157 FR-14 | AI gợi ý 1-3 người phụ trách theo kỹ năng, mức sẵn sàng và tải công việc; Trưởng nhóm quyết định cuối cùng. | Bắt buộc | Kết quả xếp hạng ứng viên, nêu lý do và cảnh báo quá tải; hệ thống không tự gán nhiệm vụ.
+L0158 FR-15 | Lưu lịch sử yêu cầu/kết quả AI, phiên bản prompt, dữ liệu tham chiếu và trạng thái xác nhận. | Nên có | Có thể truy vết ai yêu cầu, dùng dữ liệu nào, kết quả nào được chấp nhận hoặc chỉnh sửa; không lưu khóa bí mật.
+L0159 FR-16 | Thông báo trong ứng dụng về việc được giao, sắp đến hạn và thay đổi quan trọng. | Nên có | Người dùng nhận đúng sự kiện trong dự án và có thể đánh dấu đã đọc.
+L0160 FR-17 | Gửi email cảnh báo đến người phụ trách khi nhiệm vụ bị trễ theo BR-02. | Nên có | Khi nhiệm vụ đã quá hạn, chưa Hoàn thành và chưa bị lưu trữ, hệ thống gửi email đến địa chỉ email của tài khoản người phụ trách; không gửi email trễ hạn cho nhiệm vụ chưa trễ hoặc đã Hoàn thành.
+L0161 [/TABLE]
+L0162 Sơ đồ phân cấp chức năng 
+L0163 Các yêu cầu chức năng được gom thành bảy nhóm để nhóm dễ theo dõi phạm vi. Nhánh Trợ lý AI đặt ngang hàng với các nhóm nghiệp vụ nhưng không thay thế quyền của người dùng.
+L0164 Bảng liên kết nhu cầu và chức năng 
+L0165 Ma trận sau chứng minh mỗi nhu cầu người dùng có yêu cầu chức năng đáp ứng và làm cơ sở kiểm tra tính đầy đủ của phạm vi.
+L0166 [TABLE]
+L0167 Nhu cầu | Yêu cầu chức năng | Nội dung được đáp ứng
+L0168 UN-01 | FR-01, FR-02 | Đăng nhập, phiên và phân quyền
+L0169 UN-02 | FR-02 | Quản trị tài khoản, vai trò và nhật ký
+L0170 UN-03 | FR-03 đến FR-11; FR-16; FR-17 | Lập kế hoạch, theo dõi, báo cáo và cảnh báo nhiệm vụ trễ qua email
+L0171 UN-04 | FR-12; FR-15 | Tóm tắt tiến độ tuần và truy vết AI
+L0172 UN-05 | FR-14; FR-15 | Gợi ý phân công và truy vết AI
+L0173 UN-06 | FR-05, FR-06, FR-08, FR-09; FR-16; FR-17 | Thực hiện, cập nhật, cộng tác, tra cứu và nhận cảnh báo nhiệm vụ trễ
+L0174 UN-07 | FR-08, FR-13; FR-15 | Ghi chú họp, biên bản AI và truy vết
+L0175 UN-08 | FR-02, FR-10, FR-11 | Quyền chỉ xem và báo cáo đã xác nhận
+L0176 UN-09 | FR-02; FR-15 | Nhật ký hệ thống và lịch sử AI
+L0177 [/TABLE]
+L0178 Khảo Yêu cầu phi chức năng 
+L0179 Yêu cầu phi chức năng mô tả mức chất lượng mà hệ thống cần đạt. Các mục được diễn đạt theo tiêu chí có thể kiểm tra trong phạm vi dự án môn học.
+L0180 [TABLE]
+L0181 Mã | Nhóm yêu cầu | Nội dung
+L0182 NFR-01 | Hiệu năng | Mục tiêu đề xuất: thao tác thông thường và tìm kiếm phản hồi trong khoảng 2 giây ở bộ dữ liệu kiểm thử; tác vụ AI có kết quả hoặc lỗi rõ trong khoảng 30 giây.
+L0183 NFR-02 | Dễ sử dụng | Giao diện rõ ràng trên máy tính và điện thoại; thông báo lỗi bằng tiếng Việt; dữ liệu đang nhập được giữ lại khi có thể phục hồi.
+L0184 NFR-03 | Bảo mật | Mật khẩu được băm; quyền được kiểm tra ở máy chủ; kết nối được mã hóa; dữ liệu ngoài dự án/quyền bị từ chối.
+L0185 NFR-04 | Riêng tư | Chỉ gửi dữ liệu tối thiểu cần thiết tới dịch vụ AI; không gửi mật khẩu, khóa bí mật hoặc tài liệu ngoài quyền truy cập.
+L0186 NFR-05 | Tin cậy dữ liệu | Thay đổi quan trọng được ghi nhận; sao lưu theo lịch môi trường; trước nghiệm thu thử khôi phục ít nhất một bản sao lưu.
+L0187 NFR-06 | An toàn AI | Kết quả AI là bản nháp, nêu dữ liệu thiếu/mâu thuẫn và phải được con người xem xét trước khi lưu, chia sẻ hoặc dùng để phân công.
+L0188 NFR-07 | Khả năng bảo trì | Giao diện, nghiệp vụ, dữ liệu và tích hợp AI được tách thành các mô-đun; thay nhà cung cấp AI không làm đổi quy tắc nghiệp vụ.
+L0189 NFR-08 | Kiểm thử | Có kiểm thử nhiệm vụ, sprint, thống kê và ba chức năng AI; kiểm tra phân quyền và một luồng từ tạo dự án đến báo cáo tuần.
+L0190 NFR-09 | Khả năng truy vết | Hệ thống lưu người thực hiện, thời điểm, hành động và đối tượng thay đổi; nhật ký không chứa mật khẩu hoặc khóa dịch vụ.
+L0191 NFR-10 | Khả năng mở rộng dữ liệu | Mục tiêu đề xuất: truy vấn vẫn đáp ứng yêu cầu hiệu năng với tối thiểu 10.000 nhiệm vụ trong bộ dữ liệu kiểm thử.
+L0192 NFR-11 | Khả năng thay thế AI | Nhà cung cấp/mô hình AI được cấu hình qua lớp tích hợp riêng; khi thay đổi không phải sửa chức năng quản lý dự án cốt lõi.
+L0193 [/TABLE]
+L0194 Quy tắc nghiệp vụ trọng yếu 
+L0195 Các quy tắc dưới đây thống nhất cách tính tiến độ, tải công việc và giới hạn hành vi của AI.
+L0196 [TABLE]
+L0197 Mã | Quy tắc | Nội dung
+L0198 BR-01 | Trạng thái nhiệm vụ | Luồng mặc định: Tồn đọng (Backlog) → Cần làm (To do) → Đang làm (In progress) → Kiểm tra (Review) → Hoàn thành (Done).
+L0199 BR-02 | Nhiệm vụ trễ | Nhiệm vụ trễ khi đã quá hạn, chưa Hoàn thành và chưa bị lưu trữ.
+L0200 BR-03 | Sprint | Ngày bắt đầu không sau ngày kết thúc; một nhiệm vụ thuộc tối đa một sprint tại một thời điểm.
+L0201 BR-04 | Tỷ lệ hoàn thành | Tỷ lệ = số nhiệm vụ Hoàn thành/tổng nhiệm vụ trong phạm vi; nếu không có nhiệm vụ thì hiển thị 0%.
+L0202 BR-05 | Tải và quá tải | Tải = tổng ước lượng của nhiệm vụ chưa Hoàn thành trong sprint/khoảng lọc; quá tải khi tải vượt năng lực hoặc mức sẵn sàng đã cấu hình.
+L0203 BR-06 | Xác nhận AI | AI chỉ tạo bản nháp/đề xuất; người có thẩm quyền phải xem lại, chỉnh sửa và xác nhận.
+L0204 BR-07 | Dữ liệu AI | AI không tạo sự kiện, con số hoặc người phụ trách không có trong dữ liệu; phải nêu rõ phần thiếu/mâu thuẫn.
+L0205 BR-08 | Xóa dữ liệu | Dự án và nhiệm vụ được lưu trữ hoặc xóa mềm để bảo toàn lịch sử; xóa vĩnh viễn theo quyền quản trị.
+L0206 BR-09 | Email cảnh báo nhiệm vụ trễ | Khi nhiệm vụ thỏa BR-02, hệ thống gửi email cảnh báo đến địa chỉ email của tài khoản người phụ trách nhiệm vụ.
+L0207 [/TABLE]
+L0208 Ràng buộc và giả định 
+L0209 Hệ thống được xây dựng dưới dạng ứng dụng web và cần kết nối mạng để đồng bộ dữ liệu; riêng chức năng AI phụ thuộc dịch vụ AI đã cấu hình.
+L0210 Người dùng phải có tài khoản và chỉ được làm việc trong phạm vi dự án và quyền của vai trò được cấp.
+L0211 Trợ lý AI có thể chậm hoặc tạm thời không khả dụng; khi đó các chức năng quản lý dự án thông thường vẫn phải dùng được.
+L0212 Kết quả AI chỉ là bản nháp. Người dùng chịu trách nhiệm kiểm tra trước khi xác nhận, chia sẻ hoặc dùng để ra quyết định.
+L0213 Chỉ dữ liệu thuộc dự án và cần cho yêu cầu hiện tại mới được gửi tới AI.
+L0214 Phiên bản này không bao gồm chấm công, tính lương, quản lý nhân sự đầy đủ và không cho phép AI tự động thay đổi dữ liệu nghiệp vụ.
+L0215 Ngôn ngữ ban đầu là tiếng Việt; múi giờ và giới hạn dung lượng tệp được cấu hình theo môi trường triển khai.
+L0216 Dữ liệu đầu vào hệ thống 
+L0217 Phần này tổng hợp các nhóm dữ liệu chính của hệ thống và đối chiếu rõ đầu vào, đầu ra của ba chức năng AI
+L0218 [TABLE]
+L0219 Chức năng AI | Đầu vào | Đầu ra
+L0220 Tóm tắt tiến độ | Danh sách nhiệm vụ, trạng thái, hạn, sprint, bình luận/vướng mắc. | Tóm tắt tiến độ, việc trễ/rủi ro và việc cần ưu tiên.
+L0221 Biên bản họp | Ghi chú cuộc họp. | Bản nháp biên bản gồm nội dung chính, quyết định và việc cần làm.
+L0222 Gợi ý phân công | Kỹ năng, mức sẵn sàng, năng lực và tải công việc của thành viên; thông tin nhiệm vụ. | Danh sách ứng viên, lý do và cảnh báo quá tải.
+L0223 [/TABLE]
+L0224 Prompt mẫu cho AI 
+L0225 Prompt mẫu dùng cho chức năng tóm tắt tiến độ tuần. Biến {{task_status}} được thay bằng dữ liệu nhiệm vụ trong tuần mà người dùng có quyền truy cập.
+L0226 [TABLE]
+L0227 Vai trò | Nội dung
+L0228 System | Bạn là trợ lý quản lý dự án. Chỉ tóm tắt dựa trên dữ liệu nhiệm vụ được cung cấp.
+L0229 User | Dữ liệu nhiệm vụ tuần này: {{task_status}}. Hãy tóm tắt tiến độ, rủi ro và việc cần ưu tiên.
+L0230 [/TABLE]
+L0231 Khi dữ liệu thiếu hoặc mâu thuẫn, AI phải nêu rõ phần cần xác minh; người dùng đối chiếu dữ liệu nguồn trước khi xác nhận kết quả.
+L0232 Sử dụng AI trong từng giai đoạn SDLC
+L0233 AI trong mục này là công cụ hỗ trợ nhóm phát triển phần mềm, khác với ba chức năng AI chạy trong sản phẩm. Mọi kết quả do AI hỗ trợ đều phải được thành viên kiểm tra.
+L0234 [TABLE]
+L0235 Giai đoạn | Cách sử dụng AI | Kiểm soát của nhóm
+L0236 KT1 - Phân tích/thiết kế | Phân tích nghiệp vụ nhiệm vụ, sprint, Kanban; đề xuất Use Case và mô hình CSDL. | Nhóm đối chiếu với đề tài, sửa mô hình và ghi lại quyết định.
+L0237 KT2 - Lập trình | Hỗ trợ sinh khung tạo/xem/sửa/xóa dự án, nhiệm vụ, sprint; giải thích lỗi và hỗ trợ gỡ lỗi thống kê. | Thành viên đọc, kiểm thử và chịu trách nhiệm với mã nguồn trước khi ghép.
+L0238 KT3 - AI/kiểm thử | Thiết kế prompt tóm tắt, biên bản; tạo dữ liệu thử thiếu/mâu thuẫn và gợi ý ca kiểm thử. | So sánh với dữ liệu nguồn; không dùng kết quả AI chưa kiểm tra làm kết luận.
+L0239 Cuối kỳ | Hỗ trợ viết README, báo cáo, slide và hướng dẫn demo. | Nhóm rà nội dung, chạy lại demo và thống nhất bản nộp chính thức.
+L0240 [/TABLE]
+L0241 PHÂN TÍCH THIẾT KẾ
+L0242 Danh sách Use case và mô tả 
+L0243 [TABLE]
+L0244 ID | Tên Use case | Mô tả ngắn gọn Use case | Chức năng | Ghi chú
+L0245 UC001 | Đăng nhập, đăng xuất | Đăng nhập, đăng xuất và quản lý phiên. | FR-01 | Tất cả
+L0246 UC002 | Quản lý tài khoản | Quản lý tài khoản, vai trò và xem nhật ký. | FR-02 | Admin
+L0247 UC003 | Quản lý dự án | Tạo, xem, sửa, lưu trữ dự án. | FR-03 | Trưởng nhóm
+L0248 UC004 | Quản lý thành viên | Thêm/xóa thành viên, lưu vai trò, kỹ năng, mức sẵn sàng. | FR-04 | Trưởng nhóm
+L0249 UC005 | Quản lý nhiệm vụ | Tạo, sửa, xóa nhiệm vụ và hiển thị Kanban. | FR-05, FR-06 | Trưởng nhóm, Thành viên
+L0250 UC006 | Quản lý Sprint/Mốc | Tạo, xem, sửa sprint, mốc tiến độ. | FR-07 | Trưởng nhóm
+L0251 UC007 | Cộng tác | Bình luận, đính kèm, ghi chú họp. | FR-08 | Tất cả
+L0252 UC008 | Tra cứu & Báo cáo | Tìm kiếm, lọc, thống kê tiến độ, tải công việc. | FR-09, FR-10, FR-11 | Tất cả
+L0253 UC009 | AI Tóm tắt tiến độ | Yêu cầu AI tóm tắt tiến độ tuần từ dữ liệu nhiệm vụ. | FR-12 | Trưởng nhóm
+L0254 UC010 | AI Sinh biên bản họp | Dùng ghi chú họp để AI tạo biên bản, chỉnh sửa và xác nhận. | FR-13 | Trưởng nhóm, TV có quyền
+L0255 UC011 | AI Gợi ý phân công | AI gợi ý người phụ trách theo kỹ năng, tải công việc. | FR-14 | Trưởng nhóm
+L0256 UC012 | Lịch sử AI | Lưu lịch sử yêu cầu/kết quả AI, trạng thái xác nhận. | FR-15 | Tất cả
+L0257 UC013 | Nhận thông báo | Thông báo sự kiện, sắp đến hạn trong ứng dụng; gửi email cho người phụ trách khi nhiệm vụ trễ. | FR-16, FR-17 | Tất cả
+L0258 [/TABLE]
+L0259 Biểu đồ Usecase tổng quát 
+L0260 Biểu đồ Use Case cho biết mỗi tác nhân tương tác với nhóm chức năng nào. Dịch vụ AI là hệ thống hỗ trợ bên ngoài và chỉ tạo bản nháp; quyền xem xét, xác nhận thuộc người có thẩm quyền.
+L0261 Use case phân rã
+L0262 UC001: Đăng nhập, đăng xuất
+L0263 UC002: Quản lý tài khoản
+L0264 UC003: Quản lý dự án
+L0265 UC004: Quản lý thành viên
+L0266 UC005: Quản lý nhiệm vụ và Kanban
+L0267 UC006: Quản lý Sprint và mốc tiến độ
+L0268 UC007: Cộng tác (Bình luận, đính kèm, ghi chú)
+L0269 UC008: Tra cứu, báo cáo và bảng điều khiển
+L0270 UC009: AI Tóm tắt tiến độ
+L0271 UC10: AI Sinh biên bản cuộc họp
+L0272 UC11: AI gợi ý phân công
+L0273 UC12: Xem lịch sử AI
+L0274 UC13: Nhận thông báo
+L0275 Đặc tả các yêu cầu chức năng 
+L0276 Đặc tả yêu cầu chức năng là phần mô tả chi tiết các chức năng mà hệ thống phải thực hiện để đáp ứng nhu cầu của người dùng. Mỗi chức năng được biểu diễn dưới dạng Use Case nhằm làm rõ mục đích sử dụng, tác nhân tham gia, điều kiện thực hiện và cách hệ thống phản hồi trong từng tình huống.
+L0277 Phần này trình bày đặc tả chi tiết cho 13 Use Case chính của Hệ thống quản lý dự án nhóm có tích hợp AI, từ UC001 đến UC013. Mỗi Use Case được mô tả theo các thành phần gồm: tên Use Case, mục đích, mô tả, tác nhân, điều kiện trước, điều kiện sau, luồng sự kiện chính và luồng sự kiện phụ. Các đặc tả này là cơ sở để xây dựng biểu đồ trình tự, thiết kế chức năng, lập trình và kiểm thử hệ thống.
+L0278 .
+L0279 UC001 - Đăng nhập, đăng xuất
+L0280 [TABLE]
+L0281 Use case: | UC001_Đăng nhập, đăng xuất
+L0282 Mục đích: | Đăng nhập, đăng xuất an toàn và chỉ truy cập dữ liệu đúng vai trò.
+L0283 Mô tả: | Đăng nhập, đăng xuất và quản lý phiên; từ chối tài khoản bị khóa.
+L0284 Tác nhân: | Tất cả người dùng
+L0285 Điều kiện trước: | Người dùng có tài khoản hợp lệ.
+L0286 Điều kiện sau: | Đăng nhập đúng thì vào hệ thống; đăng xuất làm phiên hết hiệu lực.
+L0287 Luồng sự kiện chính: | Người dùng nhập thông tin -> Hệ thống xác thực -> Truy cập thành công.
+L0288 Luồng sự kiện phụ: | Phiên hết hạn và tài khoản khóa bị từ chối mà không lộ thông tin nhạy cảm.
+L0289 [/TABLE]
+L0290 UC002 - Quản lý tài khoản
+L0291 [TABLE]
+L0292 Use case: | UC002_Quản lý tài khoản
+L0293 Mục đích: | Quản lý tài khoản, khóa/mở tài khoản, gán vai trò và xem nhật ký.
+L0294 Mô tả: | Tạo/xem/cập nhật/khóa-mở tài khoản, gán vai trò, xem nhật ký hệ thống.
+L0295 Tác nhân: | Quản trị viên
+L0296 Điều kiện trước: | Đăng nhập với quyền Quản trị viên.
+L0297 Điều kiện sau: | Thao tác quản trị được ghi nhật ký, dữ liệu được phân quyền theo dự án.
+L0298 Luồng sự kiện chính: | Quản trị viên chọn tài khoản -> Thực hiện cập nhật/phân quyền -> Hệ thống lưu.
+L0299 Luồng sự kiện phụ: | Người dùng không thể đọc hoặc sửa dữ liệu ngoài quyền, kể cả gọi API.
+L0300 [/TABLE]
+L0301 UC003 - Quản lý dự án
+L0302 [TABLE]
+L0303 Use case: | UC003_Quản lý dự án
+L0304 Mục đích: | Tập trung thông tin dự án, thành viên trên một hệ thống.
+L0305 Mô tả: | Tạo, xem, sửa, lưu trữ dự án và quản lý trạng thái dự án.
+L0306 Tác nhân: | Trưởng nhóm
+L0307 Điều kiện trước: | Đăng nhập với quyền Trưởng nhóm.
+L0308 Điều kiện sau: | Tên, thời gian, trạng thái và dữ liệu bắt buộc được kiểm tra, lưu thành công.
+L0309 Luồng sự kiện chính: | Trưởng nhóm tạo dự án -> Khai báo thông tin cơ bản -> Dự án được tạo.
+L0310 Luồng sự kiện phụ: | Dữ liệu thiếu hoặc sai định dạng bị hệ thống báo lỗi.
+L0311 [/TABLE]
+L0312 UC004 - Quản lý thành viên
+L0313 [TABLE]
+L0314 Use case: | UC004_Quản lý thành viên
+L0315 Mục đích: | Quản lý thành viên dự án, đánh giá khối lượng công việc.
+L0316 Mô tả: | Thêm/xóa thành viên; lưu vai trò, kỹ năng, mức sẵn sàng và năng lực.
+L0317 Tác nhân: | Trưởng nhóm
+L0318 Điều kiện trước: | Dự án đã được tạo, Trưởng nhóm truy cập dự án.
+L0319 Điều kiện sau: | Danh sách và năng lực thành viên được cập nhật làm cơ sở thống kê tải.
+L0320 Luồng sự kiện chính: | Trưởng nhóm thêm thành viên -> Ghi nhận kỹ năng, năng lực -> Lưu danh sách.
+L0321 Luồng sự kiện phụ: | Xóa thành viên nhưng giữ lại lịch sử công việc cũ.
+L0322 [/TABLE]
+L0323 UC005 - Quản lý nhiệm vụ và Kanban
+L0324 [TABLE]
+L0325 Use case: | UC005_Quản lý nhiệm vụ và Kanban
+L0326 Mục đích: | Làm rõ người phụ trách, hạn, ưu tiên và theo dõi trạng thái nhiệm vụ.
+L0327 Mô tả: | Tạo, sửa, xóa mềm nhiệm vụ; cập nhật Kanban (Tồn đọng, Cần làm, Đang làm, Kiểm tra, Hoàn thành).
+L0328 Tác nhân: | Trưởng nhóm, Thành viên
+L0329 Điều kiện trước: | Thuộc dự án, có quyền truy cập.
+L0330 Điều kiện sau: | Nhiệm vụ được cập nhật đúng cột Kanban, lưu người phụ trách và lịch sử thay đổi.
+L0331 Luồng sự kiện chính: | Người dùng thực hiện tạo/sửa nhiệm vụ -> Cập nhật trạng thái bằng kéo thả -> Hệ thống cập nhật Kanban, việc trễ và tải -> Nếu nhiệm vụ thỏa BR-02, hệ thống kích hoạt gửi email cảnh báo đến người phụ trách.
+L0332 Luồng sự kiện phụ: | Thao tác sai quyền bị máy chủ từ chối và giữ nguyên dữ liệu trước đó.
+L0333 [/TABLE]
+L0334 UC006 - Quản lý Sprint và mốc tiến độ
+L0335 [TABLE]
+L0336 Use case: | UC006_Quản lý Sprint và mốc tiến độ
+L0337 Mục đích: | Lập kế hoạch theo dõi các đợt làm việc ngắn hạn.
+L0338 Mô tả: | Trưởng nhóm tạo, xem, sửa sprint, mốc tiến độ, tính tỷ lệ hoàn thành.
+L0339 Tác nhân: | Trưởng nhóm
+L0340 Điều kiện trước: | Truy cập dự án hợp lệ.
+L0341 Điều kiện sau: | Ngày sprint và tiêu chí hoàn thành hợp lệ; tỷ lệ được tính = nhiệm vụ Hoàn thành/Tổng.
+L0342 Luồng sự kiện chính: | Trưởng nhóm tạo sprint/mốc -> Chọn ngày và mục tiêu -> Gán nhiệm vụ.
+L0343 Luồng sự kiện phụ: | Ngày bắt đầu sau ngày kết thúc hệ thống sẽ từ chối.
+L0344 [/TABLE]
+L0345 UC007 - Cộng tác (Bình luận, đính kèm, ghi chú)
+L0346 [TABLE]
+L0347 Use case: | UC007_Cộng tác (Bình luận, đính kèm, ghi chú)
+L0348 Mục đích: | Trao đổi công việc, lưu bằng chứng và ghi chú họp.
+L0349 Mô tả: | Bình luận, đính kèm tệp/liên kết cho nhiệm vụ; tạo ghi chú họp.
+L0350 Tác nhân: | Trưởng nhóm, Thành viên
+L0351 Điều kiện trước: | Có quyền truy cập nhiệm vụ/dự án.
+L0352 Điều kiện sau: | Nội dung lưu cùng tác giả và thời điểm, đúng dự án.
+L0353 Luồng sự kiện chính: | Người dùng nhập nội dung hoặc đính kèm tệp -> Hệ thống lưu.
+L0354 Luồng sự kiện phụ: | Tệp sai loại/dung lượng hoặc người sai quyền bị chặn.
+L0355 [/TABLE]
+L0356 UC008 - Tra cứu, báo cáo và bảng điều khiển
+L0357 [TABLE]
+L0358 Use case: | UC008_Tra cứu, báo cáo và bảng điều khiển
+L0359 Mục đích: | Theo dõi tiến độ, tỷ lệ hoàn thành, việc trễ và khối lượng của từng thành viên.
+L0360 Mô tả: | Tìm kiếm, lọc nhiệm vụ; Bảng điều khiển tiến độ; Thống kê nhiệm vụ trễ và tải công việc.
+L0361 Tác nhân: | Trưởng nhóm, Thành viên (chỉ xem)
+L0362 Điều kiện trước: | Có dữ liệu nhiệm vụ trong hệ thống.
+L0363 Điều kiện sau: | Kết quả hiển thị đúng phạm vi dự án và quyền truy cập.
+L0364 Luồng sự kiện chính: | Người dùng nhập bộ lọc -> Hệ thống truy xuất, tính tải công việc và số liệu hoàn thành -> Hiển thị.
+L0365 Luồng sự kiện phụ: | Cảnh báo quá tải khi tải vượt năng lực cấu hình.
+L0366 [/TABLE]
+L0367 UC009 - AI Tóm tắt tiến độ
+L0368 [TABLE]
+L0369 Use case: | UC009_AI Tóm tắt tiến độ
+L0370 Mục đích: | Dùng AI tổng hợp tiến độ tuần, chỉ ra việc ưu tiên, rủi ro.
+L0371 Mô tả: | Yêu cầu AI tóm tắt tiến độ từ dữ liệu nhiệm vụ; đối chiếu và xác nhận.
+L0372 Tác nhân: | Trưởng nhóm
+L0373 Điều kiện trước: | Cấu hình AI hoạt động, có dữ liệu nhiệm vụ.
+L0374 Điều kiện sau: | Kết quả tóm tắt được đối chiếu và lưu chính thức, không tạo thông tin ngoài nguồn.
+L0375 Luồng sự kiện chính: | Trưởng nhóm yêu cầu tóm tắt -> Hệ thống kiểm tra dữ liệu và gửi yêu cầu -> Dịch vụ AI tạo bản nháp -> Trưởng nhóm đối chiếu, sửa, xác nhận.
+L0376 Luồng sự kiện phụ: | AI nêu rõ dữ liệu thiếu/mâu thuẫn. Nếu AI lỗi thì báo lỗi 30s.
+L0377 [/TABLE]
+L0378 UC010 - AI Sinh biên bản họp
+L0379 [TABLE]
+L0380 Use case: | UC010_AI Sinh biên bản họp
+L0381 Mục đích: | Tạo bản nháp biên bản họp nhanh chóng từ ghi chú rời rạc.
+L0382 Mô tả: | Trưởng nhóm hoặc TV dùng ghi chú họp để AI tạo biên bản, chỉnh sửa bản nháp.
+L0383 Tác nhân: | Trưởng nhóm, Thành viên có quyền
+L0384 Điều kiện trước: | Có ghi chú họp lưu trong hệ thống.
+L0385 Điều kiện sau: | Biên bản chỉ lưu chính thức sau khi người có thẩm quyền xác nhận.
+L0386 Luồng sự kiện chính: | Người dùng gửi ghi chú -> AI tạo bản nháp có quyết định, việc cần làm -> Người dùng sửa và xác nhận.
+L0387 Luồng sự kiện phụ: | Không tự sinh dữ liệu người phụ trách nếu ghi chú không có.
+L0388 [/TABLE]
+L0389 UC011 - AI Gợi ý phân công
+L0390 [TABLE]
+L0391 Use case: | UC011_AI Gợi ý phân công
+L0392 Mục đích: | Đề xuất người phù hợp để cân bằng công việc dựa trên kỹ năng.
+L0393 Mô tả: | Nhận 1-3 gợi ý phân công theo kỹ năng, mức sẵn sàng và tải; xem lý do/cảnh báo.
+L0394 Tác nhân: | Trưởng nhóm
+L0395 Điều kiện trước: | Hệ thống có đủ thông tin năng lực và tải của thành viên.
+L0396 Điều kiện sau: | Kết quả xếp hạng ứng viên, nêu lý do. Trưởng nhóm quyết định cuối cùng.
+L0397 Luồng sự kiện chính: | Trưởng nhóm yêu cầu AI đề xuất -> Hệ thống gửi kỹ năng, tải -> AI trả 1-3 gợi ý -> Trưởng nhóm xem xét và quyết định phân công.
+L0398 Luồng sự kiện phụ: | AI cảnh báo nếu tất cả đều quá tải. Hệ thống không tự gán.
+L0399 [/TABLE]
+L0400 UC012 - Xem lịch sử AI
+L0401 [TABLE]
+L0402 Use case: | UC012_Xem lịch sử AI
+L0403 Mục đích: | Kiểm tra, truy vết ai yêu cầu AI, dùng dữ liệu nào và kết quả nào.
+L0404 Mô tả: | Lưu lịch sử yêu cầu/kết quả AI, phiên bản prompt, tham chiếu.
+L0405 Tác nhân: | Quản trị viên, Trưởng nhóm
+L0406 Điều kiện trước: | Đã có tương tác với AI trước đó.
+L0407 Điều kiện sau: | Truy vết được dữ liệu mà không lưu khóa bí mật.
+L0408 Luồng sự kiện chính: | Người dùng vào lịch sử AI -> Hệ thống hiển thị bản ghi -> Xem chi tiết.
+L0409 Luồng sự kiện phụ: | Không tìm thấy dữ liệu nếu dự án trống.
+L0410 [/TABLE]
+L0411 UC013 - Nhận thông báo
+L0412 [TABLE]
+L0413 Use case: | UC013_Nhận thông báo
+L0414 Mục đích: | Cập nhật nhanh việc được giao, sắp đến hạn và cảnh báo qua email khi nhiệm vụ bị trễ.
+L0415 Mô tả: | Thông báo trong ứng dụng về sự kiện quan trọng; gửi email cảnh báo đến người phụ trách khi nhiệm vụ bị trễ theo BR-02.
+L0416 Tác nhân: | Tất cả người dùng; người phụ trách nhiệm vụ là người nhận email trễ hạn.
+L0417 Điều kiện trước: | Người dùng đang trong dự án; đối với email trễ hạn, nhiệm vụ có người phụ trách và tài khoản có địa chỉ email.
+L0418 Điều kiện sau: | Người dùng nhận đúng thông báo trong ứng dụng và có thể đánh dấu đã đọc; khi nhiệm vụ bị trễ, người phụ trách nhận email cảnh báo.
+L0419 Luồng sự kiện chính: | Hệ thống tạo thông báo khi có sự kiện (giao việc, sắp hạn) -> Gửi thông báo trong ứng dụng. Khi hệ thống xác định nhiệm vụ thỏa BR-02 -> Lấy email tài khoản người phụ trách -> Gửi email cảnh báo nhiệm vụ trễ.
+L0420 Luồng sự kiện phụ: | Thông báo trong ứng dụng bị ẩn khi người dùng chọn đánh dấu đã đọc. Nếu nhiệm vụ chưa trễ hoặc đã Hoàn thành thì không gửi email trễ hạn.
+L0421 [/TABLE]
+L0422 .
+L0423 Biểu đồ trình tự 
+L0424 Biểu đồ trình tự (Sequence Diagram) là biểu đồ UML dùng để mô tả thứ tự tương tác giữa tác nhân và các thành phần của hệ thống theo thời gian khi thực hiện một chức năng cụ thể. Biểu đồ cho biết yêu cầu được gửi từ đâu, thành phần nào tiếp nhận và xử lý, dữ liệu được truy xuất hoặc cập nhật như thế nào và kết quả cuối cùng được trả về cho người dùng ra sao.
+L0425 Đối với Hệ thống quản lý dự án nhóm có tích hợp AI, biểu đồ trình tự được xây dựng tương ứng với từng Use Case nhằm làm rõ luồng xử lý của các chức năng quản lý dự án, nhiệm vụ, Sprint, cộng tác, báo cáo và các chức năng có sử dụng dịch vụ AI. Đối với các chức năng AI, dịch vụ AI chỉ tạo kết quả hỗ trợ hoặc bản nháp; người dùng có thẩm quyền vẫn là người kiểm tra và quyết định cuối cùng. Điều này phù hợp với nguyên tắc của hệ thống là AI không tự ý thay đổi dữ liệu nghiệp vụ.
+L0426 UC001 — Đăng nhập, đăng xuất
+L0427 Biểu đồ trình tự UC001 mô tả quá trình người dùng gửi thông tin đăng nhập đến hệ thống, hệ thống tiến hành xác thực tài khoản và quyền truy cập trước khi cho phép người dùng vào hệ thống. Khi đăng xuất, phiên làm việc hiện tại được kết thúc để bảo đảm an toàn truy cập.
+L0428 UC002 — Quản lý tài khoản
+L0429 Biểu đồ trình tự UC002 mô tả quá trình Quản trị viên thực hiện các thao tác quản lý tài khoản như tạo, xem, cập nhật, khóa hoặc mở tài khoản, gán vai trò và xem nhật ký hoạt động. Hệ thống kiểm tra quyền quản trị trước khi thực hiện và lưu lại các thay đổi cần thiết.
+L0430 UC003 — Quản lý dự án
+L0431 Biểu đồ trình tự UC003 mô tả quá trình Trưởng nhóm tạo, xem, chỉnh sửa và quản lý trạng thái của dự án. Thông tin dự án được hệ thống kiểm tra tính hợp lệ trước khi lưu và trở thành phạm vi chung để quản lý thành viên, nhiệm vụ, Sprint và báo cáo.
+L0432 UC004 — Quản lý thành viên
+L0433 Biểu đồ trình tự UC004 mô tả quá trình Trưởng nhóm thêm hoặc loại thành viên khỏi dự án, đồng thời cập nhật vai trò, kỹ năng, mức sẵn sàng và năng lực làm việc của từng thành viên. Các thông tin này được lưu để phục vụ phân quyền, thống kê tải công việc và hỗ trợ gợi ý phân công.
+L0434 UC005 — Quản lý nhiệm vụ và Kanban
+L0435 Biểu đồ trình tự UC005 mô tả quá trình tạo, chỉnh sửa, cập nhật và theo dõi nhiệm vụ trên bảng Kanban. Khi trạng thái nhiệm vụ thay đổi, hệ thống cập nhật thông tin tương ứng và sử dụng dữ liệu đó để xác định tiến độ, nhiệm vụ trễ và tải công việc của thành viên.
+L0436 UC006 — Quản lý Sprint và mốc tiến độ
+L0437 Biểu đồ trình tự UC006 mô tả quá trình Trưởng nhóm tạo và cập nhật Sprint, mốc tiến độ, mục tiêu và khoảng thời gian thực hiện. Hệ thống kiểm tra dữ liệu thời gian, liên kết nhiệm vụ với Sprint và tính toán tỷ lệ hoàn thành dựa trên trạng thái nhiệm vụ.
+L0438 UC007 — Cộng tác
+L0439 Biểu đồ trình tự UC007 mô tả quá trình các thành viên trao đổi thông tin trong dự án thông qua bình luận, tài liệu đính kèm và ghi chú. Hệ thống kiểm tra quyền truy cập trước khi lưu nội dung cùng thông tin tác giả, thời điểm và nhiệm vụ hoặc dự án liên quan.
+L0440 UC008 — Tra cứu, báo cáo và bảng điều khiển
+L0441 Biểu đồ trình tự UC008 mô tả quá trình người dùng nhập điều kiện tìm kiếm hoặc bộ lọc, hệ thống truy xuất dữ liệu phù hợp và tổng hợp các thông tin về tiến độ, nhiệm vụ trễ, tỷ lệ hoàn thành và khối lượng công việc trước khi hiển thị kết quả.
+L0442 UC009 — AI tóm tắt tiến độ
+L0443 Biểu đồ trình tự UC009 mô tả quá trình Trưởng nhóm yêu cầu AI tóm tắt tiến độ. Hệ thống kiểm tra quyền và tập hợp các dữ liệu nhiệm vụ cần thiết, gửi dữ liệu tới dịch vụ AI để tạo bản nháp tóm tắt. Kết quả sau đó được Trưởng nhóm đối chiếu, chỉnh sửa và xác nhận trước khi sử dụng chính thức.
+L0444 UC010 — AI sinh biên bản họp
+L0445 Biểu đồ trình tự UC010 mô tả quá trình người dùng có quyền gửi ghi chú cuộc họp để yêu cầu AI tạo bản nháp biên bản. Dịch vụ AI xử lý nội dung và trả về bản nháp gồm các nội dung chính, quyết định và công việc cần thực hiện; người dùng tiếp tục kiểm tra, chỉnh sửa và xác nhận trước khi lưu chính thức.
+L0446 UC011 — AI gợi ý phân công
+L0447 Biểu đồ trình tự UC011 mô tả quá trình Trưởng nhóm yêu cầu AI đề xuất người phù hợp cho một nhiệm vụ. Hệ thống cung cấp các dữ liệu cần thiết như kỹ năng, mức sẵn sàng, năng lực và tải công việc; AI trả về từ 1–3 ứng viên kèm lý do và cảnh báo quá tải. Trưởng nhóm là người xem xét và quyết định việc phân công cuối cùng.
+L0448 UC012 — Xem lịch sử AI
+L0449 Biểu đồ trình tự UC012 mô tả quá trình Quản trị viên hoặc Trưởng nhóm truy cập lịch sử sử dụng AI. Hệ thống truy xuất các bản ghi liên quan đến người yêu cầu, loại tác vụ AI, dữ liệu tham chiếu, phiên bản prompt, kết quả và trạng thái xác nhận để người dùng có thể kiểm tra và truy vết quá trình sử dụng AI.
+L0450 UC013 — Nhận thông báo
+L0451 Biểu đồ trình tự UC013 mô tả quá trình hệ thống tạo và gửi thông báo trong ứng dụng khi phát sinh các sự kiện quan trọng như được giao nhiệm vụ hoặc nhiệm vụ sắp đến hạn. Đồng thời, khi hệ thống xác định một nhiệm vụ bị trễ theo BR-02, hệ thống lấy địa chỉ email của tài khoản người phụ trách và gửi email cảnh báo trễ hạn. Người dùng vẫn có thể mở và đánh dấu thông báo trong ứng dụng là đã đọc.
+L0452 Quy trình nghiệp vụ tổng quát
+L0453 Quy trình nghiệp vụ tổng quát là mô hình mô tả toàn bộ luồng hoạt động chính của hệ thống từ khi bắt đầu một nghiệp vụ cho đến khi đạt được kết quả cuối cùng, đồng thời thể hiện sự tham gia và trách nhiệm của từng tác nhân trong quá trình xử lý.
+L0454 Đối với Hệ thống quản lý dự án nhóm có tích hợp AI, quy trình bắt đầu khi Trưởng nhóm tạo dự án, bổ sung thành viên, xây dựng Sprint, mốc tiến độ và nhiệm vụ. Sau khi nhiệm vụ được phân công, Thành viên thực hiện công việc, cập nhật trạng thái, bình luận và tài liệu liên quan; hệ thống sử dụng những dữ liệu này để cập nhật Kanban, tiến độ, nhiệm vụ trễ và tải công việc. Khi một nhiệm vụ thỏa điều kiện trễ theo BR-02, hệ thống gửi email cảnh báo đến địa chỉ email của tài khoản người phụ trách. Khi người dùng có nhu cầu sử dụng chức năng AI, hệ thống kiểm tra quyền và lựa chọn dữ liệu cần thiết trước khi gửi tới dịch vụ AI. Kết quả AI chỉ được xem là bản nháp hoặc đề xuất và phải được người có thẩm quyền kiểm tra, chỉnh sửa và xác nhận trước khi trở thành kết quả chính thức.
+L0455 Đây cũng chính là nguyên tắc nghiệp vụ đã được xác định trong tài liệu: quy trình bắt đầu từ Trưởng nhóm tạo dự án và kết thúc khi báo cáo hoặc biên bản được xác nhận; dịch vụ AI chỉ tham gia sau khi hệ thống kiểm tra quyền và có yêu cầu chủ động từ người dùng. 
+L0456 Biểu đồ lớp 
+L0457 Biểu đồ lớp (Class Diagram) là biểu đồ UML dùng để mô hình hóa cấu trúc tĩnh của hệ thống, bao gồm các lớp, thuộc tính, phương thức và mối quan hệ giữa các lớp. Biểu đồ lớp giúp chuyển từ các yêu cầu và nghiệp vụ đã phân tích sang mô hình thiết kế cụ thể, đồng thời làm cơ sở cho việc xây dựng cấu trúc chương trình và thiết kế dữ liệu.
+L0458 Đối với Hệ thống quản lý dự án nhóm có tích hợp AI, biểu đồ lớp tập trung mô hình hóa các đối tượng nghiệp vụ chính như tài khoản, dự án, thành viên dự án, nhiệm vụ, Sprint và mốc tiến độ, bình luận và tài liệu, ghi chú/biên bản họp, yêu cầu và kết quả AI, báo cáo và nhật ký. Mối quan hệ giữa các lớp thể hiện cách dữ liệu của dự án được liên kết trong quá trình phân quyền, phân công nhiệm vụ, theo dõi tiến độ, cộng tác và sử dụng các chức năng AI.
+L0459 Nhận xét về biểu đồ lớp:
+L0460 Lớp TaiKhoan phục vụ đăng nhập và quản lý thông tin người dùng của hệ thống như họ tên, email, mật khẩu, trạng thái và vai trò. Lớp này có quan hệ với dự án và lịch sử sử dụng AI. 
+L0461 Lớp DuAn là đối tượng trung tâm trong hệ thống quản lý dự án, lưu các thông tin cơ bản như tên dự án, mô tả, thời gian và trạng thái. Một tài khoản có thể quản lý nhiều dự án và mỗi dự án có thể bao gồm nhiều thành viên, Sprint và nhiệm vụ. 
+L0462 Lớp ThanhVienDuAn dùng để liên kết tài khoản với dự án, đồng thời lưu các thông tin phục vụ quản lý và phân công như vai trò trong dự án, kỹ năng, mức sẵn sàng và năng lực làm việc. Các dữ liệu này là cơ sở để tính tải công việc và hỗ trợ gợi ý phân công. 
+L0463 Lớp Sprint lưu thông tin về từng đợt làm việc của dự án như tên Sprint, mục tiêu, ngày bắt đầu, ngày kết thúc và tiêu chí hoàn thành. Sprint chứa các nhiệm vụ và được sử dụng để tính tỷ lệ hoàn thành theo tiến độ. 
+L0464 Lớp NhiemVu lưu thông tin công việc cần thực hiện như tiêu đề, mô tả, trạng thái, mức ưu tiên, hạn hoàn thành và ước lượng. Nhiệm vụ được gắn với thành viên thực hiện và Sprint để phục vụ theo dõi tiến độ, Kanban và khối lượng công việc. 
+L0465 Lớp LichSuAI lưu lại thông tin về các lần sử dụng chức năng AI như loại tác vụ, prompt yêu cầu, kết quả AI và trạng thái xác nhận. Lớp này liên kết với tài khoản để hỗ trợ kiểm tra và truy vết quá trình sử dụng AI trong hệ thống. 
+L0466 Thiết kế ERD (Biểu đồ Thực thể - Mối quan hệ)
+L0467 ERD (Entity Relationship Diagram) là biểu đồ dùng để mô tả các thực thể dữ liệu, các thuộc tính quan trọng và mối quan hệ giữa các thực thể trong cơ sở dữ liệu. ERD giúp xác định dữ liệu nào cần được lưu trữ, cách các bảng liên kết với nhau và cách bảo đảm tính nhất quán của dữ liệu trước khi triển khai cơ sở dữ liệu thực tế.
+L0468 Đối với Hệ thống quản lý dự án nhóm có tích hợp AI, ERD được xây dựng dựa trên các nhóm dữ liệu chính của hệ thống như tài khoản, dự án, thành viên dự án, nhiệm vụ, Sprint/mốc tiến độ, bình luận/tài liệu, ghi chú và biên bản họp, lịch sử yêu cầu/kết quả AI, báo cáo và nhật ký. Các mối quan hệ giữa những thực thể này giúp bảo đảm dữ liệu của mỗi thành viên, nhiệm vụ, Sprint và kết quả AI luôn được liên kết đúng với dự án tương ứng, đồng thời hỗ trợ việc truy vấn, thống kê, kiểm tra quyền và truy vết lịch sử sử dụng AI.
+L0469 Các quy tắc toàn vẹn dữ liệu
+L0470 [TABLE]
+L0471 Mã | Nội dung ràng buộc | Ý nghĩa
+L0472 Ràng buộc 1 | Mỗi bảng phải có khóa chính duy nhất. TaiKhoan, DuAn, Sprint, NhiemVu, LichSuAI sử dụng khóa chính riêng; ThanhVienDuAn sử dụng khóa chính ghép (MaTaiKhoan, MaDuAn). | Bảo đảm mỗi bản ghi được xác định duy nhất và tránh dữ liệu trùng lặp.
+L0473 Ràng buộc 2 | DuAn.MaTruongNhom phải tham chiếu đến một TaiKhoan đã tồn tại. | Bảo đảm mỗi dự án luôn được gắn với một tài khoản Trưởng nhóm hợp lệ.
+L0474 Ràng buộc 3 | Một tài khoản chỉ được xuất hiện một lần trong cùng một dự án thông qua khóa ghép (MaTaiKhoan, MaDuAn) của ThanhVienDuAn. | Tránh việc cùng một thành viên bị thêm lặp nhiều lần vào cùng dự án.
+L0475 Ràng buộc 4 | Mọi bản ghi ThanhVienDuAn phải tham chiếu đến tài khoản và dự án đã tồn tại. | Bảo đảm thành viên dự án không tồn tại độc lập khi tài khoản hoặc dự án tương ứng không tồn tại.
+L0476 Ràng buộc 5 | Sprint.MaDuAn phải tham chiếu đến một dự án hợp lệ; ngày bắt đầu Sprint không được sau ngày kết thúc. | Giữ liên kết đúng giữa Sprint và dự án, đồng thời tránh dữ liệu thời gian không hợp lệ. Quy tắc thời gian này cũng được tài liệu quy định cho Sprint.
+L0477 Ràng buộc 6 | Một nhiệm vụ thuộc tối đa một Sprint tại một thời điểm; NhiemVu.MaSprint phải tham chiếu đến Sprint đã tồn tại. | Tránh một nhiệm vụ đồng thời được tính trong nhiều Sprint.
+L0478 Ràng buộc 7 | Người phụ trách của nhiệm vụ phải là thành viên hợp lệ trong dự án tương ứng. | Bảo đảm nhiệm vụ không được giao cho người không thuộc dự án, đồng thời giúp thống kê tải công việc và trách nhiệm chính xác.
+L0479 Ràng buộc 8 | LichSuAI.MaNguoiYeuCau phải tham chiếu đến một tài khoản tồn tại. Mỗi bản ghi lịch sử AI phải xác định được người yêu cầu, loại tác vụ, prompt, kết quả và trạng thái xác nhận. | Bảo đảm có thể truy vết quá trình sử dụng AI và xác định ai đã thực hiện yêu cầu.
+L0480 Ràng buộc 9 | Lịch sử AI không được lưu mật khẩu hoặc khóa bí mật của hệ thống/dịch vụ AI. | Bảo đảm an toàn dữ liệu khi lưu lịch sử sử dụng AI. Tài liệu cũng quy định lịch sử phải truy vết được nhưng không lưu khóa bí mật.
+L0481 Ràng buộc 10 | Dự án và nhiệm vụ khi không còn sử dụng được ưu tiên lưu trữ hoặc xóa mềm để bảo toàn lịch sử; xóa vĩnh viễn chỉ thực hiện theo quyền quản trị. | Tránh mất dữ liệu lịch sử và giữ khả năng truy vết các thay đổi đã xảy ra trong hệ thống.
+L0482 [/TABLE]
+L0483 Mô tả cấu trúc bảng 
+L0484 [TABLE]
+L0485 Thực thể | Khóa chính | Thuộc tính nổi bật | Vai trò | Quan hệ chính
+L0486 TaiKhoan | MaTaiKhoan | HoTen, Email, MatKhau, TrangThai, VaiTro | Lưu thông tin người dùng, phục vụ đăng nhập và phân quyền trong hệ thống | Một tài khoản có thể quản lý nhiều dự án và phát sinh nhiều bản ghi lịch sử AI
+L0487 DuAn | MaDuAn | TenDuAn, MoTa, ThoiGian, TrangThai, MaTruongNhom | Lưu thông tin chung của dự án và xác định Trưởng nhóm phụ trách | Thuộc một Trưởng nhóm; một dự án có nhiều thành viên và nhiều Sprint
+L0488 ThanhVienDuAn | MaTaiKhoan, MaDuAn | VaiTroDuAn, KyNang, MucSanSang, NangLucLamViec | Liên kết tài khoản với dự án, lưu thông tin phục vụ phân quyền, thống kê tải và gợi ý phân công | Mỗi bản ghi thuộc một dự án; một thành viên dự án có thể thực hiện nhiều nhiệm vụ
+L0489 Sprint | MaSprint | MaDuAn, TenSprint, NgayBatDau, NgayKetThuc, TieuChiHoanThanh | Lưu các đợt làm việc của dự án để lập kế hoạch và theo dõi tiến độ | Mỗi Sprint thuộc một dự án; một Sprint có thể chứa nhiều nhiệm vụ
+L0490 NhiemVu | MaNhiemVu | MaSprint, MaNguoiPhuTrach, TieuDe, TrangThai, HanHoanThanh, UocLuong | Lưu công việc cần thực hiện, người phụ trách, trạng thái, hạn và khối lượng ước lượng | Mỗi nhiệm vụ thuộc một Sprint và được một thành viên phụ trách
+L0491 LichSuAI | MaLichSu | MaNguoiYeuCau, LoaiTacVu, PromptYeuCau, KetQuaAI, TrangThaiXacNhan | Lưu lịch sử yêu cầu và kết quả AI để phục vụ kiểm tra, xác nhận và truy vết | Mỗi bản ghi lịch sử AI gắn với một tài khoản yêu cầu; một tài khoản có thể có nhiều bản ghi lịch sử AI
+L0492 [/TABLE]
+L0493 Bảng TaiKhoan
+L0494 [TABLE]
+L0495 Tên trường | Kiểu dữ liệu | Ràng buộc | Ý nghĩa
+L0496 MaTaiKhoan | int | PK, NOT NULL | Mã tài khoản
+L0497 HoTen | nvarchar(100) | NOTNULL | Họ tên người dùng
+L0498 Email | varchar(100) | UNIQUE, NOT NULL | Email đăng nhập/liên hệ của tài khoản
+L0499 MatKhau | varchar(255) | NOTNULL | Mật khẩu đã băm của tài khoản
+L0500 TrangThai | bit | NOT NULL | Trạng thái hoạt động của tài khoản
+L0501 VaiTro | varchar(20) | NOT NULL | Vai trò của người dùng trong hệ thống
+L0502 [/TABLE]
+L0503 Bảng DuAn
+L0504 [TABLE]
+L0505 Tên trường | Kiểu dữ liệu | Ràng buộc | Ý nghĩa
+L0506 MaDuAn | int | PK, NOT NULL | Mã dự án
+L0507 TenDuAn | nvarchar(255) | NOT NULL | Tên dự án
+L0508 MoTa | nvarchar(max) | NULL | Nội dung mô tả dự án
+L0509 ThoiGian | date | NOT NULL | Thời gian của dự án
+L0510 TrangThai | varchar(50) | NOT NULL | Trạng thái hiện tại của dự án
+L0511 MaTruongNhom | int | FK → TaiKhoan(MaTaiKhoan), NOT NULL | Tài khoản Trưởng nhóm quản lý dự án
+L0512 [/TABLE]
+L0513 Bảng ThanhVienDuAn
+L0514 [TABLE]
+L0515 Tên trường | Kiểu dữ liệu | Ràng buộc | Mô tả
+L0516 MaTaiKhoan | int | PK, FK, NOT NULL | Mã tài khoản của thành viên tham gia dự án, tham chiếu TaiKhoan(MaTaiKhoan).
+L0517 MaDuAn | int | PK, FK, NOT NULL | Mã dự án mà thành viên tham gia, tham chiếu DuAn(MaDuAn).
+L0518 VaiTroDuAn | varchar(50) | NOT NULL | Vai trò của thành viên trong dự án.
+L0519 KyNang | nvarchar(255) | NOT NULL | Kỹ năng chuyên môn của thành viên.
+L0520 MucSanSang | int | NOT NULL | Mức độ sẵn sàng tham gia hoặc nhận nhiệm vụ.
+L0521 NangLucLamViec | decimal(10,2) | NOT NULL | Năng lực hoặc khả năng đảm nhận khối lượng công việc của thành viên.
+L0522 [/TABLE]
+L0523 Bảng Sprint
+L0524 [TABLE]
+L0525 Tên trường | Kiểu dữ liệu | Ràng buộc | Ý nghĩa
+L0526 MaSprint | int | PK, NOT NULL | Mã Sprint
+L0527 MaDuAn | int | FK → DuAn(MaDuAn), NOT NULL | Dự án chứa Sprint
+L0528 TenSprint | nvarchar(255) | NOT NULL | Tên Sprint
+L0529 NgayBatDau | date | NOT NULL | Ngày bắt đầu Sprint
+L0530 NgayKetThuc | date | NOT NULL | Ngày kết thúc Sprint
+L0531 TieuChiHoanThanh | nvarchar(max) | NOT NULL | Tiêu chí hoàn thành Sprint
+L0532 [/TABLE]
+L0533 Bảng NhiemVu
+L0534 [TABLE]
+L0535 Tên trường | Kiểu dữ liệu | Ràng buộc | Ý nghĩa
+L0536 MaNhiemVu | int | PK, NOT NULL | Mã nhiệm vụ
+L0537 MaSprint | int | FK → Sprint(MaSprint), NULL | Sprint chứa nhiệm vụ
+L0538 MaNguoiPhuTrach | int | FK → TaiKhoan(MaTaiKhoan), NULL | Người phụ trách nhiệm vụ
+L0539 TieuDe | nvarchar(255) | NOT NULL | Tiêu đề nhiệm vụ
+L0540 TrangThai | varchar(50) | NOT NULL, CHECK | Trạng thái hiện tại của nhiệm vụ
+L0541 HanHoanThanh | date | NOT NULL | Hạn hoàn thành nhiệm vụ
+L0542 UocLuong | decimal(10,2) | NULL, CHECK (UocLuong > 0) | Khối lượng/thời gian ước lượng
+L0543 [/TABLE]
+L0544 Bảng NhiemVu
+L0545 [TABLE]
+L0546 Tên trường | Kiểu dữ liệu | Ràng buộc | Ý nghĩa
+L0547 MaNhiemVu | int | PK, NOT NULL | Mã nhiệm vụ
+L0548 MaSprint | int | FK → Sprint(MaSprint), NULL | Sprint chứa nhiệm vụ
+L0549 MaNguoiPhuTrach | int | FK → TaiKhoan(MaTaiKhoan), NULL | Người phụ trách nhiệm vụ
+L0550 TieuDe | nvarchar(255) | NOT NULL | Tiêu đề nhiệm vụ
+L0551 TrangThai | varchar(50) | NOT NULL, CHECK | Trạng thái hiện tại của nhiệm vụ
+L0552 HanHoanThanh | date | NOT NULL | Hạn hoàn thành nhiệm vụ
+L0553 UocLuong | decimal(10,2) | NULL, CHECK (UocLuong > 0) | Khối lượng/thời gian ước lượng
+L0554 [/TABLE]
+L0555 Kiến trúc phân tầng 
+L0556 Quan sát sơ đồ ERD cho thấy hệ thống sử dụng sáu thực thể dữ liệu chính là TaiKhoan, DuAn, ThanhVienDuAn, Sprint, NhiemVu và LichSuAI. Trong đó, bảng TaiKhoan phục vụ cho chức năng đăng nhập và phân quyền người dùng, đồng thời được tách riêng để quản lý thông tin truy cập của Admin, Trưởng nhóm và Thành viên. Các bảng còn lại tạo thành chuỗi xử lý chính của hệ thống: tài khoản quản lý dự án; dự án bao gồm các thành viên và được chia thành các Sprint; mỗi Sprint chứa các nhiệm vụ cụ thể; trong quá trình vận hành, hệ thống phát sinh thêm lịch sử sử dụng AI để phục vụ kiểm tra và truy vết.
+L0557 Một tài khoản có thể quản lý nhiều dự án, trong đó mỗi dự án được gắn với một Trưởng nhóm thông qua khóa ngoại MaTruongNhom. 
+L0558 Một dự án có thể có nhiều thành viên tham gia, và một tài khoản cũng có thể tham gia nhiều dự án khác nhau. Quan hệ nhiều – nhiều này được triển khai thông qua bảng trung gian ThanhVienDuAn. 
+L0559 Bảng ThanhVienDuAn không chỉ liên kết tài khoản với dự án mà còn lưu thêm các thông tin nghiệp vụ quan trọng như vai trò trong dự án, kỹ năng, mức sẵn sàng và năng lực làm việc. Đây là cơ sở để theo dõi tải công việc và hỗ trợ AI gợi ý phân công. 
+L0560 Một dự án có thể được chia thành nhiều Sprint, mỗi Sprint thuộc duy nhất một dự án và được sử dụng để lập kế hoạch, theo dõi tiến độ và đánh giá kết quả theo từng giai đoạn làm việc. 
+L0561 Mỗi Sprint có thể chứa nhiều nhiệm vụ, và mỗi nhiệm vụ gắn với đúng một Sprint tại một thời điểm. Điều này giúp hệ thống theo dõi tiến độ công việc theo từng giai đoạn cụ thể. 
+L0562 Mỗi nhiệm vụ được giao cho một người phụ trách, thông qua trường MaNguoiPhuTrach. Một thành viên dự án có thể được giao nhiều nhiệm vụ khác nhau trong cùng một dự án hoặc nhiều Sprint khác nhau. 
+L0563 Bảng LichSuAI lưu lại toàn bộ thông tin liên quan đến việc sử dụng AI, bao gồm người yêu cầu, loại tác vụ, nội dung prompt, kết quả AI và trạng thái xác nhận. Bảng này không nhằm xử lý nghiệp vụ chính như dự án hay nhiệm vụ, mà phục vụ mục đích kiểm tra, xác nhận và truy vết các lần sử dụng AI trong hệ thống. 
+L0564 Lịch sử AI không cần tách thêm các bảng phụ khác trong mô hình hiện tại, vì các thông tin cần truy vết đã được lưu trực tiếp trong bảng LichSuAI. Đồng thời, theo yêu cầu nghiệp vụ, dữ liệu lịch sử vẫn phải bảo đảm không lưu khóa bí mật.
+L0565 Một số giao diện hệ thống
+L0566 Giao diện chức năng đăng nhập
+L0567 Giao diện bảng điều khiển 
+L0568 Giao diện bảng kanban
+L0569 Giao diện các chức năng AI (tóm tắt tiến độ, sinh biên bản cuộc họp, gợi ý phân công)
+L0570 Giao diện bảng thông báo
+L0571 Giao diện xem lịch sử AI
+L0572 Giao diện quản lí thành viên
+L0573 KIỂM THỬ CHỨC NĂNG HỆ THỐNG
+L0574 Những yêu cầu về tài nguyên cho kiểm thử ứng dụng
+L0575 Công cụ và môi trường
+L0576 [TABLE]
+L0577 Tên | Mục đích | Chi tiết
+L0578 Laptop Dell | Thiết bị để thực hiện kiểm tra | CPU: i5 9300H; RAM: 32GB; SSD: 512GB; GPU: GTX 1650
+L0579 Laptop Dell Latitude 5400 | Thiết bị để thực hiện kiểm tra | CPU: Intel Core i5-8365U; RAM: 8GB; SSD: 512GB; GPU: Intel UHD Graphics
+L0580 Laptop Lenovo ThinkPad X1 Carbon Gen 9 | Thiết bị để thực hiện kiểm tra | CPU: i5-1145G7; RAM: 32GB; SSD: 512GB; GPU: Intel Iris Xe
+L0581 [/TABLE]
+L0582 Công cụ phần mềm
+L0583 [TABLE]
+L0584 Tên phần mềm | Phiên bản | Loại
+L0585 Visual Studio Code | 1.104 | Công cụ phát triển
+L0586 MySQL Workbench 8.0 CE | 2022 | Lưu trữ và quản lý dữ liệu
+L0587 Windows | Windows 11 64-bit | Môi trường chạy ứng dụng
+L0588 [/TABLE]
+L0589 Kế hoạch kiểm thử hệ thống bằng AI agent
+L0590 Mục đích kiểm thử 
+L0591 Kế hoạch kiểm thử được xây dựng nhằm xác minh Hệ thống quản lý dự án nhóm có tích hợp AI đáp ứng đúng các yêu cầu chức năng, yêu cầu phi chức năng và quy tắc nghiệp vụ đã được xác định trong tài liệu.
+L0592 Thay vì thực hiện toàn bộ quá trình kiểm thử theo phương pháp thủ công, nhóm sử dụng AI Agent làm tác nhân hỗ trợ kiểm thử. AI Agent tiếp nhận yêu cầu của hệ thống, phân tích điều kiện chấp nhận, xây dựng dữ liệu kiểm thử, thực hiện các tình huống kiểm thử, thu thập kết quả thực tế và đối chiếu với kết quả mong đợi.
+L0593 Kết quả do AI Agent đưa ra không được sử dụng trực tiếp làm kết luận cuối cùng nếu chưa được đối chiếu với yêu cầu và dữ liệu nguồn. Điều này phù hợp với nguyên tắc của hệ thống rằng các kết quả có sự hỗ trợ của AI phải có khả năng kiểm tra, đối chiếu và xác nhận. Hệ thống cũng yêu cầu kiểm thử nhiệm vụ, Sprint, thống kê, ba chức năng AI, phân quyền và ít nhất một luồng từ tạo dự án đến báo cáo tuần.
+L0594 Phạm vi kiểm thử
+L0595 Phạm vi kiểm thử được xác định dựa trên các chức năng có trong tài liệu. Hệ thống có các nhóm nghiệp vụ chính gồm tài khoản, dự án, thành viên, nhiệm vụ và Kanban, Sprint và mốc tiến độ, cộng tác, tra cứu/báo cáo và trợ lý AI.
+L0596 AI Agent thực hiện kiểm thử các nhóm sau
+L0597 [TABLE]
+L0598 Mã | Nhóm chức năng kiểm thử | Nội dung
+L0599 UC001 | Đăng nhập, đăng xuất | Đăng nhập, đăng xuất, quản lý phiên, tài khoản bị khóa
+L0600 UC002 | Quản lý tài khoản | Tạo, xem, cập nhật, khóa/mở tài khoản, vai trò, quyền và nhật ký
+L0601 UC003 | Quản lý dự án | Tạo, xem, sửa, lưu trữ và quản lý trạng thái dự án
+L0602 UC004 | Quản lý thành viên | Thêm/xóa thành viên, vai trò, kỹ năng, mức sẵn sàng và năng lực
+L0603 UC005 | Quản lý nhiệm vụ và Kanban | Tạo, sửa, xóa mềm nhiệm vụ, người phụ trách, trạng thái và Kanban
+L0604 UC006 | Sprint và mốc tiến độ | Tạo, xem, sửa Sprint/mốc, gán nhiệm vụ, tính tỷ lệ hoàn thành
+L0605 UC007 | Cộng tác | Bình luận, tệp đính kèm, liên kết và ghi chú họp
+L0606 UC008 | Tra cứu và báo cáo | Tìm kiếm, lọc, bảng điều khiển, nhiệm vụ trễ và tải công việc
+L0607 UC009 | AI tóm tắt tiến độ | Tóm tắt tiến độ tuần dựa trên dữ liệu nhiệm vụ
+L0608 UC010 | AI sinh biên bản họp | Sinh bản nháp biên bản từ ghi chú họp
+L0609 UC011 | AI gợi ý phân công | Gợi ý người phụ trách dựa trên kỹ năng, mức sẵn sàng và tải
+L0610 UC012 | Lịch sử AI | Truy vết yêu cầu, kết quả AI và dữ liệu tham chiếu
+L0611 UC013 | Thông báo | Thông báo sự kiện và cảnh báo nhiệm vụ trễ
+L0612 [/TABLE]
+L0613 Phương pháp kiểm thử bằng AI Agent
+L0614 Trong phương pháp này, AI Agent không chỉ có nhiệm vụ sinh testcase mà tham gia vào toàn bộ chu trình kiểm thử.
+L0615 Quy trình được tổ chức như sau:
+L0616 Tài liệu yêu cầu → AI Agent phân tích → Sinh trường hợp kiểm thử → Chuẩn bị dữ liệu kiểm thử → Thực hiện kiểm thử → Thu thập kết quả → Đối chiếu yêu cầu → Xác định Pass/Fail → Lập báo cáo → Thành viên kiểm tra kết quả
+L0617 AI Agent sử dụng chính các yêu cầu chức năng, Use Case, điều kiện chấp nhận và quy tắc nghiệp vụ trong tài liệu làm căn cứ xác định kết quả mong đợi.
+L0618 AI Agent không được tự đặt thêm quy tắc nghiệp vụ ngoài những quy tắc có trong tài liệu.
+L0619 [TABLE]
+L0620 Nhóm dữ liệu | Dữ liệu được sử dụng
+L0621 Tài khoản | Tài khoản, trạng thái tài khoản, vai trò và quyền
+L0622 Dự án | Tên, thời gian, trạng thái dự án
+L0623 Thành viên | Vai trò, kỹ năng, mức sẵn sàng, năng lực
+L0624 Nhiệm vụ | Tên, người phụ trách, trạng thái, mức ưu tiên, hạn và thời gian dự kiến
+L0625 Kanban | Tồn đọng, Cần làm, Đang làm, Kiểm tra, Hoàn thành
+L0626 Sprint | Ngày bắt đầu, ngày kết thúc, mục tiêu, nhiệm vụ
+L0627 Cộng tác | Bình luận, tài liệu, ghi chú họp
+L0628 Báo cáo | Tiến độ, nhiệm vụ trễ, tỷ lệ hoàn thành và tải công việc
+L0629 AI tóm tắt | Dữ liệu nhiệm vụ trong khoảng tuần
+L0630 AI biên bản | Ghi chú cuộc họp
+L0631 AI phân công | Kỹ năng, mức sẵn sàng, năng lực, tải và thông tin nhiệm vụ
+L0632 [/TABLE]
+L0633 Quy trình hoạt động của AI Agent
+L0634 Phân tích yêu cầu
+L0635 AI Agent đọc từng yêu cầu chức năng và xác định:
+L0636 Input → Điều kiện trước → Hành động → Kết quả mong đợi → Trường hợp ngoại lệ → Quy tắc nghiệp vụ liên quan.
+L0637 Ví dụ, đối với đăng nhập, Agent phải căn cứ FR-01 để kiểm tra đăng nhập đúng, đăng xuất, phiên hết hạn và tài khoản bị khóa. Tài liệu yêu cầu tài khoản bị khóa hoặc phiên không hợp lệ phải bị từ chối mà không làm lộ thông tin nhạy cảm. 
+L0638 AI Agent tự tạo trường hợp kiểm thử
+L0639 Từ mỗi yêu cầu, Agent sinh tối thiểu hai loại tình huống:
+L0640 Trường hợp hợp lệ: dữ liệu và quyền của người dùng đáp ứng yêu cầu.
+L0641 Trường hợp không hợp lệ hoặc biên: thiếu dữ liệu, sai quyền, dữ liệu mâu thuẫn hoặc vi phạm quy tắc nghiệp vụ.
+L0642 Ví dụ với Sprint:
+L0643 [TABLE]
+L0644 Test | Dữ liệu | Kết quả mong đợi
+L0645 Sprint hợp lệ | Ngày bắt đầu trước ngày kết thúc | Sprint được chấp nhận
+L0646 Sprint không hợp lệ | Ngày bắt đầu sau ngày kết thúc | Hệ thống từ chối
+L0647 Sprint không có nhiệm vụ | Không có nhiệm vụ trong Sprint | Tỷ lệ hoàn thành = 0%
+L0648 [/TABLE]
+L0649 Kiểm thử phân quyền bằng AI Agent
+L0650 [TABLE]
+L0651 Tình huống | Kết quả mong đợi
+L0652 Quản trị viên thực hiện chức năng quản trị tài khoản | Được phép
+L0653 Trưởng nhóm quản lý dự án | Được phép
+L0654 Thành viên cập nhật nhiệm vụ thuộc dự án được tham gia | Được phép
+L0655 Người dùng truy cập dữ liệu ngoài dự án hoặc ngoài quyền | Bị từ chối
+L0656 Gọi trực tiếp chức năng/API ngoài quyền | Bị từ chối
+L0657 Thao tác quản trị | Được ghi nhật ký
+L0658 [/TABLE]
+L0659 Kiểm thử nhiệm vụ và Kanban
+L0660 [TABLE]
+L0661 Kiểm tra | Kết quả mong đợi
+L0662 Tạo nhiệm vụ hợp lệ | Nhiệm vụ được lưu
+L0663 Cập nhật nhiệm vụ đúng quyền | Dữ liệu được cập nhật
+L0664 Thành viên thao tác ngoài quyền | Hệ thống từ chối
+L0665 Di chuyển trạng thái hợp lệ | Thẻ chuyển đúng cột
+L0666 Chuyển trạng thái sai quyền/quy tắc | Hệ thống từ chối và giữ dữ liệu cũ
+L0667 Xóa nhiệm vụ | Thực hiện theo cơ chế xóa mềm
+L0668 Nhiệm vụ quá hạn, chưa hoàn thành | Được xác định là trễ
+L0669 [/TABLE]
+L0670 Kiểm thử chức năng 
+L0671 [TABLE]
+L0672 Nhóm phân loại | Kịch bản cũ | Kịch bản bổ sung | Tổng số
+L0673 AI Agent tự tạo trường hợp kiểm thử | 13 | 2 | 15
+L0674 Kiểm thử phân quyền bằng AI Agent | 16 | 3 | 19
+L0675 Kiểm thử nhiệm vụ và Kanban | 13 | 5 | 18
+L0676 Các kịch bản kiểm thử chức năng bổ trợ và phi chức năng | 8 | 0 | 8
+L0677 [/TABLE]
+L0678 AI Agent tự tạo trường hợp kiểm thử
+L0679 [TABLE]
+L0680 Mã TC / TC-04 | Kịch bản/chức năng / Lưu trữ sprint | KẾT QUẢ / Thành công
+L0681 Yêu cầu | FR-07, UC006
+L0682 Tiền điều kiện và dữ liệu | Trưởng nhóm; sprint đang hoạt động.
+L0683 Các bước kiểm thử | Bước 1. Đăng nhập bằng trưởng nhóm và mở danh sách Sprint đang hoạt động của dự án. / Bước 2. Chọn một Sprint đang hoạt động; ghi nhận ID và trạng thái ban đầu. / Bước 3. Gửi yêu cầu cập nhật trạng thái Sprint thành archived. / Bước 4. Tải lại danh sách Sprint hoạt động; xác nhận Sprint đã lưu trữ không còn trong danh sách và kiểm tra phản hồi nếu thử xóa Sprint lưu trữ.
+L0684 Kết quả mong đợi | Sprint không còn trong danh sách hoạt động.
+L0685 Kết quả thực tế | SQLite: Thành công; MySQL: Thành công. Thực tế: {"update_http":200,"still_listed":false,"delete_http":409}
+L0686 [/TABLE]
+L0687 [TABLE]
+L0688 Mã TC / TC-05 | Kịch bản/chức năng / Đọc và sửa bản nháp AI | KẾT QUẢ / Thành công
+L0689 Yêu cầu | FR-12, FR-13, BR-06, UC009, UC010
+L0690 Tiền điều kiện và dữ liệu | Thành viên tạo bản nháp biên bản trong dự án.
+L0691 Các bước kiểm thử | Bước 1. Đăng nhập bằng thành viên có quyền đọc/sửa bản nháp AI thuộc dự án; chọn draft_id hợp lệ. / Bước 2. Gửi GET bản nháp, ghi nhận nội dung và trạng thái xác nhận ban đầu. / Bước 3. Sửa nội dung bản nháp và gửi PUT tới tài nguyên draft_id. / Bước 4. Gửi GET lần nữa để đối chiếu nội dung đã lưu; kiểm tra bản nháp chưa bị tự động xác nhận.
+L0692 Kết quả mong đợi | Cả hai thao tác thành công, chưa tự xác nhận.
+L0693 Kết quả thực tế | SQLite: Thành công; MySQL: Thành công. Thực tế: {"get_http":200,"put_http":200,"routes":[{"path":"/api/ai/drafts/<int:draft_id>/confirm","methods":["OPTIONS","POST"]},{"path":"/api/ai/drafts/<int:draft_id>","methods":["GET","HEAD","OPTIONS","PUT"]}]}
+L0694 [/TABLE]
+L0695 [TABLE]
+L0696 Mã TC / TC-09 | Kịch bản/chức năng / Chặn số liệu AI ngoài nguồn | KẾT QUẢ / Thành công
+L0697 Yêu cầu | FR-12, BR-07, NFR-06
+L0698 Tiền điều kiện và dữ liệu | Nguồn có 1 task Backlog; AI giả lập báo 999 task xong, 100%.
+L0699 Các bước kiểm thử | Bước 1. Chuẩn bị dữ liệu nguồn gồm một task Backlog, không có task Done. / Bước 2. Cấu hình AI giả lập trả về số liệu sai: 999 task hoàn thành và tỷ lệ 100%. / Bước 3. Gửi yêu cầu tạo tóm tắt tuần; đọc trạng thái và các cảnh báo đối chiếu nguồn. / Bước 4. Thử gọi xác nhận tóm tắt; đối chiếu việc hệ thống chặn xác nhận khi số liệu không khớp.
+L0700 Kết quả mong đợi | Có cảnh báo/cần xác minh; không được xác nhận chính thức.
+L0701 Kết quả thực tế | SQLite: Thành công; MySQL: Thành công. Thực tế: {"source":"one backlog task; zero done","http":200,"status":"needs_verification","warnings":["Số liệu AI không khớp dữ liệu nguồn; cần sửa trước khi xác nhận."],"confirm_http":403}
+L0702 [/TABLE]
+L0703 [TABLE]
+L0704 Mã TC / TC-10 | Kịch bản/chức năng / Giới hạn gợi ý phân công | KẾT QUẢ / Thành công
+L0705 Yêu cầu | FR-14, UC011
+L0706 Tiền điều kiện và dữ liệu | Có 4 thành viên hợp lệ; AI giả lập đề xuất cả 4.
+L0707 Các bước kiểm thử | Bước 1. Chuẩn bị dự án có bốn thành viên hợp lệ có thể nhận phân công. / Bước 2. Cấu hình AI giả lập đề xuất cả bốn ứng viên cho cùng một nhiệm vụ. / Bước 3. Gửi yêu cầu gợi ý phân công; ghi nhận HTTP, trạng thái phản hồi và danh sách đề xuất. / Bước 4. Đối chiếu cảnh báo/đánh dấu cần xác minh vì vượt giới hạn tối đa ba ứng viên.
+L0708 Kết quả mong đợi | Kết quả vượt 3 ứng viên bị cảnh báo hoặc từ chối.
+L0709 Kết quả thực tế | SQLite: Thành công; MySQL: Thành công. Thực tế: {"http":200,"status":"needs_verification","warnings":["Đề xuất phải có từ 1 đến 3 ứng viên, không trùng nhau."],"mock_recommendations":4}
+L0710 [/TABLE]
+L0711 [TABLE]
+L0712 Mã TC / TC-17 | Kịch bản/chức năng / Từ chối ngày sprint đảo ngược | KẾT QUẢ / Thành công
+L0713 Yêu cầu | FR-07, BR-03
+L0714 Tiền điều kiện và dữ liệu | Trưởng nhóm; bắt đầu 10/01, kết thúc 01/01/2026.
+L0715 Các bước kiểm thử | Bước 1. Đăng nhập trưởng nhóm và chọn dự án hợp lệ để tạo Sprint. / Bước 2. Nhập start_date=2026-01-10, end_date=2026-01-01 (ngày bắt đầu sau ngày kết thúc). / Bước 3. Gửi POST tạo Sprint; ghi nhận mã HTTP và nội dung lỗi. / Bước 4. Tải lại danh sách Sprint và xác nhận không có Sprint sai ngày vừa được lưu.
+L0716 Kết quả mong đợi | HTTP 400; không lưu sprint sai ngày.
+L0717 Kết quả thực tế | SQLite: Thành công; MySQL: Thành công. Thực tế: 400
+L0718 [/TABLE]
+L0719 [TABLE]
+L0720 Mã TC / TC-18 | Kịch bản/chức năng / Tỷ lệ sprint rỗng | KẾT QUẢ / Thành công
+L0721 Yêu cầu | FR-07, BR-04
+L0722 Tiền điều kiện và dữ liệu | Sprint chưa có nhiệm vụ.
+L0723 Các bước kiểm thử | Bước 1. Tạo hoặc chọn Sprint chưa được gán bất kỳ nhiệm vụ nào. / Bước 2. Gọi API/thống kê tính tỷ lệ hoàn thành cho Sprint đó. / Bước 3. Đọc các trường tổng số nhiệm vụ, số Done và tỷ lệ hoàn thành. / Bước 4. Xác nhận các giá trị lần lượt bằng 0, 0 và 0%; không phát sinh lỗi chia cho 0.
+L0724 Kết quả mong đợi | Tổng 0; hoàn thành 0; tỷ lệ 0%.
+L0725 Kết quả thực tế | SQLite: Thành công; MySQL: Thành công. Thực tế: {"total_tasks":0,"done_tasks":0,"completion_rate":0.0}
+L0726 [/TABLE]
+L0727 [TABLE]
+L0728 Mã TC / TC-19 | Kịch bản/chức năng / AI không tự phân công | KẾT QUẢ / Thành công
+L0729 Yêu cầu | FR-14, BR-06
+L0730 Tiền điều kiện và dữ liệu | Task chưa có người phụ trách; phản hồi AI hợp lệ giả lập.
+L0731 Các bước kiểm thử | Bước 1. Chuẩn bị nhiệm vụ có assignee_id=NULL trong một dự án có thành viên hợp lệ. / Bước 2. Cấu hình phản hồi AI giả lập chứa một gợi ý người phụ trách hợp lệ. / Bước 3. Gửi yêu cầu AI đề xuất phân công và ghi nhận bản nháp gợi ý. / Bước 4. GET lại nhiệm vụ; xác nhận assignee_id vẫn NULL khi chưa có thao tác người dùng chấp nhận phân công.
+L0732 Kết quả mong đợi | Tạo draft; assignee_id vẫn NULL.
+L0733 Kết quả thực tế | SQLite: Thành công; MySQL: Thành công. Thực tế: {"http":200,"assignee_id":null}
+L0734 [/TABLE]
+L0735 [TABLE]
+L0736 Mã TC / TC-29 | Kịch bản/chức năng / Kiểm soát phiên bản draft | KẾT QUẢ / Thành công
+L0737 Yêu cầu | FR-13, FR-15, NFR-09
+L0738 Tiền điều kiện và dữ liệu | Draft phiên bản 1.
+L0739 Các bước kiểm thử | Bước 1. Tạo/đọc bản nháp AI đang có version=1; ghi lại nội dung ban đầu. / Bước 2. Gửi yêu cầu sửa bản nháp kèm version=1; GET lại để kiểm tra version tăng lên 2. / Bước 3. Gửi tiếp một yêu cầu sửa khác nhưng vẫn sử dụng version=1 đã lỗi thời. / Bước 4. Xác nhận yêu cầu cũ bị từ chối và nội dung đã ghi ở phiên bản mới không bị ghi đè.
+L0740 Kết quả mong đợi | Lần đầu thành công, tăng version 2; lần sau bị chặn; lưu bản cũ.
+L0741 Kết quả thực tế | SQLite: Thành công; MySQL: Thành công. Thực tế: {"version":2,"draft_content":"Reviewed"}
+L0742 [/TABLE]
+L0743 [TABLE]
+L0744 Mã TC / TC-30 | Kịch bản/chức năng / Xác nhận nội dung biên bản đã sửa | KẾT QUẢ / Thành công
+L0745 Yêu cầu | FR-13, BR-06
+L0746 Tiền điều kiện và dữ liệu | Member có draft biên bản; trưởng nhóm đúng dự án.
+L0747 Các bước kiểm thử | Bước 1. Đăng nhập thành viên có bản nháp biên bản thuộc dự án; chọn draft_id hợp lệ. / Bước 2. Sửa ba trường nội dung: summary, decisions và action_items rồi lưu bản nháp. / Bước 3. Đăng nhập trưởng nhóm đúng dự án và gửi thao tác xác nhận bản nháp. / Bước 4. Đọc biên bản chính thức; đối chiếu cả ba trường trùng chính xác nội dung đã sửa.
+L0748 Kết quả mong đợi | Biên bản chính thức lưu đúng ba trường đã sửa.
+L0749 Kết quả thực tế | SQLite: Thành công; MySQL: Thành công. Thực tế: {"summary":"Reviewed body","decisions":"Reviewed decision","action_items":"Reviewed action"}
+L0750 [/TABLE]
+L0751 [TABLE]
+L0752 Mã TC / TC-51 | Kịch bản/chức năng / Tạo Sprint hợp lệ | KẾT QUẢ / Thành công
+L0753 Yêu cầu | FR-07, BR-03, UC006
+L0754 Tiền điều kiện và dữ liệu | Trưởng nhóm; dự án đang hoạt động; ngày bắt đầu 01/11/2026, kết thúc 14/11/2026.
+L0755 Các bước kiểm thử | Bước 1. Đăng nhập trưởng nhóm; chọn dự án hoạt động chưa có Sprint trùng lịch. / Bước 2. Chuẩn bị Sprint với start_date=2026-11-01 và end_date=2026-11-14. / Bước 3. Gửi POST tạo Sprint và ghi lại HTTP cùng sprint_id trả về. / Bước 4. Gửi GET theo sprint_id hoặc mở danh sách Sprint hoạt động; đối chiếu hai ngày và sự tồn tại của Sprint.
+L0756 Kết quả mong đợi | Trả HTTP 200/201; lưu Sprint đúng ngày và hiển thị trong danh sách hoạt động.
+L0757 Kết quả thực tế | Chưa thực thi; chưa có kết quả kiểm thử SQLite/MySQL hoặc bằng chứng giao diện.
+L0758 [/TABLE]
+L0759 Kiểm thử phân quyền bằng AI Agent
+L0760 [TABLE]
+L0761 Mã TC / TC-03 | Kịch bản/chức năng / Xóa thành viên khỏi dự án | KẾT QUẢ / Thành công
+L0762 Yêu cầu | FR-04, UC004
+L0763 Tiền điều kiện và dữ liệu | Trưởng nhóm; thành viên đã tham gia và có nhiệm vụ.
+L0764 Các bước kiểm thử | Bước 1. Đăng nhập bằng trưởng nhóm; chọn dự án có một thành viên đang tham gia và đã có nhiệm vụ. / Bước 2. Ghi lại user_id, project_id và các nhiệm vụ/lịch sử của thành viên. / Bước 3. Gửi DELETE tới API xóa thành viên theo project_id và user_id. / Bước 4. Đọc phản hồi HTTP; tra cứu danh sách thành viên và lịch sử để xác nhận thành viên đã rời dự án nhưng dữ liệu lịch sử vẫn được giữ.
+L0765 Kết quả mong đợi | HTTP 200; thành viên được loại khỏi dự án, giữ lịch sử.
+L0766 Kết quả thực tế | SQLite: Thành công; MySQL: Thành công. Thực tế: {"http":200,"member_delete_routes":["/api/projects/<int:project_id>/members/<int:user_id>"]}
+L0767 [/TABLE]
+L0768 [TABLE]
+L0769 Mã TC / TC-12 | Kịch bản/chức năng / Sửa thông tin tài khoản | KẾT QUẢ / Thành công
+L0770 Yêu cầu | FR-02, UC002
+L0771 Tiền điều kiện và dữ liệu | Admin; tài khoản đã tồn tại.
+L0772 Các bước kiểm thử | Bước 1. Đăng nhập với quyền quản trị; chọn tài khoản đã tồn tại và ghi lại họ tên hiện tại. / Bước 2. Gửi PUT cập nhật trường họ tên sang giá trị mới. / Bước 3. Đọc mã HTTP và GET lại hồ sơ tài khoản để xác nhận dữ liệu thực tế có thay đổi hay không. / Bước 4. Kiểm tra nhật ký thao tác quản trị; ghi rõ nếu API chỉ hỗ trợ cập nhật trạng thái/vai trò thay vì họ tên.
+L0773 Kết quả mong đợi | HTTP 200; lưu thông tin mới và nhật ký.
+L0774 Kết quả thực tế | SQLite: Thành công; MySQL: Thành công. Thực tế: {"http":200,"existing_update_options":"status and role only"}
+L0775 [/TABLE]
+L0776 [TABLE]
+L0777 Mã TC / TC-14 | Kịch bản/chức năng / Thành viên không tạo sprint | KẾT QUẢ / Thành công
+L0778 Yêu cầu | FR-02, FR-07
+L0779 Tiền điều kiện và dữ liệu | User là member trong dự án.
+L0780 Các bước kiểm thử | Bước 1. Đăng nhập bằng tài khoản có vai trò member, không phải trưởng nhóm. / Bước 2. Lấy project_id của dự án mà tài khoản là thành viên. / Bước 3. Gửi POST tạo Sprint với dữ liệu ngày tháng hợp lệ. / Bước 4. Đối chiếu HTTP 403 và xác nhận Sprint mới không xuất hiện trong danh sách.
+L0781 Kết quả mong đợi | HTTP 403.
+L0782 Kết quả thực tế | SQLite: Thành công; MySQL: Thành công. Thực tế: {"sprint_http":403}
+L0783 [/TABLE]
+L0784 [TABLE]
+L0785 Mã TC / TC-16 | Kịch bản/chức năng / Từ chối tài khoản bị khóa | KẾT QUẢ / Thành công
+L0786 Yêu cầu | FR-01
+L0787 Tiền điều kiện và dữ liệu | Tài khoản khóa; mật khẩu đúng.
+L0788 Các bước kiểm thử | Bước 1. Chuẩn bị tài khoản ở trạng thái bị khóa với mật khẩu hợp lệ. / Bước 2. Gửi POST đăng nhập bằng đúng tên đăng nhập và mật khẩu. / Bước 3. Kiểm tra HTTP 401; xác nhận không có phiên/xác thực hợp lệ được tạo. / Bước 4. Thử truy cập API yêu cầu đăng nhập bằng phiên hiện tại để kiểm tra không vượt được trạng thái khóa.
+L0789 Kết quả mong đợi | HTTP 401; không tạo phiên đăng nhập.
+L0790 Kết quả thực tế | SQLite: Thành công; MySQL: Thành công. Thực tế: 401
+L0791 [/TABLE]
+L0792 [TABLE]
+L0793 Mã TC / TC-20 | Kịch bản/chức năng / Đăng xuất làm hết hiệu lực phiên | KẾT QUẢ / Thành công
+L0794 Yêu cầu | FR-01
+L0795 Tiền điều kiện và dữ liệu | Thành viên đang đăng nhập.
+L0796 Các bước kiểm thử | Bước 1. Đăng nhập thành công bằng tài khoản thành viên; xác nhận phiên có thể gọi API nhiệm vụ. / Bước 2. Gửi POST logout bằng đúng phiên đang sử dụng. / Bước 3. Dùng lại phiên/cookie hoặc token tương ứng để GET API nhiệm vụ. / Bước 4. Đối chiếu HTTP 401 và bảo đảm phải đăng nhập lại mới truy cập được.
+L0797 Kết quả mong đợi | API yêu cầu đăng nhập lại, HTTP 401.
+L0798 Kết quả thực tế | SQLite: Thành công; MySQL: Thành công. Thực tế: 401
+L0799 [/TABLE]
+L0800 [TABLE]
+L0801 Mã TC / TC-40 | Kịch bản/chức năng / Giữ lịch sử khi xóa thành viên | KẾT QUẢ / Thành công
+L0802 Yêu cầu | FR-04, UC004, NFR-09
+L0803 Tiền điều kiện và dữ liệu | Thành viên có task đang làm và bình luận.
+L0804 Các bước kiểm thử | Bước 1. Đăng nhập trưởng nhóm; chọn thành viên đã có nhiệm vụ đang làm và bình luận. / Bước 2. Ghi nhận bình luận và các phân công đang hoạt động trước khi xóa membership. / Bước 3. Gửi DELETE loại thành viên khỏi dự án; kiểm tra kết quả và dữ liệu nhiệm vụ/bình luận. / Bước 4. Đăng nhập người đã rời dự án thử GET dữ liệu dự án; xác nhận mất quyền 403 nhưng lịch sử vẫn còn.
+L0805 Kết quả mong đợi | Giữ comment; bỏ phân công đang hoạt động; user đã rời bị 403.
+L0806 Kết quả thực tế | SQLite: Thành công; MySQL: Thành công. Thực tế: {"http":200,"history_preserved":true,"departed_access":403}
+L0807 [/TABLE]
+L0808 Kiểm thử nhiệm vụ và Kanban
+L0809 [TABLE]
+L0810 Mã TC / TC-06 | Kịch bản/chức năng / Lọc nhiệm vụ theo ưu tiên | KẾT QUẢ / Thành công
+L0811 Yêu cầu | FR-09
+L0812 Tiền điều kiện và dữ liệu | Dự án có task high và low.
+L0813 Các bước kiểm thử | Bước 1. Tạo hoặc chọn dự án có ít nhất hai nhiệm vụ với priority=high và priority=low. / Bước 2. Ghi nhận danh sách nhiệm vụ để có dữ liệu đối chứng. / Bước 3. Gọi API danh sách nhiệm vụ với bộ lọc priority=high. / Bước 4. Kiểm tra từng bản ghi trả về: chỉ có priority=high, không lẫn nhiệm vụ low.
+L0814 Kết quả mong đợi | Chỉ trả task ưu tiên high.
+L0815 Kết quả thực tế | SQLite: Thành công; MySQL: Thành công. Thực tế: ["high"]
+L0816 [/TABLE]
+L0817 [TABLE]
+L0818 Mã TC / TC-11 | Kịch bản/chức năng / Tự động xử lý task quá hạn | KẾT QUẢ / Thành công
+L0819 Yêu cầu | FR-17, BR-09, UC005, UC013
+L0820 Tiền điều kiện và dữ liệu | Task giao cho thành viên, hạn trong quá khứ; SMTP giả lập.
+L0821 Các bước kiểm thử | Bước 1. Cấu hình SMTP giả lập; tạo nhiệm vụ có người phụ trách với hạn trong quá khứ. / Bước 2. Gửi yêu cầu tạo nhiệm vụ; tiếp tục gửi yêu cầu cập nhật trạng thái nhiệm vụ. / Bước 3. Ghi nhận số lượt gọi bộ gửi email giả lập sau các thao tác và đối chiếu với dữ liệu task. / Bước 4. Kiểm tra cơ chế kích hoạt tác vụ quét quá hạn trong mã/cấu hình để phân biệt tự động sau commit với API gọi thủ công.
+L0822 Kết quả mong đợi | Có xử lý cảnh báo tự động sau commit.
+L0823 Kết quả thực tế | SQLite: Thành công; MySQL: Thành công. Thực tế: {"smtp_calls_on_create_and_status_update":1,"code_inspection":"email checker referenced only by manual trigger route; no scheduler/outbox"}
+L0824 [/TABLE]
+L0825 [TABLE]
+L0826 Mã TC / TC-21 | Kịch bản/chức năng / Tải lên và tải xuống tài liệu | KẾT QUẢ / Thành công
+L0827 Yêu cầu | FR-08, NFR-03
+L0828 Tiền điều kiện và dữ liệu | Thành viên dự án; tệp TXT UTF-8 hợp lệ.
+L0829 Các bước kiểm thử | Bước 1. Đăng nhập bằng thành viên dự án; chuẩn bị tệp TXT UTF-8 có nội dung đã biết. / Bước 2. Gửi yêu cầu upload tài liệu gắn với nhiệm vụ hợp lệ; ghi lại mã tệp trả về. / Bước 3. Đăng nhập người có quyền và tải tệp; so sánh byte với tệp nguồn. / Bước 4. Dùng tài khoản không thuộc dự án thử tải cùng mã tệp; đối chiếu HTTP 403.
+L0830 Kết quả mong đợi | Upload 201; nội dung khớp; người ngoài bị 403.
+L0831 Kết quả thực tế | SQLite: Thành công; MySQL: Thành công. Thực tế: {"upload":201,"download":200,"outside":403,"bytes_match":true}
+L0832 [/TABLE]
+L0833 [TABLE]
+L0834 Mã TC / TC-45 | Kịch bản/chức năng / Lưu ghi chú tiếng Việt dài | KẾT QUẢ / Thành công
+L0835 Yêu cầu | FR-08, FR-13
+L0836 Tiền điều kiện và dữ liệu | Ghi chú khoảng 58.000 ký tự UTF-8.
+L0837 Các bước kiểm thử | Bước 1. Chuẩn bị nội dung ghi chú tiếng Việt UTF-8 dài theo dữ liệu thử nghiệm (khoảng 60.000 ký tự). / Bước 2. Gửi POST tạo ghi chú cho bản ghi hợp lệ; ghi lại mã ghi chú trả về. / Bước 3. Gửi GET đọc lại toàn bộ nội dung ghi chú vừa lưu. / Bước 4. So sánh độ dài và từng ký tự/giá trị nội dung với dữ liệu gốc; xác nhận không bị cắt hoặc lỗi mã hóa.
+L0838 Kết quả mong đợi | HTTP 201; nội dung nguyên vẹn, không lỗi giới hạn TEXT MySQL.
+L0839 Kết quả thực tế | SQLite: Thành công; MySQL: Thành công. Thực tế: {"http":201,"characters":60000,"round_trip":true}
+L0840 [/TABLE]
+L0841 Tổng kết
+L0842 Các thành tựu đã đạt được
+L0843 Xây dựng được hệ thống quản lý dự án nhóm với các chức năng cơ bản
+L0844 Hệ thống đã có thiết kế và giao diện phục vụ những nghiệp vụ quản lý dự án như quản lý tài khoản, quản lý thành viên, tạo và theo dõi dự án, quản lý nhiệm vụ, Sprint và tiến độ công việc. Bảng Kanban giúp trực quan hóa trạng thái nhiệm vụ, hỗ trợ trưởng nhóm theo dõi và phân công công việc thuận tiện hơn.
+L0845 Tích hợp AI vào hoạt động quản lý dự án
+L0846 Đề tài đã xây dựng giải pháp tích hợp ba chức năng AI chính:
+L0847 AI tóm tắt tiến độ: Hỗ trợ tổng hợp tình trạng công việc, xác định nhiệm vụ chậm tiến độ và những vấn đề cần ưu tiên.
+L0848 AI sinh biên bản cuộc họp: Hỗ trợ tạo bản nháp biên bản từ ghi chú cuộc họp, giúp giảm thời gian tổng hợp thông tin.
+L0849 AI gợi ý phân công nhiệm vụ: Đề xuất thành viên phù hợp dựa trên kỹ năng, năng lực, mức độ sẵn sàng và khối lượng công việc hiện tại.
+L0850 Hệ thống được thiết kế theo nguyên tắc AI đóng vai trò hỗ trợ, còn quyết định cuối cùng thuộc về người sử dụng.
+L0851 Xây dựng giao diện trực quan, hỗ trợ quản lý tập trung
+L0852 Các giao diện được trình bày trong tài liệu gồm đăng nhập, bảng điều khiển, Kanban, trợ lý AI, thông báo, lịch sử AI và quản lý thành viên. Điều này thể hiện kết quả xây dựng phần giao diện và tổ chức các chức năng theo một hệ thống thống nhất.
+L0853 Hoàn thiện tài liệu phân tích và thiết kế hệ thống
+L0854 Nhóm đã xây dựng bộ tài liệu yêu cầu chức năng và phi chức năng, mô hình Use Case, biểu đồ trình tự, biểu đồ lớp, ERD và thiết kế kiến trúc hệ thống. Tài liệu xác định 13 Use Case (UC001–UC013), giúp mô tả rõ các nghiệp vụ và tạo cơ sở cho việc phát triển, kiểm thử.
+L0855 Xây dựng phương pháp kiểm thử có sự hỗ trợ của AI Agent
+L0856 Nhóm đã xác định quy trình sử dụng AI Agent để phân tích yêu cầu, tạo trường hợp kiểm thử, chuẩn bị dữ liệu, đối chiếu kết quả và xác định Pass/Fail. Phạm vi kiểm thử bao gồm các chức năng quản lý dự án, phân quyền, Kanban và ba chức năng AI.
+L0857 Đây là thành tựu về phương pháp và thiết kế kiểm thử; tài liệu chưa cung cấp đủ kết quả thực nghiệm để kết luận toàn bộ chức năng đều đã vượt qua kiểm thử.
+L0858 Những hạn chế của hệ thống
+L0859 Chất lượng kết quả AI còn phụ thuộc vào dữ liệu đầu vào
+L0860 Các chức năng AI sử dụng dữ liệu nhiệm vụ, ghi chú cuộc họp và thông tin thành viên. Nếu dữ liệu không đầy đủ, không chính xác hoặc không được cập nhật thường xuyên, nội dung AI tạo ra có thể thiếu chính xác và cần người dùng kiểm tra, chỉnh sửa.
+L0861 Phụ thuộc vào dịch vụ AI bên ngoài và kết nối mạng
+L0862 Hệ thống cần kết nối mạng để đồng bộ dữ liệu; riêng các chức năng AI còn phụ thuộc vào dịch vụ AI được cấu hình. Khi dịch vụ AI gặp sự cố hoặc phản hồi chậm, khả năng hỗ trợ thông minh của hệ thống sẽ bị ảnh hưởng.
+L0863 Cần tiếp tục đánh giá bảo mật và khả năng triển khai thực tế
+L0864 Tài liệu đã xác định các yêu cầu bảo mật như phân quyền, kiểm tra quyền ở máy chủ, mã hóa kết nối và bảo vệ dữ liệu gửi tới AI. Tuy nhiên, vẫn cần kết quả kiểm thử bảo mật, sao lưu, khôi phục và vận hành thực tế để đánh giá mức độ đáp ứng các yêu cầu này.
+L0865 Hướng phát triển của hệ thống
+L0866 Nâng cao chức năng thống kê và báo cáo
+L0867 Phát triển thêm các biểu đồ phân tích năng suất, tỷ lệ hoàn thành nhiệm vụ, khối lượng công việc và mức độ đóng góp của từng thành viên. Đồng thời, bổ sung chức năng xuất báo cáo và đưa ra cảnh báo sớm đối với những dự án có nguy cơ chậm tiến độ.
+L0868 Tăng cường bảo mật và tối ưu hiệu năng
+L0869 Hoàn thiện phân quyền truy cập, nhật ký hoạt động, cơ chế sao lưu và khôi phục dữ liệu. Tiếp tục kiểm thử với bộ dữ liệu lớn, nhiều người dùng đồng thời và các tình huống lỗi để nâng cao độ ổn định của hệ thống.
+L0870 Hoàn thiện hệ thống kiểm thử tự động bằng AI Agent
+L0871 Mở rộng bộ Test Case cho toàn bộ chức năng, tự động hóa kiểm thử hồi quy, kiểm thử API, kiểm thử phân quyền và đánh giá độ chính xác của các kết quả AI. Xây dựng báo cáo kiểm thử có số liệu cụ thể để phục vụ đánh giá chất lượng sản phẩm.

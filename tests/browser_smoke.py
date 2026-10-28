@@ -28,7 +28,7 @@ from playwright.sync_api import sync_playwright, expect
 def main():
     from database import connection,init_db
     records=[]; errors=[]; calls=[]; network_mode={'denied':False}
-    out=ROOT/'docs'; shots=out/'qa-screenshots'; shots.mkdir(parents=True,exist_ok=True)
+    out=ROOT/'logstest'; shots=out/'qa-screenshots'; shots.mkdir(parents=True,exist_ok=True)
     def record(name,details): records.append({'name':name,'passed':True,'details':details})
     def gemini_http(request, timeout=None):
         assert request.full_url == 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent'

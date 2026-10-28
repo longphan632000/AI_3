@@ -40,7 +40,7 @@ class RecordedResult(unittest.TextTestResult):
 
 def write_results(result,engine):
     root=Path(__file__).resolve().parents[1]
-    output=root/'docs'
+    output=root/'logstest'
     output.mkdir(exist_ok=True)
     payload={'engine':engine,'timestamp':datetime.now(timezone(timedelta(hours=7))).isoformat(),
              'tests_run':result.testsRun,'successful':result.wasSuccessful(),

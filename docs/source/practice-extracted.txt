@@ -1,0 +1,1482 @@
+L0001 Hướng dẫn thực hành xây dựng hệ thống quản lý dự án nhóm có tích hợp AI
+L0002 Quy trình AI Augmented SDLC với Codex
+L0003 Nhóm 33 | Môn học: Phân tích thiết kế hệ thống | Giảng viên: Nguyễn Đình Dũng
+L0004 A. TIÊU CHÍ ĐÁNH GIÁ BÀI THỰC HÀNH
+L0005 Điểm cốt lõi của bài thực hành này là không dùng Codex như một công cụ chỉ để sinh code, mà tổ chức Codex thành một AI Agent hỗ trợ các quy trình SDLC có kiểm soát bằng Skills, Tools và MCP, với các điểm kiểm soát của con người. Trọng tâm đánh giá là khả năng tổ chức quy trình, truy vết đầu vào - đầu ra, kiểm chứng kết quả AI và chịu trách nhiệm đối với sản phẩm cuối cùng.
+L0006 Đánh giá năng lực sử dụng AI trong SDLC, thay vì chỉ đánh giá "AI đã viết được bao nhiêu code".
+L0007 [TABLE]
+L0008 Nội dung | Điểm
+L0009 Phân tích yêu cầu | 1.0
+L0010 Xây dựng Requirements Skill | 1.0
+L0011 Thiết kế kiến trúc | 1.0
+L0012 Database Skill + CSDL | 1.0
+L0013 Coding Skill + implementation | 1.5
+L0014 Testing Skill + test evidence | 1.5
+L0015 Review + Security Skill | 1.0
+L0016 Documentation Skill | 0.5
+L0017 Sử dụng Tools/MCP | 0.5
+L0018 Human verification + báo cáo quá trình AI | 1.0
+L0019 Tổng | 10.0
+L0020 [/TABLE]
+L0021 Sinh viên phải nộp cả:
+L0022 1. SKILL.md
+L0023 2. Prompt/task đã giao cho Codex
+L0024 3. Artifact Codex tạo ra
+L0025 4. Kết quả kiểm thử
+L0026 5. Review report
+L0027 6. Security report
+L0028 7. Các lỗi AI phát hiện được
+L0029 8. Những chỉnh sửa do con người thực hiện
+L0030 9. Git history
+L0031 B. MÔ HÌNH TỔNG QUÁT VÒNG ĐỜI PHÁT TRIỂN PHẦN MỀM ĐƯỢC TĂNG CƯỜNG BẰNG TRÍ TUỆ NHÂN TẠO AI
+L0032 Nếu sử dụng Codex làm công cụ AI hỗ trợ phát triển phần mềm, có thể xây dựng mô hình:
+L0033 C. HỆ THỐNG QUẢN LÝ DỰ ÁN NHÓM CÓ TÍCH HỢP AI BẰNG AI-AUGMENTED SDLC VỚI CODEX/CHATGPT
+L0034 1. Mục tiêu
+L0035 Sau bài thực hành, sinh viên có khả năng:
+L0036 Phân tích yêu cầu phần mềm với sự hỗ trợ của AI. 
+L0037 Xây dựng và sử dụng Skill cho từng hoạt động SDLC. 
+L0038 Sử dụng Codex như một AI Agent thay vì chỉ sử dụng AI để sinh mã nguồn. 
+L0039 Phân biệt Skill, Tool và MCP. 
+L0040 Sử dụng Codex xuyên suốt các giai đoạn: 
+L0041 Requirements Engineering 
+L0042 Architecture Design 
+L0043 Database Design 
+L0044 Implementation 
+L0045 Testing 
+L0046 Code Review 
+L0047 Security Review 
+L0048 Documentation 
+L0049 Kiểm chứng độc lập kết quả do AI tạo ra. 
+L0050 Quản lý Skill cùng với mã nguồn bằng Git.
+L0051 PHẦN I. XÁC ĐỊNH BÀI TOÁN
+L0052 Bước 1. Xác định bài toán
+L0053 Ta xây dựng: Hệ thống quản lý dự án nhóm có tích hợp AI, hỗ trợ quản lý dự án, thành viên, nhiệm vụ, sprint, mốc tiến độ, cộng tác và báo cáo.
+L0054 Hệ thống có ba nhóm người dùng chính:
+L0055 Quản trị viên
+L0056 Có thể:
+L0057 Đăng nhập;
+L0058 Quản lý tài khoản, khóa/mở tài khoản;
+L0059 Gán vai trò và quyền;
+L0060 Xem nhật ký hoạt động.
+L0061 Chỉ nhận thông báo FR-16 khi chính Quản trị viên là người liên quan trong dự án.
+L0062 Trưởng nhóm
+L0063 Có thể:
+L0064 Tạo và quản lý dự án, thành viên, sprint và mốc tiến độ;
+L0065 Tạo, phân công và theo dõi nhiệm vụ trên Kanban;
+L0066 Theo dõi việc trễ, tỷ lệ hoàn thành và tải công việc;
+L0067 Yêu cầu AI tóm tắt tiến độ tuần;
+L0068 Yêu cầu AI tạo bản nháp biên bản họp;
+L0069 Nhận gợi ý phân công từ AI và quyết định cuối cùng.
+L0070 Nhận thông báo FR-16 khi có việc được giao, sắp đến hạn hoặc đổi người phụ trách, hạn, trạng thái trong dự án.
+L0071 Thành viên
+L0072 Có thể: xem sprint và nhiệm vụ liên quan; cập nhật trạng thái/Kanban; bình luận, đính kèm tài liệu; xem dashboard và báo cáo đã xác nhận trong phạm vi quyền dự án; tạo/chỉnh sửa bản nháp biên bản AI khi được cấp quyền nhưng không xác nhận bản chính thức; nhận thông báo FR-16 khi liên quan.
+L0073 PHẦN II. CHUẨN BỊ MÔI TRƯỜNG
+L0074 Bước 2. Tạo project: Mở VS Code → Terminal.
+L0075 Tạo thư mục: AI_Project_Management_System
+L0076 Sau đó mở thư mục này bằng VS Code. Khởi tạo Git: git init
+L0077 Tạo môi trường Python: python -m venv venv
+L0078 Kích hoạt trong PowerShell: .\venv\Scripts\Activate.ps1 (trong Command Prompt: venv\Scripts\activate.bat)
+L0079 Cài các thư viện cơ bản: pip install flask mysql-connector-python python-dotenv pytest google-genai
+L0080 Lưu dependencies: pip freeze > requirements.txt
+L0081 Cấu hình công nghệ của dự án: Backend Python Flask; Database MySQL; Frontend HTML + CSS + JavaScript; lớp tích hợp AI dùng Gemini qua AI Provider Service; kiến trúc vẫn giữ khả năng thay nhà cung cấp theo NFR-11. Codex/ChatGPT được dùng để hỗ trợ quy trình AI-Augmented SDLC, tách biệt với AI runtime của sản phẩm.
+L0082 Phương án A: Codex xây dựng hệ thống và lập trình sẵn các module backend điều phối ba chức năng AI; khi chạy ứng dụng, Flask backend kiểm tra quyền, truy xuất dữ liệu, tạo context/prompt, gọi Gemini qua AI Provider Service, kiểm tra phản hồi và trả bản nháp/đề xuất. Gemini không được tự gọi công cụ nghiệp vụ hoặc ghi MySQL.
+L0083 PHẦN III. TẠO CẤU TRÚC AI-AUGMENTED SDLC
+L0084 Bước 3. Tạo cấu trúc thư mục (Dùng codex để tạo)
+L0085 Ta tạo:
+L0086 AI_Project_Management_System/
+L0087 ├── .git/
+L0088 ├── .agents/
+L0089 │   └── skills/
+L0090 ├── docs/
+L0091 │   ├── diagrams/
+L0092 │   └── tables/
+L0093 ├── database/
+L0094 ├── models/
+L0095 ├── routes/
+L0096 ├── services/
+L0097 ├── templates/
+L0098 ├── static/
+L0099 ├── tests/
+L0100 ├── app.py
+L0101 ├── requirements.txt
+L0102 └── .gitignore
+L0103 Đây là lúc bắt đầu đưa AI-Augmented SDLC vào project.
+L0104 QUY ƯỚC SƠ ĐỒ: Mọi sơ đồ phải có prompt được ghi rõ trong báo cáo, file nguồn PlantUML để truy vết bằng Git và PNG nếu render được. Sơ đồ phải dễ đọc, không để phần tử/nhãn chồng nhau, không để connector chạy xuyên node hoặc chữ, hạn chế tối đa đường cắt nhau; nếu render lần đầu còn rối phải chỉnh layout và render lại trước khi báo hoàn thành.
+L0105 Ánh xạ prompt - sơ đồ: PROMPT 01 = Use Case; PROMPT 02 = kiến trúc hệ thống; PROMPT 02A = Sequence; PROMPT 02B = Class; PROMPT 02C = Activity; PROMPT 03 = ERD; PROMPT 09 = kiến trúc và data flow Trợ lý AI. Các prompt tạo sơ đồ phải dùng diagram-design skill cùng Skill chuyên môn.
+L0106 QUY ƯỚC BẢNG: Các bảng đặc tả do AI Agent tạo phải truy vết được về nguồn, không tự điền dữ liệu thiếu, dùng tiêu đề cột nhất quán, không gộp nội dung gây khó đọc và tách bảng khi quá dài. Bảng được lưu dạng Markdown trong docs/tables/ để quản lý bằng Git và có thể đưa vào báo cáo Word sau khi Human Gate kiểm tra.
+L0107 Ánh xạ prompt - bảng: PROMPT 01T = bảng tác nhân, Use Case, đặc tả UC và traceability; PROMPT 02D = đặc tả Class; PROMPT 03 = data dictionary; Testing/Review/Security có thể tái sử dụng table-design skill để trình bày test case và finding.
+L0108 QUY TRÌNH TẠO FILE SKILL BẰNG AI AGENT
+L0109 Ở mỗi mục “Tạo Skill”, nội dung SKILL.md trong bài thực hành là đặc tả giao cho Codex. Người thực hiện yêu cầu Codex tạo file thật tại .agents/skills/<tên-skill>/SKILL.md, mở lại file để kiểm tra name, description, phạm vi, đầu vào, quy trình, đầu ra và điều kiện kiểm chứng; sau đó lưu prompt, kết quả và commit Git. Không xem đoạn SKILL.md chỉ được chép trong báo cáo là bằng chứng Skill đã được Agent tạo và sử dụng.
+L0110 PROMPT 00 - Tạo và kiểm chứng file Skill
+L0111 Hãy đọc mục Skill tương ứng trong tài liệu thực hành, tạo đúng file .agents/skills/<tên-skill>/SKILL.md trong repository, kiểm tra cấu trúc và nội dung, liệt kê file đã tạo và bằng chứng kiểm tra. Thực hiện cho diagram-design, table-design, requirements-analysis và lặp lại khi đến từng Skill ở các phần sau. Không tự nhận Skill đã hoạt động nếu chưa có file thật và chưa được dùng trong một tác vụ.
+L0112 3.1. XÂY DỰNG DIAGRAM DESIGN SKILL
+L0113 Bước 3A. Tạo Skill dùng chung để tạo và chỉnh sơ đồ
+L0114 Tạo: .agents/skills/diagram-design/SKILL.md
+L0115 Nội dung:
+L0116 ---
+L0117 name: diagram-design
+L0118 description: Create and refine traceable software engineering diagrams with readable, report-ready layouts.
+L0119 ---
+L0120 # Diagram Design Skill
+L0121 ## Objective
+L0122 Create UML/software design diagrams that are technically correct, traceable to approved artifacts and visually suitable for direct inclusion in the report.
+L0123 ## Inputs
+L0124 Read the complete approved docs/system-model.md and docs/system-model-traceability.md first, then the relevant approved requirements, use-case specifications, architecture, database design and schema. Embedded diagram images from the original DOCX are reserved for the independent comparison after the new diagram has been generated.
+L0125 ## Supported diagrams
+L0126 Use Case Diagram; Activity Diagram; Sequence Diagram; System Architecture Diagram; Class Diagram; ERD; AI Architecture/Data Flow Diagram.
+L0127 ## Process
+L0128 1. Determine the requested diagram type; read the approved system model and identify its supporting URD sections, tables and Human Gate decisions.
+L0129 2. List every supported actor, action, class, entity, component and relationship for this diagram, with a source reference. Resolve nothing by guessing.
+L0130 3. Create or update PlantUML source under docs/diagrams/.
+L0131 4. Arrange elements into a readable layout and render when tools are available.
+L0132 5. Inspect the rendered output; revise layout and render again if it is difficult to read.
+L0133 6. Freeze the generated .puml and rendered PNG before viewing the corresponding original image. Then compare actors/nodes, labels, relationships, cardinalities, direction and flow order with the original figure; record every difference in docs/diagram-comparison.md.
+L0134 ## Rules
+L0135 - Do not invent actors, use cases, actions, classes, entities, components or relationships.
+L0136 - Do not use, trace, copy or visually imitate an embedded diagram image as input to generation. The original image is only an independent check after the new source and render exist.
+L0137 - When the URD text, its tables and an original figure disagree, record the exact conflict and await a Human Gate decision. Do not omit a requirement merely to match the image.
+L0138 - Do not silently resolve requirements conflicts or modify approved requirements just to simplify a diagram.
+L0139 - Labels must be readable; nodes/text must not overlap; connectors must not pass through nodes or text.
+L0140 - Avoid connector overlap and minimize crossings; group related elements and keep sufficient spacing.
+L0141 - Prefer orthogonal connectors and layout constraints/hidden links when appropriate.
+L0142 - Do not place long issue notes inside a diagram when the issue is already recorded in requirements-issues.md.
+L0143 - Do not claim PNG output unless rendering actually succeeded.
+L0144 ## Outputs
+L0145 PlantUML source files in docs/diagrams/ and matching PNG files when rendering is available.
+L0146 ## Verification
+L0147 Before completing, verify correctness, source traceability, completeness, readable labels, no significant overlap, minimized crossings and report-ready visual quality. After generation, compare with the original figure and state whether content, relationships and flow match; visual similarity alone is not evidence of system correctness.
+L0148 3.2. XÂY DỰNG TABLE DESIGN SKILL
+L0149 Bước 3B. Tạo Skill dùng chung để xây dựng bảng đặc tả
+L0150 Tạo: .agents/skills/table-design/SKILL.md
+L0151 Nội dung:
+L0152 ---
+L0153 name: table-design
+L0154 description: Create and refine traceable software engineering tables from approved project artifacts.
+L0155 ---
+L0156 # Table Design Skill
+L0157 ## Objective
+L0158 Create structured, consistent and traceable software-engineering tables that can be reviewed by humans and inserted into the final report.
+L0159 ## Inputs
+L0160 Read only the approved artifacts relevant to the requested table: source URD, requirements, use-case specifications, architecture, class model, database design/schema, tests or review reports.
+L0161 ## Supported tables
+L0162 Actor specification; Use Case summary; detailed Use Case specification; requirements traceability; Class specification; data dictionary; test-case/result matrix; code-review/security finding tables.
+L0163 ## Process
+L0164 1. Determine the purpose and source for the table.
+L0165 2. Define concise, consistent columns before filling rows.
+L0166 3. Preserve existing IDs such as FR/NFR/BR/UC/AC and add source/traceability columns where useful.
+L0167 4. Fill only information supported by the source; mark missing/conflicting information as PENDING or reference the issue instead of inventing a value.
+L0168 5. Split very large tables by section/domain when that improves readability.
+L0169 6. Save reusable Markdown tables under docs/tables/.
+L0170 ## Rules
+L0171 - Do not invent values, actors, permissions, requirements, relationships, data types or test results.
+L0172 - Do not silently resolve conflicts.
+L0173 - Keep headers consistent and avoid cells that contain unrelated information.
+L0174 - Long flows should use numbered steps or dedicated sub-tables rather than one unreadable cell.
+L0175 - Never mark a test/result as PASSED unless execution evidence exists.
+L0176 ## Outputs
+L0177 Markdown table artifacts under docs/tables/ or the table section explicitly requested by the domain Skill.
+L0178 ## Verification
+L0179 Verify every row is source-supported, IDs are preserved, unresolved points are visible, columns are consistent, tables are readable and suitable for Human Gate review.
+L0180 PHẦN IV. XÂY DỰNG REQUIREMENTS SKILL
+L0181 Bước 4. Tạo Skill phân tích yêu cầu
+L0182 Tạo thư mục: .agents/skills/requirements-analysis/
+L0183 Tạo file: .agents/skills/requirements-analysis/SKILL.md
+L0184 Với nội dung:
+L0185 ---
+L0186 name: requirements-analysis
+L0187 description: Analyze software requirements and transform natural-language requirements into structured functional requirements, non-functional requirements, user stories, acceptance criteria, and traceability information.
+L0188 ---
+L0189 # Requirements Analysis Skill
+L0190 ## Objective
+L0191 Analyze software requirements systematically and produce a structured
+L0192 specification suitable for subsequent architecture, database, implementation,
+L0193 and testing activities.
+L0194 ## Inputs
+L0195 Read the following project artifacts when available:
+L0196 - project requirements / URD
+L0197 - complete approved system model and its source traceability (docs/system-model.md, docs/system-model-traceability.md)
+L0198 - business requirements
+L0199 - existing requirements documentation
+L0200 - project constraints
+L0201 ## Process
+L0202 ### 1. Identify stakeholders
+L0203 Identify all stakeholders relevant to the system.
+L0204 ### 2. Identify actors
+L0205 Identify actors interacting with the system.
+L0206 ### 2.1 Model use cases and Use Case Diagram
+L0207 Identify all use cases and actor relationships from the source requirements.
+L0208 Preserve existing Use Case IDs UC001 through UC013 and their source names.
+L0209 Create a PlantUML Use Case Diagram with the system boundary and source-traceable actors; apply diagram-design skill for layout and visual verification.
+L0210 If actor/permission assignments are contradictory or unclear, record them in docs/requirements-issues.md and do not silently choose a side.
+L0211 Do not invent actors, permissions, include/extend relationships, or new use cases that are not supported by the source.
+L0212 ### 3. Identify functional requirements
+L0213 Convert explicit business needs into functional requirements.
+L0214 Use IDs:
+L0215 FR-01
+L0216 FR-02
+L0217 FR-03
+L0218 ### 4. Identify non-functional requirements
+L0219 Identify requirements related to:
+L0220 - performance (NFR-01)
+L0221 - usability (NFR-02)
+L0222 - security (NFR-03)
+L0223 - privacy (NFR-04)
+L0224 - data reliability (NFR-05)
+L0225 - AI safety (NFR-06)
+L0226 - maintainability (NFR-07)
+L0227 - testing (NFR-08)
+L0228 - traceability (NFR-09)
+L0229 - data scalability (NFR-10)
+L0230 - AI provider replaceability (NFR-11)
+L0231 Use IDs:
+L0232 NFR-01
+L0233 NFR-02
+L0234 ### 5. Identify business rules
+L0235 List business rules explicitly stated by the requirements.
+L0236 Do not invent business rules.
+L0237 ### 6. Identify assumptions
+L0238 Separate assumptions from actual requirements.
+L0239 ### 7. Identify ambiguities
+L0240 Identify requirements that are:
+L0241 - ambiguous
+L0242 - incomplete
+L0243 - contradictory
+L0244 - not testable
+L0245 ### 8. Create user stories
+L0246 Use:
+L0247 As a <role>,
+L0248 I want <capability>,
+L0249 so that <benefit>.
+L0250 ### 9. Create acceptance criteria
+L0251 Each important user story must have testable acceptance criteria.
+L0252 ### 10. Traceability
+L0253 Every user story must be traceable to one or more requirements.
+L0254 ## Rules
+L0255 - Do not write source code.
+L0256 - Do not design the database.
+L0257 - Do not design the architecture.
+L0258 - Do not invent undocumented business rules.
+L0259 - Clearly distinguish requirements from assumptions.
+L0260 - Clearly identify missing information.
+L0261 ## Outputs
+L0262 Create or update:
+L0263 docs/requirements.md
+L0264 docs/user-stories.md
+L0265 docs/acceptance-criteria.md
+L0266 docs/requirements-issues.md
+L0267 docs/diagrams/use-case-diagram.puml
+L0268 If PlantUML rendering is available, also create docs/diagrams/use-case-diagram.png.
+L0269 ## Verification
+L0270 Before completing the task verify:
+L0271 - all functional requirements have IDs;
+L0272 - all non-functional requirements have IDs;
+L0273 - user stories trace to requirements;
+L0274 - acceptance criteria are testable;
+L0275 - ambiguities are explicitly documented.
+L0276 - UC001 through UC013 appear in the Use Case Diagram;
+L0277 - actor-to-use-case relationships are traceable to the source;
+L0278 - unresolved actor/permission conflicts are documented instead of silently resolved;
+L0279 - the diagram contains no invented actor or use case.
+L0280 PHẦN V. CUNG CẤP YÊU CẦU CỦA DỰ ÁN CHO CODEX
+L0281 Bước 5. Cung cấp yêu cầu của dự án
+L0282 Tạo: docs/customer-requirement.md
+L0283 Nội dung:
+L0284 Nhóm cần xây dựng một ứng dụng web quản lý dự án, thành viên, nhiệm vụ, sprint và mốc tiến độ. Mọi người phải đăng nhập và chỉ truy cập dữ liệu đúng vai trò, đúng dự án.
+L0285 Trưởng nhóm quản lý dự án, thành viên, sprint/mốc, nhiệm vụ và theo dõi tiến độ. Cả ba vai trò được cộng tác, tra cứu nhiệm vụ, xem dashboard và báo cáo đã xác nhận khi có quyền dự án. Thành viên cập nhật nhiệm vụ trong phạm vi quyền; Quản trị viên quản lý tài khoản và nhật ký hệ thống.
+L0286 Nhiệm vụ được theo dõi trên Kanban gồm Tồn đọng, Cần làm, Đang làm, Kiểm tra và Hoàn thành. Hệ thống có tìm kiếm/lọc, dashboard, tỷ lệ hoàn thành, nhiệm vụ trễ và tải công việc.
+L0287 Hệ thống có ba chức năng AI chính: tóm tắt tiến độ tuần; tạo bản nháp biên bản họp từ ghi chú; gợi ý 1-3 người phụ trách theo kỹ năng, mức sẵn sàng và tải công việc.
+L0288 AI chỉ tạo bản nháp/đề xuất, không tự phân công hoặc tự tạo dữ liệu không có trong nguồn. Thành viên được phân quyền có thể tạo/chỉnh sửa bản nháp biên bản; chỉ Trưởng nhóm xác nhận báo cáo/biên bản để lưu hoặc chia sẻ chính thức.
+L0289 FR-15 (lịch sử AI), FR-16 (thông báo) và FR-17 (email cảnh báo trễ hạn) giữ mức “Nên có”. UC012 cho Quản trị viên và Trưởng nhóm xem lịch sử AI trong phạm vi quyền. FR-16 gửi thông báo trong ứng dụng cho người liên quan và Trưởng nhóm khi giao/đổi người phụ trách, đổi hạn, đổi trạng thái hoặc vào ngày trước hạn; đánh dấu đã đọc nhưng giữ lịch sử. FR-17 tự động gửi email cảnh báo đến địa chỉ email của người phụ trách khi nhiệm vụ bị trễ theo BR-09 (thỏa điều kiện BR-02). Ngoài phạm vi: chấm công, tính lương và quản lý nhân sự đầy đủ.
+L0290 Công nghệ thực hành: Python Flask, MySQL, HTML/CSS/JavaScript và Gemini qua lớp AI Provider Service.
+L0291 Áp dụng các quyết định đã xác nhận trong docs/requirements-decisions.md khi đối chiếu URD, bảng Use Case và sơ đồ. Mâu thuẫn mới phải ghi vào docs/requirements-issues.md; không tự suy diễn hoặc âm thầm sửa yêu cầu. Nhóm quyết định tại Human Gate.
+L0292 Đầu vào gốc: lưu DOCX URD chưa chỉnh sửa thành docs/source/hoan_chinh.docx; trích xuất toàn bộ chữ và bảng thành docs/source-urd.md, giữ thứ tự và mã mục/bảng. Chép phụ lục quyết định trong tài liệu này thành docs/requirements-decisions.md. Khi URD gốc mâu thuẫn với quyết định D01-D08, dùng quyết định đã chốt và ghi nguồn truy vết; không sửa ngầm URD gốc. Ảnh/sơ đồ nhúng không được đưa vào dữ liệu dùng để sinh sơ đồ. AI Agent đọc source-urd.md và customer-requirement.md ở bước Requirements Engineering.Sau khi hoàn thành, hãy mở và kiểm tra lại cả ba file. Đối chiếu toàn bộ mục, bảng và mã yêu cầu với DOCX gốc; báo cáo những nội dung chưa trích xuất được, các mâu thuẫn còn tồn tại và danh sách file thực tế đã tạo. Không được tự tuyên bố hoàn thành nếu chưa kiểm tra đủ.
+L0293 Bước 5A. Tạo mô hình hệ thống chuẩn từ toàn bộ phần chữ và bảng của URD
+L0294 PROMPT 00A - Đọc và hệ thống hóa URD
+L0295 Hãy đọc toàn bộ docs/source-urd.md và docs/customer-requirement.md, không bỏ qua các bảng, đặc tả UC hoặc quy tắc nghiệp vụ. Chưa mở, OCR, trích xuất để xem hoặc dùng các ảnh/sơ đồ nhúng trong DOCX gốc. Lập docs/system-model.md gồm tác nhân và quyền, FR-01..FR-17, NFR-01..NFR-11, BR-01..BR-09, UC001..UC013, trạng thái nhiệm vụ, các luồng nghiệp vụ, lớp/đối tượng, dữ liệu và quan hệ, các ràng buộc kiến trúc và AI đã nêu. Lập docs/system-model-traceability.md nối từng thành phần/quan hệ với mục, bảng hoặc UC nguồn. Áp dụng docs/requirements-decisions.md; ghi thiếu, trùng và mâu thuẫn mới vào docs/requirements-issues.md; không tự điền dữ kiện không có nguồn.
+L0296 Human Gate 0: kiểm tra Agent đã bao phủ toàn bộ mục và bảng URD; các mã FR/NFR/BR/UC, vai trò, luồng và dữ liệu đã được truy vết; mọi mâu thuẫn được ghi rõ. Chỉ dùng mô hình đã kiểm tra làm đầu vào chung cho các Skill và prompt tạo sơ đồ.
+L0297 PHẦN VI. YÊU CẦU CODEX SỬ DỤNG SKILL
+L0298 Bước 6. Chạy Codex
+L0299 PROMPT 01 - requirements-analysis + diagram-design skill (Requirements Engineering + Use Case Diagram)
+L0300 Hãy thực hiện Requirements Engineering cho project này.
+L0301 Sử dụng requirements-analysis skill và diagram-design skill.
+L0302 Đọc:
+L0303 docs/customer-requirement.md
+L0304 docs/source-urd.md
+L0305 docs/system-model.md
+L0306 docs/system-model-traceability.md
+L0307 Đối chiếu URD nguồn và docs/requirements-decisions.md để giữ đúng FR-01..FR-17, NFR-01..NFR-11, BR-01..BR-09, UC001..UC013 và quyền đã chốt.
+L0308 Dùng mô hình hệ thống đã qua Human Gate 0 để sinh Use Case Diagram độc lập. Không xem hình Use Case gốc trước khi hoàn tất và lưu file .puml/PNG mới; hình gốc chỉ dùng ở bước đối chiếu sau.
+L0309 Mọi mâu thuẫn mới phải ghi vào docs/requirements-issues.md. Áp dụng quyết định đã xác nhận trong docs/requirements-decisions.md cho UC007, UC008 và UC012; không tự tạo vai trò, quyền, Use Case hoặc yêu cầu nghiệp vụ mới.
+L0310 Không viết source code. Không thiết kế database. Không thiết kế architecture.
+L0311 Tạo:
+L0312 docs/requirements.md
+L0313 docs/user-stories.md
+L0314 docs/acceptance-criteria.md
+L0315 docs/requirements-issues.md
+L0316 docs/diagrams/use-case-diagram.puml
+L0317 Yêu cầu Use Case Diagram: có system boundary "Hệ thống quản lý dự án nhóm có tích hợp AI"; có đủ UC001..UC013; actor/quan hệ phải truy vết được về URD; không tự thêm actor, permission, include/extend hay UC không có nguồn.
+L0318 Bố cục phải sạch: actor đặt hợp lý quanh system boundary; nhóm UC theo nghiệp vụ/tác nhân; không để association/label chồng nhau; không để đường chạy xuyên actor, Use Case hoặc chữ; hạn chế tối đa đường giao nhau. Không đặt note Human Gate dài trong sơ đồ; issue chi tiết giữ trong requirements-issues.md.
+L0319 Nếu bản render đầu còn rối, diagram-design skill phải chỉnh layout và render lại trước khi hoàn thành. Nếu PlantUML render được, tạo docs/diagrams/use-case-diagram.png; nếu không, giữ .puml và báo rõ.
+L0320 Sau khi hoàn thành, báo cáo: skill đã dùng; artifacts đã tạo/cập nhật; requirement còn chưa rõ; giả định; mâu thuẫn; UC đang chờ Human Gate; trạng thái render sơ đồ. Không tự chuyển Human Gate sang APPROVED.
+L0321 PROMPT 01T - requirements-analysis + table-design skill (Bảng đặc tả Requirements/Use Case)
+L0322 Hãy sử dụng requirements-analysis skill và table-design skill.
+L0323 Đọc: docs/source-urd.md, docs/requirements-decisions.md, docs/requirements.md, docs/user-stories.md, docs/acceptance-criteria.md và docs/requirements-issues.md.
+L0324 Tạo các bảng để Human Gate kiểm tra:
+L0325 docs/tables/actor-specification.md
+L0326 docs/tables/use-case-summary.md
+L0327 docs/tables/use-case-specifications.md
+L0328 docs/tables/requirements-traceability.md
+L0329 actor-specification.md: Tác nhân | Vai trò | Quyền/hoạt động chính | Nguồn | Ghi chú/Issue.
+L0330 use-case-summary.md: ID | Tên Use Case | Tác nhân | FR liên quan | Mức | Mô tả ngắn | Issue.
+L0331 use-case-specifications.md: tạo đủ UC001..UC013. Mỗi UC phải có bảng gồm Mục đích, Mô tả, Tác nhân, Điều kiện trước, Điều kiện sau, Basic flow và Alternative flow; các bước luồng phải đánh số rõ ràng và không tự thêm nghiệp vụ.
+L0332 requirements-traceability.md: Nhu cầu/nguồn | FR/NFR/BR | UC | User Story | Acceptance Criteria | Trạng thái/Issue.
+L0333 Không tự lấp dữ liệu thiếu. Nếu nguồn mâu thuẫn, ghi PENDING HUMAN GATE và tham chiếu requirements-issues.md. Sau khi tạo, báo số bảng/UC đã bao phủ và điểm còn thiếu.
+L0334 PHẦN VII. KIỂM CHỨNG KẾT QUẢ
+L0335 Bước 7. Không chấp nhận ngay kết quả của AI
+L0336 Sinh viên mở docs/requirements.md và docs/requirements-issues.md để kiểm tra.
+L0337 Kết quả phải giữ đủ 17 FR (FR-01..FR-17), 11 NFR (NFR-01..NFR-11), 9 BR (BR-01..BR-09) và 13 Use Case (UC001..UC013). FR-15, FR-16 và FR-17 vẫn là “Nên có”.
+L0338 Kiểm tra URD gốc cùng docs/requirements-decisions.md: chỉ ba vai trò; UN-08 là xem báo cáo đã xác nhận, UN-09 là lịch sử AI; UC007/UC008 cho cả ba vai trò theo quyền dự án; UC012 cho Quản trị viên và Trưởng nhóm; chỉ Trưởng nhóm xác nhận UC010; FR-16 có sự kiện, người nhận, thời điểm và dữ liệu đã chốt. Điểm mới chưa rõ mới ghi thành issue.
+L0339 Đối chiếu FR-12, FR-13, FR-14, BR-06/BR-07, UC liên quan và D06 để xác nhận quyền riêng của từng chức năng: chỉ Trưởng nhóm yêu cầu tóm tắt tuần và gợi ý phân công; Trưởng nhóm hoặc Thành viên được phân quyền tạo/chỉnh sửa bản nháp biên bản; chỉ Trưởng nhóm chủ động xác nhận báo cáo/biên bản chính thức. Quyền xem báo cáo đã xác nhận vẫn theo D02.
+L0340 Kiểm tra mỗi chức năng AI xác định rõ dữ liệu đầu vào bắt buộc, dự án/khoảng thời gian hoặc ghi chú/nhiệm vụ được chọn, phạm vi truy xuất theo quyền và cách chỉ ra dữ liệu nguồn trong kết quả. Đối chiếu tham chiếu nguồn, ID nhiệm vụ/thành viên và các dữ kiện kiểm chứng được với dữ liệu đã truy xuất; không chấp nhận kết quả chỉ dựa vào lời khẳng định của AI.
+L0341 Kiểm tra acceptance criteria và luồng nghiệp vụ ghi rõ kết quả AI là bản nháp/đề xuất; AI không tự tạo nhiệm vụ/thành viên, không tự phân công hoặc sửa dữ liệu nghiệp vụ. Việc kiểm tra phản hồi chỉ phát hiện các sai lệch có thể đối chiếu, không bảo đảm tuyệt đối mọi nội dung AI đều đúng.
+L0342 Nếu quyền, dữ liệu đầu vào, quy tắc tham chiếu hoặc điều kiện xác nhận chưa rõ hay mâu thuẫn với URD/quyết định D01-D08, ghi từng điểm cùng nguồn đối chiếu và phương án cần quyết định vào docs/requirements-issues.md để người thực hiện phê duyệt tại Human Gate; không tự bổ sung yêu cầu nghiệp vụ hoặc đánh dấu APPROVED.
+L0343 Kiểm tra Codex không tự thêm chức năng ngoài phạm vi, ví dụ tính lương hoặc “AI tự động phân công nhiệm vụ”. Nếu có, yêu cầu loại bỏ vì trái yêu cầu nguồn.
+L0344 Sinh viên mở thêm docs/diagrams/use-case-diagram.puml và ảnh PNG nếu đã render.
+L0345 Kiểm tra sơ đồ có đủ UC001..UC013, đúng tên/ID, đúng system boundary và không có actor/Use Case do AI tự thêm.
+L0346 Quan hệ tác nhân của UC007, UC008 và UC012 phải khớp docs/requirements-decisions.md. Khi hình trong URD gốc khác quyết định đã chốt, ghi rõ trong docs/diagram-comparison.md; sơ đồ mới phải theo quyết định đã chốt.
+L0347 Chỉ chuyển sang thiết kế khi các yêu cầu quan trọng đã được con người đối chiếu và xác nhận.
+L0348 Sinh viên kiểm tra thêm các bảng: docs/tables/actor-specification.md, use-case-summary.md, use-case-specifications.md và requirements-traceability.md. Phải có đủ UC001..UC013, không có dòng do AI tự bịa và mọi điểm PENDING phải khớp requirements-issues.md.
+L0349 Kiểm tra trực quan Use Case Diagram: không có phần tử/nhãn chồng nhau, connector không chạy xuyên node/chữ và bố cục đủ rõ để đưa vào báo cáo. Nếu chưa đạt thì yêu cầu diagram-design skill chỉnh lại trước Human Gate.
+L0350 PHẦN VIII. HUMAN GATE 1
+L0351 Không được: Requirements → Codex → Architecture
+L0352 Mà phải: Requirements → Codex → Human Verification → APPROVED → Architecture
+L0353 Requirements Review
+L0354 Reviewer: <người kiểm tra>
+L0355 Status: PENDING
+L0356 Checked:
+L0357 [ ] FR-01..FR-17, NFR-01..NFR-11 và BR-01..BR-09 đã được kiểm tra.
+L0358 [ ] User stories và acceptance criteria đã được kiểm tra.
+L0359 [ ] UC001..UC013 đã được kiểm tra.
+L0360 [ ] Use Case Diagram có đầy đủ UC001..UC013 và đúng system boundary.
+L0361 [ ] Actor và quan hệ actor - Use Case có nguồn truy vết rõ ràng.
+L0362 [ ] UC007, UC008 và UC012 khớp quyền đã được xác nhận trong docs/requirements-decisions.md.
+L0363 [ ] Ambiguities/conflicts đã được ghi trong docs/requirements-issues.md.
+L0364 [ ] Không có requirement, actor, permission hoặc Use Case ngoài phạm vi do AI tự thêm.
+L0365 [ ] Bảng tác nhân, danh sách Use Case, đặc tả UC001..UC013 và traceability đã được kiểm tra.
+L0366 [ ] Use Case Diagram đạt chất lượng trình bày: không chồng phần tử/nhãn, không có connector chạy xuyên đối tượng và không còn giao cắt gây khó đọc.
+L0367 Decision: <APPROVED hoặc yêu cầu sửa, kèm lý do>
+L0368 PHẦN IX. XÂY DỰNG ARCHITECTURE SKILL
+L0369 Bước 8. Tạo Skill
+L0370 Tạo: .agents/skills/architecture-design/SKILL.md
+L0371 Nội dung:
+L0372 ---
+L0373 name: architecture-design
+L0374 description: Design software architecture from approved requirements while preserving traceability and documenting architectural decisions.
+L0375 ---
+L0376 # Architecture Design Skill
+L0377 ## Objective
+L0378 Transform approved software requirements into a coherent software architecture.
+L0379 ## Inputs
+L0380 Read:
+L0381 - docs/requirements.md
+L0382 - docs/user-stories.md
+L0383 - docs/acceptance-criteria.md
+L0384 - docs/system-model.md and docs/system-model-traceability.md
+L0385 Only use approved requirements.
+L0386 ## Process
+L0387 1. Identify architectural style.
+L0388 2. Identify major components.
+L0389 3. Define responsibility of each component.
+L0390 4. Define dependencies.
+L0391 5. Define communication between components.
+L0392 6. Define data flow.
+L0393 7. Identify external systems.
+L0394 8. Identify security boundaries.
+L0395 9. Document architectural decisions.
+L0396 10. Check requirements-to-architecture traceability.
+L0397 ## Rules
+L0398 - Do not implement source code.
+L0399 - Do not modify approved requirements.
+L0400 - Do not introduce unnecessary technologies.
+L0401 - Every major architectural decision must have a rationale.
+L0402 ## Outputs
+L0403 Create:
+L0404 docs/architecture.md
+L0405 docs/architecture-decisions.md
+L0406 docs/diagrams/system-architecture.puml
+L0407 docs/diagrams/sequence/UC001.puml through UC013.puml
+L0408 docs/diagrams/activity/UC001.puml through UC013.puml
+L0409 docs/diagrams/class-diagram.puml
+L0410 If rendering is available, create the corresponding PNG files.
+L0411 ## Verification
+L0412 Verify that every major functional requirement is supported
+L0413 by at least one architectural component.
+L0414 For every generated diagram, apply diagram-design skill verification: readable labels, no element overlap, connectors do not pass through nodes/text, crossings minimized, and render revised until report-ready.
+L0415 PHẦN X. SỬ DỤNG ARCHITECTURE SKILL
+L0416 Bước 9. Chạy Architecture Skill
+L0417 PROMPT 02 - architecture-design + diagram-design skill (Kiến trúc hệ thống + sơ đồ kiến trúc)
+L0418 Hãy sử dụng architecture-design skill và diagram-design skill.
+L0419 Đọc các tài liệu requirements đã được phê duyệt: docs/requirements.md, docs/user-stories.md, docs/acceptance-criteria.md, docs/diagrams/use-case-diagram.puml và các quyết định Human Gate.
+L0420 Đọc thêm docs/system-model.md và docs/system-model-traceability.md. Sơ đồ được dựng từ mô hình và các quyết định đã duyệt; chưa dùng ảnh kiến trúc gốc làm đầu vào.
+L0421 Thiết kế kiến trúc cho hệ thống. Không viết source code.
+L0422 Tạo: docs/architecture.md, docs/architecture-decisions.md, docs/diagrams/system-architecture.puml.
+L0423 Sơ đồ phải thể hiện tối thiểu Frontend; Flask routes/API; services nghiệp vụ; repository/data access; MySQL; AI Assistant Service; AI Provider Service/Gemini; security boundary và hướng data flow. Mỗi FR phải có component chịu trách nhiệm.
+L0424 Trong nhánh AI, thiết kế Response Validator sau AI Provider Service: kiểm tra cấu trúc phản hồi theo từng task_type, tham chiếu nguồn, ID nhiệm vụ/thành viên và các điều kiện có thể đối chiếu với dữ liệu đã truy xuất trong phạm vi quyền. Phản hồi thiếu, sai cấu trúc hoặc mâu thuẫn phải chuyển sang trạng thái cần xác minh, không được coi là kết quả hợp lệ.
+L0425 Thiết kế Confirmation Service và API xác nhận riêng ở backend: chỉ chuyển bản nháp báo cáo/biên bản thành bản chính thức khi Trưởng nhóm chủ động xác nhận và backend kiểm tra lại quyền, dự án cùng bản nháp. Frontend không được tự đặt trạng thái confirmed; gợi ý phân công không được tự gán nhiệm vụ. Thể hiện hai service và luồng này trên sơ đồ, kèm ranh giới kiểm tra; validator không phải bảo đảm tuyệt đối chống thông tin sai do AI tạo ra.
+L0426 Bố cục theo một hướng nhất quán; component cùng tầng đặt gần nhau; connector không chồng, không chạy xuyên component/text và hạn chế tối đa giao cắt. Render lại nếu chưa rõ.
+L0427 Nếu render được, tạo docs/diagrams/system-architecture.png. Không tự sửa requirements đã APPROVED; issue chưa chốt phải báo thay vì tự suy đoán.
+L0428 PROMPT 02A - architecture-design + diagram-design skill (Sequence Diagram UC001..UC013)
+L0429 Hãy sử dụng architecture-design skill và diagram-design skill.
+L0430 Đọc: docs/requirements.md, docs/architecture.md, docs/tables/use-case-specifications.md và docs/diagrams/use-case-diagram.puml.
+L0431 Đọc thêm docs/system-model.md và docs/system-model-traceability.md; đối chiếu toàn bộ UC001..UC013 với luồng, quyền và ranh giới AI đã duyệt. Chưa dùng 13 ảnh Sequence gốc để sinh sơ đồ.
+L0432 Tạo Sequence Diagram riêng cho UC001..UC013 trong docs/diagrams/sequence/UC001.puml ... UC013.puml.
+L0433 Mỗi sơ đồ phải bám Basic/Alternative flow, thể hiện actor -> UI/route/API -> service -> repository/MySQL -> external AI service khi có AI. Không gộp nhiều UC, không thêm bước nghiệp vụ/quyền.
+L0434 Không để lifeline, activation, message hoặc label chồng nhau; participant sắp xếp theo thứ tự xử lý hợp lý; alt/opt dùng rõ ràng. Render lại nếu khó đọc. Nếu render được, tạo PNG tương ứng.
+L0435 PROMPT 02B - architecture-design + diagram-design skill (Class Diagram)
+L0436 Hãy sử dụng architecture-design skill và diagram-design skill.
+L0437 Đọc: docs/requirements.md, docs/architecture.md, docs/user-stories.md và các quyết định Human Gate APPROVED.
+L0438 Đọc thêm docs/system-model.md và docs/system-model-traceability.md. Mỗi class, thuộc tính và quan hệ phải có nguồn; chưa xem Class Diagram gốc trước khi hoàn tất bản vẽ mới.
+L0439 Tạo docs/diagrams/class-diagram.puml cho các lớp nghiệp vụ chính: tài khoản, dự án, thành viên dự án, nhiệm vụ, sprint/mốc, bình luận/tài liệu, ghi chú/biên bản, AI/history, báo cáo/nhật ký và notification nếu triển khai FR-16 theo đặc tả đã chốt.
+L0440 Thể hiện thuộc tính chính, quan hệ, multiplicity; chỉ thêm method khi có trách nhiệm được requirements/architecture hỗ trợ. Không biến Class Diagram thành physical schema.
+L0441 Nhóm class theo domain; relationship không chồng, không chạy xuyên class/text, hạn chế giao cắt; render lại nếu bố cục rối. Nếu render được, tạo class-diagram.png.
+L0442 PROMPT 02C - architecture-design + diagram-design skill (Activity Diagram UC001..UC013)
+L0443 Hãy sử dụng architecture-design skill và diagram-design skill.
+L0444 Đọc: docs/tables/use-case-specifications.md, docs/requirements.md, docs/requirements-issues.md và các quyết định Human Gate APPROVED.
+L0445 Đọc thêm docs/system-model.md và docs/system-model-traceability.md. Bộ 13 Activity Diagram theo từng UC là phần mở rộng của bài thực hành; không thay thế hai sơ đồ quy trình tổng quát trong URD gốc.
+L0446 Tạo Activity Diagram riêng cho UC001..UC013 trong docs/diagrams/activity/UC001.puml ... UC013.puml.
+L0447 Mỗi sơ đồ phải có start/end, action theo đúng thứ tự Basic flow, decision/branch cho Alternative flow và thể hiện actor/system responsibility khi cần. Không tự thêm bước nghiệp vụ hoặc tự giải quyết issue còn PENDING.
+L0448 Bố cục ưu tiên từ trên xuống; connector/label không chồng, không chạy xuyên action; các nhánh dễ lần theo. Nếu render được, tạo PNG tương ứng và tự kiểm tra trực quan trước khi hoàn thành.
+L0449 PROMPT 02D - architecture-design + table-design skill (Đặc tả Class)
+L0450 Hãy sử dụng architecture-design skill và table-design skill.
+L0451 Đọc: docs/architecture.md, docs/requirements.md và docs/diagrams/class-diagram.puml.
+L0452 Tạo docs/tables/class-specification.md.
+L0453 Với mỗi class, trình bày: Tên class | Trách nhiệm | Thuộc tính (Tên, kiểu logic, ý nghĩa) | Phương thức chính. Với từng phương thức quan trọng ghi Tên, Mô tả, Input, Output, Luồng xử lý, Điều kiện bắt đầu và Điều kiện kết thúc.
+L0454 Không bịa kiểu dữ liệu vật lý nếu chưa tới Database Design; không thêm method/class ngoài nguồn. Quan hệ trong bảng phải khớp Class Diagram.
+L0455 PROMPT 02E - architecture-design + diagram-design skill (Sơ đồ phân cấp chức năng và quy trình tổng quát)
+L0456 Hãy đọc docs/system-model.md, docs/system-model-traceability.md, docs/requirements.md, docs/architecture.md và các quyết định Human Gate. Từ phần chữ/bảng, tự dựng docs/diagrams/function-hierarchy.puml, docs/diagrams/business-process-swimlane.puml và docs/diagrams/business-process-activity.puml tương ứng mục 1.6.1, 1.3 và 1.16 của URD. Thể hiện đúng bảy nhóm chức năng, bốn làn trách nhiệm, nhánh gợi ý phân công và bước con người xác nhận. Không mở hoặc chép ba ảnh gốc trước khi hoàn thành các bản .puml/PNG; khác biệt sẽ được kiểm tra ở PROMPT 03V. Nếu nguồn chữ chưa đủ xác định một quan hệ hoặc nhánh, ghi issue thay vì suy đoán.
+L0457 PHẦN XI. HUMAN GATE 2
+L0458 Sinh viên kiểm tra:
+L0459 [ ] Mỗi FR bắt buộc có component chịu trách nhiệm và truy vết rõ.
+L0460 [ ] docs/diagrams/system-architecture.puml phản ánh đúng architecture.md.
+L0461 [ ] Có đủ 13 biểu đồ trình tự UC001..UC013 và luồng không trái requirements/use case đã APPROVED.
+L0462 [ ] docs/diagrams/class-diagram.puml thể hiện đúng các lớp/quan hệ nghiệp vụ, không tự thêm phạm vi.
+L0463 [ ] Các luồng AI tách rõ UI/API → AI Assistant Service → AI Provider Service → Gemini; provider không truy cập MySQL trực tiếp.
+L0464 [ ] Nếu có PNG, ảnh render khớp file PlantUML nguồn; nếu không render được phải ghi rõ trạng thái.
+L0465 [ ] Có đủ 13 Activity Diagram UC001..UC013 và các nhánh khớp Basic/Alternative flow đã duyệt.
+L0466 [ ] Có sơ đồ phân cấp chức năng và hai sơ đồ quy trình tổng quát dựng từ mô hình đã duyệt; không dùng ảnh gốc làm đầu vào tạo hình.
+L0467 [ ] docs/tables/class-specification.md khớp Class Diagram và không tự thêm class/method.
+L0468 [ ] Các sơ đồ Architecture/Sequence/Class/Activity đạt chất lượng trình bày, không chồng phần tử/nhãn và không có connector chạy xuyên đối tượng.
+L0469 Nếu không tìm được component/luồng/lớp đáp ứng requirement hoặc còn issue chưa chốt thì kiến trúc chưa đạt.
+L0470 PHẦN XII. DATABASE SKILL
+L0471 Bước 10. Tạo Database Design Skill
+L0472 Tạo thư mục:
+L0473 .agents/skills/database-design/
+L0474 Tạo file:
+L0475 .agents/skills/database-design/SKILL.md
+L0476 Với nội dung:
+L0477 ---
+L0478 name: database-design
+L0479 description: Design a normalized MySQL database schema and ERD from approved requirements and architecture while preserving traceability and business constraints.
+L0480 ---
+L0481 # Database Design Skill
+L0482 ## Objective
+L0483 Transform approved requirements and architecture into a consistent,
+L0484 normalized and traceable relational database design for MySQL.
+L0485 The database design must support the approved business requirements
+L0486 without inventing new business rules or entities.
+L0487 ## Inputs
+L0488 Read the following approved artifacts when available:
+L0489 - docs/requirements.md
+L0490 - docs/user-stories.md
+L0491 - docs/acceptance-criteria.md
+L0492 - docs/requirements-issues.md
+L0493 - docs/architecture.md
+L0494 - docs/architecture-decisions.md
+L0495 - docs/diagrams/class-diagram.puml
+L0496 - docs/source-urd.md
+L0497 - docs/system-model.md
+L0498 - docs/system-model-traceability.md
+L0499 Only use decisions that have passed the relevant Human Gate.
+L0500 If a required decision is still PENDING,
+L0501 do not silently choose a solution.
+L0502 ## Process
+L0503 ### 1. Identify data domains
+L0504 Identify the data groups required by the approved requirements.
+L0505 For this project, verify coverage of at least:
+L0506 - accounts/users;
+L0507 - projects;
+L0508 - project members;
+L0509 - skills, availability and work capacity;
+L0510 - tasks;
+L0511 - sprint and milestones;
+L0512 - comments and attachments;
+L0513 - meeting notes and AI-generated meeting-minute drafts;
+L0514 - AI requests/results/history when FR-15 is implemented;
+L0515 - reports/audit logs;
+L0516 - notifications if FR-16 is implemented; use the approved event, recipient, timing and data fields in docs/requirements-decisions.md.
+L0517 Do not assume that one data group must correspond to exactly one table.
+L0518 ### 2. Identify entities
+L0519 Derive entities from the approved requirements and architecture.
+L0520 For each entity identify:
+L0521 - purpose;
+L0522 - primary identifier;
+L0523 - main attributes;
+L0524 - ownership/project scope;
+L0525 - lifecycle;
+L0526 - relationships with other entities.
+L0527 Do not create an entity only because it is technically convenient
+L0528 unless it is necessary to implement an approved requirement.
+L0529 ### 3. Identify relationships
+L0530 Identify:
+L0531 - one-to-one relationships;
+L0532 - one-to-many relationships;
+L0533 - many-to-many relationships.
+L0534 Resolve many-to-many relationships using associative tables when needed.
+L0535 Verify that relationships do not allow data from different projects
+L0536 to be incorrectly linked.
+L0537 ### 4. Normalize the model
+L0538 Normalize the relational model to an appropriate level,
+L0539 normally up to Third Normal Form (3NF).
+L0540 Check for:
+L0541 - duplicated data;
+L0542 - repeating groups;
+L0543 - partial dependencies;
+L0544 - transitive dependencies.
+L0545 Do not normalize in a way that changes the approved business meaning.
+L0546 ### 5. Define primary and foreign keys
+L0547 For every table define:
+L0548 - PRIMARY KEY;
+L0549 - FOREIGN KEY;
+L0550 - referenced table;
+L0551 - update/delete behavior when required.
+L0552 Foreign keys must preserve project and ownership consistency.
+L0553 ### 6. Define data types
+L0554 Choose MySQL data types appropriate for each field.
+L0555 Consider:
+L0556 - identifiers;
+L0557 - text length;
+L0558 - date/time values;
+L0559 - boolean/status values;
+L0560 - numeric estimates and capacity;
+L0561 - JSON only when relational representation is not appropriate.
+L0562 Do not store passwords in plain text.
+L0563 ### 7. Define constraints
+L0564 Consider and document:
+L0565 - NOT NULL;
+L0566 - UNIQUE;
+L0567 - CHECK;
+L0568 - DEFAULT;
+L0569 - FOREIGN KEY constraints.
+L0570 Constraints must reflect approved requirements and business rules.
+L0571 Examples:
+L0572 - project membership must not be duplicated;
+L0573 - task estimate must not be negative;
+L0574 - start date must not be after end date where required;
+L0575 - status values must follow approved rules.
+L0576 ### 8. Define indexes
+L0577 Create indexes only when they support expected queries.
+L0578 Consider indexes for:
+L0579 - login/email lookup;
+L0580 - project_id;
+L0581 - assignee_id;
+L0582 - sprint_id;
+L0583 - task status;
+L0584 - due date;
+L0585 - commonly combined filtering fields.
+L0586 Avoid unnecessary indexes.
+L0587 ### 9. Design AI-related data
+L0588 For AI functionality, separate business data from AI execution metadata.
+L0589 AI-related storage may include approved information such as:
+L0590 - task type;
+L0591 - requester;
+L0592 - referenced project/data;
+L0593 - prompt version;
+L0594 - model/provider;
+L0595 - generated result;
+L0596 - confirmation status;
+L0597 - confirmer;
+L0598 - timestamps.
+L0599 Never store:
+L0600 - API keys;
+L0601 - passwords;
+L0602 - secrets.
+L0603 FR-15 is Should-have and must not be treated as mandatory
+L0604 unless the project has approved its implementation.
+L0605 For FR-16, use the approved minimum notification fields in docs/requirements-decisions.md.
+L0606 Record any newly discovered gap as an issue instead of inventing business data.
+L0607 ### 10. Create ERD
+L0608 Create:
+L0609 docs/diagrams/erd.puml
+L0610 The ERD must show:
+L0611 - entities/tables;
+L0612 - primary keys;
+L0613 - foreign keys;
+L0614 - main attributes;
+L0615 - cardinality;
+L0616 - major relationships.
+L0617 Use diagram-design skill for layout and rendering quality.
+L0618 The ERD must:
+L0619 - keep related entities near each other;
+L0620 - avoid overlapping entities and text;
+L0621 - avoid relationship lines passing through entities or labels;
+L0622 - minimize relationship crossings;
+L0623 - keep PK/FK and cardinality readable;
+L0624 - be suitable for direct inclusion in the report.
+L0625 If the first render is difficult to read,
+L0626 revise the layout and render again.
+L0627 ### 11. Create SQL schema
+L0628 Create:
+L0629 database/schema.sql
+L0630 The SQL schema must be consistent with the ERD
+L0631 and database design document.
+L0632 Use MySQL-compatible syntax.
+L0633 Do not create sample production credentials or secrets.
+L0634 ### 12. Verify traceability
+L0635 Verify that:
+L0636 Requirement / Business Rule
+L0637 ↓
+L0638 Entity / Relationship / Constraint
+L0639 ↓
+L0640 ERD
+L0641 ↓
+L0642 SQL Schema
+L0643 can be traced.
+L0644 Every major table or relationship must have a reason
+L0645 supported by the approved project artifacts.
+L0646 ## Rules
+L0647 - Do not write Flask source code.
+L0648 - Do not modify approved requirements.
+L0649 - Do not invent business requirements.
+L0650 - Do not silently resolve PENDING Human Gate decisions.
+L0651 - Do not store passwords, API keys or secrets in plain text.
+L0652 - Do not claim the database was executed successfully unless it was actually executed.
+L0653 - Keep ERD, database-design.md and schema.sql consistent.
+L0654 ## Outputs
+L0655 Create or update:
+L0656 - docs/database-design.md
+L0657 - database/schema.sql
+L0658 - docs/diagrams/erd.puml
+L0659 If PlantUML rendering is available, also create:
+L0660 - docs/diagrams/erd.png
+L0661 ## Verification
+L0662 Before completing, verify:
+L0663 - all approved data domains are covered;
+L0664 - every table has a clear purpose;
+L0665 - primary keys are defined;
+L0666 - foreign keys are valid;
+L0667 - relationships and cardinalities are correct;
+L0668 - normalization has been checked;
+L0669 - NOT NULL / UNIQUE / CHECK constraints are appropriate;
+L0670 - indexes support expected queries;
+L0671 - project data cannot be incorrectly linked across projects;
+L0672 - ERD matches database/schema.sql;
+L0673 - database-design.md matches ERD and schema;
+L0674 - no unsupported business entity was invented;
+L0675 - no secret is stored in the schema;
+L0676 - unresolved requirements remain documented rather than silently solved;
+L0677 - ERD contains no significant overlap or unreadable relationship lines.
+L0678 PHẦN XIII. YÊU CẦU CODEX THIẾT KẾ DATABASE
+L0679 Bước 11
+L0680 PROMPT 03 - database-design + diagram-design + table-design skill (Thiết kế CSDL + ERD + Data Dictionary)
+L0681 Hãy sử dụng database-design skill, diagram-design skill và table-design skill.
+L0682 Đọc: docs/requirements.md, docs/architecture.md, docs/diagrams/class-diagram.puml và docs/tables/class-specification.md.
+L0683 Đọc thêm docs/system-model.md và docs/system-model-traceability.md. Sinh ERD từ dữ liệu và quan hệ đã duyệt; chưa xem ảnh ERD gốc. Không cắt bớt nhóm dữ liệu chỉ để hình mới trông giống hình gốc.
+L0684 Thiết kế cơ sở dữ liệu MySQL sau Human Gate liên quan. Xem xét chuẩn hóa, PK, FK, ràng buộc, chỉ mục, kiểu dữ liệu, phạm vi dự án và dữ liệu tối thiểu cho AI. FR-15/FR-16 vẫn là “Nên có”; nếu triển khai FR-16, dùng đặc tả đã chốt trong docs/requirements-decisions.md.
+L0685 Tạo: docs/database-design.md, database/schema.sql, docs/diagrams/erd.puml và docs/tables/data-dictionary.md.
+L0686 ERD phải thể hiện entity/table chính, PK/FK, cardinality và quan hệ; entity liên quan đặt gần nhau; không để relationship line chồng hoặc chạy xuyên entity/text; hạn chế giao cắt và render lại nếu còn rối.
+L0687 Data Dictionary phải có tối thiểu: Table | Column | Logical meaning | Data type | PK | FK/Reference | Nullable | Constraint/Default | Index | Requirement/Source. Không tự điền trường/kiểu dữ liệu không có căn cứ thiết kế.
+L0688 Không ép một nhóm dữ liệu thành đúng một bảng nếu chuẩn hóa cần tách, nhưng không bỏ nhóm dữ liệu nguồn hoặc thêm nghiệp vụ ngoài phạm vi.
+L0689 Nếu PlantUML render được, tạo docs/diagrams/erd.png; nếu không, giữ .puml và báo rõ. Không viết Flask source code; issue dữ liệu còn PENDING phải dừng/báo thay vì tự bịa schema.
+L0690 PROMPT 03V - Đối chiếu sơ đồ sau khi đã tự vẽ
+L0691 Sau khi toàn bộ .puml tương ứng với các hình của URD gốc (và PNG nếu render được) đã được lưu và ghi nhận trong Git, mới trích xuất/xem 20 hình sơ đồ từ docs/source/hoan_chinh.docx (không tính logo). Lập docs/source/figures/ và docs/diagram-comparison.md: với từng hình gốc ghi mục URD, sơ đồ mới tương ứng, tác nhân/nút, nhãn, quan hệ, cardinality, thứ tự luồng, điểm giống, điểm khác và nguồn chữ/bảng giải thích khác biệt. Kiểm kê đủ: hai hình quy trình tổng quát, một phân cấp chức năng, một Use Case, 13 Sequence, một Class, một ERD và một kiến trúc. Không dán ảnh gốc làm sản phẩm mới. Nếu hình gốc trái với phần chữ/bảng, đưa chênh lệch tới Human Gate; không tuyên bố đồng thời “giống gốc” và “đủ yêu cầu” khi hai điều đó xung đột.
+L0692 PHẦN XIV. KIỂM TRA DATABASE
+L0693 Sinh viên kiểm tra ví dụ thực thể Task:
+L0694 Task├── title├── assignee_id├── status├── priority├── due_date└── estimated_hours
+L0695 Có phù hợp requirement không?
+L0696 Đồng thời kiểm tra: PRIMARY KEY, FOREIGN KEY, NOT NULL, UNIQUE, CHECK, INDEX.
+L0697 Các bảng liên quan dự án, thành viên, sprint, ghi chú/biên bản và lịch sử AI phải giữ đúng quan hệ và phạm vi dự án. FR-16 dùng các trường tối thiểu đã chốt trong docs/requirements-decisions.md; nếu phát sinh trường mới chưa có nguồn, ghi issue để Human Gate xét.
+L0698 Kiểm tra thêm ERD:
+L0699 - docs/diagrams/erd.puml có đủ entity/table phục vụ các nhóm dữ liệu đã duyệt;
+L0700 - PK/FK và cardinality trên ERD khớp database/schema.sql;
+L0701 - không có bảng/quan hệ nghiệp vụ do AI tự thêm;
+L0702 - nếu có docs/diagrams/erd.png thì ảnh render phải khớp file PlantUML nguồn.
+L0703 Kiểm tra thêm docs/tables/data-dictionary.md: mọi bảng/cột phải khớp database-design.md và schema.sql; PK/FK/constraint/index phải có nguồn; không có trường nghiệp vụ do AI tự thêm.
+L0704 PHẦN XV. IMPLEMENTATION SKILL
+L0705 Bước 12. Tạo Skill
+L0706 .agents/skills/implementation/SKILL.md
+L0707 Skill quy định: 
+L0708 Read Specification
+L0709 ↓
+L0710 Understand Architecture
+L0711 ↓
+L0712 Understand Database
+L0713 ↓
+L0714 Implement
+L0715 ↓
+L0716 Run Linter
+L0717 ↓
+L0718 Run Tests
+L0719 ↓
+L0720 Review Diff
+L0721 PHẦN XVI. BẮT ĐẦU LẬP TRÌNH
+L0722 Bước 13. Lập trình phần core
+L0723 PROMPT 04 - implementation skill (Core FR-01..FR-11)
+L0724 Hãy sử dụng implementation skill.
+L0725 Đọc:
+L0726 docs/requirements.md
+L0727 docs/architecture.md
+L0728 docs/database-design.md
+L0729 Triển khai hệ thống quản lý dự án nhóm có tích hợp AI bằng:
+L0730 Backend: Python Flask
+L0731 Frontend: HTML + CSS + JavaScript
+L0732 Database: MySQL
+L0733 Trước tiên hãy triển khai:
+L0734 1. Authentication/session và quản lý tài khoản/phân quyền (FR-01, FR-02)
+L0735 2. Project và Project Member (FR-03, FR-04)
+L0736 3. Task CRUD, Kanban và search/filter (FR-05, FR-06, FR-09)
+L0737 4. Sprint/mốc tiến độ, cộng tác, dashboard/overdue/workload (FR-07, FR-08, FR-10, FR-11)
+L0738 5. Hoàn tất và kiểm thử core bắt buộc FR-01 đến FR-11 trước khi chuyển sang ba chức năng AI bắt buộc.
+L0739 6. FR-15, FR-16 và FR-17 là “Nên có”: có thể chuẩn bị interface/schema extension từ architecture, nhưng không được coi là hoàn thành hoặc ưu tiên cao hơn FR bắt buộc; dữ liệu thông báo và cơ chế gửi email cảnh báo trễ hạn phải theo quyết định đã chốt.
+L0740 Chưa gọi mô hình AI cho FR-12/FR-13/FR-14 ở giai đoạn core. Sau khi FR-01..FR-11 đạt Human Gate, chuyển sang PHẦN XXIII để triển khai ba chức năng AI bắt buộc; sau đó hoàn thiện FR-15/FR-16 theo mức “Nên có”.
+L0741 Sau khi lập trình:
+L0742 - chạy lint;
+L0743 - chạy tests;
+L0744 - kiểm tra lỗi;
+L0745 - báo cáo những file đã thay đổi.
+L0746 Không thay đổi requirements hoặc architecture.
+L0747 Nếu phát hiện specification không đủ để triển khai,
+L0748 hãy dừng và báo cáo thay vì tự suy đoán.
+L0749 Nếu specification không đủ hoặc xung đột với requirements/architecture đã duyệt, hãy dừng và báo cáo điểm cần Human Gate; không tự suy đoán. Cuối cùng liệt kê file đã thay đổi và lệnh test/lint đã thực sự chạy.
+L0750 PHẦN XVII. TESTING SKILL
+L0751 Bước 14. Tạo Testing Skill
+L0752 .agents/skills/testing/SKILL.md
+L0753 Quy định:
+L0754 Requirements
+L0755 ↓
+L0756 Test Scenario
+L0757 ↓
+L0758 Test Case
+L0759 ↓
+L0760 Automated Test
+L0761 ↓
+L0762 Execution
+L0763 ↓
+L0764 Result
+L0765 ↓
+L0766 Defect
+L0767 PHẦN XVIII. KIỂM THỬ
+L0768 Bước 15. Kiểm thử phần đã triển khai
+L0769 PROMPT 05 - testing + table-design skill (Core)
+L0770 Hãy sử dụng testing skill và table-design skill để thiết kế, trình bày test case/test result rõ ràng.
+L0771 Kiểm thử hệ thống quản lý dự án nhóm hiện tại.
+L0772 Đọc:
+L0773 docs/requirements.md
+L0774 docs/user-stories.md
+L0775 docs/acceptance-criteria.md
+L0776 Hãy:
+L0777 1. Xây dựng test scenarios.
+L0778 2. Xây dựng test cases.
+L0779 3. Tạo unit tests.
+L0780 4. Tạo integration tests.
+L0781 5. Chạy toàn bộ tests.
+L0782 6. Phân tích test failures.
+L0783 7. Ở giai đoạn core, kiểm tra coverage đối với FR-01..FR-11 và các NFR/BR/UC liên quan đến phần đã triển khai. Không ghi PASSED cho chức năng AI chưa được cài đặt.
+L0784 8. Nếu FR-15/FR-16 hoặc FR-12..FR-14 chưa triển khai ở thời điểm này, ghi rõ Not Implemented / Not Tested trong test-report; không tạo test giả để đủ số lượng.
+L0785 9. Sau PHẦN XXIII, chạy lại testing skill cho toàn hệ thống để cập nhật test-report và coverage cuối cùng.
+L0786 10. Ở giai đoạn core, có ít nhất một integration flow từ tạo dự án → thêm thành viên → tạo sprint/nhiệm vụ → phân công → cập nhật Kanban → theo dõi tiến độ. Flow có AI được kiểm thử ở lần regression cuối.
+L0787 Không sửa test chỉ để làm test pass.
+L0788 Tạo:
+L0789 docs/test-plan.md
+L0790 docs/test-report.md
+L0791 Ngoài test-plan.md và test-report.md, nếu cần tách bảng lớn hãy tạo docs/tables/test-cases.md và docs/tables/test-results.md; không ghi PASSED nếu chưa chạy test.
+L0792 PHẦN XIX. CODE REVIEW SKILL
+L0793 Bước 16. Tạo Skill
+L0794 .agents/skills/code-review/SKILL.md
+L0795 Quy định:
+L0796 Correctness
+L0797 Requirements Compliance
+L0798 Architecture Compliance
+L0799 Maintainability
+L0800 Security
+L0801 Performance
+L0802 Testing
+L0803 PHẦN XX. REVIEW CODE
+L0804 Bước 17
+L0805 PROMPT 06 - code-review skill (Review implementation hiện tại)
+L0806 Hãy sử dụng code-review skill.
+L0807 Review toàn bộ implementation hiện tại. Chỉ đánh giá những phần đã triển khai; phần chưa triển khai phải ghi trạng thái thay vì coi là đã hoàn thành.
+L0808 Không sửa code.
+L0809 Kiểm tra:
+L0810 - correctness
+L0811 - requirements compliance
+L0812 - architecture compliance
+L0813 - code quality
+L0814 - duplication
+L0815 - error handling
+L0816 - database access
+L0817 - test quality
+L0818 - security risks
+L0819 Phân loại:
+L0820 CRITICAL
+L0821 HIGH
+L0822 MEDIUM
+L0823 LOW
+L0824 Tạo:
+L0825 docs/code-review.md
+L0826 Sau khi hoàn tất PHẦN XXIII, chạy lại PROMPT 06 để review cả các module AI trước khi chốt báo cáo.
+L0827 PHẦN XXI. SECURITY SKILL
+L0828 Bước 18. Tạo Skill
+L0829 .agents/skills/security-review/SKILL.md
+L0830 Checklist:
+L0831 SQL Injection
+L0832 XSS
+L0833 CSRF
+L0834 Authentication
+L0835 Authorization
+L0836 Secrets
+L0837 Input Validation
+L0838 File Upload
+L0839 Dependency Vulnerability
+L0840 Information Leakage
+L0841 PHẦN XXII. SECURITY REVIEW
+L0842 Bước 19
+L0843 PROMPT 07 - security-review skill (Security Review)
+L0844 Hãy sử dụng security-review skill.
+L0845 Kiểm tra toàn bộ hệ thống.
+L0846 Đặc biệt kiểm tra:
+L0847 - SQL Injection
+L0848 - XSS
+L0849 - CSRF
+L0850 - authentication
+L0851 - authorization
+L0852 - password storage
+L0853 - environment variables
+L0854 - khóa API của nhà cung cấp AI/Gemini và cấu hình AI provider
+L0855 - lịch sử AI không được lưu mật khẩu, API key hoặc secret; dữ liệu tham chiếu phải đúng phạm vi quyền
+L0856 - input validation
+L0857 - dependency vulnerabilities
+L0858 Không sửa code.
+L0859 Tạo:
+L0860 docs/security-review.md
+L0861 Nếu phần AI chưa triển khai ở thời điểm review này, các mục Gemini/API key/AI history ghi N/A và phải chạy lại PROMPT 07 sau PHẦN XXIII.
+L0862 PHẦN XXIII. TRỢ LÝ AI VÀ LỊCH SỬ AI
+L0863 Sau khi core bắt buộc FR-01..FR-11 ổn định và được Human Gate chấp thuận, triển khai ba chức năng AI bắt buộc FR-12, FR-13, FR-14. Tiếp theo hoàn thiện FR-15 (lịch sử AI), FR-16 (thông báo) và FR-17 (email cảnh báo trễ hạn) ở mức “Nên có”. Vì UC012/UC013 được giữ trong phạm vi dự án, chúng vẫn phải được thiết kế, kiểm thử và truy vết, nhưng không được ưu tiên cao hơn các FR bắt buộc.
+L0864 Kiến trúc:
+L0865 Người dùng được cấp quyền
+L0866    │
+L0867    ▼
+L0868 Giao diện Trợ lý AI
+L0869    │
+L0870    ▼
+L0871 Flask API
+L0872    │
+L0873    ▼
+L0874 AI Assistant Service
+L0875    │
+L0876    ├── Phân tích yêu cầu
+L0877    │
+L0878    ├── Truy xuất dữ liệu dự án
+L0879    │
+L0880    ├── Xây dựng Context
+L0881    │
+L0882     ├── Xây dựng Prompt
+L0883     └── Lưu lịch sử yêu cầu/kết quả AI (chỉ khi FR-15 được phê duyệt và triển khai)
+L0884    │
+L0885    ▼
+L0886 AI Provider Service (Gemini adapter)
+L0887    │
+L0888    ▼
+L0889 Bản nháp / Gợi ý
+L0890 Sau phản hồi Gemini, Response Validator kiểm tra bản nháp/đề xuất trước khi API trả về. Việc xác nhận báo cáo/biên bản đi qua Confirmation Service và API riêng ở backend theo hành động chủ động của Trưởng nhóm; gợi ý phân công chỉ là đề xuất và không tự cập nhật nhiệm vụ.
+L0891 1. Xác định yêu cầu Trợ lý AI
+L0892 Tạo file: docs/ai-assistant-requirements.md
+L0893 Hệ thống cần cung cấp Trợ lý AI hỗ trợ quản lý dự án nhóm.
+L0894 Tuân thủ quyền theo từng chức năng: FR-12 chỉ Trưởng nhóm yêu cầu tóm tắt tiến độ; FR-13 cho Trưởng nhóm hoặc Thành viên được phân quyền tạo/chỉnh sửa bản nháp biên bản; FR-14 chỉ Trưởng nhóm yêu cầu gợi ý phân công. Không gộp ba chức năng thành một quyền chung.
+L0895 Ví dụ:
+L0896 - Tóm tắt tiến độ tuần của dự án hiện tại.
+L0897 - Tạo bản nháp biên bản từ ghi chú cuộc họp.
+L0898 - Gợi ý 1-3 người phù hợp cho một nhiệm vụ.
+L0899 - Nêu các nhiệm vụ trễ/rủi ro và việc cần ưu tiên trong bản tóm tắt.
+L0900 - Cảnh báo nếu ứng viên được gợi ý đang quá tải.
+L0901 AI phải sử dụng dữ liệu dự án hiện có trong cơ sở dữ liệu và chỉ trong phạm vi quyền của người yêu cầu.
+L0902 Nếu dữ liệu thiếu hoặc mâu thuẫn, AI phải thông báo
+L0903 phần cần xác minh thay vì tự tạo dữ liệu.
+L0904 Kết quả AI phải trả về bằng tiếng Việt.
+L0905 API key của nhà cung cấp AI/Gemini không được xuất hiện trong source code, frontend hoặc lịch sử AI; tất cả khóa được lấy từ biến môi trường ở backend.
+L0906 Giao diện AI không được trực tiếp truy cập database; nhà cung cấp AI không được truy cập trực tiếp MySQL và AI không được tự thay đổi dữ liệu nghiệp vụ. Nếu FR-15 được triển khai sau Human Gate, mỗi yêu cầu/kết quả AI phải được lưu vết theo FR-15 mà không chứa secret; trước đó các bản nháp vẫn phải tuân thủ kiểm tra quyền và xác nhận của con người.
+L0907 Quyền xem lịch sử AI (UC012) đã chốt cho Quản trị viên và Trưởng nhóm trong phạm vi quyền truy cập. Tài liệu triển khai phải giữ đúng giới hạn này.
+L0908 2. Sử dụng Requirements Skill
+L0909 PROMPT 08 - requirements-analysis skill (Phân tích yêu cầu Trợ lý AI)
+L0910 Hãy sử dụng requirements-analysis skill để phân tích
+L0911 yêu cầu Trợ lý AI.
+L0912 Đọc:
+L0913 docs/ai-assistant-requirements.md
+L0914 docs/requirements.md
+L0915 Không viết source code.
+L0916 Tạo:
+L0917 docs/ai-functional-requirements.md
+L0918 docs/ai-user-stories.md
+L0919 docs/ai-acceptance-criteria.md
+L0920 docs/ai-requirements-issues.md
+L0921 Đặc biệt xác định:
+L0922 1. Trợ lý AI phải làm gì?
+L0923 2. Trợ lý AI không được làm gì?
+L0924 3. Dữ liệu nào được phép sử dụng?
+L0925 4. Khi nào AI phải nêu dữ liệu thiếu/mâu thuẫn?
+L0926 5. Khi nào kết quả phải được con người xác nhận?
+L0927 6. Các yêu cầu bảo mật?
+L0928 Kết quả mong đợi phải bảo toàn và truy vết về các yêu cầu gốc của dự án:
+L0929 FR-12: Trưởng nhóm chọn dự án và khoảng tuần để AI tóm tắt tiến độ từ dữ liệu nhiệm vụ; kết quả có tiến độ, rủi ro, ưu tiên và nhiệm vụ nguồn.
+L0930 FR-13: Trưởng nhóm hoặc Thành viên được phân quyền dùng ghi chú họp để AI tạo/chỉnh sửa bản nháp biên bản; chỉ Trưởng nhóm xác nhận bản chính thức.
+L0931 FR-14: AI gợi ý 1-3 người theo kỹ năng, mức sẵn sàng và tải; nêu lý do/cảnh báo quá tải, Trưởng nhóm quyết định cuối cùng.
+L0932 FR-15: Lưu lịch sử yêu cầu/kết quả AI, phiên bản prompt, dữ liệu tham chiếu và trạng thái xác nhận; không lưu khóa bí mật.
+L0933 NFR-04/NFR-06: Chỉ gửi dữ liệu tối thiểu trong phạm vi quyền; kết quả AI là bản nháp và phải nêu dữ liệu thiếu/mâu thuẫn.
+L0934 NFR-07/NFR-11: Tích hợp AI phải tách mô-đun và cho phép thay đổi nhà cung cấp/mô hình mà không sửa nghiệp vụ quản lý dự án cốt lõi.
+L0935 BR-06/BR-07: AI không tự phân công, sửa/xóa dữ liệu hoặc tạo dữ liệu không có nguồn; người có thẩm quyền phải xem lại và xác nhận.
+L0936 3. Xác định User Story
+L0937 Ví dụ:
+L0938 US-AI-001
+L0939 As a project manager,
+L0940 I want to generate a weekly progress summary from project task data, so that I can quickly review progress, risks and priorities.
+L0941 Acceptance Criteria:
+L0942 AC-AI-001
+L0943 Given: Dự án có dữ liệu nhiệm vụ, trạng thái, deadline, sprint và vướng mắc trong tuần.
+L0944 When:
+L0945 Trưởng nhóm yêu cầu: "Tóm tắt tiến độ tuần của dự án."
+L0946 Then:
+L0947 Hệ thống truy xuất dữ liệu trong đúng phạm vi dự án và quyền:
+L0948 task status, deadline, sprint, blockers
+L0949 overdue/workload information
+L0950 source task references
+L0951 And: Bản tóm tắt phải dựa trên dữ liệu được truy xuất và nêu rõ dữ liệu thiếu hoặc mâu thuẫn.
+L0952 Human Gate cho Trợ lý AI
+L0953 Status: PENDING
+L0954 Trước khi thiết kế Trợ lý AI, sinh viên phải kiểm tra:
+L0955 [ ] Functional requirements
+L0956 [ ] User stories
+L0957 [ ] Acceptance criteria
+L0958 [ ] Hallucination policy
+L0959 [ ] Security requirements
+L0960 Đặc biệt phải có nguyên tắc: Không có dữ liệu nguồn phù hợp → không được bịa dữ liệu; AI chỉ tạo bản nháp/đề xuất và con người quyết định cuối cùng.
+L0961 4. Thiết kế kiến trúc Trợ lý AI
+L0962 PROMPT 09 - architecture-design + diagram-design skill (Kiến trúc Trợ lý AI + sơ đồ)
+L0963 Hãy sử dụng architecture-design skill và diagram-design skill để thiết kế kiến trúc Trợ lý AI cho FR-12/FR-13/FR-14 và cơ chế lịch sử AI FR-15.
+L0964 Đọc:
+L0965 docs/ai-functional-requirements.md
+L0966 docs/ai-user-stories.md
+L0967 docs/ai-acceptance-criteria.md
+L0968 docs/architecture.md
+L0969 Không viết implementation code.
+L0970 Thiết kế tối thiểu: AI Assistant API; Request Analyzer; Project Data Retriever; Context Builder; Prompt Builder; AI Provider Service (Gemini adapter); Response Validator/Response Handler; Confirmation Service; AI History Service chỉ khi FR-15 được phê duyệt và triển khai.
+L0971 Tạo:
+L0972 docs/ai-assistant-architecture.md
+L0973 docs/ai-assistant-data-flow.md
+L0974 docs/diagrams/ai-assistant-architecture.puml
+L0975 docs/diagrams/ai-assistant-data-flow.puml
+L0976 Sơ đồ phải thể hiện rõ ranh giới: frontend không giữ API key; Gemini/provider không truy cập MySQL trực tiếp; dữ liệu đi qua kiểm tra quyền → retrieval → context → prompt → provider → Response Validator → bản nháp/đề xuất. Báo cáo/biên bản chỉ đi từ bản nháp qua API xác nhận riêng và Confirmation Service sau khi Trưởng nhóm chủ động xác nhận; lịch sử AI chỉ tham gia khi FR-15 được phê duyệt và triển khai.
+L0977 Response Validator đối chiếu cấu trúc, tham chiếu nguồn, ID nhiệm vụ/thành viên và dữ kiện kiểm chứng được với tập dữ liệu đã truy xuất hợp lệ. Confirmation Service kiểm tra quyền ở backend trước khi ghi trạng thái chính thức. Cả hai là biện pháp kiểm soát có giới hạn, không bảo đảm tuyệt đối rằng AI không thể tạo thông tin sai.
+L0978 Yêu cầu bố cục: data flow theo một hướng rõ ràng; component cùng tầng được nhóm; connector không chồng, không chạy xuyên component/text và hạn chế tối đa giao cắt. Nếu render đầu còn rối, diagram-design skill phải chỉnh layout và render lại trước khi hoàn thành.
+L0979 Nếu PlantUML render được, tạo docs/diagrams/ai-assistant-architecture.png và docs/diagrams/ai-assistant-data-flow.png; nếu không, báo rõ và giữ file .puml.
+L0980 Không tự thêm quyền hoặc tác vụ AI ngoài requirements đã APPROVED.
+L0981 5. Thiết kế Request Analyzer
+L0982 Đây là phần rất quan trọng: không gửi trực tiếp User request → Gemini. Mọi yêu cầu phải đi qua Request Analyzer và AI Provider Service.
+L0983 mà: User request→Request Analyzer→Structured Request
+L0984 Ví dụ yêu cầu: "Tóm tắt tiến độ tuần của dự án đang được chọn, theo sprint/khoảng tuần người dùng đã chọn."
+L0985 Analyzer tạo structured request cho weekly_summary:
+L0986 {
+L0987   "task_type": "weekly_summary",
+L0988   "project_id": "<ID_DU_AN_DA_CHON>",
+L0989   "week_start": "<YYYY-MM-DD>",
+L0990   "week_end": "<YYYY-MM-DD>",
+L0991   "requester_id": "<LAY_TU_SESSION_BACKEND>"
+L0992   }
+L0993 Đây là một intermediate representation.
+L0994 Hợp đồng request của ba task_type: weekly_summary = project_id, week_start, week_end; meeting_minutes = project_id, meeting_note_id; assignment_suggestion = project_id, task_id. task_type là trường chung. requester_id chỉ được backend thêm từ session/auth context, không phải trường client được quyền quyết định.
+L0995 week_start và week_end là ngày ISO YYYY-MM-DD do người dùng chọn, hai đầu đều tính trong khoảng; kiểm tra week_start ≤ week_end. Nếu module nội bộ dùng date_from/date_to kiểu ngày, đặt date_from = week_start và date_to = week_end (bao gồm ngày cuối). Nếu truy vấn dùng timestamp với cận trên loại trừ, dùng date_from = đầu ngày week_start và date_to = đầu ngày kế tiếp week_end; ghi rõ múi giờ áp dụng trong tài liệu triển khai. Không âm thầm suy ra khoảng tuần từ câu tự do; quy ước tuần/múi giờ chưa được nguồn xác định phải ghi vào docs/requirements-issues.md để phê duyệt.
+L0996 Tạo Skill cho Request Analysis:
+L0997 .agents/skills/ai-request-analysis/
+L0998 └── SKILL.md
+L0999 Nội dung quy định:
+L1000 Input:
+L1001 AI feature request from an authorized user
+L1002 Output:
+L1003 Structured request
+L1004 Trường chung và trường bắt buộc theo task_type (không buộc client gửi các trường của task_type khác):
+L1005 task_type
+L1006 project_id
+L1007 week_start (weekly_summary)
+L1008 week_end (weekly_summary)
+L1009 meeting_note_id (meeting_minutes)
+L1010 task_id (assignment_suggestion)
+L1011 requester_id (backend lấy từ session/auth context)
+L1012 Rules:
+L1013 - Chỉ chấp nhận ba loại tác vụ AI sinh nội dung/đề xuất đã được mô tả trong requirements: weekly_summary, meeting_minutes, assignment_suggestion; lịch sử AI là chức năng truy vết riêng theo FR-15.
+L1014 - weekly_summary: chỉ Trưởng nhóm;
+L1015 - meeting_minutes: Trưởng nhóm hoặc Thành viên được phân quyền;
+L1016 - assignment_suggestion: chỉ Trưởng nhóm;
+L1017 - requester_id phải lấy từ session/auth context của backend, không tin giá trị requester_id do frontend tự gửi.
+L1018 - Không tự suy đoán dự án ngoài phạm vi quyền của người dùng.
+L1019 - Không tự thay đổi dữ liệu nghiệp vụ.
+L1020 - weekly_summary chỉ lấy dữ liệu trong project/khoảng tuần được yêu cầu; nếu có lọc sprint đã được chấp thuận thì sprint_id là tham số tùy chọn và phải thuộc project. Ánh xạ week_start/week_end sang date_from/date_to theo quy tắc ở trên.
+L1021 - assignment_suggestion cần nhiệm vụ; meeting_minutes cần ghi chú họp tương ứng.
+L1022 PROMPT 10 - ai-request-analysis skill
+L1023 Hãy sử dụng ai-request-analysis skill.
+L1024 Đọc:
+L1025 docs/ai-functional-requirements.md
+L1026 docs/ai-assistant-architecture.md
+L1027 Thiết kế module phân tích yêu cầu cho Trợ lý AI.
+L1028 Input:
+L1029 Một yêu cầu từ giao diện AI bằng tiếng Việt.
+L1030 Output:
+L1031 Structured request JSON.
+L1032 Ví dụ:
+L1033 "Tóm tắt tiến độ tuần của dự án đang được chọn."
+L1034 phải tạo:
+L1035 {
+L1036   "task_type": "weekly_summary",
+L1037   "project_id": "<ID_DU_AN_DA_CHON>",
+L1038   "week_start": "<YYYY-MM-DD>",
+L1039 "week_end": "<YYYY-MM-DD>",
+L1040 "requester_id": "<LAY_TU_SESSION_BACKEND>"
+L1041 }
+L1042 Với meeting_minutes và assignment_suggestion, dùng đúng các cặp project_id + meeting_note_id hoặc project_id + task_id; kiểm tra ID thuộc dự án và quyền trước khi truy xuất. Không nhận requester_id do client gửi làm nguồn tin cậy.
+L1043 Không viết phần gọi trực tiếp Gemini; Request Analyzer chỉ tạo structured request.
+L1044 Tạo tài liệu:
+L1045 docs/ai-request-analysis.md
+L1046 và implementation tương ứng.
+L1047 6. Project Data Retrieval
+L1048 Sau khi phân tích:
+L1049 Request→Request Analyzer→Structured Request→SQL Query→MySQL
+L1050 Ví dụ:
+L1051 {
+L1052   "task_type": "assignment_suggestion",
+L1053   "project_id": "<ID_DU_AN_DA_CHON>",
+L1054   "task_id": "<ID_NHIEM_VU>",
+L1055   "requester_id": "<LAY_TU_SESSION_BACKEND>"
+L1056 }
+L1057 Có thể chuyển thành điều kiện:
+L1058 WHERE tasks.id = %s
+L1059 AND tasks.project_id = %s
+L1060 AND project_members.project_id = %s
+L1061 AND users.status = 'active'
+L1062 Tạo Retrieval Skill
+L1063 .agents/skills/project-data-retrieval/
+L1064 └── SKILL.md
+L1065 Skill quy định:
+L1066 Input:
+L1067 Structured request
+L1068 Process:
+L1069 1. Build parameterized SQL.
+L1070 2. Check project access.
+L1071 3. Apply project/sprint/task scope.
+L1072 4. Retrieve skills, availability, capacity/năng lực and workload for assignment suggestion.
+L1073 5. Retrieve task status, deadline and blockers for weekly summary.
+L1074 6. Retrieve authorized meeting notes for meeting minutes.
+L1075 7. Limit data to the minimum necessary.
+L1076 Rules:
+L1077 - Không sử dụng SQL string concatenation.
+L1078 - Phải sử dụng parameterized query.
+L1079 - Không truy xuất toàn bộ database.
+L1080 - Không gửi dữ liệu ngoài quyền hoặc không cần thiết cho bất kỳ AI provider nào.
+L1081 - Nếu không có dữ liệu phù hợp → trả empty result và nêu dữ liệu thiếu.
+L1082 7. Implement Retrieval
+L1083 PROMPT 11 - project-data-retrieval skill
+L1084 Hãy sử dụng project-data-retrieval skill.
+L1085 Đọc:
+L1086 docs/ai-request-analysis.md
+L1087 docs/database-design.md
+L1088 docs/ai-assistant-architecture.md
+L1089 Triển khai:
+L1090 retrieve_ai_data(request)
+L1091 Yêu cầu:
+L1092 - sử dụng parameterized SQL;
+L1093 - không SQL injection;
+L1094 - chỉ lấy dữ liệu cần thiết và người dùng có quyền truy cập;
+L1095 - giới hạn lượng dữ liệu truy xuất;
+L1096 - xử lý trường hợp dữ liệu thiếu hoặc không có kết quả.
+L1097 Viết unit tests cho retrieval.
+L1098 Ví dụ: def retrieve_ai_data(request):
+L1099 Kết quả:
+L1100 [
+L1101     {
+L1102         "task_id": "<ID_NHIEM_VU>",
+L1103         "member_id": "<ID_THANH_VIEN>",
+L1104         "skills": ["<KY_NANG_TU_DU_LIEU>"],
+L1105         "current_workload_hours": "<TAI_HIEN_TAI>",        "capacity": "<NANG_LUC>",        "availability": "<MUC_SAN_SANG>"
+L1106     }
+L1107 ]
+L1108 8. Context Builder
+L1109 Đây là bước thường bị bỏ qua. Không gửi trực tiếp Database result → Gemini; luồng đúng là Database result → Context Builder → Clean Context → AI Provider Service.
+L1110 Tạo Context Builder Skill:
+L1111 .agents/skills/context-builder/
+L1112 └── SKILL.md
+L1113 Quy định:
+L1114 Input:
+L1115 Retrieved project data
+L1116 Output:
+L1117 Compact textual context
+L1118 Rules:
+L1119 - Không thêm dữ liệu không có trong database.
+L1120 - Không thay đổi trạng thái, deadline hoặc số liệu tiến độ.
+L1121 - Không thay đổi người phụ trách, kỹ năng, mức sẵn sàng, năng lực hoặc tải công việc.
+L1122 - Không thêm thông tin chưa được truy xuất.
+L1123 - Giới hạn context.
+L1124 PROMPT 12 - context-builder skill
+L1125 Hãy sử dụng context-builder skill.
+L1126 Đọc:
+L1127 docs/ai-assistant-architecture.md
+L1128 docs/ai-request-analysis.md
+L1129 Triển khai:
+L1130 build_context(data)
+L1131 Input:
+L1132 Dữ liệu dự án từ retrieval service.
+L1133 Output:
+L1134 Text context dành cho AI Provider Service.
+L1135 Không thêm thông tin không tồn tại trong database hoặc ngoài phạm vi quyền.
+L1136 Tạo unit tests.
+L1137 9. Prompt Builder
+L1138 Bây giờ mới xây dựng prompt.
+L1139 Ví dụ:
+L1140 Bạn là trợ lý quản lý dự án.
+L1141 QUY TẮC:
+L1142 1. Chỉ sử dụng thông tin trong CONTEXT.
+L1143 2. Không được tự tạo nhiệm vụ, thành viên hoặc số liệu.
+L1144 3. Không được tự thay đổi người phụ trách, trạng thái hoặc deadline.
+L1145 4. Nếu CONTEXT thiếu hoặc mâu thuẫn,
+L1146    hãy nêu rõ phần cần xác minh và chỉ tạo bản nháp/gợi ý.
+L1147 5. Trả lời bằng tiếng Việt.
+L1148 6. Với gợi ý phân công, chỉ đề xuất 1-3 ứng viên kèm lý do và cảnh báo quá tải.
+L1149 7. Với biên bản họp, chỉ nêu người phụ trách/hạn khi thông tin đó có trong ghi chú hoặc dữ liệu nguồn; nếu thiếu phải để trống/nêu cần xác minh, không tự suy đoán.
+L1150 CONTEXT:
+L1151 {context}
+L1152 YÊU CẦU:
+L1153 {request}
+L1154 Tạo Prompt Engineering Skill
+L1155 .agents/skills/project-ai-prompt/
+L1156 └── SKILL.md
+L1157 Skill quy định:
+L1158 System role
+L1159     ↓
+L1160 Grounding rules
+L1161     ↓
+L1162 Context
+L1163     ↓
+L1164 User request
+L1165     ↓
+L1166 Response constraints
+L1167 Do not answer from general knowledge when the request concerns project data.
+L1168 PROMPT 13 - project-ai-prompt skill (Thiết kế Prompt Builder)
+L1169 Hãy sử dụng project-ai-prompt skill.
+L1170 Đọc:
+L1171 docs/ai-functional-requirements.md
+L1172 docs/ai-assistant-architecture.md
+L1173 docs/ai-request-analysis.md
+L1174 Thiết kế prompt template cho ba task_type: weekly_summary, meeting_minutes, assignment_suggestion.
+L1175 Yêu cầu: chỉ sử dụng CONTEXT; không bịa nhiệm vụ/thành viên/số liệu/người phụ trách/deadline; nêu dữ liệu thiếu hoặc mâu thuẫn; trả tiếng Việt; kết quả chỉ là bản nháp/đề xuất.
+L1176 Không gọi Gemini và không truy vấn database ở bước này.
+L1177 Tạo:
+L1178 docs/ai-prompts.md
+L1179 services/prompt_builder.py
+L1180 Viết unit tests cho build_prompt() để kiểm tra grounding rules và ba loại tác vụ.
+L1181 10. AI Provider Service (Gemini qua adapter thay thế được)
+L1182 Tạo các lớp tích hợp: services/ai_provider_service.py và services/gemini_service.py. Chỉ bổ sung adapter nhà cung cấp khác khi có quyết định thiết kế riêng.
+L1183 Nhiệm vụ: Prompt → AI Provider Service → Gemini adapter → Response. Quy tắc nghiệp vụ không phụ thuộc provider cụ thể.
+L1184 Không để Gemini Service tự truy vấn MySQL. Kiến trúc:
+L1185 AI Assistant Service → AI Provider Service → Gemini Service → Gemini API
+L1186 PROMPT 14 - implementation skill (AI Provider Service)
+L1187 Hãy sử dụng implementation skill.
+L1188 Triển khai AI Provider Service và adapter Gemini theo baseline; giữ interface để có thể thay provider theo NFR-11.
+L1189 Yêu cầu:
+L1190 1. API key của nhà cung cấp AI/Gemini và lựa chọn provider lấy từ environment variable.
+L1191 2. Không hard-code API key.
+L1192 3. Có timeout/error handling.
+L1193 4. Không log API key/secret và không ghi chúng vào lịch sử AI.
+L1194 5. Không để bất kỳ provider adapter nào truy cập database; provider chỉ nhận prompt/context đã được kiểm soát.
+L1195 Tạo:
+L1196 services/ai_provider_service.py + services/gemini_service.py
+L1197 và unit tests cho Gemini adapter, timeout/error handling, cấu hình provider không hợp lệ và fallback lỗi rõ ràng.
+L1198 .env.example (chỉ chứa giá trị mẫu):
+L1199 GEMINI_API_KEY=your_key_hereAI_PROVIDER=geminiAI_TIMEOUT_SECONDS=30
+L1200 .gitignore:
+L1201 .env
+L1202 Tạo .env cục bộ từ .env.example hoặc cấu hình biến môi trường ở nơi chạy backend; thay GEMINI_API_KEY bằng khóa thật chỉ trong môi trường đó. Giữ .env ngoài Git, không ghi secret vào mã nguồn, tài liệu nộp bài, frontend, log, stack trace hay lịch sử AI.
+L1203 Khi khởi động backend, kiểm tra GEMINI_API_KEY có giá trị, AI_PROVIDER hợp lệ và AI_TIMEOUT_SECONDS là số dương; nếu cấu hình sai, dừng khởi động hoặc trả lỗi cấu hình đã lược bỏ secret. Ghi cách kiểm tra cấu hình bằng giá trị che/mã trạng thái, không in khóa ra terminal hoặc test report.
+L1204 11. Kết hợp thành AI Assistant Service
+L1205 Đây là module trung tâm.
+L1206 Ta tạo: services/ai_assistant_service.py
+L1207 Luồng thực hiện như sau:
+L1208 def process_ai_request(request):
+L1209     structured_request = analyze_request(request)
+L1210     data = retrieve_ai_data(structured_request)
+L1211     context = build_context(data)
+L1212     prompt = build_prompt(
+L1213         request,
+L1214         context
+L1215     )
+L1216     provider_response = generate_answer_via_provider(prompt)
+L1217     validation = validate_ai_response(provider_response, structured_request, data_references)
+L1218 Nếu validation không đạt: trả lỗi/đánh dấu cần xác minh và không chuyển thành bản chính thức; không tạo dữ liệu nghiệp vụ để bù chỗ thiếu.
+L1219 draft = validation.validated_draft  # status=draft; kèm tham chiếu nguồn hợp lệ
+L1220 Nếu FR-15 đã được phê duyệt và triển khai: save_ai_history(structured_request, data_references, draft, confirmation_status="draft")
+L1221     return draft  # chỉ trả bản nháp/đề xuất đã qua kiểm tra
+L1222 PROMPT 15 - implementation skill (Tích hợp AI Assistant Service)
+L1223 Hãy sử dụng implementation skill để tích hợp các module:
+L1224 request analyzer
+L1225 project data retriever
+L1226 context builder
+L1227 prompt builder
+L1228 AI Provider Service (Gemini adapter)
+L1229 Response Validator (kiểm tra phản hồi trước khi trả API)
+L1230 Confirmation Service (xác nhận riêng tại backend theo quyền Trưởng nhóm)
+L1231 AI history service (FR-15, chỉ khi đã được chốt và triển khai): services/ai_history_service.py
+L1232 Tạo:
+L1233 services/ai_assistant_service.py
+L1234 Hàm chính:
+L1235 process_ai_request(request)
+L1236 Luồng bắt buộc:
+L1237 request
+L1238 → analyze
+L1239 → retrieve
+L1240 → context
+L1241 → prompt
+L1242 → AI Provider Service (Gemini adapter)
+L1243 → Response Validator → draft / suggestion hoặc yêu cầu xác minh
+L1244 Không cho phép Gemini adapter truy cập trực tiếp database và không cho phép AI tự thay đổi dữ liệu nghiệp vụ. Khi FR-15 đã được chốt và triển khai, hệ thống lưu metadata/lịch sử sau mỗi yêu cầu, không lưu secret; không báo FR-15 hoàn thành nếu service và kiểm thử chưa có.
+L1245 Response Validation và Human Confirmation
+L1246 Yêu cầu Codex triển khai services/ai_response_validator.py: kiểm tra schema/kết quả bắt buộc theo từng task_type trước khi trả về; đối chiếu tham chiếu nguồn, ID nhiệm vụ/thành viên, dự án và các dữ kiện có thể kiểm chứng (ví dụ trạng thái, hạn, số liệu/tải nếu được dùng) với đúng tập dữ liệu đã truy xuất trong phạm vi quyền. Chỉ trả bản nháp/đề xuất hợp lệ; nếu thiếu, mâu thuẫn hoặc sai cấu trúc, báo phần cần xác minh và không tự tạo nhiệm vụ, thành viên hoặc quyết định phân công.
+L1247 Dữ liệu dự án và ghi chú họp là đầu vào không tin cậy: nội dung trong đó không được thay đổi chỉ dẫn hệ thống, quyền truy cập hoặc quy tắc kiểm chứng. Kiểm thử prompt injection trong dữ liệu nguồn. Kiểm tra tự động chỉ bao phủ điều kiện xác minh được, không bảo đảm tuyệt đối rằng AI không thể tạo thông tin sai; người có thẩm quyền vẫn phải xem lại nội dung.
+L1248 Yêu cầu Codex triển khai services/ai_confirmation_service.py và API xác nhận bản nháp riêng cho báo cáo/biên bản. Backend lấy người dùng từ session, kiểm tra lại quyền Trưởng nhóm, quyền trong dự án, ID/trạng thái bản nháp và hành động xác nhận chủ động trước khi ghi bản chính thức. Frontend chỉ gửi yêu cầu xác nhận, không được tự quyết định hoặc cập nhật trạng thái confirmed. Gợi ý phân công không được tự gán nhiệm vụ; quyết định phân công đi qua luồng nghiệp vụ hiện có của Trưởng nhóm.
+L1249 Đầu ra: hai service trên, API xác nhận và đặc tả trong docs/api.md, cập nhật docs/ai-assistant-architecture.md và sơ đồ/data flow, unit/integration tests cho validation, quyền xác nhận và trạng thái bản nháp. Chỉ kết nối AI History Service và lưu lịch sử theo FR-15 nếu chức năng này đã được phê duyệt và triển khai; cơ chế bản nháp/xác nhận không được phụ thuộc vào việc FR-15 có hay không.
+L1250 Điều kiện nghiệm thu: phản hồi hợp lệ có status=draft và tham chiếu kiểm chứng được; ID ngoài dữ liệu truy xuất, dữ liệu thiếu/mâu thuẫn hoặc kết quả sai schema bị từ chối hoặc yêu cầu xác minh; Thành viên không thể xác nhận; chỉ Trưởng nhóm có quyền mới xác nhận báo cáo/biên bản qua backend; không có cập nhật phân công tự động. Ghi kết quả test chạy thực tế vào docs/test-report.md, không suy luận PASSED từ việc đã viết test.
+L1251 12. Tạo Flask API
+L1252 Ta cần endpoint: POST /api/ai
+L1253 Request:
+L1254 {
+L1255   "task_type": "weekly_summary", "project_id": "<ID_DU_AN_DA_CHON>", "week_start": "<YYYY-MM-DD>", "week_end": "<YYYY-MM-DD>"
+L1256 }
+L1257 Response:
+L1258 {
+L1259   "draft_id": "<ID_BAN_NHAP>", "result": "Bản tóm tắt tiến độ...", "source_references": ["<THAM_CHIEU_HOP_LE>"], "status": "draft"
+L1260 }
+L1261 PROMPT 16 - implementation skill (Flask API cho Trợ lý AI)
+L1262 Hãy sử dụng implementation skill.
+L1263 Hãy triển khai API:
+L1264 POST /api/ai
+L1265 Request:
+L1266 {
+L1267     "task_type": "weekly_summary", "project_id": "<ID_DU_AN_DA_CHON>", "week_start": "<YYYY-MM-DD>", "week_end": "<YYYY-MM-DD>"
+L1268 }
+L1269 Đặc tả request theo task_type: weekly_summary cần project_id, week_start, week_end; meeting_minutes cần project_id, meeting_note_id; assignment_suggestion cần project_id, task_id. Backend kiểm tra định dạng/khoảng ngày, từng ID thuộc dự án và quyền của người yêu cầu; không lấy dữ liệu nghiệp vụ chỉ từ nội dung tự do do client gửi. Nếu module nội bộ dùng date_from/date_to, áp dụng phép chuyển đổi đã nêu ở mục Request Analyzer và kiểm thử cận ngày.
+L1270 Response:
+L1271 {
+L1272     "draft_id": "<ID_BAN_NHAP>", "result": "...", "source_references": ["<THAM_CHIEU_HOP_LE>"], "status": "draft"
+L1273 }
+L1274 Yêu cầu:
+L1275 - kiểm tra task_type và dữ liệu bắt buộc;
+L1276 - kiểm tra quyền truy cập dự án và xử lý lỗi;
+L1277 - lấy requester_id từ phiên đăng nhập/auth context ở backend; không nhận requester_id tin cậy trực tiếp từ client;
+L1278 - không trả API key;
+L1279 - không trả exception stack trace cho client;
+L1280 - sử dụng ai_assistant_service.process_ai_request().
+L1281 - trước khi trả response thành công, gọi Response Validator; với dữ liệu thiếu/mâu thuẫn, ID không hợp lệ, timeout, lỗi provider hoặc sai cấu trúc, trả trạng thái/lỗi phù hợp mà không công bố bản nháp như đã được xác minh;
+L1282 - triển khai endpoint xác nhận riêng, ví dụ POST /api/ai/drafts/<draft_id>/confirm, cho báo cáo/biên bản. Không tin role, requester_id, project_id hoặc status=confirmed do client tự khai; backend dùng session và dữ liệu bản nháp để kiểm tra, rồi Confirmation Service mới ghi trạng thái chính thức. Thành viên bị từ chối, dù frontend có hiển thị nút hay không;
+L1283 - trả draft_id từ cơ chế lưu bản nháp nghiệp vụ cần thiết cho xác nhận; không đồng nhất cơ chế này với AI history FR-15. Chỉ ghi AI history khi FR-15 đã được phê duyệt và triển khai.
+L1284 13. Xây dựng giao diện Trợ lý AI
+L1285 Tạo:
+L1286 templates/ai_assistant.html
+L1287 static/ai.js
+L1288 static/ai.css
+L1289 Giao diện cần tạo như sau:
+L1290 PROMPT 17 - implementation skill (Giao diện Trợ lý AI)
+L1291 Hãy sử dụng implementation skill để viết code cho giao diện Trợ lý AI của hệ thống quản lý dự án:
+L1292 Tệp cần tạo/cập nhật:
+L1293 - templates/ai_assistant.html
+L1294 - static/ai.js
+L1295 - static/ai.css
+L1296 Yêu cầu giao diện (UI/UX):
+L1297 1. Thiết kế hiện đại, thẩm mỹ cao: Header có tiêu đề "AI Project Assistant", giao diện chia rõ ba chức năng Tóm tắt tiến độ, Biên bản họp và Gợi ý phân công.
+L1298 2. Khu vực nhập liệu thay đổi theo chức năng: chọn dự án/khoảng tuần; nhập hoặc chọn ghi chú họp; chọn nhiệm vụ cần gợi ý phân công.
+L1299 2a. Hiển thị chức năng theo quyền: Tóm tắt tiến độ và Gợi ý phân công chỉ cho Trưởng nhóm; Biên bản họp cho Trưởng nhóm/Thành viên được phân quyền.
+L1300 3. Khu vực kết quả hiển thị rõ bản nháp/gợi ý, dữ liệu nguồn tham chiếu và trạng thái xác nhận; cho phép chỉnh sửa bản nháp khi người dùng có quyền.
+L1301 4. Có nút "Tạo bằng AI" theo quyền từng chức năng; nút "Xác nhận" báo cáo/biên bản chính thức chỉ hiển thị và thực hiện cho Trưởng nhóm.
+L1302 Yêu cầu chức năng (Logic):
+L1303 1. Hiển thị kết quả yêu cầu AI hiện tại và trạng thái bản nháp rõ ràng.
+L1304 2. Hiển thị trạng thái đang xử lý (loading/processing indicator) khi chờ phản hồi.
+L1305 3. Gọi API bằng `fetch()` phương thức `POST /api/ai`.
+L1306 4. Xử lý và hiển thị đúng ba loại kết quả: tóm tắt tiến độ, biên bản họp và gợi ý phân công.
+L1307 5. Bắt và xử lý lỗi API mượt mà (hiển thị thông báo lỗi thân thiện).
+L1308 6. Tuyệt đối KHÔNG đưa Gemini API key vào JavaScript; frontend chỉ gọi backend API.
+L1309 7. Giao diện hiển thị lỗi/cần xác minh và tham chiếu nguồn do backend trả về; nút xác nhận chỉ gọi API riêng và chỉ hiển thị trạng thái confirmed theo phản hồi backend, không tự đặt trạng thái này ở JavaScript.
+L1310 Nếu UC012/FR-15 được triển khai: khu vực lịch sử AI phải hiển thị người yêu cầu, loại tác vụ, dữ liệu tham chiếu, kết quả, phiên bản prompt và trạng thái xác nhận; không hiển thị/lưu secret. Quyền xem chỉ dành cho Quản trị viên và Trưởng nhóm trong phạm vi quyền truy cập theo quyết định đã xác nhận.
+L1311 Nếu UC013/FR-16 được triển khai: giao diện có khu vực thông báo về giao/đổi người phụ trách, đổi hạn, đổi trạng thái và nhắc hạn một lần vào ngày trước hạn; chỉ người liên quan và Trưởng nhóm trong dự án nhận được; đánh dấu đã đọc nhưng giữ trong lịch sử.
+L1312 14.  Chạy thử toàn bộ hệ thống
+L1313 PROMPT 18 - testing skill (Regression toàn hệ thống)
+L1314 Hãy sử dụng testing skill.
+L1315 Đọc: docs/requirements.md, docs/user-stories.md, docs/acceptance-criteria.md, docs/ai-functional-requirements.md, docs/ai-user-stories.md, docs/ai-acceptance-criteria.md.
+L1316 Chạy lại toàn bộ unit tests và integration/E2E tests trên implementation cuối cùng. Kiểm tra FR-01..FR-14 bắt buộc; FR-15/FR-16/FR-17 kiểm tra theo trạng thái thực tế nếu đã triển khai.
+L1317 Phải có ít nhất một E2E flow: tạo dự án → thêm thành viên → tạo sprint/nhiệm vụ → phân công → cập nhật Kanban → theo dõi tiến độ → yêu cầu AI → đối chiếu/xác nhận.
+L1318 Bổ sung test cases unit/integration/E2E cho: người dùng gọi từng chức năng AI sai quyền; truy xuất dữ liệu ngoài dự án; Gemini trả ID nhiệm vụ/thành viên không tồn tại hoặc không thuộc tập đã truy xuất; kết quả thiếu trường, mâu thuẫn nguồn hoặc sai schema; prompt injection trong ghi chú họp/dữ liệu dự án; Thành viên cố xác nhận bản nháp chính thức; Gemini timeout, API lỗi hoặc trả dữ liệu sai cấu trúc; AI gợi ý phân công nhưng nhiệm vụ không tự đổi người phụ trách.
+L1319 Với mỗi case, nêu đầu vào, quyền/dữ liệu nguồn, hành vi mong đợi và hành vi thực tế. Kiểm tra API xác nhận bằng yêu cầu gửi trực tiếp, không chỉ bằng việc ẩn nút ở giao diện; kiểm tra khoảng ngày ở hai cận và phép ánh xạ week_start/week_end sang date_from/date_to nếu có.
+L1320 Không sửa test chỉ để làm test pass và không ghi PASSED nếu test chưa thực sự chạy.
+L1321 Cập nhật docs/test-plan.md và docs/test-report.md bằng kết quả chạy thực tế: lệnh/môi trường/thời điểm chạy, danh sách case, pass/fail/skip, bằng chứng đầu ra liên quan và defect còn lại. Ghi NOT RUN khi chưa chạy, không tự ghi PASSED hoặc tuyên bố hệ thống đã chạy thành công khi chưa có bằng chứng.
+L1322 Sau regression, chạy lại PROMPT 06 (Code Review) và PROMPT 07 (Security Review) cho toàn bộ hệ thống.
+L1323 PHẦN XXIV. MCP
+L1324 Nếu project có GitHub/issue tracker hoặc hệ thống bên ngoài, chỉ đưa MCP vào khi có kết nối thật. Trong ứng dụng desktop, mở Settings → MCP servers → Add server, chọn STDIO hoặc Streamable HTTP và kiểm tra kết nối bằng /mcp. Trong Codex CLI, có thể dùng codex mcp add, codex mcp list và /mcp. Với Work trên web, công cụ MCP đến từ plugin đã cài; cấu hình MCP cục bộ không tự xuất hiện trên web.
+L1325 Ví dụ: GitHub Issue → MCP → Codex → phân tích → sửa → kiểm thử → review.
+L1326 Ví dụ minh họa MCP (không phải dữ liệu/issue thực tế của dự án): một issue về bộ lọc nhiệm vụ không trả đúng nhiệm vụ trễ theo người phụ trách.
+L1327 Codex có thể sử dụng MCP để lấy issue, sau đó thực hiện workflow: Issue→Analyze→Locate code→Fix→Test→Review
+L1328 Trong bài thực hành, MCP chỉ được dùng khi có hệ thống bên ngoài phù hợp như GitHub/issue tracker. Nếu không có kết nối thật, phần MCP phải được ghi là minh họa quy trình, không được trình bày như bằng chứng đã thực hiện.
+L1329 PHẦN XXV. DOCUMENTATION SKILL
+L1330 Bước 20
+L1331 Tạo:
+L1332 .agents/skills/documentation/SKILL.md
+L1333 PROMPT 19 - documentation skill (Tài liệu cuối)
+L1334 Hãy sử dụng documentation skill.
+L1335 Đọc toàn bộ project.
+L1336 Cập nhật:
+L1337 README.md
+L1338 docs/api.md
+L1339 docs/architecture.md
+L1340 docs/database-design.md
+L1341 docs/deployment.md
+L1342 docs/user-guide.md
+L1343 Đảm bảo tài liệu phản ánh đúng implementation hiện tại và truy vết đủ 17 FR, 11 NFR, 9 BR và 13 UC; cập nhật/tham chiếu các artifact trong docs/diagrams/ và docs/tables/; đặc biệt FR-15 lịch sử AI, FR-16 thông báo, FR-17 email cảnh báo trễ hạn và các quyến nguồn.
+L1344 Không mô tả chức năng chưa được triển khai.
+L1345 Trong README.md và docs/deployment.md, hướng dẫn tạo môi trường Python/cài requirements.txt; tạo .env cục bộ từ .env.example hoặc cấu hình biến môi trường backend với GEMINI_API_KEY, AI_PROVIDER và AI_TIMEOUT_SECONDS; kiểm tra biến bắt buộc mà không in secret; giữ .env trong .gitignore và không đưa khóa vào mã nguồn, log, tài liệu nộp hoặc Git.
+L1346 Ghi rõ các bước kiểm tra MySQL đang chạy, cấu hình kết nối database bằng biến môi trường phù hợp implementation, áp dụng schema/migration đã có, khởi động Flask từ entry point thực tế (ví dụ flask --app app run nếu project dùng app.py), rồi gọi health check/API theo quyền. Không điền tên service, tên biến database, migration hoặc lệnh chưa có trong project như thể đã kiểm chứng.
+L1347 Bổ sung bảng xử lý lỗi thường gặp: thiếu/sai Gemini API key hoặc provider, MySQL không kết nối, schema chưa sẵn sàng, thiếu quyền dự án, dữ liệu nguồn thiếu/mâu thuẫn, Gemini timeout/API lỗi/sai cấu trúc. Với từng lỗi, ghi dấu hiệu, bước kiểm tra không lộ secret, cách khắc phục và trạng thái hệ thống trả về. Phân biệt hướng dẫn dự kiến với kết quả chạy thực tế trong docs/test-report.md.
+L1348 PHẦN XXVI. KẾT QUẢ CUỐI CÙNG
+L1349 Sau toàn bộ quá trình, chúng ta có
+L1350 AI_Project_Management_System/
+L1351 │
+L1352 ├── .agents/
+L1353 │   └── skills/
+L1354 │       ├── requirements-analysis/      └── SKILL.md
+L1355 │       ├── diagram-design/             └── SKILL.md
+L1356 │       ├── table-design/               └── SKILL.md
+L1357 │       ├── architecture-design/        └── SKILL.md
+L1358 │       ├── database-design/            └── SKILL.md
+L1359 │       ├── implementation/             └── SKILL.md
+L1360 │       ├── testing/                    └── SKILL.md
+L1361 │       ├── code-review/                └── SKILL.md
+L1362 │       ├── security-review/            └── SKILL.md
+L1363 │       ├── ai-request-analysis/        └── SKILL.md
+L1364 │       ├── project-data-retrieval/     └── SKILL.md
+L1365 │       ├── context-builder/            └── SKILL.md
+L1366 │       ├── project-ai-prompt/          └── SKILL.md
+L1367 │       └── documentation/              └── SKILL.md
+L1368 │
+L1369 ├── docs/
+L1370 │   ├── customer-requirement.md
+L1371 │   ├── source-urd.md
+L1372 │   ├── source/hoan_chinh.docx
+L1373 │   ├── source/figures/                (chỉ dùng khi đối chiếu sau khi vẽ)
+L1374 │   ├── system-model.md
+L1375 │   ├── system-model-traceability.md
+L1376 │   ├── diagram-comparison.md
+L1377 │   ├── tables/                        (bảng đặc tả và truy vết)
+L1378 │   ├── requirements.md
+L1379 │   ├── user-stories.md
+L1380 │   ├── acceptance-criteria.md
+L1381 │   ├── requirements-issues.md
+L1382 │   ├── requirements-decisions.md
+L1383 │   ├── diagrams/
+L1384 │   │   ├── use-case-diagram.puml (+ PNG nếu render được)
+L1385 │   │   ├── system-architecture.puml (+ PNG nếu render được)
+L1386 │   │   ├── class-diagram.puml (+ PNG nếu render được)
+L1387 │   │   ├── function-hierarchy.puml (+ PNG nếu render được)
+L1388 │   │   ├── business-process-swimlane.puml (+ PNG nếu render được)
+L1389 │   │   ├── business-process-activity.puml (+ PNG nếu render được)
+L1390 │   │   ├── activity/UC001.puml ... UC013.puml (+ PNG nếu render được)
+L1391 │   │   ├── erd.puml (+ PNG nếu render được)
+L1392 │   │   ├── ai-assistant-architecture.puml (+ PNG nếu render được)
+L1393 │   │   ├── ai-assistant-data-flow.puml (+ PNG nếu render được)
+L1394 │   │   └── sequence/UC001.puml ... UC013.puml (+ PNG nếu render được)
+L1395 │   ├── architecture.md
+L1396 │   ├── architecture-decisions.md
+L1397 │   ├── database-design.md
+L1398 │   ├── ai-assistant-requirements.md
+L1399 │   ├── ai-functional-requirements.md
+L1400 │   ├── ai-user-stories.md
+L1401 │   ├── ai-acceptance-criteria.md
+L1402 │   ├── ai-requirements-issues.md
+L1403 │   ├── ai-assistant-architecture.md
+L1404 │   ├── ai-assistant-data-flow.md
+L1405 │   ├── ai-request-analysis.md
+L1406 │   ├── ai-prompts.md
+L1407 │   ├── test-plan.md
+L1408 │   ├── test-report.md
+L1409 │   ├── code-review.md
+L1410 │   ├── security-review.md
+L1411 │   ├── api.md
+L1412 │   ├── deployment.md
+L1413 │   └── user-guide.md
+L1414 │
+L1415 ├── database/
+L1416 │   └── schema.sql
+L1417 │
+L1418 ├── models/
+L1419 ├── routes/
+L1420 ├── services/
+L1421 │   ├── auth_service.py
+L1422 │   ├── account_service.py
+L1423 │   ├── project_service.py
+L1424 │   ├── project_member_service.py
+L1425 │   ├── task_service.py
+L1426 │   ├── sprint_service.py
+L1427 │   ├── collaboration_service.py
+L1428 │   ├── report_service.py
+L1429 │   ├── ai_assistant_service.py
+L1430 │   ├── prompt_builder.py
+L1431 │   ├── ai_provider_service.py
+L1432 │   ├── ai_history_service.py       (nếu triển khai FR-15)
+L1433 │   ├── gemini_service.py
+L1434 │   ├── ai_provider_interface.py
+L1435 │   └── notification_service.py     (nếu triển khai FR-16)
+L1436 ├── templates/
+L1437 │   └── ai_assistant.html
+L1438 ├── static/
+L1439 │   ├── ai.js
+L1440 │   └── ai.css
+L1441 ├── tests/
+L1442 │
+L1443 ├── app.py
+L1444 ├── requirements.txt
+L1445 ├── .gitignore
+L1446 └── README.md
+L1447 PHẦN XXVII. TOÀN BỘ QUY TRÌNH DƯỚI DẠNG AI-AUGMENTED SDLC
+L1448 Ta thu được:
+L1449 PHẦN XXVIII. VAI TRÒ CỦA 4 THÀNH PHẦN
+L1450 Đến đây có thể đưa ra một định nghĩa học thuật rất rõ:
+L1451 [TABLE]
+L1452 Thành phần | Vai trò
+L1453 Codex | AI Agent điều phối và thực hiện các tác vụ phát triển phần mềm
+L1454 Skill | Tri thức thủ tục, quy trình và tiêu chuẩn chuyên môn quy định cách thực hiện một loại tác vụ
+L1455 Tool | Cơ chế cho phép Codex thực hiện thao tác cụ thể trên môi trường làm việc
+L1456 MCP | Cơ chế kết nối Codex với các hệ thống, dịch vụ và nguồn dữ liệu bên ngoài
+L1457 [/TABLE]
+L1458 PHẦN XXIX. QUẢN LÝ VERSION CỦA SKILL
+L1459 Skill không nên được xem là tài liệu tĩnh. Trong phạm vi project, mỗi lần thay đổi Skill cần được quản lý bằng Git, commit rõ lý do, và khi cần có thể đánh dấu phiên bản v1, v2, v3 để truy vết thay đổi.
+L1460 Ví dụ:
+L1461 requirements-analysis
+L1462 │
+L1463 ├── v1
+L1464 │   └── SKILL.md
+L1465 │
+L1466 ├── v2
+L1467 │   └── SKILL.md
+L1468 │
+L1469 └── v3
+L1470     └── SKILL.md
+L1471 PHẦN XXX. MỘT LƯU Ý QUAN TRỌNG VỀ LƯU TRỮ SKILL
+L1472 Có hai khái niệm lưu trữ cần phân biệt.
+L1473 Cấp project
+L1474 Skill được quản lý cùng repository: .agents/skills/
+L1475 Mục tiêu: phục vụ workflow cụ thể của project.
+L1476 Cấp nền tảng
+L1477 Ở cấp nền tảng, nếu môi trường sử dụng có cơ chế lưu trữ hoặc quản lý Skill thì có thể khai thác để tái sử dụng. Tuy nhiên bài thực hành này lấy repository của project và lịch sử Git làm bằng chứng chính.
+L1478 Mục tiêu:
+L1479 Tái sử dụng Skill ở cấp hệ thống/API.
+L1480 Do đó, trong bài thực hành, nên bắt đầu với: 
+L1481 Project
+L1482    └── .agents/skills

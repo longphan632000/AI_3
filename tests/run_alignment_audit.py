@@ -96,7 +96,7 @@ def main():
     payload = {'database': 'disposable SQLite', 'real_api_calls': False,
                'real_emails': False, 'kind': 'alignment observations, not regression success count',
                'timestamp': datetime.now().isoformat(), 'observations': observations}
-    (ROOT / 'docs/qa-alignment-observations.json').write_text(
+    (ROOT / 'logstest/qa-alignment-observations.json').write_text(
         json.dumps(payload, ensure_ascii=False, indent=2, default=str), encoding='utf-8')
     print(f'Recorded {len(observations)} alignment observations on disposable SQLite.')
 
